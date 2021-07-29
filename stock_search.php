@@ -27,7 +27,7 @@
 		$strKeyword = $_POST["txtKeyword"];
 	}
 ?>
-<?php include 'nav_bar.php'?>
+<?php include 'layout/nav.php'?>
     <form name="frmSearch" method="post" action="<?php echo $_SERVER['SCRIPT_NAME'];?>">    
     <table width="599" border="1">
         <tr>
@@ -45,7 +45,7 @@
       
         <hr>  
         <?php 
-         $sql2=" SELECT  code_item,stock.list_name,inventories FROM center_treasury INNER  JOIN stock ON  center_treasury.code_item = stock.code_item LIKE '".$strKeyword."%'";
+         $sql2=" SELECT  * FROM center_stock INNER  JOIN stock ON  center_stock.code_item = stock.code_item LIKE '".$strKeyword."%'";
          $query2 = mysqli_query($conn,$sql2);
          while($result2=mysqli_fetch_array($query2,MYSQLI_ASSOC)){
         ?>
@@ -81,7 +81,7 @@
    
 
     <?php 
-    $sql = "SELECT * FROM branch_treasury WHERE code_item LIKE '%".$strKeyword."%' ORDER BY inventories DESC";
+    $sql = "SELECT * FROM branch_stock WHERE code_item LIKE '%".$strKeyword."%' ORDER BY inventories DESC";
     $query = mysqli_query($conn,$sql);
     while($result=mysqli_fetch_array($query,MYSQLI_ASSOC))
     {?>
@@ -89,7 +89,7 @@
 			
 			<td><?php echo$result['name_branch']?></td>
             <td><?php echo$result['inventories']?></td>
-            <td><?php echo "ชิ้น"?></td>
+            <td><?php echo $result['unit']?></td>
 			
 		</tr>
       <?php } ?>

@@ -1,16 +1,16 @@
-<?php
+<?php 
+
+    $db_host = "localhost";
+    $db_user = "root";
+    $db_password = "";
+    $db_name = "warehouse";
+
+    try {
+        $db = new PDO("mysql:host={$db_host}; dbname={$db_name}", $db_user, $db_password);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOEXCEPTION $e) {
+        $e->getMessage();
+    }
 
 
-   $serverName = "localhost";
-   $userName = "root";
-   $userPassword = "";
-   $dbName = "warehouse";
-  
-	$conn = mysqli_connect($serverName,$userName,$userPassword,$dbName);
-
-	if (mysqli_connect_errno())
-	{
-		echo "Database Connect Failed : " . mysqli_connect_error();
-	}
-	
 ?>
