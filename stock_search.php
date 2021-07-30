@@ -44,55 +44,26 @@
         <br> 
       
         <hr>  
-        <?php 
-         $sql2=" SELECT  * FROM center_stock INNER  JOIN stock ON  center_stock.code_item = stock.code_item LIKE '".$strKeyword."%'";
-         $query2 = mysqli_query($conn,$sql2);
-         while($result2=mysqli_fetch_array($query2,MYSQLI_ASSOC)){
-        ?>
+        
 
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">รหัสบาร์โค้ด : <?php echo $result2['code_item']?></span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">รหัสบาร์โค้ด : </span>
             </div>
         </div>
 
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">รายการ : <?php echo $result2['stock.list_name'] ?></span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">รายการ : </span>
             </div>
         </div>
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">ส่วนกลาง : <?php echo $result2['inventories'] ?></span>
-               <?php } ?>
+                    <span class="input-group-text" id="inputGroup-sizing-sm">ส่วนกลาง : </span>
                 
             </div>
         </div>
         <table class="table">
-	<thead class="thead-dark">
-		<tr>
-			
-			<th>สาขา</th>
-            <th>คงเหลือ</th>
-            <th>หน่วย</th>
-        
-		</tr>
-	</thead>
-   
-
-    <?php 
-    $sql = "SELECT * FROM branch_stock WHERE code_item LIKE '%".$strKeyword."%' ORDER BY inventories DESC";
-    $query = mysqli_query($conn,$sql);
-    while($result=mysqli_fetch_array($query,MYSQLI_ASSOC))
-    {?>
-		<tr>
-			
-			<td><?php echo$result['name_branch']?></td>
-            <td><?php echo$result['inventories']?></td>
-            <td><?php echo $result['unit']?></td>
-			
-		</tr>
-      <?php } ?>
 	
 </table>
 

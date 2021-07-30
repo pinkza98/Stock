@@ -10,8 +10,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/bootstrap.css">
   </head>
   <body>
+  <?php include_once('layout/nav.php'); ?>
     <br />
     <div class="container">
       <h3 align="center">Dynamic Dependent Searchable Select Box with PHP Ajax jQuery</h3>
@@ -34,12 +36,15 @@
           </div>
 
           <div class="form-group">
-            <label>ชื่อสินค้า</label>
+            <label>ราคาต่อหน่วย</label>
             <input type="number" name="price" class="form-control input-lg">
           </div>
 
-          <div class="input-group">
-                <button class="btn" type="submit" name="save" >Save</button>
+          <div class="form-group text-center">
+                <div class="col-md-12 mt-3">
+                    <input type="submit" name="save" class="btn btn-success" value="Insert">
+                    <a href="item.php" class="btn btn-danger">Cancel</a>
+                </div>
             </div>
         </div>
       </div>
@@ -92,3 +97,6 @@ $(document).ready(function(){
   
 });
 </script>
+<script src="js/slim.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.js"></script>

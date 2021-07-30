@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="bootstrap/bootstrap.css">
 </head>
 <body>
-    <?php include_once('layout/nav.php'); ?>
+    <?php include('layout/nav.php'); ?>
 
     <div class="container">
     <div class="display-3 text-center">Information</div>

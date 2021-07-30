@@ -58,35 +58,7 @@
 			<button class="btn" type="submit" name="save" >เพิ่ม</button>
 		</div>
         <table class="table">
-	<thead class="thead-dark">
-		<tr>
-			
-			<th>รับสินค้าจาก</th>
-            <th>Code</th>
-            <th>รายการ</th>
-            <th>หน่วย</th>
-            <th>แก้ไข</th>
-            <th>ลบข้อมูล</th>
-		
-		</tr>
-	</thead>
-	<?php $results = mysqli_query($conn,"SELECT * FROM stock"); ?>
-    <?php while ($row = mysqli_fetch_array($results)) { ?>
-		<tr>
-			
-			<td><?php echo $row['order_f']; ?></td>
-            <td><?php echo $row['code_stock']; ?></td>
-            <td><?php echo $row['list_name']; ?></td>
-          
-            <td><?php echo $row['unit']; ?></td>
-			<td>
-				<a href="edit_stock.php?edit=<?php echo $row['id']; ?>" class="edit_btn" >Edit</a>
-			</td>
-			<td>
-				<a href="del_stock.php?del=<?php echo $row['id']; ?>" class="del_btn">Delete</a>
-			</td>
-		</tr>
-	<?php } ?>
+	
 </table>
 	</form>
     </div>

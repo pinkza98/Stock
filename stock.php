@@ -34,40 +34,7 @@
     <div class="display-3 text-center">Item</div>
     <a href="stock_add.php" class="btn btn-success mb-3">Add+</a>
     <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                
-                <th>Order form</th>
-                <th>item name</th>
-                <th>unit name</th>
-                <th>code item</th>
-                <th>price item</th>
-                <th>Edit item</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php 
-                $select_stmt = $db->prepare("SELECT * FROM stock INNER JOIN item ON stock.code_item = item.item_id INNER JOIN unit ON item.unit = unit.id WHERE id_stock");
-                $select_stmt->execute();
-
-                while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-
-                <tr>
-                    <td>+</td>
-                    <td>+</td>
-                    <td>+</td>
-                    <td>+</td>
-                    <td>+</td>
-                    
-                    <td><a href="item_edit.php?update_id=<?php echo $row["id_item"]; ?>" class="btn btn-warning">Edit</a></td>
-                    <td><a href="?delete_id=<?php echo $row["id_item"]; ?>" class="btn btn-danger">Delete</a></td>
-                </tr>
-
-            <?php } ?>
-        </tbody>
+       
     </table>
     </div>
     

@@ -24,13 +24,7 @@
             </div>
                 <select class="form-control" name="branch_id">
 
-                <?php $results = mysqli_query($conn,"SELECT * FROM branch"); ?>
-                    <option displya>--เลือก--</option>
-                    <?php while ($row = mysqli_fetch_array($results)) {
-                        $row['id'] == $branch_id;
-                        ?>
-                    <option value="<?php echo $branch_id; ?>"> <?php echo $row['branch_name'];?> </option>
-                    <?php } ?>
+                
                 </select>
 		</div>
         <div class="input-group input-group-sm mb-3">
@@ -53,13 +47,7 @@
             </div>
                 <select class="form-control" name="unit_id">
 
-                <?php $results = mysqli_query($conn,"SELECT * FROM unit"); ?>
-                    <option displya>--เลือก--</option>
-                    <?php while ($row = mysqli_fetch_array($results)) {
-                        $row['id'] == $unit_id;
-                        ?>
-                    <option value="<?php echo $unit_id; ?>"> <?php echo $row['unit_name'];?> </option>
-                    <?php } ?>
+                
                 </select>
 		</div>
         <div class="input-group">
@@ -68,27 +56,15 @@
         <table>
 	<thead>
 		<tr>
-			<th>ชื่อสาขา</th>
-            <th>รหัสบาร์โค้ด</th>
-            <th>ชื่อรายการ</th>
+			<th>สาขา</th>
+            <th>รหัส</th>
+            <th>รายการ</th>
             <th>จำนวน</th>
-            <th>ราคา/หน่วย</th>
+            <th>ราคา</th>
             <th>ลบ</th>
 		</tr>
 	</thead>
-	<?php $results = mysqli_query($conn, "SELECT * FROM branch_stock"); ?>
-	<?php while ($row = mysqli_fetch_array($results)) { ?>
-		<tr>
-			<td><?php echo $row['branch_name']; ?></td>
-            <td><?php echo $row['code_item']; ?></td>
-            <td><?php echo $row['item_name']; ?></td>
-            <td><?php echo $row['inventories']."/".$row['unit_name']; ?></td>
-            <td><?php echo $row['price']."/".$row['unit_name']; ?></td>
-			<td>
-				<a href="branch_stock_del.php?del=<?php echo $row['id']; ?>" class="del_btn">Delete</a>
-			</td>
-		</tr>
-	<?php } ?>
+	
 </table>
         </form>
     </div>

@@ -35,7 +35,7 @@ if(isset($_POST["type"]))
   foreach($data as $row)
   {
    $output[] = array(
-    'id'  => $row["id"],
+    'id'  => $row["id_item"],
     'name'  => $row["item_name"]
    );
   }
