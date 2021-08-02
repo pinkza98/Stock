@@ -3,21 +3,7 @@
     
    
 
-    if (isset($_REQUEST['delete_id'])) {
-      $unit_id = $_REQUEST['delete_id'];
-
-      $select_stmt = $db->prepare("SELECT * FROM item WHERE item_id = :item_id");
-      $select_stmt->bindParam(':item_id', $item_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-
-      // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM item WHERE item_id = :item_id');
-      $delete_stmt->bindParam(':item_id', $item_id);
-      $delete_stmt->execute();
-
-        header('Location:item.php');
-    }if (isset($_REQUEST['save'])) {
+    if (isset($_REQUEST['save'])) {
       $item_name = $_REQUEST['txt_item_name'];
       $code_item = $_REQUEST['txt_code_item'];
       $unit = $_REQUEST['txt_unit'];
@@ -109,7 +95,7 @@
         </div>
     <?php } ?>
     
-   <div class="container px-4"">
+   <div class="container px-4">
      
    <form method="post">
    <div class="mb-4">
@@ -118,7 +104,7 @@
       </div>
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">รหัสบาร์โค้ด</label>
-      <input type="number" class="form-control" name="txt_code_item" min="10000000" max="99999999" onKeyUp="if(this.value>99999999){this.value='99999999';}else if(this.value<0){this.value='0';}"id="yourid">
+      <input type="number" class="form-control" name="txt_code_item" min="100000" max="999999" onKeyUp="if(this.value>999999){this.value='999999';}else if(this.value<0){this.value='0';}"id="yourid">
       </div>
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">หน่วยนับ</label>
@@ -140,7 +126,7 @@
       </div>
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">ราคา</label>
-      <input type="number" class="form-control" name="txt_price" min="0.01" step="0.01" onKeyUp="if(this.value>500000.00){this.value='500000.00';}else if(this.value<0.00){this.value='0.00';}"id="yourid">
+      <input type="number" class="form-control" name="txt_price" min="0.01" step="0.01" onKeyUp="if(this.value>1000000.00){this.value='1000000.00';}else if(this.value<0.00){this.value='0.00';}"id="yourid">
       </div>
       <div class="mb-4">
       <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
@@ -149,7 +135,7 @@
     </form>
   
   <hr>
-  <div><center><H2>แสดงข้อมูล</H2></center></div>
+  <div class="text-center"><H2>แสดงข้อมูล</H2></div>
   <br>
    <table class="table table-dark table-hover text-xl-center">
     <thead>
@@ -160,6 +146,8 @@
         <th scope="col">ราคา(บาท)</th>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
+        
+        
       
       </tr>
     </thead>
@@ -174,8 +162,9 @@
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["unit_name"]; ?></td>
         <td><?php echo $row["price_stock"]; ?></td>
-        <td><a href="edit/unit_edit.php?update_id=<?php echo $row["item_id"]; ?>" class="btn btn-outline-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["item_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+        <td><a href="edit/item_edit.php?update_id=<?php echo $row["item_id"]; ?>" class="btn btn-outline-warning">View</a></td>
+        <td><a href="?delete_id=<?php echo $row["item_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+        
         <?php } ?>
       </tr>
     </tbody>

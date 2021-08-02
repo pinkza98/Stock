@@ -26,10 +26,12 @@
               จัดการรายการคลัง
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">จัดรายการ คลัง</a></li>
+              <li><a class="dropdown-item" href="data-stock/stock.php">จัดรายการ คลัง</a></li>
               <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ สาขา</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="data-stock/item.php">จัดการรายชือรายการ</a></li>
+              <li><a class="dropdown-item" href="data-stock/item.php">จัดการรายชื่อรายการ</a></li>
+              <li><a class="dropdown-item" href="data-stock/type_item.php">จัดการประเภทสินค้า</a></li>
+              <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการvendor</a></li>
               <li><a class="dropdown-item" href="data-stock/unit.php">จัดการหน่วยสินค้า</a></li>
             </ul>
           </li>

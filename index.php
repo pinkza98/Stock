@@ -24,7 +24,7 @@
     
     <?php include('components/content.php')?>
     
-   <div class="container px-4"">
+   <div class="container px-4">
    <div class="mb-3">
   <label for="formGroupExampleInput" class="form-label">Example label</label>
   <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
@@ -35,7 +35,7 @@
   </div>
   <br>
   <hr>
-  <div><center><H2>แสดงข้อมูล</H2></center></div>
+  <div class="container text-center"><H2>แสดงข้อมูล</H2></div>
   <br>
    <table class="table table-dark table-hover">
   <thead>
