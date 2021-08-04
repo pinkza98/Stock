@@ -1,3 +1,4 @@
+ 
 <!doctype html>
 <html lang="en">
   <head>
@@ -69,7 +70,7 @@
    </div>
 
       
-   
+ 
    <?php include('components/footer.php')?>
    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>

@@ -16,16 +16,16 @@
 
         header('Location:set_branch.php');
     }if (isset($_REQUEST['save'])) {
-      $branch_name = $_REQUEST['txt_branch_name'];
+      $bn_name = $_REQUEST['txt_branch_name'];
       
 
-      if (empty($branch_name)) {
+      if (empty($bn_name)) {
           $errorMsg = "Please enter branch name";
       } else {
           try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO branch (branch_name) VALUES (:branch_name)");
-                  $insert_stmt->bindParam(':branch_name', $branch_name);
+                  $insert_stmt = $db->prepare("INSERT INTO branch (bn_name) VALUES (:bn_name)");
+                  $insert_stmt->bindParam(':bn_name', $bn_name);
 
                   if ($insert_stmt->execute()) {
                       $insertMsg = "Insert Successfully...";
@@ -81,7 +81,7 @@
             <strong>Success! <?php echo $insertMsg; ?></strong>
         </div>
     <?php } ?>
-   <div class="container px-4"">
+   <div class="container px-4">
   <form method="post">
    <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">ชื่อสาขา</label>
@@ -94,7 +94,11 @@
     </form>
   
   <hr>
-  <div><center><H2>แสดงข้อมูล</H2></center></div>
+  <div class="text-center">
+    <H2>
+      แสดงข้อมูล
+    </H2>
+  </div>
   <br>
    <table class="table table-dark table-hover text-xl-center">
     <thead>
@@ -114,7 +118,7 @@
     ?>
       <tr>
         <td><?php echo $row["bn_id"]; ?></td>
-        <td><?php echo $row["branch_name"]; ?></td>
+        <td><?php echo $row["bn_name"]; ?></td>
         <td><a href="edit/bn_edit.php?update_id=<?php echo $row["bn_id"]; ?>" class="btn btn-outline-warning">View</a></td>
          <td><a href="?delete_id=<?php echo $row["bn_id"];?>" class="btn btn-outline-danger">Delete</a></td>
         <?php } ?>

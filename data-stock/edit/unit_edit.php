@@ -81,7 +81,7 @@
             <strong>Update Success! <?php echo $updateMsg; ?></strong>
         </div>
     <?php } ?>
-   <div class="container px-4"">
+   <div class="container px-4">
      
    <form method="post">
    <div class="mb-4">

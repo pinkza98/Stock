@@ -1,3 +1,16 @@
+<?php include_once('../database/db.php')  ;
+ if (!isset($_SESSION['user_login'])) {
+                header("location:login.php");
+            }
+
+            $id = $_SESSION['user_login'];
+
+            $select_stmt = $db->prepare("SELECT * FROM user WHERE user_id = :uid");
+            $select_stmt->execute(array(':uid' => $id));
+            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+            if (isset($_SESSION['user_login'])) {
+        ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <div class="img-resize"><a class="navbar-brand" href="#"><img src="../components/images/logo.png" ></a></div>
@@ -63,7 +76,9 @@
               <li><a class="dropdown-item" href="#">ออกจากระบบ</a></li>
             </ul>
           </li>
-
+          <li class="nav-item" >
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><?php echo $row['lname'];echo $row['fname'];}?> </a>
+          </li>
         </ul>
       </div>
     </div>

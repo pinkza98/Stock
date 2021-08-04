@@ -1,3 +1,16 @@
+<?php include('../database/db.php');
+       if (!isset($_SESSION['user_login'])) {
+        header("location:login.php");
+    }
+
+    $id = $_SESSION['user_login'];
+
+    $select_stmt = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id  WHERE user_id = :uid");
+    $select_stmt->execute(array(':uid' => $id));
+    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    if (isset($_SESSION['user_login'])) {
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <div class="img-resize"><a class="navbar-brand" href="#"><img src="../components/images/logo.png" ></a></div>
@@ -23,14 +36,13 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              จัดการรายการคลัง
+            จัดการรายการคงคลัง
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="stock.php">จัดรายการ คลัง</a></li>
               <li><a class="dropdown-item" href="set_branch.php">จัดรายการ สาขา</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="item.php">จัดการรายชื่อรายการ</a></li>
-              <li><a class="dropdown-item" href="type_item.php">จัดการประเภทสินค้า</a></li>
               <li><a class="dropdown-item" href="vendor.php">จัดการvendor</a></li>
               <li><a class="dropdown-item" href="unit.php">จัดการหน่วยสินค้า</a></li>
             </ul>
@@ -60,10 +72,12 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">แก้ไขข้อมูลส่วนตัว</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">ออกจากระบบ</a></li>
+              <li><a class="dropdown-item" href="../logout.php">ออกจากระบบ</a></li>
             </ul>
           </li>
-
+          <li class="nav-item" >
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">คุณ <?php echo $row['user_fname']; ?>  <?php echo $row['user_lname'];?> | สถานะ : <?php echo $row['level_name']; ?> สาขา : <?php echo $row['bn_name']; }?></a>
+          </li>
         </ul>
       </div>
     </div>

@@ -1,3 +1,13 @@
+<?php  
+ session_start();  
+ if(isset($_SESSION["user_login"]))  {  
+    
+}  
+ else  
+ {  
+      header("location:login.php");  
+ }  
+ ?>  
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">

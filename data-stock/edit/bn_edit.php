@@ -15,16 +15,16 @@
     }
 
     if (isset($_REQUEST['btn_update'])) {
-        $branch_name_new = $_REQUEST['txt_branch_name'];
+        $bn_name_new = $_REQUEST['txt_bn_name'];
         
 
-        if (empty($branch_name_new)) {
+        if (empty($bn_name_new)) {
             $errorMsg = "Please Enter branch Name";
         } else {
             try {
                 if (!isset($errorMsg)) {
-                    $update_stmt = $db->prepare("UPDATE branch SET branch_name = :barnch_name_up  WHERE bn_id = :bn_id");
-                    $update_stmt->bindParam(':barnch_name_up', $branch_name_new);
+                    $update_stmt = $db->prepare("UPDATE branch SET bn_name = :barnch_name_up  WHERE bn_id = :bn_id");
+                    $update_stmt->bindParam(':barnch_name_up', $bn_name_new);
                     $update_stmt->bindParam(':bn_id', $bn_id);
 
                     if ($update_stmt->execute()) {
@@ -85,7 +85,7 @@
   <form method="post">
    <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">ชื่อสาขา</label>
-      <input type="text" class="form-control col-auto" name="txt_branch_name" id="formGroupExampleInput" value="<?php echo $branch_name; ?>" require>
+      <input type="text" class="form-control col-auto" name="txt_bn_name" id="formGroupExampleInput" value="<?php echo $bn_name; ?>" require>
       </div>
       <div class="mb-4">
       <input type="submit" name="btn_update" class="btn btn-outline-success" value="update">

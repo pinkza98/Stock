@@ -96,7 +96,12 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">หนวยนับ</th>
+        <th scope="col">ชื่อ-สกุล</th>
+        <th scope="col">ชื่อ-สกุล</th>
+        <th scope="col">ชื่อ-สกุล</th>
+        <th scope="col">ชื่อ-สกุล</th>
+        <th scope="col">ชื่อ-สกุล</th>
+        <th scope="col">ชื่อ-สกุล</th>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
       
@@ -104,13 +109,13 @@
     </thead>
     <tbody>
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM unit ORDER BY unit_id DESC");
+          $select_stmt = $db->prepare("SELECT * FROM user ORDER BY user_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr>
-        <td><?php echo $row["unit_id"]; ?></td>
-        <td><?php echo $row["unit_name"]; ?></td>
+        <td><?php echo $row["user_id"]; ?></td>
+        <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
         <td><a href="edit/unit_edit.php?update_id=<?php echo $row["unit_id"]; ?>" class="btn btn-outline-warning">View</a></td>
          <td><a href="?delete_id=<?php echo $row["unit_id"];?>" class="btn btn-outline-danger">Delete</a></td>
         <?php } ?>

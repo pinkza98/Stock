@@ -1,6 +1,20 @@
 <?php 
     require_once('../database/db.php');
-    
+    if (isset($_REQUEST['delete_id'])) {
+      $item_id = $_REQUEST['delete_id'];
+
+      $select_stmt = $db->prepare("SELECT * FROM item WHERE item_id = :item_id");
+      $select_stmt->bindParam(':item_id', $item_id);
+      $select_stmt->execute();
+      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+
+      // Delete an original record from db
+      $delete_stmt = $db->prepare('DELETE FROM item WHERE item_id = :item_id');
+      $delete_stmt->bindParam(':item_id', $item_id);
+      $delete_stmt->execute();
+
+        header('Location:item.php');
+    }
    
 
     if (isset($_REQUEST['save'])) {
@@ -8,9 +22,14 @@
       $code_item = $_REQUEST['txt_code_item'];
       $unit = $_REQUEST['txt_unit'];
       $price_stock = $_REQUEST['txt_price'];
-      
 
-      if (empty($item_name)) {
+      $select_item = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
+      $select_item->bindParam(':code_item_row', $code_item);
+      $select_item->execute();
+      if ($select_item->fetchColumn() > 0){
+        $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
+      }
+      elseif (empty($item_name)) {
           $errorMsg = "Please enter item name";
       } else {
           try {
