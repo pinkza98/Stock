@@ -26,8 +26,8 @@
 				 if ($username == $row['username']) {
 					 if (($password == $row['password'])) {
 						 $_SESSION['user_login'] = $row['user_id'];
-						 $loginMsg = "Successfully Login...";
-						 header("refresh:2;index.php");
+						 $loginMsg = "Login......";
+						 header("refresh:4;index.php");
 					 } else {
 						 $errorMsg[] = "Wrong password!";
 					 }
