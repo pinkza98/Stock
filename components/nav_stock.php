@@ -57,8 +57,8 @@
               ตั้งค่าสมาชิก
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">สมาชิกศูนย์</a></li>
-              <li><a class="dropdown-item" href="#">สมาชิกสาขา</a></li>
+            <li><a class="dropdown-item" href="../data-user/user_center.php">สมาชิกศูนย์</a></li>
+              <li><a class="dropdown-item" href="../data-user/user_bn.php">สมาชิกสาขา</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
             </ul>

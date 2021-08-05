@@ -3,39 +3,78 @@
     
    
 
-    if (isset($_REQUEST['save'])) {
-      $vendor = $_REQUEST['txt_vendor'];
-      $unit = $_REQUEST['txt_unit'];
-      $code_item = $_REQUEST['txt_code_item'];
-      $type_item = $_REQUEST['txt_type_item'];
-      $type_catagories = $_REQUEST['txt_type_catagories'];
+    if (isset($_REQUEST['register'])) {
+      $username = $_REQUEST['txt_email'];
+      $password1 = $_REQUEST['txt_password1'];
+      $password2 = $_REQUEST['txt_password2'];
+      $prefix = $_REQUEST['txt_prefix'];
+      $fname = $_REQUEST['txt_fname'];
+      $lname = $_REQUEST['txt_lname'];
+      $user_bn = $_REQUEST['txt_user_bn'];
+      $user_lv = $_REQUEST['txt_user_lv'];
+      $tel = $_REQUEST['txt_tel'];
+      $line = $_REQUEST['txt_line'];
       
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE code_item = :code_item_row");
-      $select_stmt->bindParam(':code_item_row', $code_item);
+      
+      $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :username");
+      $select_stmt->bindParam(':username', $username);
       $select_stmt->execute();
+
       if ($select_stmt->fetchColumn() > 0){
-        $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
+        $errorMsg = 'E-mail นี้ถูกใช้งานแล้ว!!!';
       }
-      if (empty($type_item)) {
-          $errorMsg = "Please enter type item";
+      else if(filter_var($username,FILTER_VALIDATE_EMAIL)) {
+        $errorMsg = "กรุณากรอก ข้อมูลในรูปแบบ E-mail";
+      }
+      elseif(empty($username)) {
+        $errorMsg = "กรุณาเพิ่ม E-mail";
+      }
+      elseif(empty($password1)) {
+        $errorMsg = "กรุณากรอกรหัสผ่าน!";
+      }
+      elseif(empty($password2)) {
+        $errorMsg = "กรุณากรอกรหัสผ่านยืนยัน!";
+      }
+      elseif($password1 != $password2){
+        $errorMsg = "รหัสผ่านทั้ง2 ไม่ตรงกัน!";
+        } 
+      
+      elseif (empty($prefix)) {
+        $errorMsg = "กรุณาเลือกคำนำหน้า!";
       } 
-      elseif(empty($type_catagories)) {
-        $errorMsg = "Please enter type item catagories";
-      }elseif (empty($vendor)) {
-          $errorMsg = "Please enter vendor ";
-      }else {
+      elseif(empty($fname)) {
+        $errorMsg = "กรุณาเพิ่ม ชื่อ!";
+      }elseif (empty($lname)) {
+          $errorMsg = "กรุณาเพิ่ม นามสกุล ";
+      }elseif (empty($user_bn)) {
+        $errorMsg = "กรุณาเลือก สาขาของท่าน ";
+      }elseif (empty($user_lv)) {
+      $errorMsg = "กรุณาเลือกระดับเจ้าหน้าที่ของท่าน";
+      }elseif (empty($tel)) {
+      $errorMsg = "กรุณาใส่เบอร์โทร";
+      }
+      
+      
+      else {
           try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,code_item,type_item,type_catagories) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories)");
-                  $insert_stmt->bindParam(':vendor', $vendor);
-                  $insert_stmt->bindParam(':unit', $unit);
-                  $insert_stmt->bindParam(':code_item', $code_item);
-                  $insert_stmt->bindParam(':type_item', $type_item);
-                  $insert_stmt->bindParam(':type_catagories', $type_catagories);
+                  $password = $password1;
+                  $new_password = password_hash($password, PASSWORD_DEFAULT);
+                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel) VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_tel,:user_line)");
+                  $insert_stmt->bindParam(':username', $username);
+                  $insert_stmt->bindParam(':password', $new_password);
+                  $insert_stmt->bindParam(':user_prefix', $prefix);
+                  $insert_stmt->bindParam(':user_fname', $fname);
+                  $insert_stmt->bindParam(':user_lname', $lname);
+                  $insert_stmt->bindParam(':user_bn', $user_bn);
+                  $insert_stmt->bindParam(':user_lv', $user_lv);
+                  $insert_stmt->bindParam(':user_line', $tel);
+                  $insert_stmt->bindParam(':vendor', $line);
+                 
 
                   if ($insert_stmt->execute()) {
-                      $insertMsg = "Insert Successfully...";
-                      header("refresh:1;stock.php");
+                      $insertMsg = "เพิ่มข้อมูลสำเร็จ.......";
+                      header("refresh:1;register.php");
                   }
               }
           } catch (PDOException $e) {
@@ -80,11 +119,14 @@
     <hr><br>
 
     <?php include('../components/content.php')?>
+    
+    <div class="container " >
+    <div class="container col-sm-8" >
     <?php 
          if (isset($errorMsg)) {
     ?>
         <div class="alert alert-danger mb-2">
-            <strong>Wrong! <?php echo $errorMsg; ?></strong>
+            <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
         </div>
     <?php } ?>
     
@@ -96,25 +138,6 @@
             <strong>Success! <?php echo $insertMsg; ?></strong>
         </div>
     <?php } ?>
-
-
-    <?php 
-        $code_item =null;
-        $item_name = null;
-        $unit_name = null;
-        $price_stock = null;
-        if(isset($_POST['fetch_btn'])){
-          $id = $_POST['get_code_item'];
-          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $id ");
-          $select_stmt->bindParam(':id', $code_item);
-          $select_stmt->execute();
-          $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-          extract($row);
-        }
-        ?>
-
-    <div class="container " >
-    <div class="container col-sm-8" >
       <div class="row ">
         <div class="col-md-12">
             <form method='post' enctype='multipart/form-data'>
@@ -123,50 +146,73 @@
                 <label for="formGroupExampleInput" class="form-label"><b>สมัคร</b></label>
                 <div class="row g-3">
                 <div class="col-sm-4">
-                <input type="text" name="txt_code_item" value="" class="form-control"placeholder="E-mail" >
+                <input type="text" name="txt_email"  class="form-control"placeholder="E-mail" >
                 </div>
                 <div class="col-sm-4">
-                <input type="password" name="txt_code_item" value="" class="form-control"placeholder="Password" >
+                <input type="password" name="txt_password1"  class="form-control"placeholder="Password" >
               </div>
               <div class="col-sm-4">
-                <input type="password" name="txt_code_item" value="" class="form-control"placeholder="Confirm Password" >
+                <input type="password" name="txt_password2"  class="form-control"placeholder="Confirm Password" >
               </div>
               
               <div class="row g-2">
               <label for="formGroupExampleInput" class="form-label"><b>ชื่อ-นามสกุล</b></label>
                 <div class="col-sm-2">
-                <select name="txt_unit" id="unit_name"class="form-select ">
+                <select name="txt_prefix" class="form-select">
                     <option value=""  class="text-wrap"selected hidden> คำนำหน้า</option>
-                    <option value=""  class="text-wrap" > นาย</option>
-                    <option value=""  class="text-wrap" > นาง</option>
-                    <option value=""  class="text-wrap" > นางสาว</option>
+                    <?php 
+                   $select_stmt = $db->prepare("SELECT * FROM prefix ORDER BY prefix_id DESC");
+                   $select_stmt->execute();
+                   while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
+                    <option value="<?php echo $row['prefix_id'];?>"  class="text-wrap"><?php echo $row['prefix_name'];?></option>
+                  <?php } ?>
                   </select>
                 </div>
                 <div class="col-sm-5">
-                <input type="password" name="txt_code_item" value="" class="form-control"placeholder="ชื่อ" >
+                <input type="text" name="txt_fname" value="" class="form-control"placeholder="ชื่อ" >
                 </div>
                 <div class="col-sm-5">
-                <input type="password" name="txt_code_item" value="" class="form-control"placeholder="นามสกุล" >
+                <input type="text" name="txt_lname" value="" class="form-control"placeholder="นามสกุล" >
                 </div>
               </div>
               
                 <div class="row g-2">
                 <label for="formGroupExampleInput" class="form-label"><b>สิทธิ์-ข้อมูล </b></label>
                   <div class="col-sm-3">
-                  <select name="txt_unit" id="unit_name"class="form-select ">
-                    <option value=""  class="text-wrap"selected hidden>-------- สาขา --------</option>
+                  <select name="txt_user_bn" id="user_bn"class="form-select ">
+                  <option value=""  class="text-wrap"selected hidden>-------- สาขา --------</option>
+
+                  <?php 
+                   $select_stmt = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
+                   $select_stmt->execute();
+                   while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                  ?>
+                    <option value="<?php echo $row['bn_id'];?>"  class="text-wrap"><?php echo $row['bn_name'];?></option>
+                  <?php } ?>
+
                   </select>
                   </div>
                   <div class="col-sm-3">
-                  <select name="txt_unit" id="unit_name"class="form-select ">
+                  <select name="txt_user_lv" id="user_lv"class="form-select ">
+
                     <option value=""  class="text-wrap"selected hidden>----- ระดับผู้ใช้งาน --------</option>
+                    <?php 
+                     $select_stmt = $db->prepare("SELECT * FROM level ORDER BY level_id DESC");
+                     $select_stmt->execute();
+                     while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
+                    
+                    <option value="<?php echo $row['level_id'];?>"  class="text-wrap"><?php echo $row['level_name'];?></option>
+                  <?php } ?>
+
                   </select>
                   </div>
                   <div class="col-sm-3">
-                    <input type="text" class="form-control"   value="" placeholder="เบอร์โทร"  >
+                    <input type="text" class="form-control"  name="txt_tel" value="" placeholder="เบอร์โทร">
                   </div>
                   <div class="col-sm-3">
-                    <input type="text" class="form-control"   value="" placeholder="ID Line"  >
+                    <input type="text" class="form-control" name="txt_line"  value="" placeholder="ID Line">
                   </div>
               </div>
               
