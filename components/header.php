@@ -49,5 +49,13 @@ session_start();
     footer {
       display: table-row;
     }
+    #container{
+    max-width: 400px;
+    overflow: hidden;
+    }
+    img{
+        width: 100%;
+        object-fit: contain;
+    }
   </style>
     

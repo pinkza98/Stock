@@ -33,15 +33,13 @@
     
     <?php include('components/content.php')?>
     
-   <div class="container px-4 bg-transparent text-dark" >
-   <div class="mb-3">
-   <div class="container px-4">
+   <div class="container">
     <br>
     <table class="table table-dark table-hover text-xl-center" id="stock">
     <thead class="table-dark">
         <tr class="table-active">
             
-            <th scope="col">ชื่อสาขา</th>
+            <th scope="col" class="text-center">ชื่อสาขา</th>
             
         </tr>
     </thead>
@@ -60,8 +58,6 @@
     </tbody>
   </table>
    </div>
-  </div>
-   </div>
 
       
    <script>
@@ -70,7 +66,7 @@
         $('#stock').DataTable();
             } );
     </script>
-   <?php include('components/footer.php')?>
+   
    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
