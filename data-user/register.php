@@ -153,7 +153,7 @@
               <div class="col-sm-4">
                 <input type="password" name="txt_password2"  class="form-control"placeholder="Confirm Password" >
               </div>
-              
+              +++
               <div class="row g-2">
               <label for="formGroupExampleInput" class="form-label"><b>ชื่อ-นามสกุล</b></label>
                 <div class="col-sm-2">
