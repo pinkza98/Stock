@@ -2,7 +2,6 @@
       if (!isset($_SESSION['user_login'])) {
         header("location:login.php");
     }
-
     $id = $_SESSION['user_login'];
 
     $select_stmt = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id  WHERE user_id = :uid");
@@ -10,7 +9,8 @@
     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
     extract($row);
     if (isset($_SESSION['user_login'])) {
-      ?>
+?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <div class="img-resize"><a class="navbar-brand" href="#"><img src="../../components/images/logo.png" ></a></div>
@@ -59,7 +59,7 @@
               <li><a class="dropdown-item" href="#">สมาชิกศูนย์</a></li>
               <li><a class="dropdown-item" href="#">สมาชิกสาขา</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">เพิ่มผู้ใช้งาน</a></li>
+              <li><a class="dropdown-item" href="../../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
             </ul>
           </li>
           <li class="nav-item" >

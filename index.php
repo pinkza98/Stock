@@ -1,4 +1,4 @@
- 
+<link rel="icon" type="image/png" href="components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,6 +11,7 @@
     <title>Plus dental clinic</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <?php include('components/header.php');?>
+    
   </head>
   <body>
     
@@ -25,48 +26,10 @@
     
     <?php include('components/content.php')?>
     
-   <div class="container px-4">
+   <div class="container px-4 bg-transparent text-dark" >
    <div class="mb-3">
-  <label for="formGroupExampleInput" class="form-label">Example label</label>
-  <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+
   </div>
-  <div class="mb-3">
-    <label for="formGroupExampleInput2" class="form-label">Another label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
-  </div>
-  <br>
-  <hr>
-  <div class="container text-center"><H2>แสดงข้อมูล</H2></div>
-  <br>
-   <table class="table table-dark table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row" >2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
    </div>
 
       

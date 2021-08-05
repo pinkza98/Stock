@@ -30,7 +30,7 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">คลังรวม</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="stock_branch.php">คลังสาขา</a></li>
+              <li><a class="dropdown-item" href="../data-stock/stock_branch.php">คลังสาขา</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">คลังศูนย์</a></li>
             </ul>
@@ -40,12 +40,12 @@
             จัดการรายการคงคลัง
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="stock.php">จัดรายการ คลัง</a></li>
-              <li><a class="dropdown-item" href="set_branch.php">จัดรายการ สาขา</a></li>
+              <li><a class="dropdown-item" href="../data-stock/stock.php">จัดรายการ คลัง</a></li>
+              <li><a class="dropdown-item" href="../data-stock/set_branch.php">จัดรายการ สาขา</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="item.php">จัดการรายชื่อรายการ</a></li>
-              <li><a class="dropdown-item" href="vendor.php">จัดการvendor</a></li>
-              <li><a class="dropdown-item" href="unit.php">จัดการหน่วยสินค้า</a></li>
+              <li><a class="dropdown-item" href="../data-stock/item.php">จัดการรายชื่อรายการ</a></li>
+              <li><a class="dropdown-item" href="../data-stock/vendor.php">จัดการvendor</a></li>
+              <li><a class="dropdown-item" href="../data-stock/unit.php">จัดการหน่วยสินค้า</a></li>
             </ul>
           </li>
           
@@ -60,7 +60,7 @@
               <li><a class="dropdown-item" href="#">สมาชิกศูนย์</a></li>
               <li><a class="dropdown-item" href="#">สมาชิกสาขา</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
+              <li><a class="dropdown-item" href="register.php">เพิ่มผู้ใช้งาน</a></li>
             </ul>
           </li>
           <li class="nav-item" >

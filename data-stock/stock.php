@@ -46,6 +46,7 @@
 
   
 ?>
+<link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
   <head>
@@ -103,7 +104,7 @@
       <div class="row">
         <div class="col-md-7">
             <div class="card-header">
-                <h4 class="card-title">ค้นหาข้อมูล โดย รหัสบาร์โค้ด</h4>
+                <h4 class="card-title">ค้นหาข้อมูลด้วยรหัสบาร์โค้ด</h4>
             </div>
             <div class="card-body">
                 <form  method="post" enctype="multipart/form">

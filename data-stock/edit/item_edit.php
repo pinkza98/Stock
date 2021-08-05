@@ -47,6 +47,7 @@
 
   
 ?>
+<link rel="icon" type="image/png" href="../../components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
   <head>

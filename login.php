@@ -27,7 +27,7 @@
 					 if (($password == $row['password'])) {
 						 $_SESSION['user_login'] = $row['user_id'];
 						 $loginMsg = "Login......";
-						 header("refresh:4;index.php");
+						 header("refresh:2;index.php");
 					 } else {
 						 $errorMsg[] = "Wrong password!";
 					 }
@@ -44,7 +44,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V12</title>
+	<title>Login Plus </title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	

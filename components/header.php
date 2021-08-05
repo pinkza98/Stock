@@ -8,11 +8,15 @@
       header("location:login.php");  
  }  
  ?>  
+ <head>
+ 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+
 
 <style type="text/css">
+@import 'https://fonts.googleapis.com/css?family=Kanit|Prompt';
     html, body { 
    height: 100%; /* ให้ html และ body สูงเต็มจอภาพไว้ก่อน */
    margin: 0;
@@ -31,17 +35,18 @@
       text-align: center;
     }
     body{
-        font-family: 'Prompt', sans-serif;
+      
+        font-family: 'Kanit',sans-serif;
     }
     h1,h2,h3,h4,h5,h6,p,a{
-        font-family: 'Prompt', sans-serif;
+        font-family: 'Kanit', sans-serif;
     }
     header {
   height: 50px;
   }
 
   footer {
-    height: 50px;
+    height: 60px;
     background: black;
   }
 
