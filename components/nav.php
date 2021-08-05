@@ -32,15 +32,24 @@ if (!isset($_SESSION['user_login'])) {
               <li><a class="dropdown-item" href="#">คลังรวม</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="data-stock/stock_branch.php">คลังสาขา</a></li>
+              
+              <?php 
+                if(isset($row['user_lv'])<=2){
+              ?>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">คลังศูนย์</a></li>
+              <?php }?>
             </ul>
           </li>
+          <?php 
+                if(isset($row['user_lv'])>=3){
+              ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               จัดการรายการคงคลัง
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="data-stock/stock_main.php">จัดการรายการคลังหลัก</a></li>
               <li><a class="dropdown-item" href="data-stock/stock.php">จัดรายการ คลัง</a></li>
               <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ สาขา</a></li>
               <li><hr class="dropdown-divider"></li>
@@ -49,31 +58,34 @@ if (!isset($_SESSION['user_login'])) {
               <li><a class="dropdown-item" href="data-stock/unit.php">จัดการหน่วยสินค้า</a></li>
             </ul>
           </li>
-          
+          <?php }?>
           <li class="nav-item" >
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">ระบบ คลัง</a>
           </li>
           <li class="nav-item" >
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
           </li>
+          <?php 
+                if(isset($row['user_lv'])<=3){
+          ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               ตั้งค่าสมาชิก
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
               <li><a class="dropdown-item" href="data-user/user_center.php">สมาชิกศูนย์</a></li>
               <li><a class="dropdown-item" href="data-user/user_bn.php">สมาชิกสาขา</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
             </ul>
           </li>
-          
+          <?php } ?>
           
           <li class="nav-item-end dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">ตั้งค่า</a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">แก้ไขข้อมูลส่วนตัว</a></li>
-              <li><a class="dropdown-item" href="#">สมาชิกสาขา</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="logout.php">ออกจากระบบ</a></li>
             </ul>

@@ -21,7 +21,6 @@
 			 $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :uname");
 			 $select_stmt->execute(array(':uname' => $username));
 			 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-
 			 if ($select_stmt->rowCount() > 0) {
 				 if ($username == $row['username']) {
 					 if (password_verify($password , $row['password'])) {

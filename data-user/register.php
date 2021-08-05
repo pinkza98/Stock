@@ -1,6 +1,5 @@
 <?php 
     require_once('../database/db.php');
-  
     if (isset($_REQUEST['register'])) {
       $email = $_REQUEST['txt_email'];
       $password1 = $_REQUEST['txt_password1'];
@@ -12,16 +11,12 @@
       $user_lv = $_REQUEST['txt_user_lv'];
       $tel = $_REQUEST['txt_tel'];
       $line = $_REQUEST['txt_line'];
-      
-      
       $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :username");
       $select_stmt->bindParam(':username', $email);
       $select_stmt->execute();
-     
       if ($select_stmt->fetchColumn() > 0){
         $errorMsg = 'E-mail นี้ถูกใช้งานแล้ว!!!';
       }
-     
       elseif(empty($email)) {
         $errorMsg = "กรุณาเพิ่ม E-mail";
       }
@@ -51,8 +46,6 @@
       }elseif (empty($tel)) {
       $errorMsg = "กรุณาใส่เบอร์โทร";
       }
-      
-      
       else {
           try {
               if (!isset($errorMsg)) {
@@ -68,8 +61,6 @@
                   $insert_stmt->bindParam(':user_lv', $user_lv);
                   $insert_stmt->bindParam(':user_line', $line);
                   $insert_stmt->bindParam(':user_tel', $tel);
-                 
-
                   if ($insert_stmt->execute()) {
                       $insertMsg = "เพิ่มข้อมูลสำเร็จ.......";
                       header("refresh:1;register.php");
@@ -80,10 +71,7 @@
           }
       }
   }
-
-  
 ?>
-
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
@@ -91,51 +79,45 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Bootstrap CSS -->
-
     <title>Plus dental clinic</title>
-   
     
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   </head>
-
-
-    
+  <script type='text/javascript'>
+    function check_email(elm){
+    var regex_email=/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*\@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([a-zA-Z]){2,4})$/
+    if(!elm.value.match(regex_email)){
+        alert('รูปแบบ email ไม่ถูกต้อง');
+      }
+    }
+</script>
   </head>
   <body>
-    
     <?php include('../components/nav_user.php'); ?>
-
     <header>
-    
       <div class="display-3 text-xl-center">
         <H2>Register</H2>  
       </div>
-
     </header>
     <hr><br>
-
     <?php include('../components/content.php')?>
-    
     <div class="container " >
     <div class="container col-sm-8" >
     <?php 
-         if (isset($errorMsg)) {
+        if (isset($errorMsg)) {
     ?>
-        <div class="alert alert-danger mb-2">
-            <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
-        </div>
+      <div class="alert alert-danger mb-2">
+        <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
+      </div>
     <?php } ?>
-    
-
     <?php 
-         if (isset($insertMsg)) {
+        if (isset($insertMsg)) {
     ?>
-        <div class="alert alert-success mb-2">
-            <strong>Success! <?php echo $insertMsg; ?></strong>
-        </div>
+      <div class="alert alert-success mb-2">
+        <strong>Success! <?php echo $insertMsg; ?></strong>
+      </div>
     <?php } ?>
       <div class="row ">
         <div class="col-md-12">
@@ -153,16 +135,15 @@
               <div class="col-sm-4">
                 <input type="password" name="txt_password2"  class="form-control"placeholder="Confirm Password" >
               </div>
-            
               <div class="row g-2">
               <label for="formGroupExampleInput" class="form-label"><b>ชื่อ-นามสกุล</b></label>
                 <div class="col-sm-2">
                 <select name="txt_prefix" class="form-select">
                     <option value=""  class="text-wrap"selected hidden> คำนำหน้า</option>
                     <?php 
-                   $select_stmt = $db->prepare("SELECT * FROM prefix ORDER BY prefix_id DESC");
-                   $select_stmt->execute();
-                   while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                      $select_stmt = $db->prepare("SELECT * FROM prefix ORDER BY prefix_id DESC");
+                      $select_stmt->execute();
+                      while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                     <option value="<?php echo $row['prefix_id'];?>"  class="text-wrap"><?php echo $row['prefix_name'];?></option>
                   <?php } ?>
@@ -175,36 +156,31 @@
                 <input type="text" name="txt_lname" value="" class="form-control"placeholder="นามสกุล" >
                 </div>
               </div>
-              
                 <div class="row g-2">
                 <label for="formGroupExampleInput" class="form-label"><b>สิทธิ์-ข้อมูล </b></label>
                   <div class="col-sm-3">
                   <select name="txt_user_bn" id="user_bn"class="form-select ">
                   <option value=""  class="text-wrap"selected hidden>-------- สาขา --------</option>
-
                   <?php 
-                   $select_stmt = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
-                   $select_stmt->execute();
-                   while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $select_stmt = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
+                    $select_stmt->execute();
+                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                   ?>
                     <option value="<?php echo $row['bn_id'];?>"  class="text-wrap"><?php echo $row['bn_name'];?></option>
                   <?php } ?>
-
                   </select>
                   </div>
                   <div class="col-sm-3">
                   <select name="txt_user_lv" id="user_lv"class="form-select ">
-
                     <option value=""  class="text-wrap"selected hidden>----- ระดับผู้ใช้งาน --------</option>
                     <?php 
-                     $select_stmt = $db->prepare("SELECT * FROM level ORDER BY level_id DESC");
-                     $select_stmt->execute();
-                     while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                      $select_stmt = $db->prepare("SELECT * FROM level ORDER BY level_id DESC");
+                      $select_stmt->execute();
+                      while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                     
                     <option value="<?php echo $row['level_id'];?>"  class="text-wrap"><?php echo $row['level_name'];?></option>
                   <?php } ?>
-
                   </select>
                   </div>
                   <div class="col-sm-3">
@@ -214,7 +190,6 @@
                     <input type="text" class="form-control" name="txt_line"  value="" placeholder="ID Line">
                   </div>
               </div>
-              
               <div class="mb-4  g-4 text-center">    
                 <input type="submit" name="register" class="btn btn-success" value="Register">
                 <a href="register.php" class="btn btn-danger">Reset</a>
@@ -227,18 +202,7 @@
           </div>
         </div>
         </div>   
-    
-   <?php include('../components/footer.php')?>
-
-   
-   
+<?php include('../components/footer.php')?>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
-  <script type='text/javascript'>
-    function check_email(elm){
-    var regex_email=/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*\@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([a-zA-Z]){2,4})$/
-    if(!elm.value.match(regex_email)){
-        alert('รูปแบบ email ไม่ถูกต้อง');
-    }
-}
-</script>
 </html>

@@ -1,29 +1,39 @@
 <?php 
     require_once('../database/db.php');
-    
-    
-     
-
     if (isset($_REQUEST['save'])) {
       $vendor = $_REQUEST['txt_vendor'];
       $unit = $_REQUEST['txt_unit'];
       $code_item = $_REQUEST['txt_code_item'];
       $type_item = $_REQUEST['txt_type_item'];
       $type_catagories = $_REQUEST['txt_type_catagories'];
-      
+      $item_name = $_REQUEST['txt_item_name'];
+      $price = $_REQUEST['txt_price'];
       $select_stmt = $db->prepare("SELECT * FROM stock WHERE code_item = :code_item_row");
       $select_stmt->bindParam(':code_item_row', $code_item);
       $select_stmt->execute();
+
+ 
       if ($select_stmt->fetchColumn() > 0){
         $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
       }
-      if (empty($type_item)) {
+      elseif (empty($type_item)) {
           $errorMsg = "Please enter type item";
       } 
+      elseif(empty($unit)){
+        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
+      }
+      elseif(empty($item_name)){
+        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
+      }
+      elseif(empty($price)){
+        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
+      }
       elseif(empty($type_catagories)) {
         $errorMsg = "Please enter type item catagories";
       }elseif (empty($vendor)) {
           $errorMsg = "Please enter vendor ";
+      }elseif ($unit==0) {
+        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
       }else {
           try {
               if (!isset($errorMsg)) {
@@ -33,7 +43,6 @@
                   $insert_stmt->bindParam(':code_item', $code_item);
                   $insert_stmt->bindParam(':type_item', $type_item);
                   $insert_stmt->bindParam(':type_catagories', $type_catagories);
-
                   if ($insert_stmt->execute()) {
                       $insertMsg = "Insert Successfully...";
                       header("refresh:1;stock.php");
@@ -44,8 +53,6 @@
           }
       }
   }
-
-  
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
@@ -54,38 +61,23 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Bootstrap CSS -->
-
     <title>Plus dental clinic</title>
-   
-    
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   </head>
-
-
-    
   </head>
   <body>
     
     <?php include('../components/nav_stock.php'); ?>
-
     <header>
     
       <div class="display-3 text-xl-center">
         <H2>เพิ่มรายการคลัง</H2>  
       </div>
-
     </header>
     <hr><br>
-
     <?php include('../components/content.php')?>
-    
-
-
-
-
     <div class="container">
     <?php 
          if (isset($errorMsg)) {
@@ -94,10 +86,8 @@
             <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
         </div>
     <?php } ?>
-    
-
     <?php 
-         if (isset($insertMsg)) {
+        if (isset($insertMsg)) {
     ?>
         <div class="alert alert-success mb-2">
             <strong>Success! <?php echo $insertMsg; ?></strong>
@@ -111,7 +101,6 @@
             <div class="card-body">
                 <form  method="post" enctype="multipart/form">
                     <div class="row">
-
                     <div class="col-md-6">
                       <div class="form.group">
                         <input type="text" name="get_code_item" class="form-control" placeholder=" Enter Code Item" required>
@@ -125,53 +114,46 @@
             </div>
         </div>
         <?php 
-        $code_item =null;
-        $item_name = null;
-        $unit_name = null;
-        $price_stock = null;
-        if(isset($_POST['check'])){
-
-          $code_item = $_REQUEST['get_code_item'];
-          $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
-          $select_check ->bindParam(':code_item_row', $code_item);
-          $select_check ->execute();
-          if ($select_check ->fetchColumn() == 0){
-            $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
-          }else{
-          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $code_item ");
-          $select_stmt->bindParam(':id', $code_item);
-          $select_stmt->execute();
-          $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-          extract($row);
-        
-        }
-      }
+          $code_item =null;
+          $item_name = null;
+          $unit_name = null;
+          $price_stock = null;
+          if(isset($_POST['check'])){
+            $code_item = $_REQUEST['get_code_item'];
+            $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
+            $select_check ->bindParam(':code_item_row', $code_item);
+            $select_check ->execute();
+            if ($select_check ->fetchColumn() == 0){
+              $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
+            }else{
+            $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $code_item ");
+            $select_stmt->bindParam(':id', $code_item);
+            $select_stmt->execute();
+            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+            }
+          }
         ?>
-        
         <div class="col-md-5">
             <form method='post' enctype='multipart/form-data'>
               <div class="card">
                 <div class="card-header">
                 <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
-                
                 <div class="mb-3">
                 <input type="text" name="txt_code_item" value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" >
-                
               </div>
                 <div class="row g-3">
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" value="<?php echo$item_name?>"placeholder="รายการ" aria-label="รายการ">
+                  <input type="text" class="form-control" name="txt_item_name" value="<?php echo$item_name?>"placeholder="รายการ" aria-label="รายการ">
                 </div>
                 <div class="col-sm">
-                  <input type="text" class="form-control"  value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" >
+                  <input type="text" class="form-control"  name="txt_price"value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" >
                 </div>
                 <div class="col-sm">
                   <input type="text" class="form-control"   value="<?php echo$unit_name?>" placeholder="ต่อหน่วย" aria-label="หน่วย" >
-                  <input type="text"  name="txt_unit" value="<?php echo$unit_id?>"  hidden>
+                  <input type="text"  name="txt_unit" value="<?php echo$unit_id?>"hidden>
                 </div>
               </div>
-              
-              
               <div class="row g-2">
               <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
                 <div class="col-sm-8">
