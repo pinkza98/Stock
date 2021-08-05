@@ -69,16 +69,7 @@
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    	<!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    
-    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
   </head>
 
 
@@ -198,36 +189,4 @@
    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
-<script>
 
-  $(document).ready(function(){
-
-      $('.select2').select2({
-        placeholder:'--- เลือก ---',
-        theme:'bootstrap4',
-        tags:true,
-      }).on('select2:close', function(){
-        var element = $(this);
-        var new_unit_name = $.trim(element.val());
-
-        if(new_unit_name != '')
-        {
-          $.ajax({
-            url:"",
-            method:"POST",
-            data:{unit_name:new_unit_name},
-            success:function(data)
-            {
-              if(data == 'yes')
-              {
-                element.append('<option value="'+new_unit_name+'">'+new_unit_name+'</option>').val(new_unit_name);
-              }
-            }
-          })
-        }
-
-      });
-
-  });
-
-</script>

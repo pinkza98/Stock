@@ -1,10 +1,8 @@
 <?php 
     require_once('../database/db.php');
-    
-   
-
+  
     if (isset($_REQUEST['register'])) {
-      $username = $_REQUEST['txt_email'];
+      $email = $_REQUEST['txt_email'];
       $password1 = $_REQUEST['txt_password1'];
       $password2 = $_REQUEST['txt_password2'];
       $prefix = $_REQUEST['txt_prefix'];
@@ -17,16 +15,14 @@
       
       
       $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :username");
-      $select_stmt->bindParam(':username', $username);
+      $select_stmt->bindParam(':username', $email);
       $select_stmt->execute();
-
+     
       if ($select_stmt->fetchColumn() > 0){
         $errorMsg = 'E-mail นี้ถูกใช้งานแล้ว!!!';
       }
-      else if(filter_var($username,FILTER_VALIDATE_EMAIL)) {
-        $errorMsg = "กรุณากรอก ข้อมูลในรูปแบบ E-mail";
-      }
-      elseif(empty($username)) {
+     
+      elseif(empty($email)) {
         $errorMsg = "กรุณาเพิ่ม E-mail";
       }
       elseif(empty($password1)) {
@@ -38,7 +34,9 @@
       elseif($password1 != $password2){
         $errorMsg = "รหัสผ่านทั้ง2 ไม่ตรงกัน!";
         } 
-      
+      else if (strlen($password1) < 6) {
+        $errorMsg[] = "Password ของท่านต้องมีมากกว่า 6 ตัวอักษร";
+      }
       elseif (empty($prefix)) {
         $errorMsg = "กรุณาเลือกคำนำหน้า!";
       } 
@@ -61,15 +59,15 @@
                   $password = $password1;
                   $new_password = password_hash($password, PASSWORD_DEFAULT);
                   $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel) VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_tel,:user_line)");
-                  $insert_stmt->bindParam(':username', $username);
+                  $insert_stmt->bindParam(':username', $email);
                   $insert_stmt->bindParam(':password', $new_password);
                   $insert_stmt->bindParam(':user_prefix', $prefix);
                   $insert_stmt->bindParam(':user_fname', $fname);
                   $insert_stmt->bindParam(':user_lname', $lname);
                   $insert_stmt->bindParam(':user_bn', $user_bn);
                   $insert_stmt->bindParam(':user_lv', $user_lv);
-                  $insert_stmt->bindParam(':user_line', $tel);
-                  $insert_stmt->bindParam(':vendor', $line);
+                  $insert_stmt->bindParam(':user_line', $line);
+                  $insert_stmt->bindParam(':user_tel', $tel);
                  
 
                   if ($insert_stmt->execute()) {
@@ -85,6 +83,7 @@
 
   
 ?>
+
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
@@ -146,10 +145,10 @@
                 <label for="formGroupExampleInput" class="form-label"><b>สมัคร</b></label>
                 <div class="row g-3">
                 <div class="col-sm-4">
-                <input type="text" name="txt_email"  class="form-control"placeholder="E-mail" >
+                <input type="text" name="txt_email"  class="form-control"placeholder="E-mail" id='email' onblur='check_email(this)'>
                 </div>
                 <div class="col-sm-4">
-                <input type="password" name="txt_password1"  class="form-control"placeholder="Password" >
+                <input type="password" name="txt_password1"  class="form-control"placeholder="Password 6 อักษรขึ้นไป" >
               </div>
               <div class="col-sm-4">
                 <input type="password" name="txt_password2"  class="form-control"placeholder="Confirm Password" >
@@ -232,8 +231,14 @@
    <?php include('../components/footer.php')?>
 
    
-   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   
   </body>
+  <script type='text/javascript'>
+    function check_email(elm){
+    var regex_email=/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*\@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([a-zA-Z]){2,4})$/
+    if(!elm.value.match(regex_email)){
+        alert('รูปแบบ email ไม่ถูกต้อง');
+    }
+}
+</script>
 </html>

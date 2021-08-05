@@ -18,24 +18,27 @@
 		 $errorMsg[] = "Please enter password";
 	 } else {
 		 try {
-			 $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :uname AND password = :password");
-			 $select_stmt->execute(array(':uname' => $username, ':password' => $password));
+			 $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :uname");
+			 $select_stmt->execute(array(':uname' => $username));
 			 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 
 			 if ($select_stmt->rowCount() > 0) {
 				 if ($username == $row['username']) {
-					 if (($password == $row['password'])) {
+					 if (password_verify($password , $row['password'])) {
 						 $_SESSION['user_login'] = $row['user_id'];
 						 $loginMsg = "Login......";
 						 header("refresh:2;index.php");
-					 } else {
-						 $errorMsg[] = "Wrong password!";
-					 }
-				 } else {
-					 $errorMsg[] = "Wrong username ";
-				 }
-			 } 
-		 } catch(PDOException $e) {
+					  	}else{
+							$errorMsg[] = "รหัสผ่านไม่ถูกต้อง ";
+						  }
+					}else{
+						$errorMsg[] = "ไม่พบ user ในระบบ ";
+					}
+				}else{
+					$errorMsg[] = "ไม่พบ user ในระบบ ";
+				}
+			} 
+			catch(PDOException $e) {
 			 echo $e->getMessage();
 		 }
 	 }

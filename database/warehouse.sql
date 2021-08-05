@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2021 at 11:49 AM
+-- Generation Time: Aug 05, 2021 at 01:19 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -123,7 +123,8 @@ CREATE TABLE `item` (
 INSERT INTO `item` (`item_id`, `item_name`, `unit`, `price_stock`, `code_item`) VALUES
 (3, 'แก้วกระดาษ', 2, '50.00', 111111),
 (4, 'ถังน้ำ', 1, '60.00', 123457),
-(5, 'กาแฟ-ดำ', 2, '20.55', 131313);
+(5, 'กาแฟ-ดำ', 2, '20.55', 131313),
+(8, 'ซอส-ภูเขา', 1, '50.00', 456789);
 
 -- --------------------------------------------------------
 
@@ -161,6 +162,26 @@ CREATE TABLE `line` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `prefix`
+--
+
+CREATE TABLE `prefix` (
+  `prefix_id` int(11) NOT NULL,
+  `prefix_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `prefix`
+--
+
+INSERT INTO `prefix` (`prefix_id`, `prefix_name`) VALUES
+(1, 'นาย'),
+(2, 'นาง'),
+(3, 'นางสาว');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stock`
 --
 
@@ -183,7 +204,8 @@ INSERT INTO `stock` (`id_stock`, `vendor`, `unit`, `code_item`, `type_item`, `ty
 (14, 1, 2, 111111, 1, 1, ''),
 (15, 1, 1, 100000, 1, 2, ''),
 (16, 1, 1, 123457, 1, 1, ''),
-(17, 1, 2, 131313, 1, 1, '');
+(17, 1, 2, 131313, 1, 1, ''),
+(18, 1, 1, 456789, 1, 1, '');
 
 -- --------------------------------------------------------
 
@@ -235,21 +257,24 @@ INSERT INTO `unit` (`unit_id`, `unit_name`) VALUES
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(250) NOT NULL,
   `user_bn` int(11) NOT NULL,
   `user_lv` int(11) NOT NULL,
   `user_tel` varchar(20) NOT NULL,
+  `user_prefix` int(11) NOT NULL,
   `user_fname` varchar(100) NOT NULL,
   `user_lname` varchar(100) NOT NULL,
-  `user_line` int(11) NOT NULL
+  `user_line` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_fname`, `user_lname`, `user_line`) VALUES
-(3, 'pinkza88@gmail.com', '123456', 2, 3, '0828602362', 'อรรถพล', 'สีชา', 0);
+INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`) VALUES
+(6, 'admin_center@gmail.com', '$2y$10$g14sPahHoU.KezKT8/a4DuSH0adWEO97hP/J.R4x22oQ4P46dSjb2', 1, 1, '', 1, 'Plus Dental', 'Clinic', '08xxxxxxxx'),
+(9, 'pinkza88@gmail.com ', '$2y$10$2NUrsj5DeaJIMXToWFK1Su.6EmT3X6tEiYB7Jn8XqjbD/VDlvDVsi', 1, 1, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
+(12, 'it_center@gmail.com', '$2y$10$Cdfn4iJnpaHpZXNftHRMketGoteUNKKadaJsHbDDuNCEmFNh75oq.', 1, 1, '', 1, 'เจ้าหน้าที่', 'ไอที(1)', '08xxxxxxxx');
 
 -- --------------------------------------------------------
 
@@ -333,6 +358,12 @@ ALTER TABLE `line`
   ADD PRIMARY KEY (`line_id`);
 
 --
+-- Indexes for table `prefix`
+--
+ALTER TABLE `prefix`
+  ADD PRIMARY KEY (`prefix_id`);
+
+--
 -- Indexes for table `stock`
 --
 ALTER TABLE `stock`
@@ -401,7 +432,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -416,10 +447,16 @@ ALTER TABLE `line`
   MODIFY `line_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `prefix`
+--
+ALTER TABLE `prefix`
+  MODIFY `prefix_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `type_name`
@@ -437,7 +474,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user_stock`

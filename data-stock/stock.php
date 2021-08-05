@@ -1,7 +1,8 @@
 <?php 
     require_once('../database/db.php');
     
-   
+    
+     
 
     if (isset($_REQUEST['save'])) {
       $vendor = $_REQUEST['txt_vendor'];
@@ -80,11 +81,17 @@
     <hr><br>
 
     <?php include('../components/content.php')?>
+    
+
+
+
+
+    <div class="container">
     <?php 
          if (isset($errorMsg)) {
     ?>
         <div class="alert alert-danger mb-2">
-            <strong>Wrong! <?php echo $errorMsg; ?></strong>
+            <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
         </div>
     <?php } ?>
     
@@ -96,11 +103,6 @@
             <strong>Success! <?php echo $insertMsg; ?></strong>
         </div>
     <?php } ?>
-
-
-
-
-    <div class="container">
       <div class="row">
         <div class="col-md-7">
             <div class="card-header">
@@ -116,7 +118,7 @@
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <button  name="fetch_btn"class="btn btn-primary" type="submit">ค้นหาข้อมูล</button>
+                      <button  name="check"class="btn btn-primary" value="check" type="submit">ค้นหาข้อมูล</button>
                     </div>
                     </div>
                 </form>
@@ -127,14 +129,23 @@
         $item_name = null;
         $unit_name = null;
         $price_stock = null;
-        if(isset($_POST['fetch_btn'])){
-          $id = $_POST['get_code_item'];
-          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $id ");
+        if(isset($_POST['check'])){
+
+          $code_item = $_REQUEST['get_code_item'];
+          $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
+          $select_check ->bindParam(':code_item_row', $code_item);
+          $select_check ->execute();
+          if ($select_check ->fetchColumn() == 0){
+            $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
+          }else{
+          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $code_item ");
           $select_stmt->bindParam(':id', $code_item);
           $select_stmt->execute();
           $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
           extract($row);
+        
         }
+      }
         ?>
         
         <div class="col-md-5">
