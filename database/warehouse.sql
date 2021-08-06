@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2021 at 01:19 PM
+-- Generation Time: Aug 06, 2021 at 04:11 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -124,7 +124,12 @@ INSERT INTO `item` (`item_id`, `item_name`, `unit`, `price_stock`, `code_item`) 
 (3, 'แก้วกระดาษ', 2, '50.00', 111111),
 (4, 'ถังน้ำ', 1, '60.00', 123457),
 (5, 'กาแฟ-ดำ', 2, '20.55', 131313),
-(8, 'ซอส-ภูเขา', 1, '50.00', 456789);
+(8, 'ซอส-ภูเขา', 1, '50.00', 456789),
+(9, 'แก้วกระดาษ(จับโบ้)', 2, '50.00', 456719),
+(10, 'รีทินเนอร์(แดง)', 1, '50.00', 110101),
+(11, 'ถังน้ำ(แดง)', 2, '50.00', 123123),
+(12, 'กาแฟ(ไทย-ลาว)', 1, '50.00', 554466),
+(13, 'กาแฟ++', 1, '50.00', 123445);
 
 -- --------------------------------------------------------
 
@@ -142,10 +147,10 @@ CREATE TABLE `level` (
 --
 
 INSERT INTO `level` (`level_id`, `level_name`) VALUES
-(1, 'แอดมิน'),
-(2, 'ผู้จัดการเขต'),
-(3, 'ผู้จัดการสาขา'),
-(4, 'พนักงาน(Plus Dental Clinic)');
+(1, 'พนักงาน(Plus Dental Clinic)'),
+(2, 'ผู้จัดการสาขา'),
+(3, 'ผู้จัดการเขต'),
+(4, 'แอดมิน');
 
 -- --------------------------------------------------------
 
@@ -205,7 +210,11 @@ INSERT INTO `stock` (`id_stock`, `vendor`, `unit`, `code_item`, `type_item`, `ty
 (15, 1, 1, 100000, 1, 2, ''),
 (16, 1, 1, 123457, 1, 1, ''),
 (17, 1, 2, 131313, 1, 1, ''),
-(18, 1, 1, 456789, 1, 1, '');
+(18, 1, 1, 456789, 1, 1, ''),
+(22, 1, 2, 456719, 1, 2, ''),
+(26, 1, 2, 123123, 2, 1, ''),
+(29, 1, 1, 554466, 1, 1, ''),
+(30, 1, 1, 123445, 1, 2, '');
 
 -- --------------------------------------------------------
 
@@ -274,7 +283,12 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`) VALUES
 (6, 'admin_center@gmail.com', '$2y$10$g14sPahHoU.KezKT8/a4DuSH0adWEO97hP/J.R4x22oQ4P46dSjb2', 1, 1, '', 1, 'Plus Dental', 'Clinic', '08xxxxxxxx'),
 (9, 'pinkza88@gmail.com ', '$2y$10$2NUrsj5DeaJIMXToWFK1Su.6EmT3X6tEiYB7Jn8XqjbD/VDlvDVsi', 1, 1, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(12, 'it_center@gmail.com', '$2y$10$Cdfn4iJnpaHpZXNftHRMketGoteUNKKadaJsHbDDuNCEmFNh75oq.', 1, 1, '', 1, 'เจ้าหน้าที่', 'ไอที(1)', '08xxxxxxxx');
+(12, 'it_center@gmail.com', '$2y$10$Cdfn4iJnpaHpZXNftHRMketGoteUNKKadaJsHbDDuNCEmFNh75oq.', 1, 1, '', 1, 'เจ้าหน้าที่', 'ไอที(1)', '08xxxxxxxx'),
+(15, 'poniaza1@gmail.com', '$2y$10$XxUyl3qHQ89G2durOcW8AOEqYpdZX4G81ocWTE3CL5x3jJcY7qNPm', 1, 2, '', 1, 'อรรถพล', 'สีชา', '08xxxxxxx'),
+(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 4, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxx'),
+(17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '', 1, 'xxx', 'xxx', '08xxxxxxx'),
+(18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 1, 3, '', 1, 'xxx', 'xxx', '08xxxxxxx'),
+(19, 'test4@gmail.com', '$2y$10$jG8VacG.qvqGSIFgKwer2e4R3N8UVvQKQoUVUtsRQhPwanX8X1ggK', 1, 4, '', 1, 'xxxx', 'xxx', '08xxxxxxx');
 
 -- --------------------------------------------------------
 
@@ -432,7 +446,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -456,7 +470,7 @@ ALTER TABLE `prefix`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `type_name`
@@ -474,7 +488,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `user_stock`
