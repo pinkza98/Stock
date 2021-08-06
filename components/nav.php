@@ -24,6 +24,7 @@ if (!isset($_SESSION['user_login'])) {
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php">Home</a>
           </li>
+          
           <li class="nav-item dropdown ms-2">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               จัดการการคลัง
@@ -34,7 +35,7 @@ if (!isset($_SESSION['user_login'])) {
               <li><a class="dropdown-item" href="data-stock/stock_branch.php">คลังสาขา</a></li>
               
               <?php 
-                if(isset($row['user_lv'])<=2){
+                if(isset($row['user_lv'])>2){
               ?>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">คลังศูนย์</a></li>
@@ -42,7 +43,7 @@ if (!isset($_SESSION['user_login'])) {
             </ul>
           </li>
           <?php 
-                if(isset($row['user_lv'])>=3){
+                if(isset($row['user_lv'])>2){
               ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,7 +67,7 @@ if (!isset($_SESSION['user_login'])) {
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
           </li>
           <?php 
-                if(isset($row['user_lv'])<=3){
+                if(isset($row['user_lv'])>=2){
           ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
