@@ -13,8 +13,8 @@ if (!isset($_SESSION['user_login'])) {
             if (isset($_SESSION['user_login'])) {
   ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light text-dark">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light text-dark ">
+    <div class="container-fluid iconav-slider">
       <div class="img-resize" ><img class="rounded float-start" src="components/images/logo.png" ></div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

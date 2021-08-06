@@ -116,7 +116,8 @@
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">รหัสบาร์โค้ด</label>
       <input type="number" class="form-control" name="txt_code_item" min="100000" max="999999" onKeyUp="if(this.value>999999){this.value='999999';}else if(this.value<0){this.value='0';}"id="yourid">
-      </div>
+      <!-- <input type="txt_code_item"> -->
+    </div>
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">หน่วยนับ</label>
 

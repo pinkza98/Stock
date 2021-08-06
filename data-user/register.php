@@ -85,14 +85,7 @@
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   </head>
-  <script type='text/javascript'>
-    function check_email(elm){
-    var regex_email=/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*\@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([a-zA-Z]){2,4})$/
-    if(!elm.value.match(regex_email)){
-        alert('รูปแบบ email ไม่ถูกต้อง');
-      }
-    }
-</script>
+ 
   </head>
   <body>
     <?php include('../components/nav_user.php'); ?>
@@ -127,7 +120,7 @@
                 <label for="formGroupExampleInput" class="form-label"><b>สมัคร</b></label>
                 <div class="row g-3">
                 <div class="col-sm-4">
-                <input type="text" name="txt_email"  class="form-control"placeholder="E-mail" id='email' onblur='check_email(this)'>
+                <input type="text" name="txt_email"  class="form-control"placeholder="E-mail" id='email' required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
                 </div>
                 <div class="col-sm-4">
                 <input type="password" name="txt_password1"  class="form-control"placeholder="Password 6 อักษรขึ้นไป" >

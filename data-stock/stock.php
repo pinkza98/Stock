@@ -8,7 +8,7 @@
       $type_catagories = $_REQUEST['txt_type_catagories'];
       $item_name = $_REQUEST['txt_item_name'];
       $price = $_REQUEST['txt_price'];
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE code_item = :code_item_row");
+      $select_stmt = $db->prepare("SELECT * FROM stock WHERE item_id = :code_item_row");
       $select_stmt->bindParam(':code_item_row', $code_item);
       $select_stmt->execute();
 
@@ -37,7 +37,7 @@
       }else {
           try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,code_item,type_item,type_catagories) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories)");
+                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories)");
                   $insert_stmt->bindParam(':vendor', $vendor);
                   $insert_stmt->bindParam(':unit', $unit);
                   $insert_stmt->bindParam(':code_item', $code_item);
@@ -140,7 +140,8 @@
                 <div class="card-header">
                 <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
                 <div class="mb-3">
-                <input type="text" name="txt_code_item" value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" >
+                <input type="text"  value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" >
+                <input type="text"  name="txt_code_item" value="<?php echo$item_id?>"hidden>
               </div>
                 <div class="row g-3">
                 <div class="col-sm-7">
