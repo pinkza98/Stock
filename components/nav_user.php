@@ -83,7 +83,7 @@ if (!isset($_SESSION['user_login'])) {
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">แก้ไขข้อมูลส่วนตัว</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="logout.php">ออกจากระบบ</a></li>
+              <li><a class="dropdown-item" href="../logout.php">ออกจากระบบ</a></li>
             </ul>
           </li>
           <li class="nav-item" >
