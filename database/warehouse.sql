@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2021 at 04:11 AM
+-- Generation Time: Aug 06, 2021 at 01:32 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -191,10 +191,10 @@ INSERT INTO `prefix` (`prefix_id`, `prefix_name`) VALUES
 --
 
 CREATE TABLE `stock` (
-  `id_stock` int(11) NOT NULL,
+  `stock_id` int(11) NOT NULL,
   `vendor` int(11) NOT NULL,
   `unit` int(10) NOT NULL,
-  `code_item` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
   `type_item` int(11) NOT NULL,
   `type_catagories` int(11) NOT NULL,
   `img_stock` varchar(100) NOT NULL
@@ -204,17 +204,15 @@ CREATE TABLE `stock` (
 -- Dumping data for table `stock`
 --
 
-INSERT INTO `stock` (`id_stock`, `vendor`, `unit`, `code_item`, `type_item`, `type_catagories`, `img_stock`) VALUES
-(12, 1, 2, 123456, 1, 1, ''),
-(14, 1, 2, 111111, 1, 1, ''),
-(15, 1, 1, 100000, 1, 2, ''),
-(16, 1, 1, 123457, 1, 1, ''),
-(17, 1, 2, 131313, 1, 1, ''),
-(18, 1, 1, 456789, 1, 1, ''),
-(22, 1, 2, 456719, 1, 2, ''),
-(26, 1, 2, 123123, 2, 1, ''),
-(29, 1, 1, 554466, 1, 1, ''),
-(30, 1, 1, 123445, 1, 2, '');
+INSERT INTO `stock` (`stock_id`, `vendor`, `unit`, `item_id`, `type_item`, `type_catagories`, `img_stock`) VALUES
+(31, 1, 2, 3, 1, 1, ''),
+(32, 2, 1, 4, 2, 2, ''),
+(33, 4, 2, 5, 3, 3, ''),
+(34, 3, 1, 8, 4, 5, ''),
+(35, 4, 2, 9, 3, 4, ''),
+(36, 1, 1, 10, 4, 5, ''),
+(37, 3, 2, 11, 3, 4, ''),
+(39, 3, 1, 13, 2, 3, '');
 
 -- --------------------------------------------------------
 
@@ -288,7 +286,13 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `us
 (16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 4, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxx'),
 (17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '', 1, 'xxx', 'xxx', '08xxxxxxx'),
 (18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 1, 3, '', 1, 'xxx', 'xxx', '08xxxxxxx'),
-(19, 'test4@gmail.com', '$2y$10$jG8VacG.qvqGSIFgKwer2e4R3N8UVvQKQoUVUtsRQhPwanX8X1ggK', 1, 4, '', 1, 'xxxx', 'xxx', '08xxxxxxx');
+(19, 'test4@gmail.com', '$2y$10$jG8VacG.qvqGSIFgKwer2e4R3N8UVvQKQoUVUtsRQhPwanX8X1ggK', 1, 4, '', 1, 'xxxx', 'xxx', '08xxxxxxx'),
+(20, 'dsfa', '$2y$10$8O.7TiRM4y1me8xmLElwIu8e1.qlGNMhNNlmuj15ag6umSJ80O2cW', 11, 3, '', 2, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
+(21, 'sdfdsf', '$2y$10$7ApWo3DID.C3.4daGdzP7eWe/3ejwgbv6oxe/mqcMFh6QzMPM.kJO', 11, 3, '', 2, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
+(22, 'asdasd', '$2y$10$BjGd/HBZCMqemdzBkHOoMuxaQbH58nvfKAHjVWkXqa7Nbs8rrOMPG', 11, 3, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
+(23, 'sdlfkh', '$2y$10$VE1x2OgvWG2W7b483ZtxG.MeXfUHEB2SU.h3PUGjBTM7hZyomNkiy', 11, 3, '', 2, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
+(24, 'sdfgsf', '$2y$10$DRqTVs8a825pfgUJSoYZ7eD1ZtWlHLga48xBiqVfE3n/6aiIel2lm', 11, 3, '', 3, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
+(25, 'olsjogfj@gmai.com', '$2y$10$.HTggwckj/A7qtQ0IB19dOfW2.alzUb2eKNluYxtehq/tZ5ElAOGu', 11, 3, '', 2, 'asfdaf', 'asfasf', '08xxxxxxxx');
 
 -- --------------------------------------------------------
 
@@ -381,7 +385,7 @@ ALTER TABLE `prefix`
 -- Indexes for table `stock`
 --
 ALTER TABLE `stock`
-  ADD PRIMARY KEY (`id_stock`);
+  ADD PRIMARY KEY (`stock_id`);
 
 --
 -- Indexes for table `type_name`
@@ -470,7 +474,7 @@ ALTER TABLE `prefix`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `type_name`
@@ -488,7 +492,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `user_stock`
