@@ -53,18 +53,13 @@
     <?php include('../components/header.php');?>
   </head>
   <body>
-    
     <?php include('../components/nav_stock.php'); ?>
-
     <header>
-    
       <div class="display-3 text-xl-center">
         <H2>เพิ่มสาขา</H2>  
       </div>
-
     </header>
     <hr><br>
-
     <?php include('../components/content.php')?>
     <?php 
          if (isset($errorMsg)) {
@@ -73,8 +68,6 @@
             <strong>Wrong! <?php echo $errorMsg; ?></strong>
         </div>
     <?php } ?>
-    
-
     <?php 
          if (isset($insertMsg)) {
     ?>
@@ -93,7 +86,6 @@
                     <a href="set_branch.php" class="btn btn-outline-danger">reset</a>
     </div>
     </form>
-  
   <hr>
   <div class="text-center">
     <H2>
@@ -108,7 +100,6 @@
         <th scope="col">ชื่อสาขา</th>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
-      
       </tr>
     </thead>
     <tbody>
@@ -126,10 +117,7 @@
       </tr>
     </tbody>
   </table>
-   </div>
-
-      
-   
+   </div>  
    <?php include('../components/footer.php')?>
    
    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

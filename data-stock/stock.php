@@ -2,6 +2,8 @@
     require_once('../database/db.php');
     if (isset($_REQUEST['save'])) {
       $vendor = $_REQUEST['txt_vendor'];
+      $check_code = $_REQUEST['text_code_new'];
+         
       $unit = $_REQUEST['txt_unit'];
       $code_item = $_REQUEST['txt_code_item'];
       $type_item = $_REQUEST['txt_type_item'];
@@ -140,7 +142,7 @@
                 <div class="card-header">
                 <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
                 <div class="mb-3">
-                <input type="text"  value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" >
+                <input type="text"  name="text_code_new"value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" >
                 <input type="text"  name="txt_code_item" value="<?php echo$item_id?>"hidden>
               </div>
                 <div class="row g-3">

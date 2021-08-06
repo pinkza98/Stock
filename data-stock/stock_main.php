@@ -86,7 +86,7 @@
           ORDER BY stock_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-    ?>
+      ?>
       <tr  class="table-light">
         <td><?php echo $row["code_item"]; ?></td>
          <td><?php echo $row["catagories_name"]; ?></td>
@@ -96,8 +96,8 @@
          <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>    
         <!-- <td><?php echo $row["code_item"]; ?></td> -->
-        <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-outline-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+        <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>
+         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
         <?php } ?>
       </tr>
     </tbody>
