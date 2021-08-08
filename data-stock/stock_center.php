@@ -96,7 +96,7 @@
     <header>
 
         <div class="display-3 text-xl-center">
-            <H2>นับสต๊อกของสาขา</H2>
+            <H2>นับสต๊อกของส่วนกลาง</H2>
         </div>
     </header>
     <hr><br>

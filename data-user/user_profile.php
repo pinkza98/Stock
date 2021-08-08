@@ -75,6 +75,10 @@
     </div>
     <?php } ?>
     <div class="container emp-profile">
+        <div class="container text-center">
+            <h2>ข้อมูลส่วนตัว</h2>
+        </div>
+        <hr>
         <form method="post">
             <div class="row">
                 <div class="col-md-4">
@@ -87,12 +91,12 @@
                 <div class="col-md-6">
                     <div class="profile-head">
                         <h5>
-                         ชื่อ-สกุล   <?php echo $row_session['user_prefix']; ?>  <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?>
+                         ชื่อ-สกุล   <?php echo $row_session['prefix_name']; ?>  <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?>
                         </h5>
                         <h6>
-                         สาขา :  <?php echo $row_session['user_bn'] ?>
+                         สาขา :  <?php echo $row_session['bn_name'] ?>
                         </h6>
-                        <p class="proile-rating">ตำแหน่ง : <span><?php echo $row_session['user_lv'] ?> </span></p>
+                        <p class="proile-rating">ตำแหน่ง : <span><?php echo $row_session['level_name'] ?> </span></p>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
