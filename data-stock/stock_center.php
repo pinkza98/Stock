@@ -166,83 +166,76 @@
                             <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
                             <div class="mb-3">
                                 <input type="text" name="text_code_new" value="<?php echo$code_item?>"
-                                    class="form-control" placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด">
+                                    class="form-control" placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" disabled>
                                 <input type="text" name="txt_code_item" value="<?php echo$item_id?>" hidden>
                             </div>
                             <div class="row g-3">
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" name="txt_item_name"
-                                        value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ">
+                                        value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ"disabled>
                                 </div>
                                 <div class="col-sm">
                                     <input type="text" class="form-control" name="txt_price"
-                                        value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา">
+                                        value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา"disabled>
                                 </div>
                                 <div class="col-sm">
                                     <input type="text" class="form-control" value="<?php echo$unit_name?>"
-                                        placeholder="ต่อหน่วย" aria-label="หน่วย">
+                                        placeholder="ต่อหน่วย" aria-label="หน่วย" disabled>
                                     <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
                                 </div>
                             </div>
                             <div class="row g-2">
                                 <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
-                                <div class="col-sm-8">
-                                    <select class="form-select" name="txt_type_item"
-                                        aria-label="Default select example">
-                                        <option value="" selected>-- เลือก --</option>
-                                        <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM type_name");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <option value="<?php echo$row['type_id']?>"><?php echo$row['type_name']?>
-                                        </option>
-                                        <?php }?>
-                                    </select>
+                                <div class="col-sm-6">
+                                    <?php   
+                                        $select_stmt = $db->prepare("SELECT * FROM type_name");
+                                        $select_stmt->execute();
+                                    ?>
+                                    <input type="text" class="form-control" value="<?php echo$unit_name?>"
+                                        placeholder="type" aria-label="หน่วย"disabled>
+                                    <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
                                 </div>
-                                <div class="col-sm-4">
-                                    <select class="form-select" name="txt_type_catagories"
-                                        aria-label="Default select example">
-                                        <option value="" selected>-- เลือก --</option>
-                                        <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM catagories");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <option value="<?php echo$row['catagories_id']?>">
-                                            <?php echo$row['catagories_name']?></option>
-                                        <?php }?>
-                                    </select>
+                                <div class="col-sm-6">
+                                    <?php   
+                                        $select_stmt = $db->prepare("SELECT * FROM catagories");
+                                        $select_stmt->execute();
+                                    ?>
+                                    <input type="text" class="form-control" value="<?php echo$unit_name?>"
+                                        placeholder="Catagories" aria-label="หน่วย"disabled>
+                                    <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="formGroupExampleInput2" class="form-label">ผู้ขาย</label>
-                                <select name="txt_vendor" class="form-select" aria-label="Default select example">
-                                    <option value="" selected>-- เลือก --</option>
-
-                                    <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM vendor");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-                                    <option value="<?php echo$row['vendor_id']?>"><?php echo$row['vendor_name']?>
-                                    </option>
-                                    <?php }?>
-
-                                    </option>
-                                </select>
+                                <?php   
+                                    $select_stmt = $db->prepare("SELECT * FROM vendor");
+                                    $select_stmt->execute();
+                                ?>
+                                <input type="text" class="form-control" value="<?php echo$unit_name?>"
+                                    placeholder="ผู้ขาย" aria-label="หน่วย"disabled>
+                                <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
                             </div>
+                            <div class="row g-3">
+                                <div class="col-sm-4">
+                                <label class="form-label " for="customFile">รูปภาพประกอบ</label><br>
+                                </div>
+                                <div class="col-sm-4">
+                                    
+                                    <img class="me-3" src="" style="" width="200" height="200">
+                                </div>
+                                <div class="col-sm-4">
+                                </div>
+                                <br>
 
-                            <label class="form-label " for="customFile">รูปภาพประกอบ</label><br>
-                            <img class="me-3" src="" style="" width="200" height="200">
-                            <br>
-
+                            </div>
                         </div>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <?php include('../components/footer.php')?>
+  
 
 
     <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
