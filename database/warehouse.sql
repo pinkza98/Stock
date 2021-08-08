@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2021 at 01:32 PM
+-- Generation Time: Aug 08, 2021 at 05:49 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -61,7 +61,8 @@ CREATE TABLE `branch_stock` (
   `user_id` int(11) NOT NULL,
   `stock_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `exp_date` date NOT NULL,
+  `exd_date` date NOT NULL,
   `bn_stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -93,18 +94,6 @@ INSERT INTO `catagories` (`catagories_id`, `catagories_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `images`
---
-
-CREATE TABLE `images` (
-  `id` int(11) NOT NULL,
-  `name` varchar(80) NOT NULL,
-  `image` varchar(80) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `item`
 --
 
@@ -129,7 +118,8 @@ INSERT INTO `item` (`item_id`, `item_name`, `unit`, `price_stock`, `code_item`) 
 (10, 'รีทินเนอร์(แดง)', 1, '50.00', 110101),
 (11, 'ถังน้ำ(แดง)', 2, '50.00', 123123),
 (12, 'กาแฟ(ไทย-ลาว)', 1, '50.00', 554466),
-(13, 'กาแฟ++', 1, '50.00', 123445);
+(13, 'กาแฟ++', 1, '50.00', 123445),
+(14, 'เมจิก(น้ำเงิน)', 1, '125.75', 852147);
 
 -- --------------------------------------------------------
 
@@ -212,7 +202,7 @@ INSERT INTO `stock` (`stock_id`, `vendor`, `unit`, `item_id`, `type_item`, `type
 (35, 4, 2, 9, 3, 4, ''),
 (36, 1, 1, 10, 4, 5, ''),
 (37, 3, 2, 11, 3, 4, ''),
-(39, 3, 1, 13, 2, 3, '');
+(40, 2, 1, 14, 4, 6, '123.jpg');
 
 -- --------------------------------------------------------
 
@@ -279,20 +269,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`) VALUES
-(6, 'admin_center@gmail.com', '$2y$10$g14sPahHoU.KezKT8/a4DuSH0adWEO97hP/J.R4x22oQ4P46dSjb2', 1, 1, '', 1, 'Plus Dental', 'Clinic', '08xxxxxxxx'),
-(9, 'pinkza88@gmail.com ', '$2y$10$2NUrsj5DeaJIMXToWFK1Su.6EmT3X6tEiYB7Jn8XqjbD/VDlvDVsi', 1, 1, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(12, 'it_center@gmail.com', '$2y$10$Cdfn4iJnpaHpZXNftHRMketGoteUNKKadaJsHbDDuNCEmFNh75oq.', 1, 1, '', 1, 'เจ้าหน้าที่', 'ไอที(1)', '08xxxxxxxx'),
-(15, 'poniaza1@gmail.com', '$2y$10$XxUyl3qHQ89G2durOcW8AOEqYpdZX4G81ocWTE3CL5x3jJcY7qNPm', 1, 2, '', 1, 'อรรถพล', 'สีชา', '08xxxxxxx'),
-(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 4, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxx'),
-(17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '', 1, 'xxx', 'xxx', '08xxxxxxx'),
-(18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 1, 3, '', 1, 'xxx', 'xxx', '08xxxxxxx'),
-(19, 'test4@gmail.com', '$2y$10$jG8VacG.qvqGSIFgKwer2e4R3N8UVvQKQoUVUtsRQhPwanX8X1ggK', 1, 4, '', 1, 'xxxx', 'xxx', '08xxxxxxx'),
-(20, 'dsfa', '$2y$10$8O.7TiRM4y1me8xmLElwIu8e1.qlGNMhNNlmuj15ag6umSJ80O2cW', 11, 3, '', 2, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(21, 'sdfdsf', '$2y$10$7ApWo3DID.C3.4daGdzP7eWe/3ejwgbv6oxe/mqcMFh6QzMPM.kJO', 11, 3, '', 2, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(22, 'asdasd', '$2y$10$BjGd/HBZCMqemdzBkHOoMuxaQbH58nvfKAHjVWkXqa7Nbs8rrOMPG', 11, 3, '', 1, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(23, 'sdlfkh', '$2y$10$VE1x2OgvWG2W7b483ZtxG.MeXfUHEB2SU.h3PUGjBTM7hZyomNkiy', 11, 3, '', 2, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(24, 'sdfgsf', '$2y$10$DRqTVs8a825pfgUJSoYZ7eD1ZtWlHLga48xBiqVfE3n/6aiIel2lm', 11, 3, '', 3, 'นายอรรถพล', 'สีชา', '08xxxxxxxx'),
-(25, 'olsjogfj@gmai.com', '$2y$10$.HTggwckj/A7qtQ0IB19dOfW2.alzUb2eKNluYxtehq/tZ5ElAOGu', 11, 3, '', 2, 'asfdaf', 'asfasf', '08xxxxxxxx');
+(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 1, '08xxxxxxx', 1, 'นายอรรถพล', 'สีชา', '@line'),
+(17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '08xxxxxxx', 1, 'xxx', 'xxx', '@line'),
+(18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 4, 3, '08xxxxxxx', 1, 'xxx', 'xxx', '@line'),
+(26, 'test4@gmail.com', '$2y$10$s.jKx.NLyF.Y38HSqeHxQur8ougH39UlAm86crCkL.DT6g6/.XIoK', 11, 4, '08xxxxxxx', 1, 'test', '4', '@line'),
+(27, 'test_A.1@gmail.com', '$2y$10$1si5eHc/xTEErV0ZhzRQi.qSR6re.CibMGRrlZeHiscCAgUCOkjzy', 10, 1, '08xxxxxxx', 2, 'test', 'test', '@line'),
+(28, 'test_A.2@gmail.com', '$2y$10$NaH9MNQHnkDh.duR.bcfOelbXpfUtg6MfhXUgLyXKPJrJZvtNJTle', 10, 2, '08xxxxxxx', 3, 'test', 'test', '@line'),
+(29, 'test_A.3@gmail.com', '$2y$10$86ArcBx1ml3QI96qa7Vya.h.rAcXiQvv8QQaCrY4XEuq9b09k.mTe', 10, 1, '08xxxxxxx', 3, 'test', 'test', '@line');
 
 -- --------------------------------------------------------
 
@@ -349,12 +332,6 @@ ALTER TABLE `branch_stock`
 --
 ALTER TABLE `catagories`
   ADD PRIMARY KEY (`catagories_id`);
-
---
--- Indexes for table `images`
---
-ALTER TABLE `images`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `item`
@@ -441,16 +418,10 @@ ALTER TABLE `catagories`
   MODIFY `catagories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `images`
---
-ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -474,7 +445,7 @@ ALTER TABLE `prefix`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `type_name`
@@ -492,7 +463,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `user_stock`
