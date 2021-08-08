@@ -1,15 +1,15 @@
 <?php 
-include('../database/db.php');
+include_once('../database/db.php');
 if (!isset($_SESSION['user_login'])) {
-                header("location:login.php");
+                header("location:../login.php");
             }
 
             $id = $_SESSION['user_login'];
 
-            $select_stmt = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id  WHERE user_id = :uid");
-            $select_stmt->execute(array(':uid' => $id));
-            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-            extract($row);
+            $select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id  WHERE user_id = :uid");
+            $select_session->execute(array(':uid' => $id));
+            $row_session = $select_session->fetch(PDO::FETCH_ASSOC);
+            extract($row_session);
             if (isset($_SESSION['user_login'])) {
   ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light text-dark">
@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_login'])) {
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">คลังสาขา</a></li>
               <?php 
-                if(isset($row['user_lv'])<=2){
+                if(isset($row_session['user_lv'])<=2){
               ?>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">คลังศูนย์</a></li>
@@ -40,7 +40,7 @@ if (!isset($_SESSION['user_login'])) {
             </ul>
           </li>
           <?php 
-            if(isset($row['user_lv'])>=3){
+            if(isset($row_session['user_lv'])>=3){
           ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,7 +63,7 @@ if (!isset($_SESSION['user_login'])) {
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
           </li>
           <?php 
-                if(isset($row['user_lv'])<=3){
+                if(isset($row_session['user_lv'])<=3){
           ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -87,7 +87,7 @@ if (!isset($_SESSION['user_login'])) {
             </ul>
           </li>
           <li class="nav-item" >
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">คุณ <?php echo $row['user_fname']; ?>  <?php echo $row['user_lname'];?> | สถานะ : <?php echo $row['level_name']; ?> สาขา : <?php echo $row['bn_name']; }?></a>
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">คุณ <?php echo $row_session['user_fname']; ?>  <?php echo $row_session['user_lname'];?> | สถานะ : <?php echo $row_session['level_name']; ?> สาขา : <?php echo $row_session['bn_name']; }?></a>
           </li>
         </ul>
       </div>

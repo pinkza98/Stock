@@ -78,11 +78,11 @@
     <tbody >
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM stock  
-           INNER JOIN item ON stock.item_id = item.item_id 
-           INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-           INNER JOIN unit ON stock.unit = unit.unit_id  
+          INNER JOIN item ON stock.item_id = item.item_id 
+          INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+          INNER JOIN unit ON stock.unit = unit.unit_id  
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
-           INNER JOIN type_name ON stock.type_item = type_name.type_id
+          INNER JOIN type_name ON stock.type_item = type_name.type_id
           ORDER BY stock_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {

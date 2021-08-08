@@ -3,18 +3,23 @@
     if (isset($_REQUEST['save'])) {
       $vendor = $_REQUEST['txt_vendor'];
       $check_code = $_REQUEST['text_code_new'];
-         
       $unit = $_REQUEST['txt_unit'];
       $code_item = $_REQUEST['txt_code_item'];
       $type_item = $_REQUEST['txt_type_item'];
       $type_catagories = $_REQUEST['txt_type_catagories'];
       $item_name = $_REQUEST['txt_item_name'];
       $price = $_REQUEST['txt_price'];
+
+      $image_file = $_FILES['txt_file']['name'];  
+      $type = $_FILES['txt_file']['type'];
+      $size = $_FILES['txt_file']['size'];
+      $temp = $_FILES['txt_file']['tmp_name'];
+      $path = "img_stock/" . $image_file; // set upload folder path
+      
       $select_stmt = $db->prepare("SELECT * FROM stock WHERE item_id = :code_item_row");
       $select_stmt->bindParam(':code_item_row', $code_item);
       $select_stmt->execute();
 
- 
       if ($select_stmt->fetchColumn() > 0){
         $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
       }
@@ -36,15 +41,29 @@
           $errorMsg = "Please enter vendor ";
       }elseif ($unit==0) {
         $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      }else {
-          try {
+      } elseif (!empty($image_file)) {
+          if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
+              if (!file_exists($path)) { // check file not exist in your upload folder path
+                  if ($size < 5000000) { // check file size 5MB
+                      move_uploaded_file($temp, 'img_stock/'.$image_file); // move upload file temperory directory to your upload folder
+                  } else {
+                      $errorMsg = "รองรับขนาดของรูปภาพ ไม่เกิน 5MB"; // error message file size larger than 5mb
+                  }
+              } else {
+                  $errorMsg = "ไฟล์อัพโหลดปลายทาง ไม่มีอยู่จริง! โปรดตรวจสอบ Folder"; // error message file not exists your upload folder path
+              }
+          } else {
+              $errorMsg = "ไฟล์รูปภาพที่ อัพโหลดรองรับเฉพาะนามสกุลไฟล์ JPG,JPEG,PNG และ Git เท่านั้น ";
+          }
+      } try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories)");
+                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories,img_stock) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories,:img_stock)");
                   $insert_stmt->bindParam(':vendor', $vendor);
                   $insert_stmt->bindParam(':unit', $unit);
                   $insert_stmt->bindParam(':code_item', $code_item);
                   $insert_stmt->bindParam(':type_item', $type_item);
                   $insert_stmt->bindParam(':type_catagories', $type_catagories);
+                  $insert_stmt->bindParam(':img_stock', $image_file);
                   if ($insert_stmt->execute()) {
                       $insertMsg = "Insert Successfully...";
                       header("refresh:1;stock.php");
@@ -53,7 +72,7 @@
           } catch (PDOException $e) {
               echo $e->getMessage();
           }
-      }
+      
   }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
@@ -200,7 +219,7 @@
               </div>
               
                 <label class="form-label" for="customFile">รูปภาพประกอบ</label>
-                <input type="file"  name='files[]' class="form-control" id="customFile" multiple  />
+                <input type="file"  name='txt_file' class="form-control" id="customFile" multiple  />
                 <br>
               <div class="mb-3">    
                 <input type="submit" name="save" class="btn btn-outline-success" value="Insert">

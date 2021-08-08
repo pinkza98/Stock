@@ -3,16 +3,13 @@ include('database/db.php');
 if (!isset($_SESSION['user_login'])) {
                 header("location:login.php");
             }
-
             $id = $_SESSION['user_login'];
-
             $select_stmt = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id  WHERE user_id = :uid");
             $select_stmt->execute(array(':uid' => $id));
             $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
             extract($row);
             if (isset($_SESSION['user_login'])) {
   ?>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light text-dark ">
     <div class="container-fluid iconav-slider">
       <div class="img-resize" ><img class="rounded float-start" src="components/images/logo.png" ></div>
@@ -35,7 +32,7 @@ if (!isset($_SESSION['user_login'])) {
               <li><a class="dropdown-item" href="data-stock/stock_branch.php">คลังสาขา</a></li>
               
               <?php 
-                if(isset($row['user_lv'])>2){
+                if($row['user_lv']>2){
               ?>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">คลังศูนย์</a></li>
@@ -43,7 +40,7 @@ if (!isset($_SESSION['user_login'])) {
             </ul>
           </li>
           <?php 
-                if(isset($row['user_lv'])>2){
+                if($row['user_lv']>=3){
               ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,7 +49,9 @@ if (!isset($_SESSION['user_login'])) {
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="data-stock/stock_main.php">จัดการรายการคลังหลัก</a></li>
               <li><a class="dropdown-item" href="data-stock/stock.php">จัดรายการ คลัง</a></li>
+              <?php if($row['user_lv']>=4){?>
               <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ สาขา</a></li>
+              <?php } ?>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="data-stock/item.php">จัดการรายชื่อรายการ</a></li>
               <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการvendor</a></li>
@@ -67,7 +66,7 @@ if (!isset($_SESSION['user_login'])) {
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
           </li>
           <?php 
-                if(isset($row['user_lv'])>=2){
+                if($row['user_lv']>=2){
           ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -77,8 +76,10 @@ if (!isset($_SESSION['user_login'])) {
 
               <li><a class="dropdown-item" href="data-user/user_center.php">สมาชิกศูนย์</a></li>
               <li><a class="dropdown-item" href="data-user/user_bn.php">สมาชิกสาขา</a></li>
+              <?php if($row['user_lv']>3){?>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
+              <?php } ?>
             </ul>
           </li>
           <?php } ?>

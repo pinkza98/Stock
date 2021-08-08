@@ -51,7 +51,8 @@
               if (!isset($errorMsg)) {
                   $password = $password1;
                   $new_password = password_hash($password, PASSWORD_DEFAULT);
-                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel) VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_tel,:user_line)");
+                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel) 
+                  VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_line,:user_tel)");
                   $insert_stmt->bindParam(':username', $email);
                   $insert_stmt->bindParam(':password', $new_password);
                   $insert_stmt->bindParam(':user_prefix', $prefix);
@@ -113,7 +114,7 @@
       <div class="row ">
         <div class="col-md-12">
             <form method='post' enctype='multipart/form-data'>
-              <div class="card bg-transparent text-light" style="background-image: url('../components/images/a6ZcNv.jpg');opacity: 0.9;"  >
+              <div class="card bg-dark text-light">
                 <div class="card-header">
                 <label for="formGroupExampleInput" class="form-label"><b>สมัคร</b></label>
                 <div class="row g-3">
@@ -169,7 +170,6 @@
                       $select_stmt->execute();
                       while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
-                    
                     <option value="<?php echo $row['level_id'];?>"  class="text-wrap"><?php echo $row['level_name'];?></option>
                   <?php } ?>
                   </select>
@@ -180,10 +180,14 @@
                   <div class="col-sm-3">
                     <input type="text" class="form-control" name="txt_line"  value="" placeholder="ID Line">
                   </div>
+                  <div class="col-sm-6 ">
+                  <label class="form-label" for="customFile">รูปภาพ</label>
+                <input type="file"  name='files[]' class="form-control" id="customFile" multiple  />
+                </div>
               </div>
               <div class="mb-4  g-4 text-center">    
-                <input type="submit" name="register" class="btn btn-success" value="Register">
-                <a href="register.php" class="btn btn-danger">Reset</a>
+                <input type="submit" name="register" class="btn btn-outline-success" value="Register">
+                <a href="register.php" class="btn btn-outline-danger">Reset</a>
               </div>
                 </div>
               </div>

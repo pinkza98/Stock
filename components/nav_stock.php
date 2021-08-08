@@ -1,7 +1,7 @@
 <?php 
 include('../database/db.php');
 if (!isset($_SESSION['user_login'])) {
-                header("location:login.php");
+                header("location:../login.php");
             }
             $id = $_SESSION['user_login'];
             $select_stmt = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id  WHERE user_id = :uid");

@@ -40,50 +40,54 @@
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
-             <th scope="col" class="text-center">หมวดหมู่</th>
-             <th scope="col" class="text-center">ชื่อรายการ</th>
-             <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ราคา</th>
-             <th scope="col" class="text-center">ชนิด</th>
+            <th scope="col" class="text-center">หมวดหมู่</th>
+            <th scope="col" class="text-center">ชื่อรายการ</th>
+            <th scope="col" class="text-center">หน่วยนับ</th>
+            <th scope="col" class="text-center">ราคา</th>
+            <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>  
-            <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
+            <th scope="col" class="text-center">รูปภาพประกอบ</th>
             
         </tr>
     </thead>
     <tbody >
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM stock  
-           INNER JOIN item ON stock.item_id = item.item_id 
-           INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-           INNER JOIN unit ON stock.unit = unit.unit_id  
+          INNER JOIN item ON stock.item_id = item.item_id 
+          INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+          INNER JOIN unit ON stock.unit = unit.unit_id  
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
-           INNER JOIN type_name ON stock.type_item = type_name.type_id
+          INNER JOIN type_name ON stock.type_item = type_name.type_id
           ORDER BY stock_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr  class="table-light">
         <td><?php echo $row["code_item"]; ?></td>
-         <td><?php echo $row["catagories_name"]; ?></td>
-         <td><?php echo $row["item_name"]; ?></td>
+        <td><?php echo $row["catagories_name"]; ?></td>
+        <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
-         <td><?php echo $row["price_stock"]; ?></td>
-         <td><?php echo $row["type_name"]; ?></td>
-        <td><?php echo $row["vendor_name"]; ?></td>    
-        <!-- <td><?php echo $row["code_item"]; ?></td> -->
+        <td><?php echo $row["price_stock"]; ?></td>
+        <td><?php echo $row["type_name"]; ?></td>
+        <td><?php echo $row["vendor_name"]; ?></td>   
+        <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
+        <td ><a href="data-stock/img_stock/<?=$row['img_stock']?>"><img src="data-stock/img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></a></td>
+        <?php }else{?>
+          <td>-</td>
+          <?php }?>
         <?php } ?>
       </tr>
     </tbody>
     <tfoot  a>
             <tr class="table-active">
             <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
-             <th scope="col" class="text-center">หมวดหมู่</th>
-             <th scope="col" class="text-center">ชื่อรายการ</th>
-             <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ราคา</th>
-             <th scope="col" class="text-center">ชนิด</th>
+            <th scope="col" class="text-center">หมวดหมู่</th>
+            <th scope="col" class="text-center">ชื่อรายการ</th>
+            <th scope="col" class="text-center">หน่วยนับ</th>
+            <th scope="col" class="text-center">ราคา</th>
+            <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
-            <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
+            <th scope="col" class="text-center">รูปภาพประกอบ</th>
             </tr>
         </tfoot>
   </table>
