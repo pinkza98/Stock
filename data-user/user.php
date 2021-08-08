@@ -52,7 +52,7 @@
   </head>
   <body>
     
-    <?php include('../components/nav_stock.php'); ?>
+    <?php include('../components/nav_user.php'); ?>
 
     </header>
     <hr><br>
