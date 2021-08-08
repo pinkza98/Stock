@@ -70,17 +70,27 @@
         <th scope="col">ตำแหน่ง</th>
         <th scope="col">เบอร์โทร</th>
         <th scope="col">ไลน์ไอดี</th>
+        <?php if($row_session["user_lv"]>=3 && $row_session["bn_id"]!=1) {?>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
+        <?php } ?>
       </tr>
     </thead>
     <tbody>
     <?php 
+    if($row_session['user_bn'] != 1 && $row_session['user_lv']<=2){
           $select_stmt = $db->prepare("SELECT * FROM user 
           INNER JOIN branch ON user.user_bn = branch.bn_id 
           INNER JOIN prefix ON user.user_prefix = prefix.prefix_id 
           INNER JOIN level ON user.user_lv = level.level_id
-          WHERE user.user_bn = branch.bn_id AND user.user_bn != 1");
+          WHERE user.user_bn = branch.bn_id AND user.user_bn != 1 AND user.user_bn ='".$row_session["user_bn"]."'");
+          }else{
+            $select_stmt = $db->prepare("SELECT * FROM user 
+            INNER JOIN branch ON user.user_bn = branch.bn_id 
+            INNER JOIN prefix ON user.user_prefix = prefix.prefix_id 
+            INNER JOIN level ON user.user_lv = level.level_id
+            WHERE user.user_bn = branch.bn_id AND user.user_bn != 1 AND  user.user_lv <=3 AND user_id != '".$row_session["user_id"]."'");
+          }
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
@@ -91,7 +101,7 @@
         <td><?php echo $row["level_name"]; ?></td>
         <td><?php echo $row["user_tel"]; ?></td>
         <td><?php echo $row["user_line"]; ?></td>
-        <?php if($row["user_lv"]>=3 && $row["bn_id"]!=1) {?>
+        <?php if($row_session["user_lv"]>=3 && $row_session["bn_id"]!=1) {?>
         <td><a href="edit/user_edit.php?update_id=<?php echo $row["user_id"]; ?>" class="btn btn-outline-warning">View</a></td>
         <td><a href="?delete_id=<?php echo $row["user_id"];?>" class="btn btn-outline-danger">Delete</a></td>
         <?php }?>
@@ -106,9 +116,11 @@
           <th scope="col">ตำแหน่ง</th>
           <th scope="col">เบอร์โทร</th>
           <th scope="col">ไลน์ไอดี</th>
+          <?php if($row_session["user_lv"]>=3 && $row_session["bn_id"]!=1) {?>
           <th scope="col">แก้ไข</th>
           <th scope="col">ลบ</th>    
             <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
+            <?php }?>
           </tr>
         </tfoot>
   </table>

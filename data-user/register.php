@@ -43,8 +43,6 @@
         $errorMsg = "กรุณาเลือก สาขาของท่าน ";
       }elseif (empty($user_lv)) {
       $errorMsg = "กรุณาเลือกระดับเจ้าหน้าที่ของท่าน";
-      }elseif (empty($tel)) {
-      $errorMsg = "กรุณาใส่เบอร์โทร";
       }
       else {
           try {
@@ -133,9 +131,9 @@
                 <select name="txt_prefix" class="form-select">
                     <option value=""  class="text-wrap"selected hidden> คำนำหน้า</option>
                     <?php 
-                      $select_stmt = $db->prepare("SELECT * FROM prefix ORDER BY prefix_id DESC");
-                      $select_stmt->execute();
-                      while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                      $select_prefix = $db->prepare("SELECT * FROM prefix ORDER BY prefix_id DESC");
+                      $select_prefix->execute();
+                      while ($row = $select_prefix->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                     <option value="<?php echo $row['prefix_id'];?>"  class="text-wrap"><?php echo $row['prefix_name'];?></option>
                   <?php } ?>
@@ -153,8 +151,11 @@
                   <div class="col-sm-3">
                   <select name="txt_user_bn" id="user_bn"class="form-select ">
                   <option value=""  class="text-wrap"selected hidden>-------- สาขา --------</option>
-                  <?php 
-                    $select_stmt = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
+                  <?php if($row_session['user_bn'] ==1){
+                    $select_stmt = $db->prepare("SELECT * FROM branch  ORDER BY bn_id DESC");
+                  }else{
+                    $select_stmt = $db->prepare("SELECT * FROM branch  WHERE bn_id = '".$row_session["user_bn"]."' ORDER BY bn_id DESC");
+                  }
                     $select_stmt->execute();
                     while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                   ?>
@@ -166,12 +167,23 @@
                   <select name="txt_user_lv" id="user_lv"class="form-select ">
                     <option value=""  class="text-wrap"selected hidden>----- ระดับผู้ใช้งาน --------</option>
                     <?php 
-                      $select_stmt = $db->prepare("SELECT * FROM level ORDER BY level_id DESC");
-                      $select_stmt->execute();
-                      while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-                    ?>
-                    <option value="<?php echo $row['level_id'];?>"  class="text-wrap"><?php echo $row['level_name'];?></option>
-                  <?php } ?>
+                    if($row_session['user_lv']>=2){
+                     ?>
+                    <option value="1"  class="text-wrap">พนักงาน(Plus Dental Clinic)</option>
+                   <?php } ?>
+                   <?php 
+                    if($row_session['user_lv']>=3){
+                     ?>
+                    <option value="2"  class="text-wrap">ผู้จัดการสาขา</option>
+                    <?php } ?>
+                    <?php 
+                    if($row_session['user_lv']>=4){
+                     ?>
+                    <option value="3"  class="text-wrap">ผู้จัดการเขต</option>
+                    <option value="4"  class="text-wrap">แอดมิน</option>
+                    <?php } ?>
+                    
+                    
                   </select>
                   </div>
                   <div class="col-sm-3">

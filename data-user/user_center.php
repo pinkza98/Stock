@@ -84,7 +84,7 @@
           INNER JOIN branch ON user.user_bn = branch.bn_id 
           INNER JOIN prefix ON user.user_prefix = prefix.prefix_id 
           INNER JOIN level ON user.user_lv = level.level_id
-          WHERE user.user_bn = branch.bn_id AND user.user_bn = 1");
+          WHERE user.user_bn = branch.bn_id AND user.user_bn = 1 AND user.user_id != '".$row_session["user_id"]."'");
           $select_user_bn->execute();
           while ($row = $select_user_bn->fetch(PDO::FETCH_ASSOC)) {
     ?>
