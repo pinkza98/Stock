@@ -43,8 +43,24 @@
         $errorMsg = "กรุณาเลือก สาขาของท่าน ";
       }elseif (empty($user_lv)) {
       $errorMsg = "กรุณาเลือกระดับเจ้าหน้าที่ของท่าน";
-      }
-      else {
+      } elseif (!empty($image_file)) {
+        if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
+            if (!file_exists($path)) { // check file not exist in your upload folder path
+                if ($size < 5000000) { // check file size 5MB
+                    move_uploaded_file($temp, 'img_stock/'.$image_file); // move upload file temperory directory to your upload folder
+                } else {
+                    $errorMsg = "รองรับขนาดของรูปภาพ ไม่เกิน 5MB"; // error message file size larger than 5mb
+                }
+            } else {
+                $errorMsg = "ไฟล์อัพโหลดปลายทาง ไม่มีอยู่จริง! โปรดตรวจสอบ Folder"; // error message file not exists your upload folder path
+            }
+        } else {
+            $errorMsg = "ไฟล์รูปภาพที่ อัพโหลดรองรับเฉพาะนามสกุลไฟล์ JPG,JPEG,PNG และ Git เท่านั้น ";
+        }
+    }else if(empty($image_file)){
+      $image_file = "plus.png";
+    }
+    else{
           try {
               if (!isset($errorMsg)) {
                   $password = $password1;

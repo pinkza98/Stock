@@ -70,9 +70,7 @@
         <th scope="col">ตำแหน่ง</th>
         <th scope="col">เบอร์โทร</th>
         <th scope="col">ไลน์ไอดี</th>
-        <?php 
-          if($row_session['user_lv']>3){
-        ?>
+        <?php if($row_session["user_lv"]>=4 && $row_session["bn_id"]==4) {?>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
         <?php }?>

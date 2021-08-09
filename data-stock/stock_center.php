@@ -1,77 +1,46 @@
 <?php 
     require_once('../database/db.php');
     if (isset($_REQUEST['save'])) {
-      $vendor = $_REQUEST['txt_vendor'];
-      $check_code = $_REQUEST['text_code_new'];
-      $unit = $_REQUEST['txt_unit'];
-      $code_item = $_REQUEST['txt_code_item'];
-      $type_item = $_REQUEST['txt_type_item'];
-      $type_catagories = $_REQUEST['txt_type_catagories'];
-      $item_name = $_REQUEST['txt_item_name'];
-      $price = $_REQUEST['txt_price'];
-
-      $image_file = $_FILES['txt_file']['name'];  
-      $type = $_FILES['txt_file']['type'];
-      $size = $_FILES['txt_file']['size'];
-      $temp = $_FILES['txt_file']['tmp_name'];
-      $path = "img_stock/" . $image_file; // set upload folder path
+      $stock_user_id = $_REQUEST['txt_user_id'];
+      $stock_bn_stock= $_REQUEST['txt_user_bn'];
+      $stock_id = $_REQUEST['txt_stock_id'];
+      $stock_quantity = $_REQUEST['txt_quantity'];
+      $exp_date = date('Y-m-d H:i:s');
       
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE item_id = :code_item_row");
-      $select_stmt->bindParam(':code_item_row', $code_item);
-      $select_stmt->execute();
-
-      if ($select_stmt->fetchColumn() > 0){
-        $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
-      }
-      elseif (empty($type_item)) {
-          $errorMsg = "Please enter type item";
+      $exd_date = $_REQUEST['txt_exd_date'];
+     
+      if (empty($stock_quantity)) {
+          $stock_quantity = 1;
       } 
-      elseif(empty($unit)){
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      }
-      elseif(empty($item_name)){
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      }
-      elseif(empty($price)){
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      }
-      elseif(empty($type_catagories)) {
-        $errorMsg = "Please enter type item catagories";
-      }elseif (empty($vendor)) {
-          $errorMsg = "Please enter vendor ";
-      }elseif ($unit==0) {
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      } elseif (!empty($image_file)) {
-          if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
-              if (!file_exists($path)) { // check file not exist in your upload folder path
-                  if ($size < 5000000) { // check file size 5MB
-                      move_uploaded_file($temp, 'img_stock/'.$image_file); // move upload file temperory directory to your upload folder
-                  } else {
-                      $errorMsg = "รองรับขนาดของรูปภาพ ไม่เกิน 5MB"; // error message file size larger than 5mb
-                  }
-              } else {
-                  $errorMsg = "ไฟล์อัพโหลดปลายทาง ไม่มีอยู่จริง! โปรดตรวจสอบ Folder"; // error message file not exists your upload folder path
-              }
-          } else {
-              $errorMsg = "ไฟล์รูปภาพที่ อัพโหลดรองรับเฉพาะนามสกุลไฟล์ JPG,JPEG,PNG และ Git เท่านั้น ";
-          }
-      } try {
+      elseif(empty($exd_date)) {
+        $exd_date = null;
+      }else {
+         try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories,img_stock) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories,:img_stock)");
-                  $insert_stmt->bindParam(':vendor', $vendor);
-                  $insert_stmt->bindParam(':unit', $unit);
-                  $insert_stmt->bindParam(':code_item', $code_item);
-                  $insert_stmt->bindParam(':type_item', $type_item);
-                  $insert_stmt->bindParam(':type_catagories', $type_catagories);
-                  $insert_stmt->bindParam(':img_stock', $image_file);
-                  if ($insert_stmt->execute()) {
-                      $insertMsg = "Insert Successfully...";
-                      header("refresh:1;stock.php");
+                  $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,quantity,exp_date,exd_date,bn_stock) VALUES (:user_id,:stock_id,:quantity,:exp_date,:exd_date,:bn_stock)");
+                  $insert_full_stock->bindParam(':user_id', $stock_user_id);
+                  $insert_full_stock->bindParam(':stock_id', $stock_id);
+                  $insert_full_stock->bindParam(':quantity', $stock_quantity);
+                  $insert_full_stock->bindParam(':exp_date', $exp_date);
+                  $insert_full_stock->bindParam(':exd_date', $exd_date);
+                  $insert_full_stock->bindParam(':exd_date', $exd_date);
+                  $insert_full_stock->bindParam(':bn_stock', $stock_bn_stock);
+                  if ($insert_full_stock->execute()) {
+                      $insertMsg = "เพิ่มข้อมูลสำเร็จ...";
+                      header("refresh:1;stock_center.php");
                   }
-              }
-          } catch (PDOException $e) {
+                  else {
+                    $errorMsg="การส่งข้อมูลเกิด เหตุขัดข้อง";
+                  }
+                }
+                else {
+                    $errorMsg="มีบ้างอย่าง error โปรดแจ้ง แอดมิน";
+                }
+             }
+           catch (PDOException $e) {
               echo $e->getMessage();
           }
+        }
       
   }
 ?>
@@ -113,7 +82,7 @@
         if (isset($insertMsg)) {
     ?>
         <div class="alert alert-success mb-2">
-            <strong>Success! <?php echo $insertMsg; ?></strong>
+            <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
         </div>
         <?php } ?>
         <div class="row">
@@ -124,35 +93,98 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form.group">
-                                    <input type="text" name="get_code_item" class="form-control"
-                                        placeholder=" Enter Code Item" required>
+                                    <?php 
+                                    if($row_session['user_lv']>=3){
+                                        ?>
+                                    <?php 
+                                        $select_bn = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
+                                        $select_bn->execute();
+                                        ?>
+
+                                    <select class="form-select" name="txt_user_bn">
+                                        <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
+                                        </option>
+                                        <?php  while ($row_bn = $select_bn->fetch(PDO::FETCH_ASSOC)) {?>
+                                        <option value="<?php echo$row_bn['bn_id']?>"><?php echo$row_bn['bn_name']?>
+                                        </option>
+                                        <?php } ?>
+                                    </select>
+                                    <?php
+                                    }else{
+                                    ?>
+                                    <select class="form-select" name="txt_user_bn">
+                                        <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
+                                        </option>
+                                    </select>
+                                    <?php }?>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <button name="check" class="btn btn-primary" value="check"
-                                    type="submit">ค้นหาข้อมูล</button>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form.group">
+                                    <input type="text" name="get_code_item" class="form-control"
+                                        placeholder=" รหัสบาร์โค้ด" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form.group">
+                                    <input type="text" name="txt_quantity" value="" class="form-control"
+                                        placeholder="จำนวน">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form.group">
+                                    <input type="text" name="txt_exd_date" class="form-control"
+                                        placeholder="EXD(จำนวนวัน)" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <button name="check" class="btn btn-primary" type="submit">ค้นหาข้อมูล</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
             <?php 
-          $code_item =null;
-          $item_name = null;
-          $unit_name = null;
-          $price_stock = null;
+         
+          if(empty($code_item)){
+            $code_item =null;
+            $item_name = null;
+            $unit_name = null;
+            $stock_id = null;
+            $item_id = null;
+            $price_stock =null;
+            $unit = null;
+            $vendor = null;
+            $type_catagories = null;
+            $type_item = null;
+            
+          }
           if(isset($_POST['check'])){
             $code_item = $_REQUEST['get_code_item'];
+            $stock_quantity = $_REQUEST['txt_quantity'];
+            $exd_date = $_REQUEST['txt_exd_date'];
+            $user_bn = $_REQUEST['txt_user_bn'];
+
             $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
             $select_check ->bindParam(':code_item_row', $code_item);
             $select_check ->execute();
+            $row_item = $select_check->fetch(PDO::FETCH_ASSOC);
+            extract($row_item);
             if ($select_check ->fetchColumn() == 0){
               $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
-            }else{
-            $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $code_item ");
-            $select_stmt->bindParam(':id', $code_item);
+            }
+            
+            else{
+            $select_stmt = $db->prepare("SELECT * FROM stock 
+            INNER JOIN item ON stock.item_id = item.item_id
+            WHERE item_id = $item_id AND stock_id =$item_id");
+            $select_stmt->bindParam(':id', $item_id);
             $select_stmt->execute();
             $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
             extract($row);
@@ -167,75 +199,109 @@
                             <div class="mb-3">
                                 <input type="text" name="text_code_new" value="<?php echo$code_item?>"
                                     class="form-control" placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" disabled>
-                                <input type="text" name="txt_code_item" value="<?php echo$item_id?>" hidden>
+                                <input type="text" name="txt_code_item" value="" hidden>
                             </div>
                             <div class="row g-3">
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" name="txt_item_name"
-                                        value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ"disabled>
+                                        value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ"
+                                        disabled>
                                 </div>
                                 <div class="col-sm">
                                     <input type="text" class="form-control" name="txt_price"
-                                        value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา"disabled>
+                                        value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" disabled>
                                 </div>
                                 <div class="col-sm">
+                                    <?php   
+                                    if(empty($code_item)){
+                                        $item_id = null;
+                                        $type_item = null;
+                                        $unit_name = null;
+                                        $type_name = null;
+                                        $catagories_name = null;
+                                        $vendor_name = null;
+
+                                    }else{
+                                    
+                                        $select_stock = $db->prepare("SELECT * FROM stock
+                                        INNER JOIN unit ON stock.unit = unit=unit_id
+                                        INNER JOIN type_name ON stock.type_item = type_name.type_id
+                                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+                                        INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+                                         WHERE item_id='".$item_id."'");
+                                        $select_stock->execute();
+                                        $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
+                                        extract($row_stock);
+                                    }
+                               ?>
                                     <input type="text" class="form-control" value="<?php echo$unit_name?>"
                                         placeholder="ต่อหน่วย" aria-label="หน่วย" disabled>
-                                    <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
+
                                 </div>
                             </div>
                             <div class="row g-2">
-                                <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
+                                <label for="formGroupExampleInput"
+                                    class="form-label">ประเภทรายการ<?php echo$item_id?></label>
                                 <div class="col-sm-6">
-                                    <?php   
-                                        $select_stmt = $db->prepare("SELECT * FROM type_name");
-                                        $select_stmt->execute();
-                                    ?>
-                                    <input type="text" class="form-control" value="<?php echo$unit_name?>"
-                                        placeholder="type" aria-label="หน่วย"disabled>
-                                    <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
+
+
+                                    <input type="text" placeholder="type" class="form-control"
+                                        value="<?php echo$type_name?>" placeholder="type" aria-label="หน่วย" disabled>
+
                                 </div>
+
                                 <div class="col-sm-6">
-                                    <?php   
-                                        $select_stmt = $db->prepare("SELECT * FROM catagories");
-                                        $select_stmt->execute();
-                                    ?>
-                                    <input type="text" class="form-control" value="<?php echo$unit_name?>"
-                                        placeholder="Catagories" aria-label="หน่วย"disabled>
-                                    <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
+
+                                    <input type="text" class="form-control" value="<?php echo$catagories_name?>"
+                                        placeholder="Catagories" aria-label="หน่วย" disabled>
+
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="formGroupExampleInput2" class="form-label">ผู้ขาย</label>
-                                <?php   
-                                    $select_stmt = $db->prepare("SELECT * FROM vendor");
-                                    $select_stmt->execute();
-                                ?>
-                                <input type="text" class="form-control" value="<?php echo$unit_name?>"
-                                    placeholder="ผู้ขาย" aria-label="หน่วย"disabled>
-                                <input type="text" name="txt_unit" value="<?php echo$unit_id?>" hidden>
+
+                                <input type="text" class="form-control" value="<?php echo$vendor_name?>"
+                                    placeholder="ผู้ขาย" aria-label="หน่วย" disabled>
+
                             </div>
                             <div class="row g-3">
                                 <div class="col-sm-4">
-                                <label class="form-label " for="customFile">รูปภาพประกอบ</label><br>
+                                    <label class="form-label " for="customFile">รูปภาพประกอบ</label><br>
                                 </div>
                                 <div class="col-sm-4">
-                                    
-                                    <img class="me-3" src="" style="" width="200" height="200">
+                                    <?php if(empty($img_stock)){
+                                        $img_stock = "box1.png";
+                                        ?>
+                                    <img class="me-3" src="img_stock/<?=$img_stock?>" style="" width="200" height="200">
+                                    <?php
+                                         }else{?>
+                                    <img class="me-3" src="img_stock/<?=$img_stock?>" style="" width="200" height="200">
+                                    <?php      
+                                         }
+                                        ?>
                                 </div>
-                                <div class="col-sm-4">
-                                </div>
+                                <input type="text" name="txt_stock_id" value="<?php echo$stock_id?>" hidden>
+                                <input type="text" name="txt_quantity" value="<?php echo$stock_quantity?>" hidden>
+                                <input type="text" name="txt_exd_date" value="<?php echo$exd_date?>" hidden>
+                                <input type="text" name="txt_user_bn" value="<?php echo$user_bn?>" hidden>
+                                <input type="text" name="txt_user_id" value="<?php echo$row_session['user_id'] ?>" hidden>
+
                                 <br>
+                                <div class="col-sm-4">
+
+                                </div>
 
                             </div>
+                            <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
+                            <a href="list_stock_center.php" class="btn btn-outline-primary">Back</a>
                         </div>
                 </form>
             </div>
         </div>
     </div>
 
-  
+
 
 
     <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>

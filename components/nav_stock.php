@@ -88,13 +88,13 @@ if ($row_session['user_lv'] >= 3) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <li><a class="dropdown-item" href="user_center.php">สมาชิกศูนย์</a></li>
-                            <li><a class="dropdown-item" href="user_bn.php">สมาชิกสาขา</a></li>
+                            <li><a class="dropdown-item" href="../data-user/user_center.php">สมาชิกศูนย์</a></li>
+                            <li><a class="dropdown-item" href="../data-user/user_bn.php">สมาชิกสาขา</a></li>
                             <?php if ($row_session['user_lv'] >= 2) {?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="register.php">เพิ่มผู้ใช้งาน</a></li>
+                            <li><a class="dropdown-item" href="../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
                             <?php }?>
                         </ul>
                     </li>
@@ -103,7 +103,7 @@ if ($row_session['user_lv'] >= 3) {
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">ตั้งค่า</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="user_profile.php">แก้ไขข้อมูลส่วนตัว</a>
+                            <li><a class="dropdown-item" href="../data-user/user_profile.php">แก้ไขข้อมูลส่วนตัว</a>
                             </li>
                         </ul>
                     </li>

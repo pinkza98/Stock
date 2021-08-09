@@ -38,7 +38,7 @@ if (isset($_SESSION['user_login'])) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="data-stock/stock_branch.php">คลังสาขา</a></li>
+                            <li><a class="dropdown-item" href="data-stock/list_stock_branch.php">คลังสาขา</a></li>
 
                             <?php
 if ($row_session['user_lv'] > 2) {
@@ -46,7 +46,7 @@ if ($row_session['user_lv'] > 2) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="data-stock/stock_branch.php">คลังศูนย์</a></li>
+                            <li><a class="dropdown-item" href="data-stock/list_stock_center.php">คลังศูนย์</a></li>
                             <?php }?>
                         </ul>
                     </li>

@@ -55,7 +55,8 @@
           } else {
               $errorMsg = "ไฟล์รูปภาพที่ อัพโหลดรองรับเฉพาะนามสกุลไฟล์ JPG,JPEG,PNG และ Git เท่านั้น ";
           }
-      } try {
+      } else{ 
+          try {
               if (!isset($errorMsg)) {
                   $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories,img_stock) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories,:img_stock)");
                   $insert_stmt->bindParam(':vendor', $vendor);
@@ -69,9 +70,11 @@
                       header("refresh:1;stock.php");
                   }
               }
+            
           } catch (PDOException $e) {
               echo $e->getMessage();
           }
+        }
       
   }
 ?>
