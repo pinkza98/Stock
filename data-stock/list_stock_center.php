@@ -51,10 +51,17 @@
   <body>
     <header></header>
       <div class="display-3 text-xl-center">
-      <H2>รายการคลังของส่วนกลาง <a href="stock_center.php"><button class="btn btn-primary">นับสต๊อกเข้าสาขา</button></a></H2>
+      <H2>รายการคลังของส่วนกลาง </H2>
+      </div>
+      <hr>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+      <?php include('../components/nav_stock_slid.php'); ?>
+      </div>
+      </div>
       </div>
     </header>
-    <hr><br>
     <?php include('../components/content.php')?>
   <div class="container">
     <br>
@@ -62,56 +69,64 @@
     <thead class="table-dark">
         <tr class="table-active">
             
-            <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
+             <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
+             <th scope="col" class="text-center">ชื่อรายการ</th> 
+             <th scope="col" class="text-center">จำนวน</th>
              <th scope="col" class="text-center">หมวดหมู่</th>
-             <th scope="col" class="text-center">ชื่อรายการ</th>
-             <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ราคา</th>
-             <th scope="col" class="text-center">ชนิด</th>
-            <th scope="col" class="text-center">ผู้ขาย</th>  
+             <th scope="col" class="text-center">ประเภท</th>
+             <th scope="col" class="text-center">สาขา</th>
+             <!-- <th scope="col" class="text-center">ราคา</th> -->
+             <!-- <th scope="col" class="text-center">ชนิด</th> -->
+            <!-- <th scope="col" class="text-center">ผู้ขาย</th>   -->
             <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
-            <th scope="col" class="text-center">แก้ไข</th>  
+            <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
             <th scope="col" class="text-center">ลบ</th>  
             
         </tr>
     </thead>
     <tbody >
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM stock  
-          INNER JOIN item ON stock.item_id = item.item_id 
-          INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-          INNER JOIN unit ON stock.unit = unit.unit_id  
-          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
+          $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+          INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+          INNER JOIN item ON stock.item_id = item.item_id
+          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+          INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+          INNER JOIN unit ON stock.unit = unit.unit_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
-          ORDER BY stock_id DESC");
+          WHERE bn_stock = 1
+          ORDER BY full_stock_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
       <tr  class="table-light">
-        <td><?php echo $row["code_item"]; ?></td>
+         <td><?php echo $row["code_item"]; ?></td>
+         <td><?php echo $row["item_name"]; ?></td> 
+         <td><?php echo $row["quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
          <td><?php echo $row["catagories_name"]; ?></td>
-         <td><?php echo $row["item_name"]; ?></td>
-          <td><?php echo $row["unit_name"]; ?></td>
-         <td><?php echo $row["price_stock"]; ?></td>
          <td><?php echo $row["type_name"]; ?></td>
-        <td><?php echo $row["vendor_name"]; ?></td>    
+         <td><?php echo $row["bn_name"]; ?></td>
+         <!-- <td><?php echo $row["price_stock"]; ?></td> -->
+         <!-- <td><?php echo $row["type_name"]; ?></td> -->
+        <!-- <td><?php echo $row["vendor_name"]; ?></td>     -->
         <!-- <td><?php echo $row["code_item"]; ?></td> -->
-        <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
+        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
+         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td> 
         <?php } ?>
       </tr>
     </tbody>
     <tfoot  a>
             <tr class="table-active">
-            <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
-             <th scope="col" class="text-center">หมวดหมู่</th>
+             <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
              <th scope="col" class="text-center">ชื่อรายการ</th>
-             <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ราคา</th>
+             <th scope="col" class="text-center">จำนวน</th>
+             <th scope="col" class="text-center">หมวดหมู่</th>
+             <th scope="col" class="text-center">ประเภท</th>
+             <th scope="col" class="text-center">สาขา</th>
+             <!-- <th scope="col" class="text-center">ราคา</th>
              <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
-            <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
-            <th scope="col" class="text-center">แก้ไข</th>
+            <th scope="col" class="text-center">รูปภาพประกอบ</th>  -->
+            <!-- <th scope="col" class="text-center">แก้ไข</th> -->
             <th scope="col" class="text-center">ลบ</th>
             </tr>
         </tfoot>

@@ -6,14 +6,13 @@
       $stock_id = $_REQUEST['txt_stock_id'];
       $stock_quantity = $_REQUEST['txt_quantity'];
       $exp_date = date('Y-m-d H:i:s');
-      
       $exd_date = $_REQUEST['txt_exd_date'];
      
       if (empty($stock_quantity)) {
           $stock_quantity = 1;
       } 
       elseif(empty($exd_date)) {
-        $exd_date = null;
+        $exd_date = 90;
       }else {
          try {
               if (!isset($errorMsg)) {
@@ -294,7 +293,11 @@
 
                             </div>
                             <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
+                            <?php if($row_session['user_bn'] ==1){?>
                             <a href="list_stock_center.php" class="btn btn-outline-primary">Back</a>
+                            <?php }else{ ?>
+                                <a href="list_stock_branch.php" class="btn btn-outline-primary">Back</a>
+                                <?php } ?>
                         </div>
                 </form>
             </div>
