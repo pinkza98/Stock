@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2021 at 05:49 PM
+-- Generation Time: Aug 09, 2021 at 02:08 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -62,9 +62,18 @@ CREATE TABLE `branch_stock` (
   `stock_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `exp_date` date NOT NULL,
-  `exd_date` date NOT NULL,
+  `exd_date` int(11) NOT NULL,
   `bn_stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `branch_stock`
+--
+
+INSERT INTO `branch_stock` (`full_stock_id`, `user_id`, `stock_id`, `quantity`, `exp_date`, `exd_date`, `bn_stock`) VALUES
+(3, 26, 31, 30, '2021-08-09', 30, 11),
+(4, 26, 31, 30, '2021-08-09', 60, 12),
+(5, 26, 0, 0, '2021-08-09', 0, 11);
 
 -- --------------------------------------------------------
 
@@ -409,7 +418,7 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `catagories`
