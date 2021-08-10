@@ -12,16 +12,44 @@
     <title>Plus dental clinic</title>
     
     <?php include('components/header.php');?>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    
+   <!-- <==========================================boostrap5==================================================> -->
+   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- <==========================================ajax-jquery==================================================> -->
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <!-- <==========================================data-teble==================================================> -->
           <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js"></script>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">         
           <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
-
           <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>  <!---แก้ไขแล้ว--> 
-          
+    <!-- <==========================================data-teble==================================================> -->
+    <!-- <==========================================fancybox==================================================> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
+    <!-- <==========================================fancybox==================================================> -->
+    <script>
+        $(document).ready( function () {
+            
+        $('#stock').DataTable();
+            } );
+    </script>
+    <script>
+      function Fancybox(props) {
+      const delegate = props.delegate || "[data-fancybox]";
+
+      useEffect(() => {
+        NativeFancybox.assign(delegate, props.options || {});
+
+        return () => {
+          NativeFancybox.trash(delegate);
+
+          NativeFancybox.close(true);
+        };
+      }, []);
+
+      return <>{props.children}</>;
+    }
+
+    export default Fancybox;
+    </script>
   </head>
   <body>
     <?php include('components/nav.php'); ?>
@@ -71,7 +99,7 @@
         <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>   
         <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
-        <td ><a href="data-stock/img_stock/<?=$row['img_stock']?>"><img src="data-stock/img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></a></td>
+          <td><button data-fancybox="gallery"data-src="data-stock/img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="data-stock/img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
         <?php }else{?>
           <td>-</td>
           <?php }?>
@@ -92,12 +120,11 @@
         </tfoot>
   </table>
   </div>
-  <script>
-        $(document).ready( function () {
-            
-        $('#stock').DataTable();
-            } );
-    </script>
+<!-- <==========================================fancybox==================================================> -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+  <!-- <==========================================fancybox==================================================> -->
+  <!-- <==========================================booystrap 5==================================================> -->
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <==========================================booystrap 5==================================================> -->
   </body>
 </html>

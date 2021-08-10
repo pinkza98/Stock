@@ -90,7 +90,7 @@
                         <th scope="col" class="text-center">ผู้ขาย</th>
                         
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                        <th scope="col" class="text-center">ลบ</th>
+                        <!-- <th scope="col" class="text-center">ลบ</th> -->
 
                     </tr>
                 </thead>
@@ -124,7 +124,7 @@
                         <td><?php echo $row["vendor_name"]; ?></td>  
                         
                         <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>  -->
-                        <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
+                        <!-- <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td> -->
                         <?php } ?>
                     </tr>
                 </tbody>
@@ -141,7 +141,7 @@
                         <th scope="col" class="text-center">สาขา</th>
                         <th scope="col" class="text-center">ผู้ขาย</th>     
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <th scope="col" class="text-center">ลบ</th>
+                        <!-- <th scope="col" class="text-center">ลบ</th> -->
                     </tr>
                 </tfoot>
             </table>
