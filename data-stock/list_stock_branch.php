@@ -1,15 +1,15 @@
 <?php 
     require_once('../database/db.php');
     if (isset($_REQUEST['delete_id'])) {
-      $full_stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT * FROM branch_stock WHERE full_stock_id  = :new_stock_id");
-      $select_stmt->bindParam(':new_stock_id', $full_stock_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-      // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
-      $delete_stmt->bindParam(':new_stock_id', $full_stock_id);
-      $delete_stmt->execute();
+        $full_stock_id = $_REQUEST['delete_id'];
+        $select_stmt = $db->prepare("SELECT * FROM branch_stock WHERE full_stock_id  = :new_stock_id");
+        $select_stmt->bindParam(':new_stock_id', $full_stock_id);
+        $select_stmt->execute();
+        $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+        // Delete an original record from db
+        $delete_stmt = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
+        $delete_stmt->bindParam(':new_stock_id', $full_stock_id);
+        $delete_stmt->execute();
         header('Location:list_stock_branch.php');
     }
 ?>
@@ -106,18 +106,30 @@
                 </thead>
                 <tbody>
                     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM branch_stock  
-          INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-          INNER JOIN item ON stock.item_id = item.item_id
-          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-          INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-          INNER JOIN unit ON stock.unit = unit.unit_id
-          INNER JOIN type_name ON stock.type_item = type_name.type_id
-          WHERE bn_stock ='".$row_session["user_bn"]."'
-          ORDER BY full_stock_id DESC");
-          $select_stmt->execute();
-          while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-      ?>
+                    if($row_session['user_lv'] >= 4){
+                        $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+                        INNER JOIN item ON stock.item_id = item.item_id
+                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+                        INNER JOIN unit ON stock.unit = unit.unit_id
+                        INNER JOIN type_name ON stock.type_item = type_name.type_id
+                        ORDER BY full_stock_id DESC");
+                    }else{
+                        $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+                        INNER JOIN item ON stock.item_id = item.item_id
+                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+                        INNER JOIN unit ON stock.unit = unit.unit_id
+                        INNER JOIN type_name ON stock.type_item = type_name.type_id
+                        WHERE bn_stock ='".$row_session["user_bn"]."'
+                        ORDER BY full_stock_id DESC");
+                    }
+          
+                        $select_stmt->execute();
+                        while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
                     <tr class="table-light">
                         <td><?php echo $row["code_item"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
@@ -131,8 +143,8 @@
                         <?php }else{ ?>
                         <td>-</td>
                         <?php } ?>
-                        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
-                        <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
+                        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["full_stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
+                        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>
                         <?php } ?>
                     </tr>
                 </tbody>

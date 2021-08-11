@@ -10,7 +10,7 @@
       $delete_stmt = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
       $delete_stmt->bindParam(':new_stock_id', $full_stock_id);
       $delete_stmt->execute();
-        header('Location:list_stock_branch.php');
+        header('Location:list_stock_center.php');
     }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
@@ -126,8 +126,8 @@
         <?php }else{ ?>
         <td>-</td>
         <?php } ?>
-        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
-         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td> 
+        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["full_stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
+         <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td> 
         <?php } ?>
       </tr>
     </tbody>

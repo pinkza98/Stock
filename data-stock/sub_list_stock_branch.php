@@ -99,20 +99,33 @@
                 <tbody>
 
                     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM branch_stock  
-          INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-          INNER JOIN item ON stock.item_id = item.item_id
-          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-          INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-          INNER JOIN unit ON stock.unit = unit.unit_id
-          INNER JOIN type_name ON stock.type_item = type_name.type_id
-          INNER JOIN user ON branch_stock.user_id = user.user_id
-          INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-          WHERE bn_stock ='".$row_session["user_bn"]."'
-          ORDER BY full_stock_id DESC");
-          $select_stmt->execute();
-          while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-      ?>
+                    if($row_session['user_lv']>=4){
+                        $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+                        INNER JOIN item ON stock.item_id = item.item_id
+                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+                        INNER JOIN unit ON stock.unit = unit.unit_id
+                        INNER JOIN type_name ON stock.type_item = type_name.type_id
+                        INNER JOIN user ON branch_stock.user_id = user.user_id
+                        INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+                        ORDER BY full_stock_id DESC");
+                    }else{
+                        $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+                        INNER JOIN item ON stock.item_id = item.item_id
+                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+                        INNER JOIN unit ON stock.unit = unit.unit_id
+                        INNER JOIN type_name ON stock.type_item = type_name.type_id
+                        INNER JOIN user ON branch_stock.user_id = user.user_id
+                        INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+                        WHERE bn_stock ='".$row_session["user_bn"]."'
+                        ORDER BY full_stock_id DESC");
+                    }
+                        $select_stmt->execute();
+                        while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
                     <tr class="table-light">
                     <td><?php echo $row["code_item"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
