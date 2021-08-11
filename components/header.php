@@ -11,6 +11,7 @@ session_start();
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style type="text/css">
+
 @import 'https://fonts.googleapis.com/css?family=Kanit|Prompt';
     html, body { 
     height: 100%; /* ให้ html และ body สูงเต็มจอภาพไว้ก่อน */
@@ -27,7 +28,7 @@ session_start();
       overflow: hidden;
       text-align: center;
     }
-    body{
+    html{
       
         font-family: 'Kanit',sans-serif;
     }

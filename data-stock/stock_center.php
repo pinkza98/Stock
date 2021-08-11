@@ -174,20 +174,26 @@
             $select_check ->bindParam(':code_item_row', $code_item);
             $select_check ->execute();
             $row_item = $select_check->fetch(PDO::FETCH_ASSOC);
-            extract($row_item);
-            if ($select_check ->fetchColumn() == 0){
-              $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
+            //extract($row_item);
+            try{
+                @extract($row_item);
+                if ($select_check ->fetchColumn() == 0){
+                    $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
+                  }
+                  
+                  else{
+                  $select_stmt = $db->prepare("SELECT * FROM stock 
+                  INNER JOIN item ON stock.item_id = item.item_id
+                  WHERE item_id = $item_id AND stock_id =$item_id");
+                  $select_stmt->bindParam(':id', $item_id);
+                  $select_stmt->execute();
+                  $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                  extract($row);
+                  }
+            } catch (PDOException $e) {
+                echo $e->getMessage();
             }
             
-            else{
-            $select_stmt = $db->prepare("SELECT * FROM stock 
-            INNER JOIN item ON stock.item_id = item.item_id
-            WHERE item_id = $item_id AND stock_id =$item_id");
-            $select_stmt->bindParam(':id', $item_id);
-            $select_stmt->execute();
-            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-            extract($row);
-            }
           }
         ?>
             <div class="col-md-5">

@@ -65,9 +65,9 @@
 
     <title>Plus dental clinic</title>
    
-    
-    <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <?php include('../components/header.php');?>
+    
 
     
   </head>
@@ -165,7 +165,7 @@
     </thead>
     <tbody>
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit.unit_id ");
+          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit.unit_id LIMIT 100");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
