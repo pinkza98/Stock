@@ -1,6 +1,7 @@
 <?php 
     require_once('../database/db.php');
     if (isset($_REQUEST['register'])) {
+      
       $email = $_REQUEST['txt_email'];
       $password1 = $_REQUEST['txt_password1'];
       $password2 = $_REQUEST['txt_password2'];
@@ -11,6 +12,13 @@
       $user_lv = $_REQUEST['txt_user_lv'];
       $tel = $_REQUEST['txt_tel'];
       $line = $_REQUEST['txt_line'];
+
+      $image_file = $_FILES['txt_file']['name'];  
+      $type = $_FILES['txt_file']['type'];
+      $size = $_FILES['txt_file']['size'];
+      $temp = $_FILES['txt_file']['tmp_name'];
+      $path = "img_user/". $image_file; //
+
       $select_stmt = $db->prepare("SELECT * FROM user WHERE username = :username");
       $select_stmt->bindParam(':username', $email);
       $select_stmt->execute();
@@ -30,7 +38,7 @@
         $errorMsg = "รหัสผ่านทั้ง2 ไม่ตรงกัน!";
         } 
       else if (strlen($password1) < 6) {
-        $errorMsg[] = "Password ของท่านต้องมีมากกว่า 6 ตัวอักษร";
+        $errorMsg = "Password ของท่านต้องมีมากกว่า 6 ตัวอักษร";
       }
       elseif (empty($prefix)) {
         $errorMsg = "กรุณาเลือกคำนำหน้า!";
@@ -43,11 +51,11 @@
         $errorMsg = "กรุณาเลือก สาขาของท่าน ";
       }elseif (empty($user_lv)) {
       $errorMsg = "กรุณาเลือกระดับเจ้าหน้าที่ของท่าน";
-      } elseif (!empty($image_file)) {
+      }elseif (!empty($image_file)) {
         if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
             if (!file_exists($path)) { // check file not exist in your upload folder path
-                if ($size < 5000000) { // check file size 5MB
-                    move_uploaded_file($temp, 'img_stock/'.$image_file); // move upload file temperory directory to your upload folder
+                if ($size < 10000000) { // check file size 5MB
+                    move_uploaded_file($temp, 'img_user/'.$image_file); // move upload file temperory directory to your upload folder
                 } else {
                     $errorMsg = "รองรับขนาดของรูปภาพ ไม่เกิน 5MB"; // error message file size larger than 5mb
                 }
@@ -57,16 +65,12 @@
         } else {
             $errorMsg = "ไฟล์รูปภาพที่ อัพโหลดรองรับเฉพาะนามสกุลไฟล์ JPG,JPEG,PNG และ Git เท่านั้น ";
         }
-    }else if(empty($image_file)){
-      $image_file = "plus.png";
-    }
-    else{
-          try {
+      } try {
               if (!isset($errorMsg)) {
                   $password = $password1;
                   $new_password = password_hash($password, PASSWORD_DEFAULT);
-                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel) 
-                  VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_line,:user_tel)");
+                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel,user_img) 
+                  VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_line,:user_tel,:user_img)");
                   $insert_stmt->bindParam(':username', $email);
                   $insert_stmt->bindParam(':password', $new_password);
                   $insert_stmt->bindParam(':user_prefix', $prefix);
@@ -76,6 +80,7 @@
                   $insert_stmt->bindParam(':user_lv', $user_lv);
                   $insert_stmt->bindParam(':user_line', $line);
                   $insert_stmt->bindParam(':user_tel', $tel);
+                  $insert_stmt->bindParam(':user_img', $image_file);
                   if ($insert_stmt->execute()) {
                       $insertMsg = "เพิ่มข้อมูลสำเร็จ.......";
                       header("refresh:1;register.php");
@@ -85,7 +90,7 @@
               echo $e->getMessage();
           }
       }
-  }
+  
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
@@ -210,7 +215,7 @@
                   </div>
                   <div class="col-sm-6 ">
                   <label class="form-label" for="customFile">รูปภาพ</label>
-                <input type="file"  name='files[]' class="form-control" id="customFile" multiple  />
+                  <input type="file"  name='txt_file' class="form-control" id="customFile" multiple  />
                 </div>
               </div>
               <div class="mb-4  g-4 text-center">    

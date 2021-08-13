@@ -1,0 +1,86 @@
+branch_stock
+ - pk @ai
+ - id คนเพิ่ม
+ - item ของสินค้านั้นๆ
+ - จำนวน
+ - วันที่เพิ่ม
+ - วันหมดอายุ (มีอายุกี่วัน)
+ - รหัสสาขา
+
+b_s
+ - pk @ai
+ - item ของสินค้านั้นๆ
+ - จำนวนที่มี -- Update
+ - วันหมดอายุ --เอาออก
+ - สาขา --ค่าคงที่
+
+
+b_s_d
+ - pk @ai
+ - id คนเพิ่ม
+ - วันที่เพิ่ม
+ - เพิ่มไปเท่าไหร่
+ - เพิ่มไปวันไหน
+ - pk b_s
+
+
+
+
+
+
+
+
+nav1 lv1
+nav2 lv1
+if(lv1)
+   nav2.1
+if(lv2)
+   nav2.2
+
+nav3 lv2
+
+
+
+if($row_session['user_lv'] <= 2){
+	alert
+	header("location:index.php");
+}
+
+
+
+
+CREATE TABLE FACULTY(
+    FID int NOT NULL,
+    FNAME varchar(100) 
+);
+
+CREATE TABLE COURSE (
+    CID int NOT NULL,
+    CNAME varchar(100) ,
+    FID int NOT NULL,
+    PRIMARY KEY (FID)
+);
+
+CREATE TABLE STU_COURSE(
+    SID varchar(10) NOT NULL,
+    CID varchar(10) NOT NULL,
+PRIMARY KEY (CID)
+);
+
+CREATE TABLE STUDENT(
+    SID varchar(10) NOT NULL,
+    SNAME varchar(100) 
+);
+
+SET IDENTITY_INSERT IdentityTable ON
+
+INSERT INTO COURSE(CID, CNAME, FID) VALUES('C1','DATABASE',GETDATE())
+
+SET IDENTITY_INSERT IdentityTable OFF
+
+
+
+
+
+
+

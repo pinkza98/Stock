@@ -5,7 +5,7 @@
       $stock_bn_stock= $_REQUEST['txt_user_bn'];
       $stock_id = $_REQUEST['txt_stock_id'];
       $stock_quantity = $_REQUEST['txt_quantity'];
-      $exp_date = date('Y-m-d H:i:s');
+      $exp_date = date('Y-m-d');
       $exd_date = $_REQUEST['txt_exd_date'];
      
       if (empty($stock_quantity)) {
@@ -63,7 +63,7 @@
     <?php include('../components/nav_stock.php'); ?>
     <header>
 
-        <div class="display-3 text-xl-center">
+        <div class="display-3 text-xl-center mt-3">
             <H2>นับสต๊อกของส่วนกลาง</H2>
         </div>
     </header>
@@ -123,24 +123,13 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-9">
                                 <div class="form.group">
                                     <input type="text" name="get_code_item" class="form-control"
                                         placeholder=" รหัสบาร์โค้ด" required>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form.group">
-                                    <input type="text" name="txt_quantity" value="" class="form-control"
-                                        placeholder="จำนวน">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form.group">
-                                    <input type="text" name="txt_exd_date" class="form-control"
-                                        placeholder="EXD(จำนวนวัน)" value="">
-                                </div>
-                            </div>
+                            
                             <div class="col-md-3">
 
                                 <button name="check" class="btn btn-primary" type="submit">ค้นหาข้อมูล</button>
@@ -166,21 +155,16 @@
           }
           if(isset($_POST['check'])){
             $code_item = $_REQUEST['get_code_item'];
-            $stock_quantity = $_REQUEST['txt_quantity'];
-            $exd_date = $_REQUEST['txt_exd_date'];
             $user_bn = $_REQUEST['txt_user_bn'];
 
             $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
             $select_check ->bindParam(':code_item_row', $code_item);
             $select_check ->execute();
             $row_item = $select_check->fetch(PDO::FETCH_ASSOC);
-            //extract($row_item);
-            try{
-                @extract($row_item);
+            extract($row_item);
                 if ($select_check ->fetchColumn() == 0){
                     $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
                   }
-                  
                   else{
                   $select_stmt = $db->prepare("SELECT * FROM stock 
                   INNER JOIN item ON stock.item_id = item.item_id
@@ -190,10 +174,6 @@
                   $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
                   extract($row);
                   }
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-            }
-            
           }
         ?>
             <div class="col-md-5">
@@ -270,7 +250,22 @@
                                     placeholder="ผู้ขาย" aria-label="หน่วย" disabled>
 
                             </div>
-                            <div class="row g-3">
+                            <div class="row">
+                            <label class="form-label " for="customFile">ข้อมูลเพิ่มเติม</label>
+                            <div class="col-md-5">
+                                <div class="form.group">
+                                    <input type="text" name="txt_quantity" value="" class="form-control"
+                                        placeholder="จำนวน">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form.group">
+                                    <input type="text" name="txt_exd_date" class="form-control"
+                                        placeholder="EXD(จำนวนวัน)" value="">
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row g-3 mt-3">
                                 <div class="col-sm-4">
                                     <label class="form-label " for="customFile">รูปภาพประกอบ</label><br>
                                 </div>
@@ -287,8 +282,6 @@
                                         ?>
                                 </div>
                                 <input type="text" name="txt_stock_id" value="<?php echo$stock_id?>" hidden>
-                                <input type="text" name="txt_quantity" value="<?php echo$stock_quantity?>" hidden>
-                                <input type="text" name="txt_exd_date" value="<?php echo$exd_date?>" hidden>
                                 <input type="text" name="txt_user_bn" value="<?php echo$user_bn?>" hidden>
                                 <input type="text" name="txt_user_id" value="<?php echo$row_session['user_id'] ?>" hidden>
 
@@ -297,13 +290,15 @@
 
                                 </div>
 
-                            </div>
+                        </div>
+                            <div class="btn-block mt-2">
                             <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
                             <?php if($row_session['user_bn'] ==1){?>
                             <a href="list_stock_center.php" class="btn btn-outline-primary">Back</a>
                             <?php }else{ ?>
                                 <a href="list_stock_branch.php" class="btn btn-outline-primary">Back</a>
                                 <?php } ?>
+                        </div>
                         </div>
                 </form>
             </div>

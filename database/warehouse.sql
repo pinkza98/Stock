@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2021 at 09:59 AM
+-- Generation Time: Aug 13, 2021 at 03:35 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -73,7 +73,9 @@ CREATE TABLE `branch_stock` (
 INSERT INTO `branch_stock` (`full_stock_id`, `user_id`, `stock_id`, `quantity`, `exp_date`, `exd_date`, `bn_stock`) VALUES
 (3, 26, 31, 30, '2021-08-09', 30, 11),
 (4, 26, 31, 30, '2021-08-09', 60, 12),
-(6, 26, 40, 5, '2021-08-10', 6, 1);
+(6, 26, 40, 5, '2021-08-10', 6, 1),
+(7, 26, 31, 20, '2021-08-12', 30, 1),
+(8, 26, 31, 20, '2021-08-12', 580, 1);
 
 -- --------------------------------------------------------
 
@@ -1541,10 +1543,10 @@ CREATE TABLE `type_name` (
 --
 
 INSERT INTO `type_name` (`type_id`, `type_name`) VALUES
-(1, 'Large equipment (อุปกรณ์ใหญ่)'),
-(2, 'Material (ของใช้) \r\n'),
-(3, 'Equipment (เครื่องมือ) \r\n'),
-(4, 'Medical (ยาเวชภัณฑ์)\r\n');
+(1, 'Large equipment'),
+(2, 'Material \n'),
+(3, 'Equipment\n'),
+(4, 'Medical\n');
 
 -- --------------------------------------------------------
 
@@ -1622,21 +1624,23 @@ CREATE TABLE `user` (
   `user_prefix` int(11) NOT NULL,
   `user_fname` varchar(100) NOT NULL,
   `user_lname` varchar(100) NOT NULL,
-  `user_line` varchar(100) NOT NULL
+  `user_line` varchar(100) NOT NULL,
+  `user_img` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`) VALUES
-(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 1, '08xxxxxxx', 1, 'นายอรรถพล', 'สีชา', '@line'),
-(17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '08xxxxxxx', 1, 'xxx', 'xxx', '@line'),
-(18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 4, 3, '08xxxxxxx', 1, 'xxx', 'xxx', '@line'),
-(26, 'test4@gmail.com', '$2y$10$s.jKx.NLyF.Y38HSqeHxQur8ougH39UlAm86crCkL.DT6g6/.XIoK', 1, 4, '08xxxxxxx', 1, 'test', '4', '@line'),
-(27, 'test_A.1@gmail.com', '$2y$10$1si5eHc/xTEErV0ZhzRQi.qSR6re.CibMGRrlZeHiscCAgUCOkjzy', 10, 1, '08xxxxxxx', 2, 'test', 'test', '@line'),
-(28, 'test_A.2@gmail.com', '$2y$10$NaH9MNQHnkDh.duR.bcfOelbXpfUtg6MfhXUgLyXKPJrJZvtNJTle', 10, 2, '08xxxxxxx', 3, 'test', 'test', '@line'),
-(29, 'test_A.3@gmail.com', '$2y$10$86ArcBx1ml3QI96qa7Vya.h.rAcXiQvv8QQaCrY4XEuq9b09k.mTe', 10, 1, '08xxxxxxx', 3, 'test', 'test', '@line');
+INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`, `user_img`) VALUES
+(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 1, '08xxxxxxx', 1, 'นายอรรถพล', 'สีชา', '@line', ''),
+(17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '08xxxxxxx', 1, 'xxx', 'xxx', '@line', ''),
+(18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 4, 3, '08xxxxxxx', 1, 'xxx', 'xxx', '@line', ''),
+(26, 'test4@gmail.com', '$2y$10$s.jKx.NLyF.Y38HSqeHxQur8ougH39UlAm86crCkL.DT6g6/.XIoK', 1, 4, '08xxxxxxx', 1, 'test', '4', '@line', 'atthapol.jpg'),
+(27, 'test_A.1@gmail.com', '$2y$10$1si5eHc/xTEErV0ZhzRQi.qSR6re.CibMGRrlZeHiscCAgUCOkjzy', 10, 1, '08xxxxxxx', 2, 'test', 'test', '@line', ''),
+(28, 'test_A.2@gmail.com', '$2y$10$NaH9MNQHnkDh.duR.bcfOelbXpfUtg6MfhXUgLyXKPJrJZvtNJTle', 10, 2, '08xxxxxxx', 3, 'test', 'test', '@line', ''),
+(29, 'test_A.3@gmail.com', '$2y$10$86ArcBx1ml3QI96qa7Vya.h.rAcXiQvv8QQaCrY4XEuq9b09k.mTe', 10, 1, '08xxxxxxx', 3, 'test', 'test', '@line', ''),
+(30, 'test4.1@gmail.com', '$2y$10$6SpTNJAeimvqDnqqv3sCj.BvDutQNSYovRtYB.gCS8y/TXVPDcaRG', 1, 3, '08xxxxxxx', 2, 'ขยัน', 'ทำงาน', '@line', '123.jpg');
 
 -- --------------------------------------------------------
 
@@ -1661,28 +1665,6 @@ CREATE TABLE `vendor` (
   `vendor_id` int(11) NOT NULL,
   `vendor_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `vendor`
---
-
-INSERT INTO `vendor` (`vendor_id`, `vendor_name`) VALUES
-(1, 'ACCORD'),
-(2, 'ACCORD/ORTHO'),
-(3, 'CTM'),
-(4, 'Dent Mate'),
-(5, 'Dental Innovision'),
-(6, 'Deva'),
-(7, 'Eminance/NSK'),
-(8, 'I Dew plus'),
-(9, 'Lion Care'),
-(10, 'Orthobrite'),
-(11, 'Ortholine'),
-(12, 'OSSTEM'),
-(13, 'SD ทันตเวช'),
-(14, 'VRP Dent'),
-(15, 'W&H'),
-(16, 'เซี่ยงไฮ้');
 
 --
 -- Indexes for dumped tables
@@ -1782,7 +1764,7 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `catagories`
@@ -1836,7 +1818,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `user_stock`
@@ -1848,7 +1830,7 @@ ALTER TABLE `user_stock`
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
