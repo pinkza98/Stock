@@ -72,93 +72,97 @@
         </div>
         </header>
         <?php include('../components/content.php')?>
-        <div class="container">
+        <div class="text-center m-4">
             <br>
             <table class="table table-dark table-hover text-xl-center" id="stock">
 
                 <thead class="table-dark">
                     <tr class="table-active">
-
                         <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">รายการ</th>
-                        <th scope="col" class="text-center">จำนวน</th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center">หมวด</th>
-                        <th scope="col" class="text-center">ประเภท</th>
-                        <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วัน/เดือน/ปี</th>
-                        <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">ผู้ขาย</th>
+                        <th scope="col" class="text-center">สาขาส่วนกลาง</th>
+                        <th scope="col" class="text-center">สาขาอารีย์</th>
+                        <th scope="col" class="text-center">สาขาอุดมสุข</th>
+                        <th scope="col" class="text-center">สาขาอโศก</th>
+                        <th scope="col" class="text-center">สาขาสาทร</th>
+                        <th scope="col" class="text-center">สาขาอ่อนนุช</th>
+                        <th scope="col" class="text-center">สาขาลาดกระบัง</th>
+                        <th scope="col" class="text-center">สาขางามวงค์วาน</th>
+                        <th scope="col" class="text-center">สาขาแจ้งวัฒนะ</th>
+                        <th scope="col" class="text-center">สาขาบางแค</th>
+                        <th scope="col" class="text-center">สาขาพระราม2</th>
+                        <th scope="col" class="text-center">สาขารามคําแหง</th>
+                        <th scope="col" class="text-center">รวม</th>
 
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
                         <!-- <th scope="col" class="text-center">ลบ</th> -->
-
                     </tr>
                 </thead>
                 <tbody>
-
                     <?php 
-            $select_stmt = $db->prepare("SELECT * FROM branch_stock  
-            INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-            INNER JOIN item ON stock.item_id = item.item_id
-            INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-            INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON stock.unit = unit.unit_id
-            INNER JOIN type_name ON stock.type_item = type_name.type_id
-            INNER JOIN user ON branch_stock.user_id = user.user_id
-            INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-            WHERE bn_stock = 1
-            ORDER BY full_stock_id DESC");
+            $select_stmt = $db->prepare("SELECT
+            it.code_item,
+              SUM(IF(bn_stock = 1, quantity, NULL)) AS BN1,
+              SUM(IF(bn_stock = 2, quantity, NULL)) AS BN2,
+              SUM(IF(bn_stock = 3, quantity, NULL)) AS BN3,
+              SUM(IF(bn_stock = 4, quantity, NULL)) AS BN4,
+              SUM(IF(bn_stock = 5, quantity, NULL)) AS BN5,
+              SUM(IF(bn_stock = 6, quantity, NULL)) AS BN6,
+              SUM(IF(bn_stock = 7, quantity, NULL)) AS BN7,
+              SUM(IF(bn_stock = 8, quantity, NULL)) AS BN8,
+              SUM(IF(bn_stock = 9, quantity, NULL)) AS BN9,
+              SUM(IF(bn_stock = 10, quantity, NULL)) AS BN10,
+              SUM(IF(bn_stock = 11, quantity, NULL)) AS BN11,
+              SUM(IF(bn_stock = 12, quantity, NULL)) AS BN12,
+              SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN quantity ELSE NULL END) AS SUM_BN
+            FROM branch_stock bn
+            INNER JOIN stock s  on bn.stock_id = s.stock_id
+            INNER JOIN item it  on s.item_id = it.item_id
+            WHERE
+              bn.bn_stock BETWEEN 1 AND 12
+            GROUP BY
+              it.item_id;");
             $select_stmt->execute();
             while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             ?>
                     <tr class="table-light">
                         <td><?php echo $row["code_item"]; ?></td>
-                        <td><?php echo $row["item_name"]; ?></td>
-                        <td><?php echo $row["quantity"]; ?> </td>
-                        <td><?php echo $row["unit_name"]; ?> </td>
-                        <td><?php echo $row["catagories_name"]; ?></td>
-                        <td><?php echo $row["type_name"]; ?></td>
-                        <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
-                        <td><?php echo DateThai($row["exp_date"]); ?></td>
-                        <td><?php echo $row["bn_name"]; ?></td>
-                        <td><?php echo $row["vendor_name"]; ?></td>
+                        <td><?php echo $row["BN1"]; ?></td>
+                        <td><?php echo $row["BN2"]; ?></td>
+                        <td><?php echo $row["BN3"]; ?></td>
+                        <td><?php echo $row["BN4"]; ?></td>
+                        <td><?php echo $row["BN5"]; ?></td>
+                        <td><?php echo $row["BN6"]; ?></td>
+                        <td><?php echo $row["BN7"]; ?></td>
+                        <td><?php echo $row["BN8"]; ?></td>
+                        <td><?php echo $row["BN9"]; ?></td>
+                        <td><?php echo $row["BN10"]; ?></td>
+                        <td><?php echo $row["BN11"]; ?></td>
+                        <td><?php echo $row["BN12"]; ?></td>
+                        <td><?php echo $row["SUM_BN"]; ?></td>
 
-                        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>  -->
-                        <!-- <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td> -->
                         <?php } ?>
                     </tr>
                 </tbody>
-                <tfoot a>
+                <tfoot>
                     <tr class="table-active">
                         <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">รายการ</th>
-                        <th scope="col" class="text-center">จำนวน</th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center">หมวด</th>
-                        <th scope="col" class="text-center">ประเภท</th>
-                        <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วัน/เดือน/ปี</th>
-                        <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">ผู้ขาย</th>
-                        <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <!-- <th scope="col" class="text-center">ลบ</th> -->
+                        <th scope="col" class="text-center">สาขาส่วนกลาง</th>
+                        <th scope="col" class="text-center">สาขาอารีย์</th>
+                        <th scope="col" class="text-center">สาขาอุดมสุข</th>
+                        <th scope="col" class="text-center">สาขาอโศก</th>
+                        <th scope="col" class="text-center">สาขาสาทร</th>
+                        <th scope="col" class="text-center">สาขาอ่อนนุช</th>
+                        <th scope="col" class="text-center">สาขาลาดกระบัง</th>
+                        <th scope="col" class="text-center">สาขางามวงค์วาน</th>
+                        <th scope="col" class="text-center">สาขาแจ้งวัฒนะ</th>
+                        <th scope="col" class="text-center">สาขาบางแค</th>
+                        <th scope="col" class="text-center">สาขาพระราม2</th>
+                        <th scope="col" class="text-center">สาขารามคําแหง</th>
+                        <th scope="col" class="text-center">รวม</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
-        <?php
-	function DateThai($strDate)
-	{
-		$strYear = date("Y",strtotime($strDate))+543;
-		$strMonth= date("n",strtotime($strDate));
-		$strDay= date("j",strtotime($strDate));
-		
-		$strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
-		$strMonthThai=$strMonthCut[$strMonth];
-		return "$strDay $strMonthThai $strYear";
-	}
-?>
 
         <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     </body>

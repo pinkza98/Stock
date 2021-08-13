@@ -7,16 +7,16 @@
       $stock_quantity = $_REQUEST['txt_quantity'];
       $exp_date = date('Y-m-d');
       $exd_date = $_REQUEST['txt_exd_date'];
-     
       if (empty($stock_quantity)) {
           $stock_quantity = 1;
       } 
       elseif(empty($exd_date)) {
-        $exd_date = 90;
+        $exd_date = 0;
       }else {
          try {
               if (!isset($errorMsg)) {
                   $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,quantity,exp_date,exd_date,bn_stock) VALUES (:user_id,:stock_id,:quantity,:exp_date,:exd_date,:bn_stock)");
+                  
                   $insert_full_stock->bindParam(':user_id', $stock_user_id);
                   $insert_full_stock->bindParam(':stock_id', $stock_id);
                   $insert_full_stock->bindParam(':quantity', $stock_quantity);
@@ -24,9 +24,23 @@
                   $insert_full_stock->bindParam(':exd_date', $exd_date);
                   $insert_full_stock->bindParam(':exd_date', $exd_date);
                   $insert_full_stock->bindParam(':bn_stock', $stock_bn_stock);
+
+
+                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log) VALUES (:user_id_log,:exp_date_log,:item_quantity,:exd_date_log,LAST_INSERT_ID())");
+                  $insert_full_stock_log->bindParam(':user_id_log', $stock_user_id);
+                  $insert_full_stock_log->bindParam(':exp_date_log', $exp_date);
+                  $insert_full_stock_log->bindParam(':item_quantity', $stock_quantity);
+                  $insert_full_stock_log->bindParam(':exd_date_log', $exd_date);
+                  
+
+
                   if ($insert_full_stock->execute()) {
-                      $insertMsg = "เพิ่มข้อมูลสำเร็จ...";
-                      header("refresh:1;stock_center.php");
+                      if($insert_full_stock_log->execute()){
+                        $insertMsg = "เพิ่มข้อมูลสำเร็จ...";
+                        header("refresh:1;stock_center.php");
+                      }else{
+                        $insertMsg = "ตารางที่ Logมีปัญหา...";
+                      }
                   }
                   else {
                     $errorMsg="การส่งข้อมูลเกิด เหตุขัดข้อง";
@@ -252,7 +266,7 @@
                             </div>
                             <div class="row">
                             <label class="form-label " for="customFile">ข้อมูลเพิ่มเติม</label>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form.group">
                                     <input type="text" name="txt_quantity" value="" class="form-control"
                                         placeholder="จำนวน">
@@ -261,7 +275,7 @@
                             <div class="col-md-5">
                                 <div class="form.group">
                                     <input type="text" name="txt_exd_date" class="form-control"
-                                        placeholder="EXD(จำนวนวัน)" value="">
+                                        placeholder="EXD(จำนวนวัน)" value="1" hidden>
                                 </div>
                             </div>
                         </div>

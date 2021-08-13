@@ -97,6 +97,14 @@
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                                <div class="col">
+                                    
+                                </div>
+                                <div class="col md-12">
+                                    <button class="btn btn-info">แก้ไข</button >
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>E-mail</label>
