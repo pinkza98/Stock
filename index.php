@@ -9,7 +9,7 @@
 
     <!-- Bootstrap CSS -->
 
-    <title>Plus dental clinic</title>
+    <title>Plus Dental Clinic</title>
     
     <?php include('components/header.php');?>
    <!-- <==========================================boostrap5==================================================> -->

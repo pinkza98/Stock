@@ -59,7 +59,7 @@
     <body>
         <header>
             <div class="display-3 text-xl-center">
-                <H2>รายการคลังของส่วนกลาง </H2>
+                <H2>PIVOT สต๊อกคลังสาขา </H2>
             </div>
         </header>
         <hr>
@@ -79,7 +79,6 @@
                 <thead class="table-dark">
                     <tr class="table-active">
                         <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">สาขาส่วนกลาง</th>
                         <th scope="col" class="text-center">สาขาอารีย์</th>
                         <th scope="col" class="text-center">สาขาอุดมสุข</th>
                         <th scope="col" class="text-center">สาขาอโศก</th>
@@ -90,7 +89,8 @@
                         <th scope="col" class="text-center">สาขาแจ้งวัฒนะ</th>
                         <th scope="col" class="text-center">สาขาบางแค</th>
                         <th scope="col" class="text-center">สาขาพระราม2</th>
-                        <th scope="col" class="text-center">สาขารามคําแหง</th>
+                        <th scope="col" class="text-center">สาขาพระรามคำแหง</th>
+                        <th scope="col" class="text-center">สาขาส่วนกลาง</th>
                         <th scope="col" class="text-center">รวม</th>
 
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
@@ -126,7 +126,7 @@
             ?>
                     <tr class="table-light">
                         <td><?php echo $row["code_item"]; ?></td>
-                        <td><?php echo $row["BN1"]; ?></td>
+                        
                         <td><?php echo $row["BN2"]; ?></td>
                         <td><?php echo $row["BN3"]; ?></td>
                         <td><?php echo $row["BN4"]; ?></td>
@@ -138,6 +138,7 @@
                         <td><?php echo $row["BN10"]; ?></td>
                         <td><?php echo $row["BN11"]; ?></td>
                         <td><?php echo $row["BN12"]; ?></td>
+                        <td><?php echo $row["BN1"]; ?></td>
                         <td><?php echo $row["SUM_BN"]; ?></td>
 
                         <?php } ?>
@@ -145,8 +146,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="table-active">
-                        <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">สาขาส่วนกลาง</th>
+                    <th scope="col" class="text-center">รหัส</th>
                         <th scope="col" class="text-center">สาขาอารีย์</th>
                         <th scope="col" class="text-center">สาขาอุดมสุข</th>
                         <th scope="col" class="text-center">สาขาอโศก</th>
@@ -157,8 +157,10 @@
                         <th scope="col" class="text-center">สาขาแจ้งวัฒนะ</th>
                         <th scope="col" class="text-center">สาขาบางแค</th>
                         <th scope="col" class="text-center">สาขาพระราม2</th>
-                        <th scope="col" class="text-center">สาขารามคําแหง</th>
+                        <th scope="col" class="text-center">สาขาพระรามคำแหง</th>
+                        <th scope="col" class="text-center">สาขาส่วนกลาง</th>
                         <th scope="col" class="text-center">รวม</th>
+
                     </tr>
                 </tfoot>
             </table>
