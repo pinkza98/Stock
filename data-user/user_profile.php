@@ -51,7 +51,7 @@
                         <?php 
                         if($row_session['user_img']==''){
                             ?>
-                        <img src="img_user/user_img.png" width="200 " height="200" alt="" />
+                        <img src="img_user/user_img.png" width="auto " height="auto"/>
                         <?php
                         }else{
                             ?>
@@ -74,15 +74,11 @@
                         </h6>
                         <p class="proile-rating">ตำแหน่ง : <span><?php echo $row_session['level_name'] ?> </span></p>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                    aria-controls="home" aria-selected="true">ข้อมูลติดต่อ</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-outline-dark"/><a href="edit/user_profile_edit.php">Edit Profile</a> </button></a>
+                    <button type="submit" class="btn btn-outline-dark"/><a href="edit/user_profile_edit.php">แก้ไขข้อมูลติดต่อ</a> </button></a>
                 </div>
             </div>
             <div class="row">
@@ -95,6 +91,7 @@
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <label class="mb-5">ข้อมูลติดต่อ</label>
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>E-mail</label>
@@ -120,6 +117,16 @@
                                 <div class="col-md-6">
                                     <p><?php echo $row_session['user_line'] ?></p>
                                 </div>
+                                <div class="row md-6 pt-4">
+                                    <button class="btn btn-outline-dark" /><a href="edit/user_repassword.php">เปลี่ยนรหัสผ่าน</a></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    
+                                </div>
+                                
                             </div>
                         </div>
                     </div>

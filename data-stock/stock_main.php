@@ -22,19 +22,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-           
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css"/>
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.css"/>
             <script type="text/javascript" src="../node_modules/data-table/bootstrap-table.min.css"></script> 
             <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js"></script>
+            
+    <?php include('../components/header.php');?>
     <script>
         $(document).ready( function () {
             
         $('#stock').DataTable();
             } );
     </script>
-    <?php include('../components/header.php');?>
   </head>
   <body>
     <?php include('../components/nav_stock.php'); ?>
@@ -63,15 +63,14 @@
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัส</th>
-             <th scope="col" class="text-center">หมวดหมู่</th>
-             <th scope="col" class="text-center">ชื่อรายการ</th>
-             <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ชนิด</th>
+            <th scope="col" class="text-center">หมวดหมู่</th>
+            <th scope="col" class="text-center">ชื่อรายการ</th>
+            <th scope="col" class="text-center">หน่วยนับ</th>
+            <th scope="col" class="text-center">ชนิด</th> 
             <th scope="col" class="text-center">ผู้ขาย</th>  
             <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
             <th scope="col" class="text-center">แก้ไข</th>  
             <th scope="col" class="text-center">ลบ</th>  
-            
         </tr>
     </thead>
     <tbody >
@@ -89,24 +88,24 @@
       
       <tr  class="table-light">
         <td><?php echo $row["code_item"]; ?></td>
-         <td><?php echo $row["catagories_name"]; ?></td>
-         <td><?php echo $row["item_name"]; ?></td>
+        <td><?php echo $row["catagories_name"]; ?></td>
+        <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
-         <td><?php echo $row["type_name"]; ?></td>
+        <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>    
         <!-- <td><?php echo $row["code_item"]; ?></td> -->
         <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
+        <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
         <?php } ?>
       </tr>
     </tbody>
     <tfoot  a>
             <tr class="table-active">
             <th scope="col" class="text-center">รหัส</th>
-             <th scope="col" class="text-center">หมวดหมู่</th>
-             <th scope="col" class="text-center">ชื่อรายการ</th>
-             <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ชนิด</th>
+            <th scope="col" class="text-center">หมวดหมู่</th>
+            <th scope="col" class="text-center">ชื่อรายการ</th>
+            <th scope="col" class="text-center">หน่วยนับ</th>
+            <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
             <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
             <th scope="col" class="text-center">แก้ไข</th>
