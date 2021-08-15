@@ -57,7 +57,7 @@
   <body>
   <?php include('../../components/nav_edit.php'); ?>
     <header>
-      <div class="display-3 text-xl-center">
+      <div class="display-3 text-xl-center mt-4">
         <H2>แก้ไขรายการคงคลัง</H2>  
       </div>
     </header>

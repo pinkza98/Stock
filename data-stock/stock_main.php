@@ -49,9 +49,9 @@
           <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>  <!---แก้ไขแล้ว--> 
   </head>
   <body>
-    <header></header>
+    <header>
       <div class="display-3 text-xl-center">
-      <H2>Plus Dental Clinic</H2>
+      <H2>รายการคงคลัง</H2>
       </div>
     </header>
     <hr><br>
@@ -62,11 +62,10 @@
     <thead class="table-dark">
         <tr class="table-active">
             
-            <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
+            <th scope="col" class="text-center">รหัส</th>
              <th scope="col" class="text-center">หมวดหมู่</th>
              <th scope="col" class="text-center">ชื่อรายการ</th>
              <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ราคา</th>
              <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>  
             <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
@@ -87,12 +86,12 @@
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
+      
       <tr  class="table-light">
         <td><?php echo $row["code_item"]; ?></td>
          <td><?php echo $row["catagories_name"]; ?></td>
          <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
-         <td><?php echo $row["price_stock"]; ?></td>
          <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>    
         <!-- <td><?php echo $row["code_item"]; ?></td> -->
@@ -103,11 +102,10 @@
     </tbody>
     <tfoot  a>
             <tr class="table-active">
-            <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
+            <th scope="col" class="text-center">รหัส</th>
              <th scope="col" class="text-center">หมวดหมู่</th>
              <th scope="col" class="text-center">ชื่อรายการ</th>
              <th scope="col" class="text-center">หน่วยนับ</th>
-             <th scope="col" class="text-center">ราคา</th>
              <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
             <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->

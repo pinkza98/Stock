@@ -18,7 +18,7 @@
 <body>
     <?php include('../components/nav_user.php'); ?>
     </header>
-    <hr><br>
+    
 
     <?php include('../components/content.php')?>
     <?php 
@@ -38,7 +38,7 @@
     </div>
     <?php } ?>
     <header>
-    <div class="container text-center mt-2">
+    <div class="container text-center mt-5">
             <h2>ข้อมูลส่วนตัว</h2>
         </div>
     </header>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="profile-head">
+                    <div class="container-fluid">
                         <h5>
                             ชื่อ-สกุล <?php echo $row_session['prefix_name']; ?>
                             <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?>
@@ -78,13 +78,11 @@
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                     aria-controls="home" aria-selected="true">ข้อมูลติดต่อ</a>
                             </li>
-
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a href="user_profile_edit.php"></a> <button type="submit" class="btn btn-outline-dark"
-                        name="btnAddMore" />Edit Profile</button></a>
+                    <button type="submit" class="btn btn-outline-dark"/><a href="edit/user_profile_edit.php">Edit Profile</a> </button></a>
                 </div>
             </div>
             <div class="row">
@@ -97,14 +95,6 @@
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
-                                <div class="col">
-                                    
-                                </div>
-                                <div class="col md-12">
-                                    <button class="btn btn-info">แก้ไข</button >
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>E-mail</label>
@@ -113,6 +103,7 @@
                                     <p> <?php echo $row_session['username'] ?></p>
                                 </div>
                             </div>
+                            <hr>
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>TelePhone</label>
@@ -121,6 +112,7 @@
                                     <p><?php echo $row_session['user_tel'] ?></p>
                                 </div>
                             </div>
+                            <hr>
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>ID Line</label>
