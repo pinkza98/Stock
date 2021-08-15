@@ -10,7 +10,7 @@
       $select_user_check->execute(array(':new_user_id' => $user_id));
       $row = $select_user_check->fetch(PDO::FETCH_ASSOC);
      $password_check=password_verify($password,$row['password']);
-     if($password_check ==1){
+     if($password_check ==true){
         if(empty($password1)){
             $errorMsg="รหัสผ่านใหม่ ไม่เป็นค่าว่าง";
           }
