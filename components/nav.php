@@ -26,7 +26,19 @@ if (isset($_SESSION['user_login'])) {
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ">
+                <li class="nav-item dropdown ms-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            อนุมัติรายการร้องขอ
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            
+                            
+                            <li><a class="dropdown-item" href="#">เบิก</a></li>
 
+                            <li><a class="dropdown-item" href="#">สต๊อก</a></li>
+                        </ul>
+                    </li>
 
                     <li class="nav-item dropdown ms-2">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -66,7 +78,7 @@ if ($row_session['user_lv'] >= 3) {
                             <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ สาขา</a></li>
 
                             <li>
-                                <hr class="dropdown-divider">
+                                <hr class="dropdown-divider"><a >(กระบวการจัดเตรียมข้อมูล)</a>
                             </li>
                             <li><a class="dropdown-item" href="data-stock/item.php">จัดการรายชื่อรายการ</a></li>
                             <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการvendor</a></li>

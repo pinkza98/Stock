@@ -5,8 +5,15 @@
       $stock_bn_stock= $_REQUEST['txt_user_bn'];
       $stock_id = $_REQUEST['txt_stock_id'];
       $stock_quantity = $_REQUEST['txt_quantity'];
-      $exp_date = date('Y-m-d');
-      $exd_date = $_REQUEST['txt_exd_date'];
+      $exd_date_set = $_REQUEST['txt_exd_date'];
+
+      $date=date_create();
+      $exd_date_set2=date_modify($date,"+$exd_date_set days");
+
+      $exd_date=date_format($exd_date_set2 ,"Y-m-d" );
+      $exp_date = $now = date_create()->format('Y-m-d');
+      
+
       if (empty($stock_quantity)) {
           $stock_quantity = 1;
       } 
@@ -15,29 +22,28 @@
       }else {
          try {
               if (!isset($errorMsg)) {
-                  $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,quantity,exp_date,exd_date,bn_stock) VALUES (:user_id,:stock_id,:quantity,:exp_date,:exd_date,:bn_stock)");
+                  $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,quantity,exp_date,exd_date,bn_stock) VALUES (:user_id,:stock_id,:quantity,:new_exp_date,:new_exd_date,:bn_stock)");
                   
                   $insert_full_stock->bindParam(':user_id', $stock_user_id);
                   $insert_full_stock->bindParam(':stock_id', $stock_id);
                   $insert_full_stock->bindParam(':quantity', $stock_quantity);
-                  $insert_full_stock->bindParam(':exp_date', $exp_date);
-                  $insert_full_stock->bindParam(':exd_date', $exd_date);
-                  $insert_full_stock->bindParam(':exd_date', $exd_date);
+                  $insert_full_stock->bindParam(':new_exd_date', $exd_date);
+                  $insert_full_stock->bindParam(':new_exp_date', $exp_date);
                   $insert_full_stock->bindParam(':bn_stock', $stock_bn_stock);
 
 
-                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log) VALUES (:user_id_log,:exp_date_log,:item_quantity,:exd_date_log,LAST_INSERT_ID())");
+                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log) VALUES (:user_id_log,:new_exp_date_log,:item_quantity,:new_exd_date_log,LAST_INSERT_ID())");
                   $insert_full_stock_log->bindParam(':user_id_log', $stock_user_id);
-                  $insert_full_stock_log->bindParam(':exp_date_log', $exp_date);
+                  $insert_full_stock_log->bindParam(':new_exp_date_log', $exp_date);
                   $insert_full_stock_log->bindParam(':item_quantity', $stock_quantity);
-                  $insert_full_stock_log->bindParam(':exd_date_log', $exd_date);
+                  $insert_full_stock_log->bindParam(':new_exd_date_log', $exd_date);
                   
 
 
                   if ($insert_full_stock->execute()) {
                       if($insert_full_stock_log->execute()){
                         $insertMsg = "เพิ่มข้อมูลสำเร็จ...";
-                        header("refresh:1;stock_center.php");
+                        header("refresh:6;stock_center.php");
                       }else{
                         $insertMsg = "ตารางที่ Logมีปัญหา...";
                       }
@@ -52,6 +58,7 @@
              }
            catch (PDOException $e) {
               echo $e->getMessage();
+            
           }
         }
       
@@ -165,6 +172,7 @@
             $vendor = null;
             $type_catagories = null;
             $type_item = null;
+            $exd_date = null;
             
           }
           if(isset($_POST['check'])){
@@ -201,11 +209,18 @@
                                 <input type="text" name="txt_code_item" value="" hidden>
                             </div>
                             <div class="row g-3">
-                                <div class="col-sm-7">
+                            <div class="col-sm-8">
                                     <input type="text" class="form-control" name="txt_item_name"
                                         value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ"
                                         disabled>
                                 </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" 
+                                        value="<?php echo$exd_date?>" placeholder="อายุการใช้งาน" aria-label="อายุการใช้งาน"
+                                        disabled>
+                                        <input type="number" name="txt_exd_date" value="<?php echo$exd_date?>" hidden> 
+                                </div>
+                                
                                 <div class="col-sm">
                                     <input type="text" class="form-control" name="txt_price"
                                         value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" disabled>
@@ -272,12 +287,7 @@
                                         placeholder="จำนวน">
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                <div class="form.group">
-                                    <input type="text" name="txt_exd_date" class="form-control"
-                                        placeholder="EXD(จำนวนวัน)" value="1" hidden>
-                                </div>
-                            </div>
+                            
                         </div>
                             <div class="row g-3 mt-3">
                                 <div class="col-sm-4">
@@ -298,6 +308,7 @@
                                 <input type="text" name="txt_stock_id" value="<?php echo$stock_id?>" hidden>
                                 <input type="text" name="txt_user_bn" value="<?php echo$user_bn?>" hidden>
                                 <input type="text" name="txt_user_id" value="<?php echo$row_session['user_id'] ?>" hidden>
+                               
 
                                 <br>
                                 <div class="col-sm-4">

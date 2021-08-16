@@ -120,7 +120,7 @@
                         <?php } ?>
                     </tr>
                 </tbody>
-                <tfoot a>
+                <tfoot>
                     <tr class="table-active">
                         <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
                         <th scope="col" class="text-center">ชื่อรายการ</th>

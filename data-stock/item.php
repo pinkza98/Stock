@@ -22,6 +22,8 @@
       $code_item = $_REQUEST['txt_code_item'];
       $unit = $_REQUEST['txt_unit'];
       $price_stock = $_REQUEST['txt_price'];
+      $exd_date = $_REQUEST['txt_exd_date'];
+
 
       $select_item = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
       $select_item->bindParam(':code_item_row', $code_item);
@@ -29,17 +31,21 @@
       if ($select_item->fetchColumn() > 0){
         $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
       }
+      elseif(empty($exd_date)){
+        $errorMsg = "Please enter EXD Date";
+      }
       elseif (empty($item_name)) {
           $errorMsg = "Please enter item name";
       } else {
           try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO item (item_name,code_item,unit,price_stock) VALUES (:item_name,:code_item,:unit,:price_stock)");
-                  $insert_stmt->bindParam(':item_name', $item_name);
-                  $insert_stmt->bindParam(':code_item', $code_item);
-                  $insert_stmt->bindParam(':unit', $unit);
-                  $insert_stmt->bindParam(':price_stock', $price_stock);
-
+                  $insert_stmt = $db->prepare("INSERT INTO item (item_name,code_item,unit,price_stock,exd_date) VALUES (:new_item_name,:new_code_item,:new_unit,:new_price_stock,:new_exd_date)");
+                  $insert_stmt->bindParam(':new_item_name', $item_name);
+                  $insert_stmt->bindParam(':new_code_item', $code_item);
+                  $insert_stmt->bindParam(':new_unit', $unit);
+                  $insert_stmt->bindParam(':new_price_stock', $price_stock);
+                  $insert_stmt->bindParam(':new_exd_date', $exd_date);
+                 
                   if ($insert_stmt->execute()) {
                       $insertMsg = "Insert Successfully...";
                       header("refresh:1;item.php");
@@ -82,7 +88,7 @@
     <header>
     
       <div class="display-3 text-xl-center">
-        <H2>เพิ่มรายการใหม่</H2>  
+        <H2>เพิ่มรายการใหม่ </H2>  
       </div>
 
     </header>
@@ -106,8 +112,9 @@
         </div>
     <?php } ?>
     
-   <div class="container px-4">
-     
+   <div class="container">
+     <div class="row">
+     <div class="container col-md-7">
    <form method="post">
    <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">ชื่อรายการ</label>
@@ -116,12 +123,12 @@
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">รหัสบาร์โค้ด</label>
       <input type="number" class="form-control" name="txt_code_item" min="100000" max="999999" onKeyUp="if(this.value>999999){this.value='999999';}else if(this.value<0){this.value='0';}"id="yourid">
-      <!-- <input type="txt_code_item"> -->
-    </div>
+      </div>
+      
       <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">หน่วยนับ</label>
 
-      <select name="txt_unit" id="unit_name"class="form-control form-control-lg select2">>
+      <select type="number" name="txt_unit" id="unit_name"class="form-control">>
             <option value="" selected hidden>--- เลือก ---</option>
             <?php 
               $query = "SELECT * FROM unit ORDER BY unit_id ";
@@ -141,23 +148,29 @@
       <input type="number" class="form-control" name="txt_price" min="0.01" step="0.01" onKeyUp="if(this.value>1000000.00){this.value='1000000.00';}else if(this.value<0.00){this.value='0.00';}"id="yourid">
       </div>
       <div class="mb-4">
-      <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
+      <label for="formGroupExampleInput" class="form-label">วันหมดอายุ</label>
+      <input type="number" class="form-control" name="txt_exd_date">
+      </div>
+      <div class="mb-4">
+      <input type="submit" name="save" class="btn btn-outline-success" value="Add">
                     <a href="item.php" class="btn btn-outline-danger">reset</a>
     </div>
     </form>
-  
+  </div>
+     </div>
   <hr>
   <div class="text-center"><H2>แสดงข้อมูล</H2></div>
   <br>
    <table class="table table-dark table-hover text-xl-center">
     <thead>
       <tr>
-        <th scope="col">ชื่อรายการ</th>
-        <th scope="col">รหัสบาร์โค้ด</th>
-        <th scope="col">หน่วยนับ</th>
-        <th scope="col">ราคา(บาท)</th>
-        <th scope="col">แก้ไข</th>
-        <th scope="col">ลบ</th>
+        <th>ชื่อรายการ</th>
+        <th>รหัสบาร์โค้ด</th>
+        <th>หน่วยนับ</th>
+        <th>ราคา(บาท)</th>
+        <th>วันหมดอายุ</th>
+        <th>แก้ไข</th>
+        <th>ลบ</th>
         
         
       
@@ -174,6 +187,7 @@
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["unit_name"]; ?></td>
         <td><?php echo $row["price_stock"]; ?></td>
+        <td><?php echo $row["exd_date"]; ?>(วัน)</td>
         <td><a href="edit/item_edit.php?update_id=<?php echo $row["item_id"]; ?>" class="btn btn-outline-warning">View</a></td>
         <td><a href="?delete_id=<?php echo $row["item_id"];?>" class="btn btn-outline-danger">Delete</a></td>
         

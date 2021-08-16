@@ -9,6 +9,7 @@
       $type_catagories = $_REQUEST['txt_type_catagories'];
       $item_name = $_REQUEST['txt_item_name'];
       $price = $_REQUEST['txt_price'];
+      $exd_date = $_REQUEST['txt_exd_date'];
 
       $image_file = $_FILES['txt_file']['name'];  
       $type = $_FILES['txt_file']['type'];
@@ -57,13 +58,14 @@
           }
       } try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories,img_stock) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories,:img_stock)");
+                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories,img_stock,exd_date) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories,:img_stock,:new_exd_date)");
                   $insert_stmt->bindParam(':vendor', $vendor);
                   $insert_stmt->bindParam(':unit', $unit);
                   $insert_stmt->bindParam(':code_item', $code_item);
                   $insert_stmt->bindParam(':type_item', $type_item);
                   $insert_stmt->bindParam(':type_catagories', $type_catagories);
                   $insert_stmt->bindParam(':img_stock', $image_file);
+                  $insert_stmt->bindParam(':new_exd_date', $exd_date);
                   if ($insert_stmt->execute()) {
                       $insertMsg = "Insert Successfully...";
                       header("refresh:1;stock.php");
@@ -174,6 +176,7 @@
                 <div class="col-sm">
                   <input type="text" class="form-control"   value="<?php echo$unit_name?>" placeholder="ต่อหน่วย" aria-label="หน่วย" >
                   <input type="text"  name="txt_unit" value="<?php echo$unit_id?>"hidden>
+                  <input type="text"  name="txt_exd_date" value="<?php echo$exd_date?>"hidden>
                 </div>
               </div>
               <div class="row g-2">

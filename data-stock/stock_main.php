@@ -68,7 +68,7 @@
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">ชนิด</th> 
             <th scope="col" class="text-center">ผู้ขาย</th>  
-            <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
+            <th scope="col" class="text-center">EXD</th>
             <th scope="col" class="text-center">แก้ไข</th>  
             <th scope="col" class="text-center">ลบ</th>  
         </tr>
@@ -81,7 +81,7 @@
           INNER JOIN unit ON stock.unit = unit.unit_id  
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
           INNER JOIN type_name ON stock.type_item = type_name.type_id
-          ORDER BY stock_id DESC");
+          ORDER BY stock_id DESC ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
@@ -93,7 +93,7 @@
           <td><?php echo $row["unit_name"]; ?></td>
         <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>    
-        <!-- <td><?php echo $row["code_item"]; ?></td> -->
+        <td><?php echo $row["exd_date"]; ?>(วัน)</td>
         <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>
         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
         <?php } ?>
@@ -107,7 +107,7 @@
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
-            <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
+            <th scope="col" class="text-center">EXD</th>
             <th scope="col" class="text-center">แก้ไข</th>
             <th scope="col" class="text-center">ลบ</th>
             </tr>
