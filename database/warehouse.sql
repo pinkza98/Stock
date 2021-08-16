@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2021 at 10:47 AM
+-- Generation Time: Aug 16, 2021 at 01:05 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -86,11 +86,7 @@ INSERT INTO `branch_stock` (`full_stock_id`, `user_id`, `stock_id`, `quantity`, 
 (14, 26, 1, 60, '2021-08-13', '0000-00-00', 1),
 (15, 26, 1, 18, '2021-08-13', '0000-00-00', 1),
 (16, 26, 1, 20, '2021-08-13', '0000-00-00', 1),
-(17, 26, 1, 6, '2021-08-13', '0000-00-00', 11),
-(18, 26, 0, 50, '2021-08-16', '0000-00-00', 1),
-(19, 26, 0, 20, '2021-08-16', '0000-00-00', 1),
-(20, 26, 0, 10, '2021-08-16', '0000-00-00', 1),
-(21, 26, 0, 100, '2021-08-16', '0000-00-00', 1);
+(17, 26, 1, 6, '2021-08-13', '0000-00-00', 11);
 
 -- --------------------------------------------------------
 
@@ -131,7 +127,10 @@ INSERT INTO `branch_stock_log` (`stock_log_id`, `user_id_log`, `exp_date_log`, `
 (17, 26, '2021-08-16', 50, '0000-00-00', 18),
 (18, 26, '2021-08-16', 20, '0000-00-00', 19),
 (19, 26, '2021-08-16', 10, '0000-00-00', 20),
-(20, 26, '2021-08-16', 100, '0000-00-00', 21);
+(20, 26, '2021-08-16', 100, '0000-00-00', 21),
+(21, 26, '2021-09-15', 30, '2021-09-15', 22),
+(22, 26, '2021-09-15', 8, '2021-09-15', 23),
+(23, 26, '2021-08-16', 30, '2021-09-15', 24);
 
 -- --------------------------------------------------------
 
@@ -3234,13 +3233,13 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `branch_stock_log`
 --
 ALTER TABLE `branch_stock_log`
-  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `catagories`
