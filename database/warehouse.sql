@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2021 at 01:33 PM
+-- Generation Time: Aug 16, 2021 at 03:29 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -83,7 +83,6 @@ INSERT INTO `branch_stock` (`full_stock_id`, `user_id`, `stock_id`, `quantity`, 
 (10, 26, 1, 5, '2021-08-13', 30, 4),
 (11, 26, 1, 18, '2021-08-13', 30, 2),
 (12, 26, 1, 29, '2021-08-13', 30, 3),
-(13, 26, 2, 30, '2021-08-13', 50, 1),
 (14, 26, 1, 60, '2021-08-13', 30, 1),
 (15, 26, 1, 18, '2021-08-13', 50, 1),
 (16, 26, 1, 20, '2021-08-13', 30, 1),
@@ -3028,10 +3027,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`, `user_img`) VALUES
-(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 1, '08xxxxxxx', 1, 'นายอรรถพล', 'สีชา', '@line', ''),
+(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 1, 1, '082602362', 1, 'นายอรรถพล', 'สีชา', 'atthapol@line', ''),
 (17, 'test2@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 2, '08xxxxxxx', 1, 'xxx', 'xxx', '@line', ''),
 (18, 'test3@gmail.com', '$2y$10$4cARNEyLhJ/gZRwmP0IFZOWDZXpJCsslF5SJyTxGujBLPE4ovqhsq', 4, 3, '08xxxxxxx', 1, 'xxx', 'xxx', '@line', ''),
-(26, 'test4@gmail.com', '$2y$10$s.jKx.NLyF.Y38HSqeHxQur8ougH39UlAm86crCkL.DT6g6/.XIoK', 1, 4, '08xxxxxxx', 1, 'test', '4', '@line', 'atthapol.jpg'),
+(26, 'test4@gmail.com', '$2y$10$p5TEThISss98q206RN0ks.UI8dOYuaeUu6IIalmO7ethxbe8xc/O6', 1, 4, '0828602362', 1, 'test', '4', '0828602362', '123444.png'),
 (27, 'test_A.1@gmail.com', '$2y$10$1si5eHc/xTEErV0ZhzRQi.qSR6re.CibMGRrlZeHiscCAgUCOkjzy', 10, 1, '08xxxxxxx', 2, 'test', 'test', '@line', ''),
 (28, 'test_A.2@gmail.com', '$2y$10$NaH9MNQHnkDh.duR.bcfOelbXpfUtg6MfhXUgLyXKPJrJZvtNJTle', 10, 2, '08xxxxxxx', 3, 'test', 'test', '@line', ''),
 (29, 'test_A.3@gmail.com', '$2y$10$86ArcBx1ml3QI96qa7Vya.h.rAcXiQvv8QQaCrY4XEuq9b09k.mTe', 10, 1, '08xxxxxxx', 3, 'test', 'test', '@line', ''),
