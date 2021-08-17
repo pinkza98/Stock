@@ -68,10 +68,11 @@
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัส</th>
-            <th scope="col" class="text-center">หมวดหมู่</th>
+            
             <th scope="col" class="text-center">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">EXD</th>
+            <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>  
             <th scope="col" class="text-center">รูปภาพ</th>
@@ -92,11 +93,11 @@
     ?>
       <tr  class="table-light">
         <td><?php echo $row["code_item"]; ?></td>
-        <td><?php echo $row["catagories_name"]; ?></td>
         <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
         <td><?php echo $row["exd_date"]; ?>(วัน)</td>
         <td><?php echo $row["type_name"]; ?></td>
+        <td><?php echo $row["catagories_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>   
         <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
           <td><button data-fancybox="gallery"data-src="data-stock/img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="data-stock/img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
@@ -109,10 +110,10 @@
     <tfoot  a>
             <tr class="table-active">
             <th scope="col" class="text-center">รหัส</th>
-            <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">EXD</th>
+            <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
             <th scope="col" class="text-center">รูปภาพ</th>

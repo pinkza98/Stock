@@ -22,10 +22,13 @@
       }else {
          try {
               if (!isset($errorMsg)) {
-                  $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,bn_stock) VALUES (:user_id,:stock_id,:bn_stock)");
+                  $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,quantity,exp_date,exd_date,bn_stock) VALUES (:user_id,:stock_id,:quantity,:new_exp_date,:new_exd_date,:bn_stock)");
                   
                   $insert_full_stock->bindParam(':user_id', $stock_user_id);
                   $insert_full_stock->bindParam(':stock_id', $stock_id);
+                  $insert_full_stock->bindParam(':quantity', $stock_quantity);
+                  $insert_full_stock->bindParam(':new_exd_date', $exd_date);
+                  $insert_full_stock->bindParam(':new_exp_date', $exp_date);
                   $insert_full_stock->bindParam(':bn_stock', $stock_bn_stock);
 
 
@@ -40,7 +43,7 @@
                   if ($insert_full_stock->execute()) {
                       if($insert_full_stock_log->execute()){
                         $insertMsg = "เพิ่มข้อมูลสำเร็จ...";
-                        header("refresh:1;stock_center.php");
+                        header("refresh:6;stock_center.php");
                       }else{
                         $insertMsg = "ตารางที่ Logมีปัญหา...";
                       }
@@ -82,7 +85,7 @@
     <header>
 
         <div class="display-3 text-xl-center mt-3">
-            <H2>นับสต๊อกของส่วนกลาง</H2>
+            <H2>เบิกรายการคลัง</H2>
         </div>
     </header>
     <hr><br>
@@ -200,10 +203,16 @@
                     <div class="card">
                         <div class="card-header">
                             <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
-                            <div class="mb-3">
+                            <div class="row g-3">
+                            <div class="col-sm-8 mb-3 ">
                                 <input type="text" name="text_code_new" value="<?php echo$code_item?>"
                                     class="form-control" placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" disabled>
                                 <input type="text" name="txt_code_item" value="" hidden>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <input type="text" name="text_code_new" value="<?php echo$code_item?>"
+                                    class="form-control" placeholder="สาขา"  disabled>
+                            </div>
                             </div>
                             <div class="row g-3">
                             <div class="col-sm-8">
@@ -213,7 +222,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" 
-                                        value="<?php echo$exd_date?>" placeholder="อายุการใช้งาน" aria-label="อายุการใช้งาน"
+                                        value="<?php echo$exd_date?>" placeholder="จำนวนคงเหลือ" 
                                         disabled>
                                         <input type="number" name="txt_exd_date" value="<?php echo$exd_date?>" hidden> 
                                 </div>
@@ -246,13 +255,13 @@
                                     }
                                ?>
                                     <input type="text" class="form-control" value="<?php echo$unit_name?>"
-                                        placeholder="ต่อหน่วย" aria-label="หน่วย" disabled>
+                                        placeholder="หน่วย"  disabled>
 
                                 </div>
                             </div>
                             <div class="row g-2">
                                 <label for="formGroupExampleInput"
-                                    class="form-label">ประเภทรายการ<?php echo$item_id?></label>
+                                    class="form-label mt-3">ประเภทรายการ<?php echo$item_id?></label>
                                 <div class="col-sm-6">
 
 
@@ -269,15 +278,9 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="formGroupExampleInput2" class="form-label">ผู้ขาย</label>
-
-                                <input type="text" class="form-control" value="<?php echo$vendor_name?>"
-                                    placeholder="ผู้ขาย" aria-label="หน่วย" disabled>
-
-                            </div>
+                           
                             <div class="row">
-                            <label class="form-label " for="customFile">ข้อมูลเพิ่มเติม</label>
+                            <label class="form-label mt-2" for="customFile">จำนวนที่ต้องการเบิก</label>
                             <div class="col-md-6">
                                 <div class="form.group">
                                     <input type="text" name="txt_quantity" value="" class="form-control"

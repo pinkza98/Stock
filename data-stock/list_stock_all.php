@@ -91,21 +91,22 @@
                 </thead>
                 <tbody>
                     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+          $select_stmt = $db->prepare("SELECT img_stock,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
           INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
           INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
           INNER JOIN unit ON stock.unit = unit.unit_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
-          ORDER BY full_stock_id DESC");
+          INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+          group by code_item, bn_name DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
                     <tr class="table-light">
                         <td><?php echo $row["code_item"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
-                        <td><?php echo $row["quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
+                        <td><?php echo $row["sum"]; ?> <?php echo $row["unit_name"]; ?> </td>
                         <td><?php echo $row["catagories_name"]; ?></td>
                         <td><?php echo $row["type_name"]; ?></td>
                         <td><?php echo $row["bn_name"]; ?></td>

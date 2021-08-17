@@ -71,7 +71,7 @@
         </div>
         </header>
         <?php include('../components/content.php')?>
-        <div class="container">
+        <div class="m-5">
             <br>
             <table class="table table-dark table-hover text-xl-center" id="stock">
 
@@ -81,11 +81,12 @@
                         <th scope="col" class="text-center">รหัส</th>
                         <th scope="col" class="text-center">รายการ</th>
                         <th scope="col" class="text-center">จำนวน</th>
-                        <th scope="col" class="text-center">ราคา</th>
+                        <!-- <th scope="col" class="text-center">ราคา</th> -->
                         <th scope="col" class="text-center">หมวด</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วัน/เดือน/ปี</th>
+                        <th scope="col" class="text-center">วันที่เพิ่ม</th>
+                        <th scope="col" class="text-center">หมดอายุในอีก</th>
                         <th scope="col" class="text-center">สาขา</th>
                         <th scope="col" class="text-center">ผู้ขาย</th>
                         <!-- <th scope="col" class="text-center">ชนิด</th> -->
@@ -107,6 +108,7 @@
                         INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
                         INNER JOIN unit ON stock.unit = unit.unit_id
                         INNER JOIN type_name ON stock.type_item = type_name.type_id
+                        INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                         INNER JOIN user ON branch_stock.user_id = user.user_id
                         INNER JOIN vendor ON stock.vendor = vendor.vendor_id
                         ORDER BY full_stock_id DESC");
@@ -118,6 +120,7 @@
                         INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
                         INNER JOIN unit ON stock.unit = unit.unit_id
                         INNER JOIN type_name ON stock.type_item = type_name.type_id
+                        INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                         INNER JOIN user ON branch_stock.user_id = user.user_id
                         INNER JOIN vendor ON stock.vendor = vendor.vendor_id
                         WHERE bn_stock ='".$row_session["user_bn"]."'
@@ -129,12 +132,17 @@
                     <tr class="table-light">
                     <td><?php echo $row["code_item"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
-                        <td><?php echo $row["quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
-                        <td><?php echo $row["price_stock"]; ?> บาท</td>
+                        <td><?php echo $row["item_quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
+                        <!-- <td><?php echo $row["price_stock"]; ?> บาท</td> -->
                         <td><?php echo $row["catagories_name"]; ?></td>
                         <td><?php echo $row["type_name"]; ?></td>
                         <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
-                        <td><?php echo DateThai($row["exp_date"]); ?></td>
+                        <td><?php echo DateThai($row["exp_date_log"]); ?></td>
+                        <?php 
+                            $date_s = $row["exp_date_log"];
+                            $date_e = $row["exd_date_log"]; 
+                        ?>
+                        <td><?php echo DateDiff($date_s,$date_e); ?>(วัน)</td>
                         <td><?php echo $row["bn_name"]; ?></td>
                         <td><?php echo $row["vendor_name"]; ?></td>
                         <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
@@ -147,11 +155,12 @@
                     <th scope="col" class="text-center">รหัส</th>
                         <th scope="col" class="text-center">รายการ</th>
                         <th scope="col" class="text-center">จำนวน</th>
-                        <th scope="col" class="text-center">ราคา</th>
+                        <!-- <th scope="col" class="text-center">ราคา</th> -->
                         <th scope="col" class="text-center">หมวด</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วัน/เดือน/ปี</th>
+                        <th scope="col" class="text-center">วันที่เพิ่ม</th>
+                        <th scope="col" class="text-center">หมดอายุในอีก</th>
                         <th scope="col" class="text-center">สาขา</th>
                         <th scope="col" class="text-center">ผู้ขาย</th>
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
@@ -171,6 +180,18 @@
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear";
 	}
+    function DateDiff($strDate1,$strDate2)
+            {
+                        return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
+            }
+            function TimeDiff($strTime1,$strTime2)
+            {
+                        return (strtotime($strTime2) - strtotime($strTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
+            }
+            function DateTimeDiff($strDateTime1,$strDateTime2)
+            {
+                        return (strtotime($strDateTime2) - strtotime($strDateTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
+            }
 ?>
 
         <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

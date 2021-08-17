@@ -101,22 +101,23 @@
                     <?php 
             $select_stmt = $db->prepare("SELECT
             it.code_item,
-              SUM(IF(bn_stock = 1, quantity, NULL)) AS BN1,
-              SUM(IF(bn_stock = 2, quantity, NULL)) AS BN2,
-              SUM(IF(bn_stock = 3, quantity, NULL)) AS BN3,
-              SUM(IF(bn_stock = 4, quantity, NULL)) AS BN4,
-              SUM(IF(bn_stock = 5, quantity, NULL)) AS BN5,
-              SUM(IF(bn_stock = 6, quantity, NULL)) AS BN6,
-              SUM(IF(bn_stock = 7, quantity, NULL)) AS BN7,
-              SUM(IF(bn_stock = 8, quantity, NULL)) AS BN8,
-              SUM(IF(bn_stock = 9, quantity, NULL)) AS BN9,
-              SUM(IF(bn_stock = 10, quantity, NULL)) AS BN10,
-              SUM(IF(bn_stock = 11, quantity, NULL)) AS BN11,
-              SUM(IF(bn_stock = 12, quantity, NULL)) AS BN12,
-              SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN quantity ELSE NULL END) AS SUM_BN
+              SUM(IF(bn_stock = 1, item_quantity, NULL)) AS BN1,
+              SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
+              SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
+              SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
+              SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
+              SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
+              SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
+              SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
+              SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
+              SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
+              SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
+              SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
+              SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
             FROM branch_stock bn
             INNER JOIN stock s  on bn.stock_id = s.stock_id
             INNER JOIN item it  on s.item_id = it.item_id
+            INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
             WHERE
               bn.bn_stock BETWEEN 1 AND 12
             GROUP BY
@@ -126,7 +127,7 @@
             ?>
                     <tr class="table-light">
                         <td><?php echo $row["code_item"]; ?></td>
-                        
+
                         <td><?php echo $row["BN2"]; ?></td>
                         <td><?php echo $row["BN3"]; ?></td>
                         <td><?php echo $row["BN4"]; ?></td>
@@ -146,7 +147,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="table-active">
-                    <th scope="col" class="text-center">รหัส</th>
+                        <th scope="col" class="text-center">รหัส</th>
                         <th scope="col" class="text-center">สาขาอารีย์</th>
                         <th scope="col" class="text-center">สาขาอุดมสุข</th>
                         <th scope="col" class="text-center">สาขาอโศก</th>

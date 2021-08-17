@@ -34,7 +34,7 @@ if (isset($_SESSION['user_login'])) {
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             
                             
-                            <li><a class="dropdown-item" href="#">เบิก</a></li>
+                            <li><a class="dropdown-item" href="data-stock/pick_up.php">เบิก</a></li>
 
                             <li><a class="dropdown-item" href="#">สต๊อก</a></li>
                         </ul>

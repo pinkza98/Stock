@@ -43,25 +43,7 @@
         $('#stock').DataTable();
     });
     </script>
-    <script>
-      function Fancybox(props) {
-      const delegate = props.delegate || "[data-fancybox]";
-
-      useEffect(() => {
-        NativeFancybox.assign(delegate, props.options || {});
-
-        return () => {
-          NativeFancybox.trash(delegate);
-
-          NativeFancybox.close(true);
-        };
-      }, []);
-
-      return <>{props.children}</>;
-    }
-
-    export default Fancybox;
-    </script>
+    
     <?php include('../components/header.php');?>
 </head>
 <body>
@@ -95,19 +77,20 @@
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">สาขา</th>
+                        <th scope="col" class="text-center">เหลือวัน</th>
                         <!-- <th scope="col" class="text-center">ราคา</th> -->
                         <!-- <th scope="col" class="text-center">ชนิด</th> -->
                         <!-- <th scope="col" class="text-center">ผู้ขาย</th>   -->
-                        <th scope="col" class="text-center">รูปภาพประกอบ</th>
+                        
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                        <th scope="col" class="text-center">ลบ</th>
+                        <!-- <th scope="col" class="text-center">ลบ</th> -->
 
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                     if($row_session['user_lv'] >= 4){
-                        $select_stmt = $db->prepare("SELECT unit_name,item_name,catagories_name,img_stock,type_name,exp_date_log,exd_date_log ,code_item,bn_name,SUM(branch_stock_log.item_quantity) as sum FROM branch_stock  
+                        $select_stmt = $db->prepare("SELECT code_item,item_name,branch_stock_log.item_quantity,catagories_name,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
                         INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
@@ -115,9 +98,9 @@
                         INNER JOIN unit ON stock.unit = unit.unit_id
                         INNER JOIN type_name ON stock.type_item = type_name.type_id
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-                        group by code_item, bn_name");
+                        ORDER BY full_stock_id DESC");
                     }else{
-                        $select_stmt = $db->prepare("SELECT unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name, img_stock,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
+                        $select_stmt = $db->prepare("SELECT code_item,item_name,branch_stock_log.item_quantity,catagories_name,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
                         INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
@@ -126,7 +109,7 @@
                         INNER JOIN type_name ON stock.type_item = type_name.type_id
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                         WHERE bn_stock ='".$row_session["user_bn"]."'
-                        group by code_item, bn_name");
+                        ORDER BY full_stock_id DESC");
                     }
           
                         $select_stmt->execute();
@@ -135,18 +118,18 @@
                     <tr class="table-light">
                         <td><?php echo $row["code_item"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
-                        <td><?php echo $row["sum"]; ?> <?php echo $row["unit_name"]; ?> </td>
+                        <td><?php echo $row["item_quantity"]; ?>  </td>
                         <td><?php echo $row["catagories_name"]; ?></td>
                         <td><?php echo $row["type_name"]; ?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
-                        <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?>
-                        <td><button data-fancybox="gallery"data-src="img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
-                        </td>
-                        <?php }else{ ?>
-                        <td>-</td>
-                        <?php } ?>
+                        
+                        <?php 
+                            $date_s = $row["exp_date_log"];
+                            $date_e = $row["exd_date_log"]; 
+                        ?>
+                        <td><?php echo DateDiff($date_s,$date_e); ?></td>
                         <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["full_stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
-                        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>
+                        <!-- <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td> -->
                         <?php } ?>
                     </tr>
                 </tbody>
@@ -158,15 +141,30 @@
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">สาขา</th>
+                        
+                        <th scope="col" class="text-center">เหลือวัน</th>
 
-                        <th scope="col" class="text-center">รูปภาพประกอบ</th>
+                        
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <th scope="col" class="text-center">ลบ</th>
+                        <!-- <th scope="col" class="text-center">ลบ</th> -->
                     </tr>
                 </tfoot>
             </table>
         </div>
-
+        <?php
+            function DateDiff($strDate1,$strDate2)
+            {
+                        return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
+            }
+            function TimeDiff($strTime1,$strTime2)
+            {
+                        return (strtotime($strTime2) - strtotime($strTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
+            }
+            function DateTimeDiff($strDateTime1,$strDateTime2)
+            {
+                        return (strtotime($strDateTime2) - strtotime($strDateTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
+            }
+        ?>
  <!-- <==========================================fancybox==================================================> -->
  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
   <!-- <==========================================fancybox==================================================> -->
