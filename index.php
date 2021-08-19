@@ -75,7 +75,7 @@
             <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>  
-            <th scope="col" class="text-center">รูปภาพ</th>
+            <!-- <th scope="col" class="text-center">รูปภาพ</th> -->
             
         </tr>
     </thead>
@@ -87,7 +87,7 @@
           INNER JOIN unit ON stock.unit = unit.unit_id  
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
           INNER JOIN type_name ON stock.type_item = type_name.type_id
-           ORDER BY stock_id DESC");
+           ORDER BY stock_id  DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
@@ -99,11 +99,11 @@
         <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["catagories_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>   
-        <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
+        <!-- <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
           <td><button data-fancybox="gallery"data-src="data-stock/img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="data-stock/img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
         <?php }else{?>
           <td>-</td>
-          <?php }?>
+          <?php }?> -->
         <?php } ?>
       </tr>
     </tbody>
@@ -116,7 +116,7 @@
             <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ผู้ขาย</th>    
-            <th scope="col" class="text-center">รูปภาพ</th>
+            <!-- <th scope="col" class="text-center">รูปภาพ</th> -->
             </tr>
         </tfoot>
   </table>

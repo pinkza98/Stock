@@ -125,7 +125,7 @@
                         INNER JOIN unit ON stock.unit = unit.unit_id
                         INNER JOIN type_name ON stock.type_item = type_name.type_id
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-                        WHERE bn_stock ='".$row_session["user_bn"]."'
+                        WHERE bn_stock ='".$row_session["user_bn"]."' AND bn_stock != 1
                         group by code_item, bn_name");
                     }
           

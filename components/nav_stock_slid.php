@@ -8,6 +8,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link " href="pick_up.php">
+                    <button class="btn btn-success">เบิกคลัง
+                    </button>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="list_stock_center.php">
                     <button class="btn btn-primary">
                         รายการรวม

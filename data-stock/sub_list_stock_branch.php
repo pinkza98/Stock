@@ -123,7 +123,7 @@
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                         INNER JOIN user ON branch_stock.user_id = user.user_id
                         INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-                        WHERE bn_stock ='".$row_session["user_bn"]."'
+                        WHERE bn_stock ='".$row_session["user_bn"]."' AND bn_stock != 1
                         ORDER BY full_stock_id DESC");
                     }
                         $select_stmt->execute();

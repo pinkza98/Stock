@@ -82,13 +82,13 @@
     <body>
         <header></header>
         <div class="display-3 text-xl-center">
-            <H2>รายการคลังทุกสาขา </H2>
+            <H2>รายการเบิกคลังส่วนกลาง </H2>
         </div>
         <hr>
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <?php include('../components/nav_stock_sild_all.php'); ?>
+                    <?php include('../components/nav_stock_slid.php'); ?>
                 </div>
             </div>
         </div>
@@ -122,6 +122,7 @@
           INNER JOIN unit ON stock.unit = unit.unit_id
           INNER JOIN user ON cut_stock_log.user_id = user.user_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
+          WHERE cut_stock_log.bn_id = 1
          ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {

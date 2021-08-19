@@ -46,10 +46,6 @@ if ($row_session['user_lv'] > 2) {
                             </li>
                             <li><a class="dropdown-item" href="data-stock/list_stock_center.php">คลังศูนย์</a></li>
                             <?php }?>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="data-stock/pick_up.php">เบิกคลัง</a></li>
                         </ul>
                     </li>
                     <?php

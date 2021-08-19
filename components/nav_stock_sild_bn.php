@@ -8,6 +8,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link " href="pick_up.php">
+                    <button class="btn btn-success">เบิกคลัง
+                    </button>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="list_stock_branch.php">
                     <button class="btn btn-primary">
                         รายการรวม
@@ -24,7 +30,7 @@
             <li class="nav-item ">
                 <a class="nav-link" href="list_pick_up_branch.php">
                     <button class="btn btn-primary">
-                        รายการเบิกคลังส่วนกลาง 
+                        รายการเบิกคลังสาขา 
                     </button>
                 </a>
             </li>
