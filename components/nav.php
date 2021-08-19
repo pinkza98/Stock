@@ -26,20 +26,6 @@ if (isset($_SESSION['user_login'])) {
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ">
-                <li class="nav-item dropdown ms-2">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            อนุมัติรายการร้องขอ
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            
-                            
-                            <li><a class="dropdown-item" href="data-stock/pick_up.php">เบิก</a></li>
-
-                            <li><a class="dropdown-item" href="#">สต๊อก</a></li>
-                        </ul>
-                    </li>
-
                     <li class="nav-item dropdown ms-2">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -60,6 +46,10 @@ if ($row_session['user_lv'] > 2) {
                             </li>
                             <li><a class="dropdown-item" href="data-stock/list_stock_center.php">คลังศูนย์</a></li>
                             <?php }?>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="data-stock/pick_up.php">เบิกคลัง</a></li>
                         </ul>
                     </li>
                     <?php
