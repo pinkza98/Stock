@@ -71,6 +71,10 @@ if ($row_session['user_lv'] >= 3) {
                             <li><a class="dropdown-item" href="../data-stock/item.php">จัดการรายชื่อรายการ</a></li>
                             <li><a class="dropdown-item" href="../data-stock/vendor.php">จัดการvendor</a></li>
                             <li><a class="dropdown-item" href="../data-stock/unit.php">จัดการหน่วยสินค้า</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="../data-stock/reconcile.php">ปรับยอด สต๊อก</a></li>
                             <?php }?>
                         </ul>
                     </li>

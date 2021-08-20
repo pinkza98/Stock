@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2021 at 03:34 AM
+-- Generation Time: Aug 20, 2021 at 12:33 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -70,14 +70,17 @@ CREATE TABLE `branch_stock` (
 INSERT INTO `branch_stock` (`full_stock_id`, `user_id`, `stock_id`, `bn_stock`) VALUES
 (25, 26, 1, 12),
 (26, 26, 1, 11),
-(27, 26, 1, 10),
-(28, 26, 1, 10),
 (29, 26, 1, 9),
 (30, 26, 1, 8),
 (31, 26, 1, 7),
 (32, 26, 1, 6),
 (33, 26, 1, 5),
-(36, 26, 1, 1);
+(36, 26, 1, 1),
+(47, 26, 1, 10),
+(48, 26, 1, 1),
+(49, 26, 1, 1),
+(50, 26, 1, 1),
+(51, 26, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -101,14 +104,17 @@ CREATE TABLE `branch_stock_log` (
 INSERT INTO `branch_stock_log` (`stock_log_id`, `user_id_log`, `exp_date_log`, `item_quantity`, `exd_date_log`, `full_stock_id_log`) VALUES
 (24, 26, '2021-08-17', 30, '2021-09-16', 25),
 (25, 26, '2021-08-17', 60, '2021-09-16', 26),
-(26, 26, '2021-08-17', 60, '2021-09-16', 27),
-(27, 26, '2021-08-17', 5, '2021-09-16', 28),
+(27, 26, '2021-08-17', 20, '2021-09-16', 28),
 (28, 26, '2021-08-17', 6, '2021-09-16', 29),
 (29, 26, '2021-08-17', 7, '2021-09-16', 30),
 (30, 26, '2021-08-17', 8, '2021-09-16', 31),
 (31, 26, '2021-08-17', 9, '2021-09-16', 32),
 (33, 26, '2021-08-17', 5, '2021-09-17', 34),
-(35, 26, '2021-08-19', 70, '2021-09-18', 36);
+(46, 26, '2021-08-20', 100, '2021-09-19', 47),
+(47, 26, '2021-08-20', 500, '2021-09-19', 48),
+(48, 26, '2021-08-20', 30, '2021-09-18', 49),
+(49, 26, '2021-08-20', 20, '2021-09-18', 50),
+(50, 26, '2021-08-20', 8000, '2021-09-18', 51);
 
 -- --------------------------------------------------------
 
@@ -156,7 +162,10 @@ CREATE TABLE `cut_stock_log` (
 
 INSERT INTO `cut_stock_log` (`cut_stock_id`, `user_id`, `quantity`, `date`, `stock_id`, `bn_id`) VALUES
 (7, 26, 10, '2021-08-20', 1, 1),
-(8, 26, 20, '2021-08-20', 1, 1);
+(8, 26, 20, '2021-08-20', 1, 1),
+(9, 26, 10, '2021-08-20', 1, 1),
+(10, 26, 60, '2021-08-20', 1, 10),
+(11, 26, 60, '2021-08-20', 1, 10);
 
 -- --------------------------------------------------------
 
@@ -179,8 +188,8 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `unit`, `price_stock`, `code_item`, `code_item_archaic`, `exd_date`) VALUES
-(1, 'เครื่องซีลAutomatic Manual Sealer', 12, '0.00', 110001, 'A-C-0009-SM', 30),
-(2, 'เครื่องซีล Fhshand Operated Single Impulse Sealer', 12, '0.00', 110002, 'A-C-0010-SM', 0),
+(1, 'เครื่องซีลAutomatic Manual Sealer', 12, '0.00', 110001, 'A-C-0009-SM', 40),
+(2, 'เครื่องซีล Fhshand Operated Single Impulse Sealer', 12, '0.00', 110002, 'A-C-0010-SM', 60),
 (3, 'ถุงขยะแดง ใหญ่ 28*36', 29, '0.00', 120001, 'A-B-0013-SC', 0),
 (4, 'ถุงมือ-มีแป้ง ซาโตรี่ XS', 4, '0.00', 120002, 'A-A-0004-SC', 0),
 (5, 'ถุงมือ-มีแป้ง ซาโตรี่ S', 4, '0.00', 120003, 'A-A-0003-SC', 0),
@@ -1501,8 +1510,7 @@ INSERT INTO `item` (`item_id`, `item_name`, `unit`, `price_stock`, `code_item`, 
 (1320, 'White stone FGCN1 #PN0101', 6, '0.00', 820146, 'E-A-0120-AC', 0),
 (1321, 'หัว Tungsten Carbide Cutter cross cut fine #1516', 41, '0.00', 820147, 'E-A-0121-DM', 0),
 (1322, 'หัว Tungsten Carbide Cutter cross cut fine #1517', 41, '0.00', 820148, 'E-A-0122-DM', 0),
-(1323, 'test', 2, '30.00', 100000, '', NULL),
-(1324, 'test', 3, '0.09', 999999, '', 30);
+(1323, 'test', 2, '30.00', 100000, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -1608,9 +1616,8 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`stock_id`, `vendor`, `unit`, `item_id`, `type_item`, `type_catagories`, `img_stock`, `exd_date`) VALUES
-(0, 18, 3, 1324, 1, 1, '1.jpg', 30),
-(1, 29, 12, 1, 1, 1, '110001.jpg', 0),
-(2, 45, 12, 2, 1, 1, '110002.jpg', 0),
+(1, 29, 12, 1, 1, 2, '1.jpg', 29),
+(2, 45, 12, 2, 4, 8, '110002.jpg', 0),
 (3, 45, 29, 3, 2, 1, '120001.jpg', 0),
 (4, 45, 4, 4, 2, 1, '120002.jpg', 0),
 (5, 45, 4, 5, 2, 1, '120003.jpg', 0),
@@ -2835,9 +2842,9 @@ INSERT INTO `stock` (`stock_id`, `vendor`, `unit`, `item_id`, `type_item`, `type
 (1224, 5, 41, 1224, 2, 8, '820050.jpg', 0),
 (1225, 5, 41, 1225, 2, 8, '820051.jpg', 0),
 (1226, 5, 41, 1226, 2, 8, '820052.jpg', 0),
-(1227, 5, 41, 1227, 2, 8, '820053.jpg', 0);
+(1227, 5, 41, 1227, 2, 8, '820053.jpg', 0),
+(1228, 11, 41, 1228, 2, 8, '820054.jpg', 0);
 INSERT INTO `stock` (`stock_id`, `vendor`, `unit`, `item_id`, `type_item`, `type_catagories`, `img_stock`, `exd_date`) VALUES
-(1228, 11, 41, 1228, 2, 8, '820054.jpg', 0),
 (1229, 11, 41, 1229, 2, 8, '820055.jpg', 0),
 (1230, 11, 41, 1230, 2, 8, '820056.jpg', 0),
 (1231, 11, 41, 1231, 2, 8, '820057.jpg', 0),
@@ -3240,13 +3247,13 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `branch_stock_log`
 --
 ALTER TABLE `branch_stock_log`
-  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `catagories`
@@ -3258,7 +3265,7 @@ ALTER TABLE `catagories`
 -- AUTO_INCREMENT for table `cut_stock_log`
 --
 ALTER TABLE `cut_stock_log`
-  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `item`

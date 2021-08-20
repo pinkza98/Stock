@@ -2,7 +2,7 @@
     <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
         <ul class="navbar-nav nav-table-striped">
             <li class="nav-item">
-                <a class="nav-link " href="stock_branch.php">
+                <a class="nav-link " href="stock_center.php">
                     <button class="btn btn-success">นับสต๊อกเข้าสาขา
                     </button>
                 </a>

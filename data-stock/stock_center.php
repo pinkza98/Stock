@@ -170,33 +170,47 @@
             $type_catagories = null;
             $type_item = null;
             $exd_date = null;
+            $type_name = null;
+            $catagories_name = null;
+            $vendor_name = null;
             
           }
           if(isset($_POST['check'])){
-            $code_item = $_REQUEST['get_code_item'];
+            $code_item_check= $_REQUEST['get_code_item'];
             $user_bn = $_REQUEST['txt_user_bn'];
 
-            $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
-            $select_check ->bindParam(':code_item_row', $code_item);
+           
+            $select_check  = $db->prepare("SELECT unit,item_name,price_stock,item_id,code_item FROM item WHERE code_item = '".$code_item_check."'");
             $select_check ->execute();
             $row_item = $select_check->fetch(PDO::FETCH_ASSOC);
-            extract($row_item);
-                if ($select_check ->fetchColumn() == 0){
-                    $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
-                  }
-                  else{
-                  $select_stmt = $db->prepare("SELECT * FROM stock 
-                  INNER JOIN item ON stock.item_id = item.item_id
-                  WHERE item_id = $item_id AND stock_id =$item_id");
-                  $select_stmt->bindParam(':id', $item_id);
-                  $select_stmt->execute();
-                  $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-                  extract($row);
-                  }
-          }
+            @@extract($row_item);
+            if ($select_check->fetchAll() < 1) {
+                $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
+              }elseif ($code_item_check != $code_item ) {
+                $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
+              }
+              else{
+                $select_stock = $db->prepare("SELECT * FROM stock
+                INNER JOIN unit ON stock.unit = unit=unit_id
+                INNER JOIN type_name ON stock.type_item = type_name.type_id
+                INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+                INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+                 WHERE item_id='".$item_id."'");
+                $select_stock->execute();
+                $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
+                @@extract($row_stock);
+              }
+            }
         ?>
             <div class="col-md-5">
                 <form method='post' enctype='multipart/form-data'>
+                <?php 
+                if (isset($errorMsg_item)) {
+                ?>
+                <div class="alert alert-danger mb-2">
+                    <strong>คำเตือน! <?php echo $errorMsg_item; ?></strong>
+                </div>
+                <?php } ?>
                     <div class="card">
                         <div class="card-header">
                             <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
@@ -223,28 +237,7 @@
                                         value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" disabled>
                                 </div>
                                 <div class="col-sm">
-                                    <?php   
-                                    if(empty($code_item)){
-                                        $item_id = null;
-                                        $type_item = null;
-                                        $unit_name = null;
-                                        $type_name = null;
-                                        $catagories_name = null;
-                                        $vendor_name = null;
-
-                                    }else{
-                                    
-                                        $select_stock = $db->prepare("SELECT * FROM stock
-                                        INNER JOIN unit ON stock.unit = unit=unit_id
-                                        INNER JOIN type_name ON stock.type_item = type_name.type_id
-                                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-                                        INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-                                         WHERE item_id='".$item_id."'");
-                                        $select_stock->execute();
-                                        $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
-                                        extract($row_stock);
-                                    }
-                               ?>
+                            
                                     <input type="text" class="form-control" value="<?php echo$unit_name?>"
                                         placeholder="ต่อหน่วย" aria-label="หน่วย" disabled>
 

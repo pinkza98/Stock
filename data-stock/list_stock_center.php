@@ -95,7 +95,7 @@
              <th scope="col" class="text-center">สาขา</th>
             <th scope="col" class="text-center">รูปภาพประกอบ</th>
             <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-            <th scope="col" class="text-center">ลบ</th>  
+            <!-- <th scope="col" class="text-center">ลบ</th>   -->
             
         </tr>
     </thead>
@@ -128,7 +128,7 @@
         <td>-</td>
         <?php } ?>
         <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["full_stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
-         <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td> 
+         <!-- <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>  -->
         <?php } ?>
       </tr>
     </tbody>
@@ -142,7 +142,7 @@
              <th scope="col" class="text-center">สาขา</th>
             <th scope="col" class="text-center">รูปภาพประกอบ</th>
             <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-            <th scope="col" class="text-center">ลบ</th>
+            <!-- <th scope="col" class="text-center">ลบ</th> -->
             </tr>
         </tfoot>
   </table>
