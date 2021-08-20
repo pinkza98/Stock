@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2021 at 12:44 PM
+-- Generation Time: Aug 20, 2021 at 03:34 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -77,8 +77,7 @@ INSERT INTO `branch_stock` (`full_stock_id`, `user_id`, `stock_id`, `bn_stock`) 
 (31, 26, 1, 7),
 (32, 26, 1, 6),
 (33, 26, 1, 5),
-(34, 26, 1, 1),
-(35, 26, 1, 1);
+(36, 26, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -108,9 +107,8 @@ INSERT INTO `branch_stock_log` (`stock_log_id`, `user_id_log`, `exp_date_log`, `
 (29, 26, '2021-08-17', 7, '2021-09-16', 30),
 (30, 26, '2021-08-17', 8, '2021-09-16', 31),
 (31, 26, '2021-08-17', 9, '2021-09-16', 32),
-(32, 26, '2021-08-17', 10, '2021-09-16', 33),
-(33, 26, '2021-08-17', 100, '2021-09-16', 34),
-(34, 26, '2021-08-17', 60, '2021-09-16', 35);
+(33, 26, '2021-08-17', 5, '2021-09-17', 34),
+(35, 26, '2021-08-19', 70, '2021-09-18', 36);
 
 -- --------------------------------------------------------
 
@@ -136,6 +134,29 @@ INSERT INTO `catagories` (`catagories_id`, `catagories_name`) VALUES
 (6, 'Prosth\r\n'),
 (7, 'Medical/Goods\r\n'),
 (8, 'หัวเบอร์\r\n');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cut_stock_log`
+--
+
+CREATE TABLE `cut_stock_log` (
+  `cut_stock_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `stock_id` int(11) NOT NULL,
+  `bn_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cut_stock_log`
+--
+
+INSERT INTO `cut_stock_log` (`cut_stock_id`, `user_id`, `quantity`, `date`, `stock_id`, `bn_id`) VALUES
+(7, 26, 10, '2021-08-20', 1, 1),
+(8, 26, 20, '2021-08-20', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -3132,6 +3153,12 @@ ALTER TABLE `catagories`
   ADD PRIMARY KEY (`catagories_id`);
 
 --
+-- Indexes for table `cut_stock_log`
+--
+ALTER TABLE `cut_stock_log`
+  ADD PRIMARY KEY (`cut_stock_id`);
+
+--
 -- Indexes for table `item`
 --
 ALTER TABLE `item`
@@ -3213,19 +3240,25 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `branch_stock_log`
 --
 ALTER TABLE `branch_stock_log`
-  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `catagories`
 --
 ALTER TABLE `catagories`
   MODIFY `catagories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `cut_stock_log`
+--
+ALTER TABLE `cut_stock_log`
+  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `item`
