@@ -83,7 +83,7 @@
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">รูปภาพ</th>
+                        
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
                         <!-- <th scope="col" class="text-center">ลบ</th>   -->
 
@@ -91,7 +91,7 @@
                 </thead>
                 <tbody>
                     <?php 
-          $select_stmt = $db->prepare("SELECT img_stock,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
+          $select_stmt = $db->prepare("SELECT full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
           INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
@@ -99,7 +99,10 @@
           INNER JOIN unit ON stock.unit = unit.unit_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
           INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-          group by code_item, bn_name DESC");
+          WHERE item_quantity != 0
+          group by code_item, bn_name 
+          ORDER BY full_stock_id DESC
+        ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
@@ -110,12 +113,7 @@
                         <td><?php echo $row["catagories_name"]; ?></td>
                         <td><?php echo $row["type_name"]; ?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
-                        <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?>
-                        <td><a href="img_stock/<?=$row['img_stock']?>"><img src="img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></a>
-                        </td>
-                        <?php }else{ ?>
-                        <td>-</td>
-                        <?php } ?>
+                        
                         <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
                         <!-- <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>  -->
                         <?php } ?>
@@ -129,7 +127,7 @@
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">รูปภาพ</th>
+                        
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
                         <!-- <th scope="col" class="text-center">ลบ</th> -->
                     </tr>

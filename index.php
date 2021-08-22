@@ -61,10 +61,10 @@
     <hr><br>
     <?php include('components/content.php')?>
     
-  <div class="container">
+  <div class="m-4">
     <br>
-    <table class="table table-dark table-hover text-xl-center" id="stock">
-    <thead class="table-dark">
+    <table class="table table-dark table-hover text-xl-center " id="stock">
+    <thead class="table-dark ">
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัส</th>
@@ -74,6 +74,8 @@
             <th scope="col" class="text-center">EXD</th>
             <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
+            <th scope="col" class="text-center">ฝ่าย</th>
+            <th scope="col" class="text-center">ลักษณะ</th>  
             <th scope="col" class="text-center">ผู้ขาย</th>  
             <!-- <th scope="col" class="text-center">รูปภาพ</th> -->
             
@@ -81,12 +83,14 @@
     </thead>
     <tbody >
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM stock  
+          $select_stmt = $db->prepare("SELECT stock_id,code_item,item_name,unit_name,item.exd_date,type_name,catagories_name,vendor_name,cotton_name,nature_name FROM stock  
           INNER JOIN item ON stock.item_id = item.item_id  
+          INNER JOIN unit ON item.unit = unit.unit_id  
           INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-          INNER JOIN unit ON stock.unit = unit.unit_id  
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
           INNER JOIN type_name ON stock.type_item = type_name.type_id
+          INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
+          INNER JOIN nature ON stock.nature_id = nature.nature_id
            ORDER BY stock_id  DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -95,15 +99,16 @@
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
-        <td><?php echo $row["exd_date"]; ?>(วัน)</td>
+          <?php if($row['exd_date']==NUll){ ?>
+            <td>-</td>
+        <?php }else{ ?>
+          <td><?php echo $row["exd_date"]; ?>(วัน)</td>
+          <?php }?>
         <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["catagories_name"]; ?></td>
+        <td><?php echo $row["cotton_name"]; ?></td>
+        <td><?php echo $row["nature_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>   
-        <!-- <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
-          <td><button data-fancybox="gallery"data-src="data-stock/img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="data-stock/img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
-        <?php }else{?>
-          <td>-</td>
-          <?php }?> -->
         <?php } ?>
       </tr>
     </tbody>
@@ -115,7 +120,9 @@
             <th scope="col" class="text-center">EXD</th>
             <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
-            <th scope="col" class="text-center">ผู้ขาย</th>    
+            <th scope="col" class="text-center">ฝ่าย</th>
+            <th scope="col" class="text-center">ลักษณะ</th>  
+            <th scope="col" class="text-center">ผู้ขาย</th>  
             <!-- <th scope="col" class="text-center">รูปภาพ</th> -->
             </tr>
         </tfoot>

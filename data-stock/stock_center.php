@@ -5,21 +5,25 @@
       $stock_bn_stock= $_REQUEST['txt_user_bn'];
       $stock_id = $_REQUEST['txt_stock_id'];
       $stock_quantity = $_REQUEST['txt_quantity'];
-      $exd_date_set = $_REQUEST['txt_exd_date'];
+       $exd_date_set = $_REQUEST['txt_exd_date'];
+    
+    
+    if (empty($exd_date_set )){
+        $exd_date_set  = 1000;
+    }
 
+      
       $date=date_create();
-      $exd_date_set2=date_modify($date,"+$exd_date_set days");
+      @@$exd_date_set2=date_modify($date,"+$exd_date_set days");
 
-      $exd_date=date_format($exd_date_set2 ,"Y-m-d" );
+      @@$exd_date=date_format($exd_date_set2 ,"Y-m-d" );
       $exp_date = $now = date_create()->format('Y-m-d');
       
 
       if (empty($stock_quantity)) {
-          $stock_quantity = 1;
+        $errorMsg = "ไม่พบจำนวน สินค้าที่เพิ่มสต๊อก!!";
       } 
-      elseif(empty($exd_date)) {
-        $exd_date = 0;
-      }else {
+     else {
          try {
               if (!isset($errorMsg)) {
                   $insert_full_stock = $db->prepare("INSERT INTO branch_stock (user_id,stock_id,bn_stock) VALUES (:user_id,:stock_id,:bn_stock)");
@@ -29,9 +33,8 @@
                   $insert_full_stock->bindParam(':bn_stock', $stock_bn_stock);
 
 
-                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log) VALUES (:user_id_log,:new_exp_date_log,:item_quantity,:new_exd_date_log,LAST_INSERT_ID())");
+                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log) VALUES (:user_id_log,NOW(),:item_quantity,:new_exd_date_log,LAST_INSERT_ID())");
                   $insert_full_stock_log->bindParam(':user_id_log', $stock_user_id);
-                  $insert_full_stock_log->bindParam(':new_exp_date_log', $exp_date);
                   $insert_full_stock_log->bindParam(':item_quantity', $stock_quantity);
                   $insert_full_stock_log->bindParam(':new_exd_date_log', $exd_date);
                   
@@ -40,7 +43,7 @@
                   if ($insert_full_stock->execute()) {
                       if($insert_full_stock_log->execute()){
                         $insertMsg = "เพิ่มข้อมูลสำเร็จ...";
-                        header("refresh:1;stock_center.php");
+                        // header("refresh:1;stock_center.php");
                       }else{
                         $insertMsg = "ตารางที่ Logมีปัญหา...";
                       }
@@ -190,12 +193,13 @@
                 $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
               }
               else{
-                $select_stock = $db->prepare("SELECT * FROM stock
-                INNER JOIN unit ON stock.unit = unit=unit_id
+                $select_stock = $db->prepare("SELECT stock_id,stock.item_id,img_stock,item.exd_date,code_item,item_name,price_stock,unit_name,type_name,catagories_name,vendor_name FROM stock
+                INNER JOIN item ON stock.item_id = item.item_id
+                INNER JOIN unit ON item.unit = unit.unit_id
                 INNER JOIN type_name ON stock.type_item = type_name.type_id
                 INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
                 INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-                 WHERE item_id='".$item_id."'");
+                 WHERE stock.item_id='".$item_id."'");
                 $select_stock->execute();
                 $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
                 @@extract($row_stock);
@@ -309,9 +313,9 @@
                             <div class="btn-block mt-2">
                             <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
                             <?php if($row_session['user_bn'] ==1){?>
-                            <a href="list_stock_center.php" class="btn btn-outline-primary">Back</a>
+                            <a href="stock_center.php" class="btn btn-outline-primary">reset</a>
                             <?php }else{ ?>
-                                <a href="list_stock_branch.php" class="btn btn-outline-primary">Back</a>
+                                <a href="stock_branch.php" class="btn btn-outline-primary">Back</a>
                                 <?php } ?>
                         </div>
                         </div>

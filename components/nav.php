@@ -17,14 +17,14 @@ if (isset($_SESSION['user_login'])) {
     <div class="row">
         <div class="col-12 col-sm-12"></div>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid" role="navigation">
+        <nav class="fixed-top navbar navbar-expand-lg navbar-light bg-light   " role="navigation">
             <div class="img-resize fixed-top"><a href="index.php"><img class="rounded float-start"
                         src="components/images/logo.png"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     aria-label="Toggle navigation"></button>
             </div>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav ">
                     <li class="nav-item dropdown ms-2">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
