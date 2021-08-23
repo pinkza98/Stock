@@ -9,7 +9,14 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="pick_up.php">
-                    <button class="btn btn-success">เบิกคลัง
+                    <button class="btn btn-secondary">เบิกคลัง
+                    </button>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="reconcile.php">
+                    <button class="btn btn-warning">
+                        ปรับยอด 
                     </button>
                 </a>
             </li>

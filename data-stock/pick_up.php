@@ -16,7 +16,7 @@
         }else{
                 try{
                     
-                        $select_stock_full_log = $db->prepare("SELECT full_stock_id_log,branch_stock_log.stock_log_id,item_quantity  FROM branch_stock_log  
+                        $select_stock_full_log = $db->prepare("SELECT full_stock_id_log,branch_stock_log.stock_log_id,item_quantity,full_stock_id  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                 WHERE branch_stock.bn_stock = '".$bn_id."' AND branch_stock.stock_id = '".$stock_id."' ORDER BY exd_date_log ");
                 if ($select_stock_full_log->execute()) {
@@ -203,7 +203,7 @@
             INNER JOIN item ON stock.item_id = item.item_id
             INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
             INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON stock.unit = unit.unit_id
+            INNER JOIN unit ON item.unit = unit.unit_id
             INNER JOIN type_name ON stock.type_item = type_name.type_id
             INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
             INNER JOIN user ON branch_stock.user_id = user.user_id
@@ -322,9 +322,9 @@
                             <div class="btn-block mt-2">
                                 <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
                                 <?php if($row_session['user_bn'] ==1){?>
-                                <a href="pick_up.php" class="btn btn-outline-primary">Back</a>
+                                <a href="pick_up.php" class="btn btn-outline-primary">reset</a>
                                 <?php }else{ ?>
-                                <a href="pick_up.php" class="btn btn-outline-primary">Back</a>
+                                <a href="pick_up.php" class="btn btn-outline-primary">reset</a>
                                 <?php } ?>
                             </div>
                         </div>

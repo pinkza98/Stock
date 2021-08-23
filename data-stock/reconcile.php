@@ -9,6 +9,7 @@
         $stock_id = $_REQUEST['txt_stock_id'];
         // $cut_date = $now = date_create()->format('Y-m-d');
         $result = $quantity;
+
         if (empty($quantity)) {
             $errorMsg = "กรุณาใส่กรองจำนวนที่ต้องการปรับยอด!!";
         }else{
@@ -28,8 +29,16 @@
                 $i=1;
                 if ($select_stock_full_log->execute()) {
                     while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)){
-                        
-                        if ($i < $row_count) {
+                        if($sum == 0){
+                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity ,user_id_log = :new_user_id WHERE stock_log_id = '". $row['stock_log_id']."'");
+                            $update_stock_log_reconcile->bindParam(':new_item_quantity', $quantity);
+                            $update_stock_log_reconcile->bindParam(':new_user_id', $user_id);
+                            if ($update_stock_log_reconcile->execute()){
+                                $insertMsg = "ปรับยอดสำเร็จ";
+                            }
+
+                        }
+                        elseif ($i < $row_count) {
                             
                             
                             

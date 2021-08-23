@@ -56,31 +56,36 @@
     </header>
     <hr><br>
     <?php include('../components/content.php')?>
-  <div class="container">
+  <div class="m-5">
     <br>
     <table class="table table-dark table-hover text-xl-center" id="stock">
     <thead class="table-dark">
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัส</th>
-            <th scope="col" class="text-center">หมวดหมู่</th>
+            
             <th scope="col" class="text-center">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
-            <th scope="col" class="text-center">ชนิด</th> 
-            <th scope="col" class="text-center">ผู้ขาย</th>  
             <th scope="col" class="text-center">EXD</th>
+            <th scope="col" class="text-center">ชนิด</th> 
+            <th scope="col" class="text-center">หมวดหมู่</th>
+            <th scope="col" class="text-center">ฝ่าย</th>
+            <th scope="col" class="text-center">ลักษณะ</th>
+            <th scope="col" class="text-center">ผู้ขาย</th>
             <th scope="col" class="text-center">แก้ไข</th>  
             <th scope="col" class="text-center">ลบ</th>  
         </tr>
     </thead>
     <tbody >
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM stock  
+          $select_stmt = $db->prepare("SELECT stock_id,code_item ,catagories_name,item_name,unit_name,type_name,vendor_name,item.exd_date,cotton_name,nature_name FROM stock  
           INNER JOIN item ON stock.item_id = item.item_id 
           INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-          INNER JOIN unit ON stock.unit = unit.unit_id  
+          INNER JOIN unit ON item.unit = unit.unit_id  
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
           INNER JOIN type_name ON stock.type_item = type_name.type_id
+          INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
+          INNER JOIN nature ON stock.nature_id = nature.nature_id
           ORDER BY stock_id DESC ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -88,12 +93,19 @@
       
       <tr  class="table-light">
         <td><?php echo $row["code_item"]; ?></td>
-        <td><?php echo $row["catagories_name"]; ?></td>
         <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
+          <?php if($row["exd_date"] >=1 && $row["exd_date"] <= 400){?>
+          <td><?php echo $row["exd_date"]; ?>(วัน)</td>
+          <?php }else{?>
+            <td>-</td>
+            <?php } ?>
         <td><?php echo $row["type_name"]; ?></td>
-        <td><?php echo $row["vendor_name"]; ?></td>    
-        <td><?php echo $row["exd_date"]; ?>(วัน)</td>
+        <td><?php echo $row["catagories_name"]; ?></td>
+        <td><?php echo $row["cotton_name"]; ?></td>
+        <td><?php echo $row["nature_name"]; ?></td>
+        
+        <td><?php echo $row["vendor_name"]; ?></td>  
         <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>
         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
         <?php } ?>
@@ -101,15 +113,17 @@
     </tbody>
     <tfoot  a>
             <tr class="table-active">
-            <th scope="col" class="text-center">รหัส</th>
-            <th scope="col" class="text-center">หมวดหมู่</th>
-            <th scope="col" class="text-center">ชื่อรายการ</th>
-            <th scope="col" class="text-center">หน่วยนับ</th>
-            <th scope="col" class="text-center">ชนิด</th>
-            <th scope="col" class="text-center">ผู้ขาย</th>    
-            <th scope="col" class="text-center">EXD</th>
-            <th scope="col" class="text-center">แก้ไข</th>
-            <th scope="col" class="text-center">ลบ</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>    
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
             </tr>
         </tfoot>
   </table>

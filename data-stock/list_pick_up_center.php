@@ -119,7 +119,7 @@
           INNER JOIN item ON stock.item_id = item.item_id
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
           INNER JOIN branch ON cut_stock_log.bn_id = branch.bn_id
-          INNER JOIN unit ON stock.unit = unit.unit_id
+          INNER JOIN unit ON item.unit = unit.unit_id
           INNER JOIN user ON cut_stock_log.user_id = user.user_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
           WHERE cut_stock_log.bn_id = 1

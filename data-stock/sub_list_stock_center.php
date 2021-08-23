@@ -98,17 +98,17 @@
                 <tbody>
 
                     <?php 
-            $select_stmt = $db->prepare("SELECT * FROM branch_stock  
+            $select_stmt = $db->prepare("SELECT full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
             INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
             INNER JOIN item ON stock.item_id = item.item_id
             INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
             INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON stock.unit = unit.unit_id
+            INNER JOIN unit ON item.unit = unit.unit_id
             INNER JOIN type_name ON stock.type_item = type_name.type_id
             INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
             INNER JOIN user ON branch_stock.user_id = user.user_id
             INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-            WHERE bn_stock = 1
+            WHERE bn_stock = 1 AND item_quantity != 0
             ORDER BY full_stock_id DESC");
             $select_stmt->execute();
             while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -125,8 +125,13 @@
                         <?php 
                             $date_s = $row["exp_date_log"];
                             $date_e = $row["exd_date_log"]; 
+                            $exd_date =DateDiff($date_s,$date_e);
+                            if($exd_date > 1 && $exd_date < 400 ){
                         ?>
-                        <td><?php echo DateDiff($date_s,$date_e); ?>(วัน)</td>
+                        <td>ในอีก <?php echo $exd_date ?>(วัน)</td>
+                        <?php }else {?>
+                            <td>-</td>
+                            <?php }?>
                         <td><?php echo $row["bn_name"]; ?></td>
                         <td><?php echo $row["vendor_name"]; ?></td>  
                         
@@ -137,17 +142,18 @@
                 </tbody>
                 <tfoot a>
                     <tr class="table-active">
-                        <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">รายการ</th>
-                        <th scope="col" class="text-center">จำนวน</th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
                         <!-- <th scope="col" class="text-center">ราคา</th> -->
-                        <th scope="col" class="text-center">หมวด</th>
-                        <th scope="col" class="text-center">ประเภท</th>
-                        <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วันที่เพิ่ม</th>
-                        <th scope="col" class="text-center">หมดอายุ</th>
-                        <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">ผู้ขาย</th>     
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>
+                        <th scope="col" class="text-center"></th>     
+                        <th scope="col" class="text-center"></th>  
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
                         <!-- <th scope="col" class="text-center">ลบ</th> -->
                     </tr>

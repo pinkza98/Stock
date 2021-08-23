@@ -119,9 +119,10 @@
           INNER JOIN item ON stock.item_id = item.item_id
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
           INNER JOIN branch ON cut_stock_log.bn_id = branch.bn_id
-          INNER JOIN unit ON stock.unit = unit.unit_id
+          INNER JOIN unit ON item.unit = unit.unit_id
           INNER JOIN user ON cut_stock_log.user_id = user.user_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
+            ORDER BY date 
          ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -133,7 +134,7 @@
                         <td><?php echo DateThai($row["date"]); ?></td>
                         <td><?php echo $row["user_fname"];?> <?php echo $row["user_lname"]  ?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
-                        <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
+                        <?php if($row['img_stock']!=='' &&$row['img_stock']==null){?> 
                         <td><button data-fancybox="gallery"data-src="img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
                         <?php }else{?>
                         <td>-</td>
