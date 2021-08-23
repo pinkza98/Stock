@@ -114,7 +114,7 @@
                 </thead>
                 <tbody>
                     <?php 
-          $select_stmt = $db->prepare("SELECT *FROM cut_stock_log  
+          $select_stmt = $db->prepare("SELECT stock_id,code_item,item_name,quantity,user_fname,user_lname,unit_name,bn_name,img_stock FROM cut_stock_log  
           INNER JOIN stock ON cut_stock_log.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
           INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id

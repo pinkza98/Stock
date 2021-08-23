@@ -115,7 +115,9 @@
                 <?php 
     require_once('database/db.php');
     $select_stmt = $db->prepare("SELECT
+
     it.code_item,it.code_item_archaic,unit_name,item_name,v.vendor_name,type_name,catagories_name,cotton_name,nature_name,price_stock,
+
       SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN1,
       SUM(IF(bn_stock = 2, item_quantity, 0)) AS BN2,
       SUM(IF(bn_stock = 3, item_quantity, 0)) AS BN3,
@@ -159,7 +161,6 @@
                     <td><?php echo $row["catagories_name"]; ?></td>
                     <td><?php echo $row["nature_name"]; ?></td>
                     <td><?php echo $row["cotton_name"]; ?></td>
-                    
                     <td><?php echo $row["BN2"]; ?></td>
                     <td><?php echo $row["BN3"]; ?></td>
                     <td><?php echo $row["BN4"]; ?></td>
