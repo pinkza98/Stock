@@ -1,3 +1,18 @@
+<?php 
+ require_once('../database/db.php');
+ if (isset($_REQUEST['delete_id'])) {
+   $user_id = $_REQUEST['delete_id'];
+   $select_stmt = $db->prepare("SELECT * FROM user WHERE user_id = :user_id");
+   $select_stmt->bindParam(':user_id', $user_id);
+   $select_stmt->execute();
+   $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+   // Delete an original record from db
+   $delete_stmt = $db->prepare('DELETE FROM user WHERE user_id = :user_id');
+   $delete_stmt->bindParam(':user_id', $user_id);
+   $delete_stmt->execute();
+     header('Location:user_bn.php');
+ }
+?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
@@ -51,12 +66,15 @@
       <tr>
         <th scope="col">E-mail</th>
         <th scope="col">ชื่อ-สกุล</th>
-        <th scope="col">สาขา</th>
         <th scope="col">ตำแหน่ง</th>
+        <th scope="col">สาขา</th>
+        
         <th scope="col">เบอร์โทร</th>
         <th scope="col">ไลน์ไอดี</th>
-        <th scope="col">แก้ไข</th>
+        <!-- <th scope="col">แก้ไข</th> -->
+        <?php if($row_session["user_lv"]>=4 ) {?>
         <th scope="col">ลบ</th>
+        <?php } ?>
       </tr>
     </thead>
     <tbody>
@@ -65,19 +83,24 @@
           INNER JOIN branch ON user.user_bn = branch.bn_id 
           INNER JOIN prefix ON user.user_prefix = prefix.prefix_id 
           INNER JOIN level ON user.user_lv = level.level_id
+            WHERE user_bn != 1
+            ORDER BY user.user_lv ASC
           ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
-      <tr>
+      <tr class="table-light">
         <td><?php echo $row["username"]; ?></td>
         <td><?php echo $row["prefix_name"]; ?><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
-        <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["level_name"]; ?></td>
+        <td><?php echo $row["bn_name"]; ?></td>
+       
         <td><?php echo $row["user_tel"]; ?></td>
         <td><?php echo $row["user_line"]; ?></td>
-        <td><a href="edit/user_edit.php?update_id=<?php echo $row["user_id"]; ?>" class="btn btn-outline-warning">View</a></td>
+        <!-- <td><a href="edit/user_edit.php?update_id=<?php echo $row["user_id"]; ?>" class="btn btn-outline-warning">View</a></td> -->
+        <?php if($row_session["user_lv"]>=4 ) {?>
         <td><a href="?delete_id=<?php echo $row["user_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+        <?php } ?>
         <?php } ?>
       </tr>
     </tbody>

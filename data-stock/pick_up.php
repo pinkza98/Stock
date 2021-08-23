@@ -64,9 +64,10 @@
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                         }
-                        }else{
-                            $errorMsg = "ข้อมูล quantity ไม่ถูกต้อง!!";
                         }
+                        // else{
+                        //     $errorMsg = "ข้อมูล quantity ไม่ถูกต้อง!!";
+                        // }
                       }
                     }
                 }

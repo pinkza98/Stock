@@ -72,7 +72,7 @@ session_start();
 					<div class="login100-form-avatar">
 						<img src="node_modules/images/avatar-01.png" alt="AVATAR">
 					</div>
-					<span class="login100-form-title p-t-20 p-b-45">Login User <hr>
+					<span class="login100-form-title p-t-20 p-b-45">Login User <a>Version Demo</a>  <hr>
 						<?php 
 							if (isset($errorMsg)) {
 								foreach($errorMsg as $error) {

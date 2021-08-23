@@ -123,7 +123,8 @@
           INNER JOIN user ON cut_stock_log.user_id = user.user_id
           INNER JOIN type_name ON stock.type_item = type_name.type_id
           WHERE cut_stock_log.bn_id = 1
-         ");
+          ORDER BY cut_stock_id DESC LIMIT 20");
+        
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>

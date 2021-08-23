@@ -59,7 +59,7 @@
     <body>
         <header>
             <div class="display-3 text-xl-center">
-                <H2>PIVOT สต๊อกคลังสาขา </H2>
+                <H2>PIVOT สต๊อกคลัง </H2>
             </div>
         </header>
         <hr>
