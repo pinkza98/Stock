@@ -176,6 +176,8 @@
             $type_name = null;
             $catagories_name = null;
             $vendor_name = null;
+            $item_quantity = null; 
+            $sum = null;
             
           }
           if(isset($_POST['check'])){
@@ -193,17 +195,27 @@
                 $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
               }
               else{
-                $select_stock = $db->prepare("SELECT stock_id,stock.item_id,img_stock,item.exd_date,code_item,item_name,price_stock,unit_name,type_name,catagories_name,vendor_name FROM stock
+                $select_stock = $db->prepare("SELECT stock.stock_id,stock.item_id,img_stock,item.exd_date,code_item,item_name,price_stock,unit_name,type_name,catagories_name,vendor_name FROM stock
                 INNER JOIN item ON stock.item_id = item.item_id
                 INNER JOIN unit ON item.unit = unit.unit_id
                 INNER JOIN type_name ON stock.type_item = type_name.type_id
                 INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
                 INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+              
                  WHERE stock.item_id='".$item_id."'");
                 $select_stock->execute();
                 $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
                 @@extract($row_stock);
+
+                $select_stock_bn = $db->prepare("SELECT SUM(item_quantity) as sum FROM branch_stock 
+                INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+                WHERE stock_id = '".$stock_id."' AND bn_stock = '".$user_bn."'");
+                $select_stock_bn->execute();
+                $row_stock_log = $select_stock_bn->fetch(PDO::FETCH_ASSOC);
+                @@extract($row_stock_log);
+                
               }
+
             }
         ?>
             <div class="col-md-5">
@@ -271,6 +283,13 @@
 
                                 <input type="text" class="form-control" value="<?php echo$vendor_name?>"
                                     placeholder="ผู้ขาย" aria-label="หน่วย" disabled>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput2" class="form-label">สินค้าที่มีอยู่</label>
+
+                                <input type="text" class="form-control" value="<?php  echo $sum?>"
+                                    placeholder="จำนวนในคลัง" disabled>
 
                             </div>
                             <div class="row">

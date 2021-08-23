@@ -11,18 +11,25 @@
         $result = $quantity;
         if ($quantity > $sum) {
            $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
-        }elseif (empty($quantity)) {
+        }elseif (is_null($quantity)) {
             $errorMsg = "กรุณาใส่กรองจำนวนที่ต้องการเบิกคลัง!!";
         }else{
                 try{
-                    
+
+                    $select_rowCount = $db->query("SELECT *  FROM branch_stock_log  
+                    INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
+                    WHERE branch_stock.bn_stock = '".$bn_id."' AND branch_stock.stock_id = '".$stock_id."' ORDER BY exd_date_log ");
+                    $row_count = $select_rowCount->rowCount();
+                    $i=1;
+
                         $select_stock_full_log = $db->prepare("SELECT full_stock_id_log,branch_stock_log.stock_log_id,item_quantity,full_stock_id  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                 WHERE branch_stock.bn_stock = '".$bn_id."' AND branch_stock.stock_id = '".$stock_id."' ORDER BY exd_date_log ");
                 if ($select_stock_full_log->execute()) {
                     while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)){
-                        
-                        if ($row['item_quantity']<= $quantity) {
+
+                        if($i > $row_count){
+                        if ($row['item_quantity']< $quantity) {
                             
                             $quantity = $quantity- $row['item_quantity'];
                             
@@ -30,20 +37,29 @@
                                 if($del_stock_log->execute()){
                                     $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
                                     $del_bn_stock->execute();
+                                    $i++;
                                 }
+                            }
                             
-                        }elseif ($row['item_quantity']> $quantity){
-                            $quantity = $row ['item_quantity']-$quantity ;
+                        }elseif($i <= $row_count){
+                        if ($row['item_quantity']>= $quantity){
+                            $quantity_as = $row ['item_quantity']-$quantity;
         
                             $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity  WHERE stock_log_id = '". $row['stock_log_id']."'");
-                            $update_stock_log->bindParam(':new_item_quantity', $quantity);
+                            $update_stock_log->bindParam(':new_item_quantity', $quantity_as);
                             
                             $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id) VALUES('.$user_id.','.$result.',NOW(),'.$stock_id.','.$bn_id.')");
                             
-                            if ($update_stock_log->execute() && $insert_cut_stock->execute()) {
+                           echo $quantity;
+                           
+                            if ( $insert_cut_stock->execute()) {
+                                $insertMsg = "เบิกยอด1";
+                                if($update_stock_log->execute()){
+                                    $insertMsg = "เบิกยอด";
+                                    header('refresh:1:pick_up.php');
+                                }
                             
-                            $insertMsg = "ทำรายการเบิกคลัง";
-                            header('refresh:1:pick_up.php');
+                           
                             
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
@@ -51,6 +67,7 @@
                         }else{
                             $errorMsg = "ข้อมูล quantity ไม่ถูกต้อง!!";
                         }
+                      }
                     }
                 }
             
@@ -98,11 +115,12 @@
         <?php } ?>
         <?php 
         if (isset($insertMsg)) {
+           
     ?>
         <div class="alert alert-success mb-2">
             <strong><?php echo $insertMsg; ?> สำเร็จ! </strong>
         </div>
-        <?php } ?>
+        <?php  unset($insertMsg);} ?>
         <div class="row">
             <div class="col-md-7">
                 <div class="card-header">
@@ -285,7 +303,7 @@
                                 <div class="col-md-6">
                                     <div class="form.group">
                                         <input type="text" name="txt_quantity" value="" class="form-control"
-                                            placeholder="จำนวน">
+                                            placeholder="จำนวน" required>
                                     </div>
                                 </div>
 

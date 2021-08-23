@@ -99,7 +99,7 @@
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
-          <?php if($row['exd_date']==NUll or $row['exd_date'] < 0 or $row['exd_date'] > 500){ ?>
+          <?php if($row['exd_date']==NUll or $row['exd_date'] < 1 or $row['exd_date'] > 500){ ?>
             <td>-</td>
         <?php }else{ ?>
           <td><?php echo $row["exd_date"]; ?>(วัน)</td>

@@ -10,8 +10,8 @@
         // $cut_date = $now = date_create()->format('Y-m-d');
         $result = $quantity;
 
-        if (empty($quantity)) {
-            $errorMsg = "กรุณาใส่กรองจำนวนที่ต้องการปรับยอด!!";
+        if (is_null($quantity)) {
+            $errorMsg = $quantity;
         }else{
                 try{
                     
@@ -51,12 +51,17 @@
                                 }
                             
                         }elseif($i == $row_count){
-                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity ,user_id_log = :new_user_id WHERE stock_log_id = '". $row['stock_log_id']."'");
+                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET exd_date_log = NOW() ,item_quantity = :new_item_quantity ,user_id_log = :new_user_id WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $update_stock_log_reconcile->bindParam(':new_item_quantity', $quantity);
                             $update_stock_log_reconcile->bindParam(':new_user_id', $user_id);
 
+                            
+
                             if ($update_stock_log_reconcile->execute()){
+                                $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log (user_id, quantity,date,stock_id,bn_id) VALUES ('$user_id','$result',NOW(),'$stock_id','$bn_id')");
+                                if($insert_cut_stock->execute()){
                                 $insertMsg = "ปรับยอดสำเร็จ";
+                            }
                             }else{
                                 $errorMsg = "update_stock_log_reconcile->execute() ไม่สำเร็จ";
                             }
@@ -215,7 +220,7 @@
             INNER JOIN item ON stock.item_id = item.item_id
             INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
             INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON stock.unit = unit.unit_id
+            INNER JOIN unit ON item.unit = unit.unit_id
             INNER JOIN type_name ON stock.type_item = type_name.type_id
             INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
             INNER JOIN user ON branch_stock.user_id = user.user_id

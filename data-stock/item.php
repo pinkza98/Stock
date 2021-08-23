@@ -178,7 +178,7 @@
     </thead>
     <tbody>
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit.unit_id LIMIT 100");
+          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit.unit_id ORDER BY code_item ASC LIMIT 100");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
@@ -187,7 +187,11 @@
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["unit_name"]; ?></td>
         <td><?php echo $row["price_stock"]; ?></td>
+        <?php if($row['exd_date'] == null){?>
+        <td>ว่าง</td>
+        <?php }else{?>
         <td><?php echo $row["exd_date"]; ?>(วัน)</td>
+        <?php } ?>
         <td><a href="edit/item_edit.php?update_id=<?php echo $row["item_id"]; ?>" class="btn btn-outline-warning">View</a></td>
         <td><a href="?delete_id=<?php echo $row["item_id"];?>" class="btn btn-outline-danger">Delete</a></td>
         

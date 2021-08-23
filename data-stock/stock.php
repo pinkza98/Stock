@@ -95,7 +95,7 @@
     <?php include('../components/nav_stock.php'); ?>
     <header>
     
-      <div class="display-3 text-xl-center">
+      <div class="display-3 text-xl-center mt-3">
         <H2>เพิ่มรายการคลัง</H2>  
       </div>
     </header>
@@ -142,15 +142,15 @@
           $unit_name = null;
           $price_stock = null;
           if(isset($_POST['check'])){
-            $code_item = $_REQUEST['get_code_item'];
+            $code_item_check= $_REQUEST['get_code_item'];
             $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
             $select_check ->bindParam(':code_item_row', $code_item);
             $select_check ->execute();
             if ($select_check ->fetchColumn() == 0){
-              $errorMsg = 'รหัสบาร์โค้ดนี้ไม่มีอยู่จริง!!!';
+              $errorcodeMsg = 'รหัสบาร์โค้ดนี้อยู่ใน ถูกนำไปใช้แล้ว !';
             }else{
             $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $code_item ");
-            $select_stmt->bindParam(':id', $code_item);
+          
             $select_stmt->execute();
             $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
             extract($row);
@@ -159,28 +159,37 @@
         ?>
         <div class="col-md-5">
             <form method='post' enctype='multipart/form-data'>
+            <?php 
+         if (isset($errorcodeMsg)) {
+            ?>
+                <div class="alert alert-danger mb-2">
+                    <strong>คำเตือน! <?php echo $errorcodeMsg; ?></strong>
+                </div>
+            <?php } ?>
               <div class="card">
                 <div class="card-header">
+               
                 <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
                 <div class="mb-3">
-                <input type="text"  name="text_code_new"value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด" >
-                <input type="text"  name="txt_code_item" value="<?php echo$item_id?>"hidden>
+                <input type="text"  name="text_code_new"value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด">
+                <input type=""  name="txt_code_item" value="<?php echo$item_id?>"hidden>
               </div>
                 <div class="row g-3">
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="txt_item_name" value="<?php echo$item_name?>"placeholder="รายการ" aria-label="รายการ">
+                  <input type="text" class="form-control" name="txt_item_name" value="<?php echo$item_name?>"placeholder="รายการ" >
                 </div>
                 <div class="col-sm">
-                  <input type="text" class="form-control"  name="txt_price"value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" >
+                  <input type="text" class="form-control"  name="txt_price"value="<?php echo$price_stock?>" placeholder="ราคา"  >
                 </div>
                 <div class="col-sm">
-                  <input type="text" class="form-control"   value="<?php echo$unit_name?>" placeholder="ต่อหน่วย" aria-label="หน่วย" >
+                  <input type="text" class="form-control"   value="<?php echo$unit_name?>" placeholder="ต่อหน่วย"  >
                   <input type="text"  name="txt_unit" value="<?php echo$unit_id?>"hidden>
                   <input type="text"  name="txt_exd_date" value="<?php echo$exd_date?>"hidden>
                 </div>
               </div>
-              <div class="row g-2">
+              
               <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
+              <div class="row g-2">
                 <div class="col-sm-8">
                 <select class="form-select" name="txt_type_item"aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
@@ -200,6 +209,30 @@
                     $select_stmt->execute();
                     while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['catagories_id']?>"><?php echo$row['catagories_name']?></option>
+                  <?php }?>
+                </select>
+                </div>
+              </div>
+              <div class="row g-2 mt-2 mb-2">
+                <div class="col-sm-6">
+                <select class="form-select" name="txt_nature_id"aria-label="Default select example">
+                  <option value="" selected>-- เลือก --</option>
+                  <?php   
+                    $select_stmt = $db->prepare("SELECT * FROM nature");
+                    $select_stmt->execute();
+                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row['nature_id']?>"><?php echo$row['nature_name']?></option>
+                  <?php }?>
+                </select>
+                </div>
+                <div class="col-sm-6">
+                <select class="form-select" name="txt_cotton_id"aria-label="Default select example">
+                  <option value="" selected>-- เลือก --</option>
+                  <?php   
+                    $select_stmt = $db->prepare("SELECT * FROM cotton");
+                    $select_stmt->execute();
+                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row['cotton_id']?>"><?php echo$row['cotton_name']?></option>
                   <?php }?>
                 </select>
                 </div>
