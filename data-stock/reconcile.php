@@ -30,7 +30,7 @@
                 if ($select_stock_full_log->execute()) {
                     while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)){
                         if($sum == 0){
-                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity ,user_id_log = :new_user_id WHERE stock_log_id = '". $row['stock_log_id']."'");
+                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET item_quantity = '.$quantity.' ,user_id_log = '.$user_id.' WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $update_stock_log_reconcile->bindParam(':new_item_quantity', $quantity);
                             $update_stock_log_reconcile->bindParam(':new_user_id', $user_id);
                             if ($update_stock_log_reconcile->execute()){
@@ -298,7 +298,7 @@
                             </div>
 
                             <div class="row">
-                                <label class="form-label mt-2" for="customFile">จำนวนที่ต้องการเบิก</label>
+                                <label class="form-label mt-2" for="customFile">จำนวนที่ต้องการปรับยอด</label>
                                 <div class="col-md-6">
                                     <div class="form.group">
                                         <input type="text" name="txt_quantity" value="" class="form-control"

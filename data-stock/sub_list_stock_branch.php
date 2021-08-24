@@ -100,20 +100,7 @@
                 <tbody>
 
                     <?php 
-                    if($row_session['user_lv']>=4){
-                        $select_stmt = $db->prepare("SELECT full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
-                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-                        INNER JOIN item ON stock.item_id = item.item_id
-                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-                        INNER JOIN unit ON item.unit = unit.unit_id
-                        INNER JOIN type_name ON stock.type_item = type_name.type_id
-                        INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-                        INNER JOIN user ON branch_stock.user_id = user.user_id
-                        INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-                        WHERE item_quantity != 0 AND bn_stock != 1
-                        ORDER BY full_stock_id DESC");
-                    }else{
+                  
                         $select_stmt = $db->prepare("SELECT full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
@@ -126,7 +113,7 @@
                         INNER JOIN vendor ON stock.vendor = vendor.vendor_id
                         WHERE bn_stock ='".$row_session["user_bn"]."' AND bn_stock != 1 AND item_quantity != 0
                         ORDER BY full_stock_id DESC");
-                    }
+                    
                         $select_stmt->execute();
                         while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
@@ -170,7 +157,7 @@
                         <th scope="col" class="text-center">สาขา</th>
                         <th scope="col" class="text-center">ผู้ขาย</th>
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <!-- <th scope="col" class="text-center">ลบ</th> -->
+                        <th scope="col" class="text-center">ลบ</th>
                     </tr>
                 </tfoot>
             </table>

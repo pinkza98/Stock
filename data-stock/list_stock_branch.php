@@ -106,7 +106,7 @@
                 </thead>
                 <tbody>
                     <?php 
-                    if($row_session['user_lv'] >= 4){
+                    
                         $select_stmt = $db->prepare("SELECT unit_name,item_name,catagories_name,type_name,exp_date_log,exd_date_log ,code_item,bn_name,SUM(branch_stock_log.item_quantity) as sum FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
@@ -117,18 +117,7 @@
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log 
                         WHERE branch_stock_log.item_quantity != 0
                         group by code_item, bn_name");
-                    }else{
-                        $select_stmt = $db->prepare("SELECT unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,exp_date_log,exd_date_log FROM branch_stock  
-                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-                        INNER JOIN item ON stock.item_id = item.item_id
-                        INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-                        INNER JOIN unit ON item.unit = unit.unit_id
-                        INNER JOIN type_name ON stock.type_item = type_name.type_id
-                        INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-                        WHERE bn_stock ='".$row_session["user_bn"]."' AND bn_stock != 1 AND branch_stock_log.item_quantity != 0
-                        group by code_item, bn_name");
-                    }
+                    
           
                         $select_stmt->execute();
                         while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
