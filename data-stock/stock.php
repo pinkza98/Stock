@@ -46,15 +46,15 @@
           }
       } try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,item_id,type_item,type_catagories,img_stock,nature_id,cotton_id) VALUES (:vendor,:item_id,:type_item,:type_catagories,:img_stock,:nature_id,:cotton_id)");
-                  $insert_stmt->bindParam(':vendor', $vendor);
-                  $insert_stmt->bindParam(':item_id', $item_id);
-                  $insert_stmt->bindParam(':type_item', $type_item);
-                  $insert_stmt->bindParam(':type_catagories', $type_catagories);
-                  $insert_stmt->bindParam(':img_stock', $image_file);
-                  $insert_stmt->bindParam(':nature_id', $nature_id);
-                  $insert_stmt->bindParam(':cotton_id', $cotton_id);
-                  if ($insert_stmt->execute()) {
+                  $insert_stock_item = $db->prepare("INSERT INTO stock (vendor,item_id,type_item,type_catagories,img_stock,nature_id,cotton_id) VALUES (:vendor,:item_id,:type_item,:type_catagories,:img_stock,:nature_id,:cotton_id)");
+                  $insert_stock_item->bindParam(':vendor', $vendor);
+                  $insert_stock_item->bindParam(':item_id', $item_id);
+                  $insert_stock_item->bindParam(':type_item', $type_item);
+                  $insert_stock_item->bindParam(':type_catagories', $type_catagories);
+                  $insert_stock_item->bindParam(':img_stock', $image_file);
+                  $insert_stock_item->bindParam(':nature_id', $nature_id);
+                  $insert_stock_item->bindParam(':cotton_id', $cotton_id);
+                  if ($insert_stock_item->execute() && !isset($errorMsg)) {
                       $insertMsg = "เพิ่มข้อมูล...";
                       header("refresh:1;stock.php");
                   }
@@ -189,9 +189,9 @@
                 <select class="form-select" name="txt_type_item"aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
                   <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM type_name");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                    $select_type_name = $db->prepare("SELECT * FROM type_name");
+                    $select_type_name->execute();
+                    while ($row = $select_type_name->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['type_id']?>"><?php echo$row['type_name']?></option>
                   <?php }?>
                 </select>
@@ -200,9 +200,9 @@
                 <select class="form-select" name="txt_type_catagories"aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
                   <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM catagories");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                    $select_catagories = $db->prepare("SELECT * FROM catagories");
+                    $select_catagories->execute();
+                    while ($row = $select_catagories->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['catagories_id']?>"><?php echo$row['catagories_name']?></option>
                   <?php }?>
                 </select>
@@ -213,9 +213,9 @@
                 <select class="form-select" name="txt_nature_id"aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
                   <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM nature");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                    $select_nature = $db->prepare("SELECT * FROM nature");
+                    $select_nature->execute();
+                    while ($row = $select_nature->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['nature_id']?>"><?php echo$row['nature_name']?></option>
                   <?php }?>
                 </select>
@@ -224,9 +224,9 @@
                 <select class="form-select" name="txt_cotton_id"aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
                   <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM cotton");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                    $select_cotton = $db->prepare("SELECT * FROM cotton");
+                    $select_cotton->execute();
+                    while ($row = $select_cotton->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['cotton_id']?>"><?php echo$row['cotton_name']?></option>
                   <?php }?>
                 </select>
@@ -239,9 +239,9 @@
                   <option value="" selected>-- เลือก --</option>
                   
                   <?php   
-                    $select_stmt = $db->prepare("SELECT * FROM vendor");
-                    $select_stmt->execute();
-                    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                    $select_vendor = $db->prepare("SELECT * FROM vendor");
+                    $select_vendor->execute();
+                    while ($row = $select_vendor->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['vendor_id']?>"><?php echo$row['vendor_name']?></option>
                   <?php }?>
           

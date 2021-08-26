@@ -16,13 +16,11 @@
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
 <html lang="en">
-
-<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <title>Plus Dental Clinic</title>
+    <title>Plus dental clinic</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css"
@@ -38,21 +36,42 @@
         $('#stock').DataTable();
     });
     </script>
-    <?php include('../components/header.php');?>
-</head>
+    <script>
+      function Fancybox(props) {
+      const delegate = props.delegate || "[data-fancybox]";
 
-<body>
+      useEffect(() => {
+        NativeFancybox.assign(delegate, props.options || {});
+
+        return () => {
+          NativeFancybox.trash(delegate);
+
+          NativeFancybox.close(true);
+        };
+      }, []);
+
+      return <>{props.children}</>;
+    }
+
+    export default Fancybox;
+    </script>
+    <?php include('../components/header.php');?>
+
     <?php include('../components/nav_stock.php'); ?>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-
-    <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>
+        <!-- <==========================================ajax-jquery==================================================> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <!-- <==========================================data-teble==================================================> -->
+          <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js"></script>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">         
+          <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
+          <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>  <!---แก้ไขแล้ว--> 
+    <!-- <==========================================data-teble==================================================> -->
+    <!-- <==========================================fancybox==================================================> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
+    <!-- <==========================================fancybox==================================================> -->
     <!---แก้ไขแล้ว-->
     </head>
 
