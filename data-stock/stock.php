@@ -2,14 +2,13 @@
     require_once('../database/db.php');
     if (isset($_REQUEST['save'])) {
       $vendor = $_REQUEST['txt_vendor'];
-      $check_code = $_REQUEST['text_code_new'];
-      $unit = $_REQUEST['txt_unit'];
-      $code_item = $_REQUEST['txt_code_item'];
+     
+      $item_id = $_REQUEST['txt_item_id'];
       $type_item = $_REQUEST['txt_type_item'];
       $type_catagories = $_REQUEST['txt_type_catagories'];
-      $item_name = $_REQUEST['txt_item_name'];
-      $price = $_REQUEST['txt_price'];
-      $exd_date = $_REQUEST['txt_exd_date'];
+      
+      $cotton_id = $_REQUEST['txt_cotton_id'];
+      $nature_id = $_REQUEST['txt_nature_id'];
 
       $image_file = $_FILES['txt_file']['name'];  
       $type = $_FILES['txt_file']['type'];
@@ -17,31 +16,20 @@
       $temp = $_FILES['txt_file']['tmp_name'];
       $path = "img_stock/" . $image_file; // set upload folder path
       
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE item_id = :code_item_row");
-      $select_stmt->bindParam(':code_item_row', $code_item);
-      $select_stmt->execute();
-
-      if ($select_stmt->fetchColumn() > 0){
-        $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
-      }
-      elseif (empty($type_item)) {
+    
+      if (empty($type_item)) {
           $errorMsg = "Please enter type item";
-      } 
-      elseif(empty($unit)){
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      }
-      elseif(empty($item_name)){
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
-      }
-      elseif(empty($price)){
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
+      }  elseif(empty($cotton_id)) {
+        $errorMsg = "Please enter type item cotton";
+      } elseif(empty($nature_id)) {
+        $errorMsg = "Please enter type item nature";
+      } elseif(empty($item_id)) {
+        $errorMsg = "รายการนี้ไม่มีอยู่ในระบบ";
       }
       elseif(empty($type_catagories)) {
         $errorMsg = "Please enter type item catagories";
       }elseif (empty($vendor)) {
           $errorMsg = "Please enter vendor ";
-      }elseif ($unit==0) {
-        $errorMsg = "รหัสบาร์โค้ดนี้ ไม่มีอยู่จริง!";
       } elseif (!empty($image_file)) {
           if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
               if (!file_exists($path)) { // check file not exist in your upload folder path
@@ -51,23 +39,23 @@
                       $errorMsg = "รองรับขนาดของรูปภาพ ไม่เกิน 5MB"; // error message file size larger than 5mb
                   }
               } else {
-                  $errorMsg = "ไฟล์อัพโหลดปลายทาง ไม่มีอยู่จริง! โปรดตรวจสอบ Folder"; // error message file not exists your upload folder path
+                  $errorMsg = "กรุณาเปลี่ยนชื่อรูปภาพของคุณเนื่องมี ในระบบมีชื่อซ้ำในฐานช้อมูล"; // error message file not exists your upload folder path
               }
           } else {
               $errorMsg = "ไฟล์รูปภาพที่ อัพโหลดรองรับเฉพาะนามสกุลไฟล์ JPG,JPEG,PNG และ Git เท่านั้น ";
           }
       } try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,unit,item_id,type_item,type_catagories,img_stock,exd_date) VALUES (:vendor,:unit,:code_item,:type_item,:type_catagories,:img_stock,:new_exd_date)");
+                  $insert_stmt = $db->prepare("INSERT INTO stock (vendor,item_id,type_item,type_catagories,img_stock,nature_id,cotton_id) VALUES (:vendor,:item_id,:type_item,:type_catagories,:img_stock,:nature_id,:cotton_id)");
                   $insert_stmt->bindParam(':vendor', $vendor);
-                  $insert_stmt->bindParam(':unit', $unit);
-                  $insert_stmt->bindParam(':code_item', $code_item);
+                  $insert_stmt->bindParam(':item_id', $item_id);
                   $insert_stmt->bindParam(':type_item', $type_item);
                   $insert_stmt->bindParam(':type_catagories', $type_catagories);
                   $insert_stmt->bindParam(':img_stock', $image_file);
-                  $insert_stmt->bindParam(':new_exd_date', $exd_date);
+                  $insert_stmt->bindParam(':nature_id', $nature_id);
+                  $insert_stmt->bindParam(':cotton_id', $cotton_id);
                   if ($insert_stmt->execute()) {
-                      $insertMsg = "Insert Successfully...";
+                      $insertMsg = "เพิ่มข้อมูล...";
                       header("refresh:1;stock.php");
                   }
               }
@@ -113,7 +101,7 @@
         if (isset($insertMsg)) {
     ?>
         <div class="alert alert-success mb-2">
-            <strong>Success! <?php echo $insertMsg; ?></strong>
+            <strong><?php echo $insertMsg; ?> สำเร็จ! </strong>
         </div>
     <?php } ?>
       <div class="row">
@@ -137,24 +125,31 @@
             </div>
         </div>
         <?php 
+        if(empty($code_item_check)){
           $code_item =null;
           $item_name = null;
           $unit_name = null;
           $price_stock = null;
+          $code_item_check =null;
+          $row = NULL;
+        }
           if(isset($_POST['check'])){
             $code_item_check= $_REQUEST['get_code_item'];
-            $select_check  = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
-            $select_check ->bindParam(':code_item_row', $code_item);
-            $select_check ->execute();
-            if ($select_check ->fetchColumn() == 0){
-              $errorcodeMsg = 'รหัสบาร์โค้ดนี้อยู่ใน ถูกนำไปใช้แล้ว !';
+            $select_check_stock  = $db->prepare("SELECT * FROM stock inner JOIN item ON stock.item_id = item.item_id WHERE code_item='".$code_item_check."' AND stock.item_id = item.item_id");
+            $select_check_stock ->execute();
+            if ($select_check_stock ->fetchColumn() != false) {
+              $errorcodeMsg = 'รหัสบาร์โค้ดนี้อยู่ใน ถูกนำไปใช้แล้ว ';
             }else{
-            $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = $code_item ");
-          
-            $select_stmt->execute();
-            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-            extract($row);
+            
+            
+            $select_item = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = '".$code_item_check."' ");
+            $select_item->execute();
+            $row = $select_item->fetch(PDO::FETCH_ASSOC);
+            @@extract($row);
+            if($code_item_check != $row['code_item']) {
+              $errorcodeMsg = 'รหัสบาร์โค้ดนี้อยู่ใน ยังไม่มีในระบบ ';
             }
+          }
           }
         ?>
         <div class="col-md-5">
@@ -171,20 +166,20 @@
                
                 <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
                 <div class="mb-3">
-                <input type="text"  name="text_code_new"value="<?php echo$code_item?>" class="form-control"placeholder="รหัสบาร์โค้ด">
-                <input type=""  name="txt_code_item" value="<?php echo$item_id?>"hidden>
+                <input type="text" value="<?php echo$row['code_item']?>" class="form-control"placeholder="รหัสบาร์โค้ด" disabled>
+                <input type="text" name="txt_item_id" value="<?php echo$row['item_id'];?>"hidden>
               </div>
                 <div class="row g-3">
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="txt_item_name" value="<?php echo$item_name?>"placeholder="รายการ" >
+                  <input type="text" class="form-control" name="txt_item_name" value="<?php echo$item_name?>"placeholder="รายการ" disabled>
                 </div>
                 <div class="col-sm">
-                  <input type="text" class="form-control"  name="txt_price"value="<?php echo$price_stock?>" placeholder="ราคา"  >
+                  <input type="text" class="form-control"  name="txt_price"value="<?php echo$price_stock?>" placeholder="ราคา"  disabled>
                 </div>
                 <div class="col-sm">
-                  <input type="text" class="form-control"   value="<?php echo$unit_name?>" placeholder="ต่อหน่วย"  >
+                  <input type="text" class="form-control"   value="<?php echo$unit_name?>" placeholder="ต่อหน่วย" disabled>
                   <input type="text"  name="txt_unit" value="<?php echo$unit_id?>"hidden>
-                  <input type="text"  name="txt_exd_date" value="<?php echo$exd_date?>"hidden>
+                  
                 </div>
               </div>
               
