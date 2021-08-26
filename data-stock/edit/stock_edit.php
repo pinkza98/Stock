@@ -5,24 +5,27 @@
             $stock_id = $_REQUEST['update_id'];
             $select_stock = $db->prepare("SELECT * FROM stock 
             INNER JOIN item ON stock.item_id = item.item_id
-            INNER JOIN unit ON stock.unit = unit.unit_id
+            INNER JOIN unit ON item.unit = unit.unit_id
             INNER JOIN vendor ON stock.vendor = vendor.vendor_id
             INNER JOIN type_name ON stock.type_item = type_name.type_id
             INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-            WHERE stock_id = :new_stock_id");
-            $select_stock->bindParam(':new_stock_id', $stock_id);
+            INNER JOIN nature ON stock.nature_id = nature.nature_id
+            INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
+            WHERE stock_id = '".$stock_id."'");
             $select_stock->execute();
-            $row = $select_stock->fetch(PDO::FETCH_ASSOC);
-            extract($row);
+            $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
+            extract($row_stock);
         } catch(PDOException $e) {
             $e->getMessage();
         }
     }
     if (isset($_REQUEST['Update'])) {
-        $stock_id = $_REQUEST['txt_stock_id'];
+        $stock_id_new = $_REQUEST['txt_stock_id'];
         $type_id = $_REQUEST['txt_type_id'];
         $catagories_id = $_REQUEST['txt_catagories_id'];
         $vendor = $_REQUEST['txt_vendor_id'];
+        $nature_id = $_REQUEST['txt_nature_id'];
+        $cotton_id = $_REQUEST['txt_cotton_id'];
         $img_stock_ture = $_REQUEST['txt_img_stock'];
         
         $image_file = $_FILES['txt_file']['name'];  
@@ -56,16 +59,19 @@
       } 
             try {
                 if (!isset($errorMsg)) {
-                  if(empty($image_file)){
-                    $update_stock = $db->prepare("UPDATE stock SET 	type_item = :type_id , type_catagories = :catagories_id ,vendor = :vendor   WHERE stock_id = :stock_id");
+                  if(is_null($image_file)){
+                    $update_stock = $db->prepare("UPDATE stock SET 	type_item = :type_id , type_catagories = :catagories_id ,vendor = :vendor ,nature_id=:nature_id,cotton_id=:cotton_id   WHERE stock_id = '".$stock_id_new."'");
                   }else{
-                    $update_stock = $db->prepare("UPDATE stock SET 	type_item = :type_id , type_catagories = :catagories_id , img_stock = :new_image_file ,vendor = :vendor   WHERE stock_id = :stock_id");
+                    $update_stock = $db->prepare("UPDATE stock SET 	type_item = :type_id , type_catagories = :catagories_id , img_stock = :new_image_file ,vendor = :vendor  ,nature_id=:nature_id,cotton_id=:cotton_id WHERE stock_id = '".$stock_id_new."'");
                     $update_stock->bindParam(':new_image_file', $image_file);
                   }
-                    $update_stock->bindParam(':stock_id', $stock_id);
+                    
                     $update_stock->bindParam(':type_id', $type_id);
                     $update_stock->bindParam(':catagories_id', $catagories_id);
+                    $update_stock->bindParam(':nature_id', $nature_id);
+                    $update_stock->bindParam(':cotton_id', $cotton_id);
                     $update_stock->bindParam(':vendor', $vendor);
+                    
                     
                     if ($update_stock->execute()) {
                         $updateMsg = "ข้อมูลกำลังถูกอัพเดด....";
@@ -144,7 +150,7 @@
                   
                 </div>
               </div>
-              <div class="row g-2">
+              <div class="row g-2 mt-2">
               <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
                 <div class="col-sm-8">
                 <select class="form-select" name="txt_type_id"aria-label="Default select example">
@@ -152,8 +158,8 @@
                   <?php   
                     $select_type = $db->prepare("SELECT * FROM type_name");
                     $select_type->execute();
-                    while ($row = $select_type->fetch(PDO::FETCH_ASSOC)) { ?>
-                  <option value="<?php echo$row['type_id']?>"><?php echo$row['type_name']?></option>
+                    while ($row1 = $select_type->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row1['type_id']?>"><?php echo$row1['type_name']?></option>
                   <?php }?>
                 </select>
                 </div>
@@ -163,8 +169,31 @@
                   <?php   
                     $select_catagories = $db->prepare("SELECT * FROM catagories");
                     $select_catagories->execute();
-                    while ($row = $select_catagories->fetch(PDO::FETCH_ASSOC)) { ?>
-                  <option value="<?php echo$row['catagories_id']?>"><?php echo$row['catagories_name']?></option>
+                    while ($row2 = $select_catagories->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row2['catagories_id']?>"><?php echo$row2['catagories_name']?></option>
+                  <?php }?>
+                </select>
+                </div>
+               
+                <div class="col-sm-6" mt-2>
+                <select class="form-select" name="txt_nature_id"aria-label="Default select example">
+                  <option value="<?php echo$nature_id ?>" selected>---เลือกใหม่----ค่าเดิม >(<?php echo $nature_name ?>)</option>
+                  <?php   
+                    $select_nature = $db->prepare("SELECT * FROM nature");
+                    $select_nature->execute();
+                    while ($row4 = $select_nature->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row4['nature_id'];?>"><?php echo$row4['nature_name'];?></option>
+                  <?php }?>
+                </select>
+                </div>
+                <div class="col-sm-6">
+                <select class="form-select" name="txt_cotton_id"aria-label="Default select example">
+                  <option value="<?php echo$cotton_id ?>" selected>---เลือกใหม่---ค่าเดิม >(<?php echo $cotton_name?>)</option>
+                  <?php   
+                    $select_cotton = $db->prepare("SELECT * FROM cotton");
+                    $select_cotton->execute();
+                    while ($row5 = $select_cotton->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row5['cotton_id']?>"><?php echo$row5['cotton_name']?></option>
                   <?php }?>
                 </select>
                 </div>
@@ -172,19 +201,19 @@
               <div class="mb-3">
                 <label for="formGroupExampleInput2" class="form-label">ผู้ขาย</label>
                 <select name="txt_vendor_id"class="form-select" aria-label="Default select example">
-                  <option value="<?php echo$vendor_id ?>" selected>---เลือกใหม่---ค่าเดิม >(<?php echo $vendor_name?>)</option>
+                  <option value="<?php echo$row_stock['vendor_id']?>" selected>---เลือกใหม่---ค่าเดิม >(<?php echo $row_stock['vendor_name']?>)</option>
                   <?php   
                     $select_vendor = $db->prepare("SELECT * FROM vendor");
                     $select_vendor->execute();
-                    while ($row = $select_vendor->fetch(PDO::FETCH_ASSOC)) { ?>
-                  <option value="<?php echo$row['vendor_id']?>"><?php echo$row['vendor_name']?></option>
+                    while ($row3 = $select_vendor->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row3['vendor_id']?>"><?php echo$row3['vendor_name']?></option>
                   <?php }?>
                   </option>
                 </select>
                 <div class=" mt-4">
                 <input type="text" name="txt_stock_id"  value="<?php echo$stock_id?>" hidden>
                 <input type="text" name="txt_img_stock"  value="<?php echo$img_stock?>" hidden>
-                <img src="../img_stock/<?php echo $img_stock?>" width="200" height="200" alt=""></img>  
+                <img src="../img_stock/<?php echo $row_stock['img_stock']?>" width="200" height="200"></img>  
                 </div> 
                 <div class="mt-3">
                 <input type="file" name='txt_file' class="form-control mt-4" id="customFile" multiple />

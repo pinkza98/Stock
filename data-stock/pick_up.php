@@ -282,7 +282,7 @@
                             </div>
                             <div class="row g-2">
                                 <label for="formGroupExampleInput"
-                                    class="form-label mt-3">ประเภทรายการ<?php echo$item_id?></label>
+                                    class="form-label mt-3">ประเภทรายการ</label>
                                 <div class="col-sm-6">
 
 

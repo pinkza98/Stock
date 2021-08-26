@@ -261,7 +261,7 @@
                             </div>
                             <div class="row g-2">
                                 <label for="formGroupExampleInput"
-                                    class="form-label">ประเภทรายการ<?php echo$item_id?></label>
+                                    class="form-label">ประเภทรายการ</label>
                                 <div class="col-sm-6">
 
 

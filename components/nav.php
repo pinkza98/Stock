@@ -15,9 +15,9 @@ if (isset($_SESSION['user_login'])) {
     ?>
 <div class="container">
     <div class="row">
-        <div class="col-12 col-sm-12"></div>
+        
 
-        <nav class="fixed-top navbar navbar-expand-lg navbar-light bg-light   " role="navigation">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
             <div class="img-resize fixed-top"><a href="index.php"><img class="rounded float-start"
                         src="components/images/logo.png"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -124,5 +124,4 @@ if ($row_session['user_lv'] >= 3) {
             </div>
         </nav>
     </div>
-</div>
 </div>
