@@ -23,12 +23,31 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
   <link rel="stylesheet" href="node_modules/data-table/dataTables.bootstrap.min.css" />  
   <!---แก้ไขแล้ว--> 
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/sl-1.3.3/datatables.min.css"/>
+ 
+ <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/sl-1.3.3/datatables.min.js"></script>
+ 
 <!-- <==========================================data-teble==================================================> -->
     <script>
         $(document).ready( function () {
             
-        $('#stock').DataTable();
-            } );
+        $('#stock').DataTable({
+          
+          "processing" : true,
+          "serverSide" : true,
+          "ajax" : {
+            url:"fetch_stock.php",
+            type:"POST"
+          },
+          dom: 'lBfrtip',
+          buttons: [
+            'excel', 'csv', 'pdf', 'copy'
+          ],
+          "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+  });
+  
+ });
     </script>
     
   </head>
@@ -52,7 +71,7 @@
             
             <th scope="col" class="text-center">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
-            <th scope="col" class="text-center">EXD</th>
+            <th scope="col" class="text-center">ราคา</th>
             <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ฝ่าย</th>
@@ -62,9 +81,9 @@
             
         </tr>
     </thead>
-    <tbody >
+    <tbody class="table-light" >
     <?php 
-          $select_stmt = $db->prepare("SELECT stock_id,code_item,item_name,unit_name,item.exd_date,type_name,catagories_name,vendor_name,cotton_name,nature_name FROM stock  
+          $select_stmt = $db->prepare("SELECT price_stock,stock_id,code_item,item_name,unit_name,item.exd_date,type_name,catagories_name,vendor_name,cotton_name,nature_name FROM stock  
           INNER JOIN item ON stock.item_id = item.item_id  
           INNER JOIN unit ON item.unit = unit.unit_id  
           INNER JOIN vendor ON stock.vendor = vendor.vendor_id
@@ -76,14 +95,14 @@
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
-      <tr  class="table-light">
+      <tr  >
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
           <?php if($row['exd_date']==NUll or $row['exd_date'] < 1 or $row['exd_date'] > 500){ ?>
             <td>-</td>
         <?php }else{ ?>
-          <td><?php echo $row["exd_date"]; ?>(วัน)</td>
+          <td><?php echo $row["price_stock"]; ?>(วัน)</td>
           <?php }?>
         <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["catagories_name"]; ?></td>
@@ -98,7 +117,7 @@
             <th scope="col" class="text-center">รหัส</th>
             <th scope="col" class="text-center">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
-            <th scope="col" class="text-center">EXD</th>
+            <th scope="col" class="text-center">ราคา</th>
             <th scope="col" class="text-center">หมวดหมู่</th>
             <th scope="col" class="text-center">ชนิด</th>
             <th scope="col" class="text-center">ฝ่าย</th>
