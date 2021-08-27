@@ -62,10 +62,10 @@
         </div>
         </header>
         <?php include('../components/content.php')?>
-        <div class="text-center m-4 ">
+        <div class="table-responsive tableFixHead  ">
             <br> 
-            <table class="table table-hover table-dark container-max-auto text-center tableFixHead">
-                <thead class="">
+            <table class="table table-hover table-dark text-center m-2">
+                <thead >
                     <tr>
                         <th scope="col" class="text-center">รหัสใหม่</th>
                         <th scope="col" class="text-center">รายการ</th>
@@ -84,6 +84,7 @@
                         <th scope="col" class="text-center">บางแค</th>
                         <th scope="col" class="text-center">สาขาส่วนกลาง</th>
                         <th scope="col" class="text-center">รวม</th>
+                   
                     </tr>
                 </thead>
                 <tbody>
