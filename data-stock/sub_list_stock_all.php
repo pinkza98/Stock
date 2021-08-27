@@ -25,11 +25,10 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- <==========================================booystrap 5==================================================> -->
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <==========================================booystrap 5==================================================> -->
-
+<!-- <========================================== jquery ==================================================> -->
+<script src="../node_modules/jquery/dist/jquery.js"></script>
   <!-- <==========================================data-teble==================================================> -->
-  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/jquery-table-2.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
   <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
   <!---แก้ไขแล้ว--> 
@@ -96,7 +95,7 @@ INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.ful
 INNER JOIN user ON branch_stock.user_id = user.user_id
 INNER JOIN vendor ON stock.vendor = vendor.vendor_id
 WHERE item_quantity != 0
-ORDER BY full_stock_id DESC");
+ORDER BY full_stock_id DESC LIMIT 100");
 $select_stmt->execute();
 while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>

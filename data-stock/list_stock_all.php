@@ -30,8 +30,8 @@
 <!-- <==========================================booystrap 5==================================================> -->
 
   <!-- <==========================================data-teble==================================================> -->
-  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/jquery-table.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
   <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
   <!---แก้ไขแล้ว--> 
@@ -39,7 +39,7 @@
     <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable();
+        $('#stock_all').DataTable();
     });
     </script>
     <?php include('../components/header.php');?>
@@ -63,7 +63,7 @@
         </header>
         <div class="container">
             <br>
-            <table class="table table-dark table-hover text-xl-center" id="stock">
+            <table class="table table-dark table-hover text-xl-center" id="stock_all">
                 <thead >
                     <tr>
 
