@@ -38,14 +38,12 @@ if (isset($_SESSION['user_login'])) {
                             </li>
                             <li><a class="dropdown-item" href="data-stock/list_stock_branch.php">คลังสาขา</a></li>
 
-                            <?php
-if ($row_session['user_bn'] == 1) {
-        ?>
+ 
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="data-stock/list_stock_center.php">คลังศูนย์</a></li>
-                            <?php }?>
+                            
                         </ul>
                     </li>
                     <?php

@@ -24,14 +24,17 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.css" />
-    <script type="text/javascript" src="../node_modules/data-table/bootstrap-table.min.css"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
-    </script>
+    <!-- <==========================================booystrap 5==================================================> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <==========================================booystrap 5==================================================> -->
+
+    <!-- <==========================================data-teble==================================================> -->
+    <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+    <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
@@ -43,61 +46,51 @@
 
 <body>
     <?php include('../components/nav_stock.php'); ?>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 
-    <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>
-    <!---แก้ไขแล้ว-->
-    </head>
-
-    <body>
-        <header></header>
-        <div class="display-3 text-xl-center">
-            <H2>รายการคลังของส่วนกลาง </H2>
-        </div>
-        <hr>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <?php include('../components/nav_stock_slid.php'); ?>
-                </div>
+    <header></header>
+    <div class="display-3 text-xl-center">
+        <H2>รายการคลังของส่วนกลาง </H2>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <?php include('../components/nav_stock_slid.php'); ?>   
             </div>
         </div>
-        </header>
-        <?php include('../components/content.php')?>
-        <div class="m-4">
-            <br>
-            <table class="table table-dark table-hover text-xl-center" id="stock">
+    </div>
+    </header>
+    <?php include('../components/content.php')?>
+    <div class="m-4">
+        <br>
+        <table class="table table-dark table-hover text-xl-center" id="stock">
 
-                <thead class="table-dark">
-                    <tr class="table-active">
+            <thead class="table-dark">
+                <tr class="table-active">
 
-                        <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">รายการ</th>
-                        <th scope="col" class="text-center">จำนวน</th>
-                        <!-- <th scope="col" class="text-center">ราคา</th> -->
-                        <th scope="col" class="text-center">หมวด</th>
-                        <th scope="col" class="text-center">ประเภท</th>
-                        <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วันที่เพิ่ม</th>
-                        <th scope="col" class="text-center">หมดอายุ</th>
-                        <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">ผู้ขาย</th>
-                        
-                        <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                        <!-- <th scope="col" class="text-center">ลบ</th> -->
+                    <th scope="col" class="text-center">รหัส</th>
+                    <th scope="col" class="text-center">รายการ</th>
+                    <th scope="col" class="text-center">จำนวน</th>
+                    <!-- <th scope="col" class="text-center">ราคา</th> -->
+                    <th scope="col" class="text-center">หมวด</th>
+                    <th scope="col" class="text-center">ประเภท</th>
+                    <th scope="col" class="text-center">ผู้ลงบันทึก</th>
+                    <th scope="col" class="text-center">วันที่เพิ่ม</th>
+                    <th scope="col" class="text-center">หมดอายุ</th>
+                    <th scope="col" class="text-center">สาขา</th>
+                    <th scope="col" class="text-center">ผู้ขาย</th>
 
-                    </tr>
-                </thead>
-                <tbody>
+                    <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
+                    <?php if($row_session['user_bn']==1) {?> 
+                    <th scope="col" class="text-center">ลบ</th>
+                    <?php } ?>
 
-                    <?php 
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php 
             $select_stmt = $db->prepare("SELECT full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
             INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
             INNER JOIN item ON stock.item_id = item.item_id
@@ -113,54 +106,58 @@
             $select_stmt->execute();
             while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             ?>
-                    <tr class="table-light">
-                        <td><?php echo $row["code_item"]; ?></td>
-                        <td><?php echo $row["item_name"]; ?></td>
-                        <td><?php echo $row["item_quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
-                        <!-- <td><?php echo $row["price_stock"]; ?> บาท</td> -->
-                        <td><?php echo $row["catagories_name"]; ?></td>
-                        <td><?php echo $row["type_name"]; ?></td>
-                        <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
-                        <td><?php echo DateThai($row["exp_date_log"]); ?></td>
-                        <?php 
+                <tr class="table-light">
+                    <td><?php echo $row["code_item"]; ?></td>
+                    <td><?php echo $row["item_name"]; ?></td>
+                    <td><?php echo $row["item_quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
+                    <!-- <td><?php echo $row["price_stock"]; ?> บาท</td> -->
+                    <td><?php echo $row["catagories_name"]; ?></td>
+                    <td><?php echo $row["type_name"]; ?></td>
+                    <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
+                    <td><?php echo DateThai($row["exp_date_log"]); ?></td>
+                    <?php 
                             $date_s = $row["exp_date_log"];
                             $date_e = $row["exd_date_log"]; 
                             $exd_date =DateDiff($date_s,$date_e);
                             if($exd_date > 1 && $exd_date < 400 ){
                         ?>
-                        <td>ในอีก <?php echo $exd_date ?>(วัน)</td>
-                        <?php }else {?>
-                            <td>-</td>
-                            <?php }?>
-                        <td><?php echo $row["bn_name"]; ?></td>
-                        <td><?php echo $row["vendor_name"]; ?></td>  
-                        
-                        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>  -->
-                        <!-- <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td> -->
-                        <?php } ?>
-                    </tr>
-                </tbody>
-                <tfoot a>
-                    <tr class="table-active">
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <!-- <th scope="col" class="text-center">ราคา</th> -->
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>
-                        <th scope="col" class="text-center"></th>     
-                        <th scope="col" class="text-center"></th>  
-                        <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <!-- <th scope="col" class="text-center">ลบ</th> -->
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <?php
+                    <td>ในอีก <?php echo $exd_date ?>(วัน)</td>
+                    <?php }else {?>
+                    <td>-</td>
+                    <?php }?>
+                    <td><?php echo $row["bn_name"]; ?></td>
+                    <td><?php echo $row["vendor_name"]; ?></td>
+
+                    <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>  -->
+                    <?php if($row_session['user_bn']==1) {?> 
+                    <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
+                    <?php } ?>
+                    <?php } ?>
+                </tr>
+            </tbody>
+            <tfoot a>
+                <tr class="table-active">
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <!-- <th scope="col" class="text-center">ราคา</th> -->
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <?php if($row_session['user_bn']==1) {?> 
+                    <th scope="col" class="text-center"></th>
+                    <?php }?>
+                    <!-- <th scope="col" class="text-center">แก้ไข</th> -->
+                    <!-- <th scope="col" class="text-center">ลบ</th> -->
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <?php
 	function DateThai($strDate)
 	{
 		$strYear = date("Y",strtotime($strDate))+543;
@@ -185,7 +182,7 @@
             }
 ?>
 
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
 </html>

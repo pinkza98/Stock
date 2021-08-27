@@ -43,13 +43,28 @@
     <title>Plus dental clinic</title>
    
     
-    <?php include('../components/header.php');?>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
+      <!-- <==========================================booystrap 5==================================================> -->
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <==========================================booystrap 5==================================================> -->
+  <!-- <==========================================data-teble==================================================> -->
+  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />   
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+<!-- <==========================================data-teble==================================================> -->
+<?php include('../components/header.php');?>
   </head>
+  <script>
+    $(document).ready(function() {
 
+        $('#stock').DataTable();
+    });
+    </script>
 
     
-  </head>
+  
   <body>
     
     <?php include('../components/nav_stock.php'); ?>
@@ -93,24 +108,24 @@
     </H2>
   </div>
   <br>
-   <table class="table table-dark table-hover text-xl-center">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">หนวยนับ</th>
+   <table class="table table-dark table-hover text-center bt-2" id="stock">
+    <thead class="text-center">
+      <tr >
+      
+        <th scope="col">หน่วยนับ</th>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
       
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-light text-center ">
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM unit ORDER BY unit_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr>
-        <td><?php echo $row["unit_id"]; ?></td>
+        
         <td><?php echo $row["unit_name"]; ?></td>
         <td><a href="edit/unit_edit.php?update_id=<?php echo $row["unit_id"]; ?>" class="btn btn-outline-warning">View</a></td>
          <td><a href="?delete_id=<?php echo $row["unit_id"];?>" class="btn btn-outline-danger">Delete</a></td>
@@ -122,11 +137,9 @@
 
       
    
-   <?php include('../components/footer.php')?>
+
 
    
-   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+ 
   </body>
 </html>

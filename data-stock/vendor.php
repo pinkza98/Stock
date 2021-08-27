@@ -49,9 +49,24 @@
     <!-- Bootstrap CSS -->
 
     <title>Plus dental clinic</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+       <!-- <==========================================booystrap 5==================================================> -->
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <==========================================booystrap 5==================================================> -->
+  <!-- <==========================================data-teble==================================================> -->
+  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />   
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+<!-- <==========================================data-teble==================================================> -->
     <?php include('../components/header.php');?>
   </head>
+  <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable();
+    });
+    </script>
   <body>
     
     <?php include('../components/nav_stock.php'); ?>
@@ -97,24 +112,24 @@
   <hr>
   <div class="text-center"><H2>แสดงข้อมูล</H2></div>
   <br>
-   <table class="table table-dark table-hover text-xl-center">
-    <thead>
+   <table class="table table-dark table-hover text-center" id="stock">
+    <thead class="table-dark text-center">
       <tr>
-        <th scope="col">#</th>
+       
         <th scope="col">ผู้ขาย</th>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
       
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-light">
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM vendor ORDER BY vendor_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr>
-        <td><?php echo $row["vendor_id"]; ?></td>
+        
         <td><?php echo $row["vendor_name"]; ?></td>
         <td><a href="edit/vendor_edit.php?update_id=<?php echo $row["vendor_id"]; ?>" class="btn btn-outline-warning">View</a></td>
          <td><a href="?delete_id=<?php echo $row["vendor_id"];?>" class="btn btn-outline-danger">Delete</a></td>
@@ -128,6 +143,6 @@
    
    <?php include('../components/footer.php')?>
    
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
   </body>
 </html>

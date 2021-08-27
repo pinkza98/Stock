@@ -17,71 +17,38 @@
 <!doctype html>
 <html lang="en">
 
-head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
-    <title>Plus dental clinic</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.css" />
-    <script type="text/javascript" src="../node_modules/data-table/bootstrap-table.min.css"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
-    </script>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<title>Plus dental clinic</title>
+
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<!-- <==========================================booystrap 5==================================================> -->
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <==========================================booystrap 5==================================================> -->
+
+  <!-- <==========================================data-teble==================================================> -->
+  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
+  <!---แก้ไขแล้ว--> 
+<!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
         $('#stock').DataTable();
     });
     </script>
-    <script>
-      function Fancybox(props) {
-      const delegate = props.delegate || "[data-fancybox]";
-
-      useEffect(() => {
-        NativeFancybox.assign(delegate, props.options || {});
-
-        return () => {
-          NativeFancybox.trash(delegate);
-
-          NativeFancybox.close(true);
-        };
-      }, []);
-
-      return <>{props.children}</>;
-    }
-
-    export default Fancybox;
-    </script>
     <?php include('../components/header.php');?>
-</head>
 
-<body>
     <?php include('../components/nav_stock.php'); ?>
-    
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-
-        <!-- <==========================================ajax-jquery==================================================> -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-          <!-- <==========================================data-teble==================================================> -->
-          <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js"></script>
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">         
-          <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
-          <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>  <!---แก้ไขแล้ว--> 
-    <!-- <==========================================data-teble==================================================> -->
-    <!-- <==========================================fancybox==================================================> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
-    <!-- <==========================================fancybox==================================================> -->
-    <!---แก้ไขแล้ว-->
-    </head>
-
+   
     <body>
         <header></header>
-        
+
         <div class="display-3 text-xl-center">
             <H2>รายการคลังทุกสาขา </H2>
         </div>
@@ -89,17 +56,16 @@ head>
         <div class="container">
             <div class="row">
                 <div class="col">
-                <?php include('../components/nav_stock_sild_all.php'); ?>
+                    <?php include('../components/nav_stock_sild_all.php'); ?>
                 </div>
             </div>
         </div>
         </header>
-        <?php include('../components/content.php')?>
         <div class="container">
             <br>
             <table class="table table-dark table-hover text-xl-center" id="stock">
-                <thead class="table-dark">
-                    <tr class="table-active">
+                <thead >
+                    <tr>
 
                         <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
                         <th scope="col" class="text-center">ชื่อรายการ</th>
@@ -107,7 +73,7 @@ head>
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">สาขา</th>
-                        
+
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
                         <!-- <th scope="col" class="text-center">ลบ</th>   -->
 
@@ -137,7 +103,7 @@ head>
                         <td><?php echo $row["catagories_name"]; ?></td>
                         <td><?php echo $row["type_name"]; ?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
-                        
+
                         <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
                         <!-- <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>  -->
                         <?php } ?>
@@ -151,17 +117,12 @@ head>
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">สาขา</th>
-                        
+
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->
                         <!-- <th scope="col" class="text-center">ลบ</th> -->
                     </tr>
                 </tfoot>
             </table>
         </div>
-
-          <!-- <==========================================booystrap 5==================================================> -->
-          <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <==========================================booystrap 5==================================================> -->
     </body>
-
 </html>

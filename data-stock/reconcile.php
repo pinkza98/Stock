@@ -58,10 +58,9 @@
                             
 
                             if ($update_stock_log_reconcile->execute()){
-                                $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log (user_id, quantity,date,stock_id,bn_id) VALUES ('$user_id','$result',NOW(),'$stock_id','$bn_id')");
-                                if($insert_cut_stock->execute()){
+                               
                                 $insertMsg = "ปรับยอดสำเร็จ";
-                            }
+                            
                             }else{
                                 $errorMsg = "update_stock_log_reconcile->execute() ไม่สำเร็จ";
                             }

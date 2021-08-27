@@ -71,9 +71,25 @@
 
     <title>Plus dental clinic</title>
    
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+         <!-- <==========================================booystrap 5==================================================> -->
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<!-- <==========================================booystrap 5==================================================> -->
+<!-- <==========================================data-teble==================================================> -->
+<script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+<link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
+<!---แก้ไขแล้ว--> 
+<!-- <==========================================data-teble==================================================> -->
     <?php include('../components/header.php');?>
-    
+    <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable();
+    });
+    </script>
 
     
   </head>
@@ -161,7 +177,7 @@
   <hr>
   <div class="text-center"><H2>แสดงข้อมูล</H2></div>
   <br>
-   <table class="table table-dark table-hover text-xl-center">
+   <table class="table table-dark table-hover text-xl-center" id="stock">
     <thead>
       <tr>
         <th>ชื่อรายการ</th>
@@ -176,7 +192,7 @@
       
       </tr>
     </thead>
-    <tbody>
+    <tbody class=" table-light">
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit.unit_id ORDER BY code_item ASC LIMIT 100");
           $select_stmt->execute();
@@ -205,7 +221,7 @@
    
    <?php include('../components/footer.php')?>
    
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
   </body>
 </html>
 

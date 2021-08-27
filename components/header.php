@@ -34,7 +34,12 @@ session_start();
     }
     h1,h2,h3,h4,h5,h6,p,a{
         font-family: 'Kanit', sans-serif;
+        
     }
+    p,a{
+      font-size: 15px;
+    }
+
     header {
     height: 50px;
     }
@@ -50,6 +55,9 @@ session_start();
     footer {
       display: table-row;
     }
+    .tableFixHead          { overflow-y: auto; height: 100%; }
+    .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+    .tableFixHead tbody th { position: sticky; left: 0; }
    
   </style>
     

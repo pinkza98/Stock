@@ -43,14 +43,12 @@ INNER JOIN prefix ON user.user_prefix = prefix.prefix_id
                             </li>
                             <li><a class="dropdown-item" href="../../data-stock/list_stock_branch.php">คลังสาขา</a></li>
 
-                            <?php
-if ($row_session['user_lv'] > 2) {
-        ?>
+     
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="../../data-stock/list_stock_all.php">คลังศูนย์</a></li>
-                            <?php }?>
+                           
                         </ul>
                     </li>
                     <?php

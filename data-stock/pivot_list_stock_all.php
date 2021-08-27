@@ -23,14 +23,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.css" />
-    <script type="text/javascript" src="../node_modules/data-table/bootstrap-table.min.css"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
-    </script>
+   <!-- <==========================================booystrap 5==================================================> -->
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <==========================================booystrap 5==================================================> -->
+
+  <!-- <==========================================data-teble==================================================> -->
+  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
+  <!---แก้ไขแล้ว--> 
+<!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
@@ -38,27 +42,11 @@
     });
     </script>
     <?php include('../components/header.php');?>
-
+    </head>
 
 <body>
     <?php include('../components/nav_stock.php'); ?>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-
-    <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>
-    <!---แก้ไขแล้ว-->
-    </head>
-    
-
- 
-
-    <body>
+   
         <header>
             <div class="display-3 text-xl-center">
                 <H2>PIVOT สต๊อกคลัง </H2>
@@ -74,10 +62,10 @@
         </div>
         </header>
         <?php include('../components/content.php')?>
-        <div class="text-center m-4">
-            <br>
-            <table class="table table-hover table-dark container-max-auto text-center">
-                <thead>
+        <div class="text-center m-4 ">
+            <br> 
+            <table class="table table-hover table-dark container-max-auto text-center tableFixHead">
+                <thead class="">
                     <tr>
                         <th scope="col" class="text-center">รหัสใหม่</th>
                         <th scope="col" class="text-center">รายการ</th>

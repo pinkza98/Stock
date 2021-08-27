@@ -12,44 +12,25 @@
     <title>Plus Dental Clinic</title>
     
     <?php include('components/header.php');?>
-   <!-- <==========================================boostrap5==================================================> -->
-   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!-- <==========================================ajax-jquery==================================================> -->
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-          <!-- <==========================================data-teble==================================================> -->
-          <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js"></script>
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">         
-          <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
-          <script type="text/javascript" src="node_modules/data-table/bootstrap-table.min.css"></script>  <!---แก้ไขแล้ว--> 
-    <!-- <==========================================data-teble==================================================> -->
-    <!-- <==========================================fancybox==================================================> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
-    <!-- <==========================================fancybox==================================================> -->
+   <!-- <==========================================booystrap 5==================================================> -->
+<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <==========================================booystrap 5==================================================> -->
+
+  <!-- <==========================================data-teble==================================================> -->
+  <script src="node_modules/data-table/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="node_modules/data-table/datatables.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+  <link rel="stylesheet" href="node_modules/data-table/dataTables.bootstrap.min.css" />  
+  <!---แก้ไขแล้ว--> 
+<!-- <==========================================data-teble==================================================> -->
     <script>
         $(document).ready( function () {
             
         $('#stock').DataTable();
             } );
     </script>
-    <script>
-      function Fancybox(props) {
-      const delegate = props.delegate || "[data-fancybox]";
-
-      useEffect(() => {
-        NativeFancybox.assign(delegate, props.options || {});
-
-        return () => {
-          NativeFancybox.trash(delegate);
-
-          NativeFancybox.close(true);
-        };
-      }, []);
-
-      return <>{props.children}</>;
-    }
-
-    export default Fancybox;
-    </script>
+    
   </head>
   <body>
     <?php include('components/nav.php'); ?>
@@ -128,11 +109,6 @@
         </tfoot>
   </table>
   </div>
-<!-- <==========================================fancybox==================================================> -->
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
-  <!-- <==========================================fancybox==================================================> -->
-  <!-- <==========================================booystrap 5==================================================> -->
-  <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <==========================================booystrap 5==================================================> -->
+
   </body>
 </html>
