@@ -1,6 +1,6 @@
 <html>  
       <head>  
-           <title>Dynamically Add or Remove input fields in PHP with JQuery</title>  
+           <title> test</title>  
            <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"> 
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
@@ -9,20 +9,40 @@
            <div class="container">  
                 <br />  
                 <br />  
-                <h2 align="center">Dynamically Add or Remove input fields in PHP with JQuery</h2>  
-                <div class="form-group">  
+                <div class="mb-5" >
+                <h2 class="text-center">เพิ่มรายการสต๊อก</h2>  
+                </div>
+                <div class=" container">  
                      <form name="add_name" id="add_name">  
-                          <div class="table-responsive">  
+                     <div class="">
+                            <div class="col-md-4">
+                                <div class="form.group">
+                                    <input type="text" name="name[]" placeholder="Enter Code item" class="form-control name_list" id="code_item" autofocus>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2">
+
+                            <button type="button" name="add" id="add" class="btn btn-success">Add More</button>
+                            </div>
+                        </div>
+                       
+                     </form>
+                     <form name="add_name" id="add_name">  
+                          <div class="responsive p-6">  
                                <table class="table table-bordered" id="dynamic_field">  
+                               <thead class="table-dark ">
+                                    <th>รหัสบาร์โค้ด</th>
+                                    <th>จำนวน</th>
+                                    <th>ลบ</th>
+                               </thead>
                                     <tr>  
-                                         <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" id="input"/></td>  
-                                        
-                                         <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>  
+
                                     </tr>  
                                </table>  
-                               <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />  
                           </div>  
-                     </form>  
+                     </form>
+                     
                 </div>  
            </div>  
       </body>  
@@ -31,10 +51,10 @@
  $(document).ready(function(){  
       var i=1;  
       var s=1;
-      $("#input").keypress(function(e) {
+      $("#code_item").keypress(function(e) {
     if(e.which == 13) {
         $("#add").click();
-        input = "";
+        code_item = "";
     }
   
         });
@@ -44,7 +64,7 @@
         $("#add").click(function(e){
             i++;  
           
-           $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" id = "'+s+'"/></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>'); 
+           $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" name="name[]" class="form-control name_list" id = "'+s+'"/></td><td><input type="text" name="name[]" placeholder="Enter your Qty" class="form-control name_list" id = "'+s+'"/></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>'); 
         });
         $(document).on('click', '.btn_remove', function(e){  
            var button_id = $(this).attr("id");   
