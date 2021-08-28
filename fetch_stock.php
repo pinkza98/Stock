@@ -69,9 +69,10 @@ foreach($result as $row)
  $sub_array[] = $row['price_stock'];
  $sub_array[] = $row['type_name'];
  $sub_array[] = $row['catagories_name'];
- $sub_array[] = $row['vendor_name'];
  $sub_array[] = $row['cotton_name'];
  $sub_array[] = $row['nature_name'];
+ $sub_array[] = $row['vendor_name'];
+
  $data[] = $sub_array;
 }
 
