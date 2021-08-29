@@ -13,7 +13,19 @@
                 <h2 class="text-center">เพิ่มรายการสต๊อก</h2>  
                 </div>
                 <div class=" container">  
-                     <form name="add_name" id="add_name">  
+                <form name="add_name" id="add_name">  
+                          <div class="table-responsive">  
+                               <div class=" m-4">
+                               <table class="table table-bordered ">  
+                                    <tr>  
+                                         <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list"  id="code_item"/ autofocus></td>  
+                                         <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>  
+                                    </tr>  
+                               </table>  
+                               </div>
+                          </div>  
+                     </form>
+                     <!-- <form name="add_name" id="add_name">  
                      <div class="">
                             <div class="col-md-4">
                                 <div class="form.group">
@@ -27,7 +39,7 @@
                             </div>
                         </div>
                        
-                     </form>
+                     </form> -->
                      <form name="add_name" id="add_name">  
                           <div class="responsive p-6">  
                                <table class="table table-bordered" id="dynamic_field">  
