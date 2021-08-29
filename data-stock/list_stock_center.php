@@ -26,7 +26,7 @@
     <?php include('../components/header.php');?>
   </head>
   <body>
-    <?php include('../components/nav_stock.php'); ?>
+    
    <!-- <==========================================booystrap 5==================================================> -->
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -35,13 +35,9 @@
   <!-- <==========================================data-teble==================================================> -->
   <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
-  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
-    <!-- <==========================================fancybox==================================================> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
-    <!-- <==========================================fancybox==================================================> -->
     <script>
         $(document).ready( function () {
             
@@ -69,6 +65,7 @@
     </script>
   </head>
   <body>
+  <?php include('../components/nav_stock.php'); ?>
     <header></header>
       <div class="display-3 text-xl-center">
       <H2>รายการคลังส่วนกลาง </H2>

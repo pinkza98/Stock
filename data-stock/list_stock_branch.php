@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- <==========================================booystrap 5==================================================> -->
   <!-- <==========================================data-teble==================================================> -->
-  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
   <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  

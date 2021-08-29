@@ -13,12 +13,9 @@ if (!isset($_SESSION['user_login'])) {
             extract($row_session);
             if (isset($_SESSION['user_login'])) {
   ?>
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-sm-12"></div>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid" role="navigation">
-            <div class="img-resize fixed-top"><a href="../index.php"><img class="rounded float-start"
+<nav class="navbar navbar-expand-lg navbar-light bg-light nav-fixed-top" role="navigation">
+    <div class="container-fluid">
+            <div class="img-resize"><a href="../index.php"><img class="rounded float-start"
                         src="../components/images/logo.png"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     aria-label="Toggle navigation"></button>
@@ -26,7 +23,11 @@ if (!isset($_SESSION['user_login'])) {
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ">
-
+                <li class="nav-item dropdown ms-2">
+                        <a class="nav-link" href="../index.php" role="button" aria-expanded="false">
+                            หน้าหลัก
+                        </a>
+                    </li>
 
                     <li class="nav-item dropdown ms-2">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -124,6 +125,3 @@ if ($row_session['user_lv'] >= 3) {
                         text-light>Logout</a></button>
             </div>
         </nav>
-    </div>
-</div>
-</div>

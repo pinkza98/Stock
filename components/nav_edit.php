@@ -29,7 +29,11 @@ INNER JOIN prefix ON user.user_prefix = prefix.prefix_id
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ">
-
+                    <li class="nav-item dropdown ms-2">
+                            <a class="nav-link" href="../../index.php" role="button" aria-expanded="false">
+                                หน้าหลัก
+                            </a>
+                        </li>
 
                     <li class="nav-item dropdown ms-2">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

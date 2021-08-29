@@ -22,12 +22,8 @@
   <script type="text/javascript" src="node_modules/data-table/datatables.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
   <link rel="stylesheet" href="node_modules/data-table/dataTables.bootstrap.min.css" />  
-  <!---แก้ไขแล้ว--> 
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/sl-1.3.3/datatables.min.css"/>
- 
- <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/sl-1.3.3/datatables.min.js"></script>
- 
+ <script type="text/javascript" src="node_modules/data-table/dataTables_excel.js"></script>
 <!-- <==========================================data-teble==================================================> -->
     <script>
         $(document).ready( function () {
@@ -37,7 +33,7 @@
           "processing" : true,
           "serverSide" : true,
           "ajax" : {
-            url:"fetch_stock.php",
+            url:"fetch_stock.php?page=1",
             type:"POST"
           },
           dom: 'lBfrtip',

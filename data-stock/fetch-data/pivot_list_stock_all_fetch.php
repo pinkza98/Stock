@@ -1,12 +1,8 @@
 <?php
 
 //fetch.php
-$page = $_REQUEST['page'];
 
 include('database/db.php');
-
-if($page == 1){
-
 
 $column = array('code_item', 'item_name', 'unit_name', 'price_stock', 'type_name', 'catagories_name','vendor_name','cotton_name','nature_name');
 
@@ -103,5 +99,5 @@ $output = array(
 );
 
 echo json_encode($output);
-}
+
 ?>
