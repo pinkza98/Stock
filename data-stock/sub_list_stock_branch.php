@@ -127,7 +127,7 @@
                             $exd_date =DateDiff($date_s,$date_e);
                             if($exd_date > 1 && $exd_date < 400 ){
                         ?>
-                        <td>ในอีก <?php echo $exd_date ?>(วัน)</td>
+                        <td>ในอีก <?php echo number_format($exd_date) ?>(วัน)</td>
                         <?php }else {?>
                             <td>-</td>
                             <?php }?>

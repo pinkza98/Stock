@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <title>Dynamically Add or Remove input fields in PHP with JQuery</title>
@@ -12,13 +13,13 @@
         <br />
         <h2>Dynamically Add or Remove input fields in PHP with JQuery</h2>
         <div class="form-group">
-            <form method="post" name="add_name" id="add_name">
+            
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
                             <div class="items">
                                 <td>
-                                    <input class="form-control" type="text" name="name[]" placeholder="Enter your Code item"
+                                    <input class="form-control" type="text" placeholder="Enter your Code item"
                                         class="form-control " id="code_item" autofocus />
                                 </td>
                                 <td>
@@ -28,7 +29,7 @@
                             
                         </tr>
                     </table>
-
+                    <form method="post" name="add_name" id="add_name">
                     <div class="responsive p-6">
                         <table class="table table-bordered" id="dynamic_field">
                             <thead class="table-dark ">
@@ -52,34 +53,30 @@
 <script>
 $(document).ready(function() {
     var i = 1;
-    var s = 1;
     var qty = 1;
-    var x ="test";
-    // var x = document.getElementById("code_item").value;
-    // document.getElementById("code_item").innerHTML = x;
+   
     $("#code_item").keypress(function(e) {
         
     
         if (e.which == 13) {
             
-            // $("#add").click();
-            alert(x);
+            $("#add").click();
+           
         }
     });
 
 
     $("#add").click(function(e) {
         i++;
-        s++;
         
-        
-        $('#dynamic_field').append('<tr id="row' + i +
-            '"><td><input type="text" class="form-control" value="' + x +
-            '" id = "' +
-            s + '" disabled></td><td><input type="text" name="qty[]" value="' + qty +
-            '"class="form-control" id = "' +
-            s + '"/></td><td><button type="button" name="remove" id="' + i +
-            '" class="btn btn-danger btn_remove">X</button></td></tr>');
+         $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" name="name[]" value="'+(document.getElementById("code_item").value)+'" class="form-control name_list" /></td><td><input type="text" name="qty[]" value="'+qty+'" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+        // $('#dynamic_field').append('<tr id="row' + i +
+        //     '"><td><input type="text" class="form-control" value="' + (document.getElementById("code_item").value) +
+        //     '" id = "' +
+        //     s + '" ></td><td><input type="text" name="qty[]" value="' + qty +
+        //     '"class="form-control" id = "' +
+        //     s + '"></td><td><button type="button" name="remove" id="' + i +
+        //     '" class="btn btn-danger btn_remove">X</button></td></tr>');
     });
     $(document).on('click', '.btn_remove', function() {
         var button_id = $(this).attr("id");
@@ -92,7 +89,7 @@ $(document).ready(function() {
             data: $('#add_name').serialize(),
             success: function(data) {
                 alert(data);
-                $('#add_name')[0].reset();
+                $('#add_name')[0][0].reset();
             }
         });
     });

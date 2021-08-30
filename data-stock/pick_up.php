@@ -8,6 +8,7 @@
         $bn_id = $_REQUEST['txt_bn_id'];
         $stock_id = $_REQUEST['txt_stock_id'];
         $cut_date = $now = date_create()->format('Y-m-d');
+        $price_stock_log = $_REQUEST['txt_stock_price'];
         $result = $quantity;
         if ($quantity > $sum) {
            $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
@@ -48,14 +49,12 @@
                             $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity  WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $update_stock_log->bindParam(':new_item_quantity', $quantity_as);
                             
-                            $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id) VALUES('.$user_id.','.$result.',NOW(),'.$stock_id.','.$bn_id.')");
-                            
-                           echo $quantity;
+                            $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('.$user_id.','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock_log.')");
                            
                             if ( $insert_cut_stock->execute()) {
                                 $insertMsg = "เบิกยอด1";
                                 if($update_stock_log->execute()){
-                                    $insertMsg = "เบิกยอด";
+                                    $insertMsg = "$price_stock_log";
                                     header('refresh:1:pick_up.php');
                                 }
                             
@@ -75,7 +74,7 @@
                
             
             }catch (PDOException $e) {
-                     $e->getMessage();
+                     echo $e->getMessage();
             }
            
         }
@@ -202,6 +201,7 @@
             $vendor_name = null;
             $bn_name = null;
             $full_stock_id_log  = null;
+            $price_stock_log = null;
           }
           if(isset($_POST['check'])){
             $code_item_check = $_REQUEST['get_code_item'];
@@ -217,7 +217,7 @@
                 $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
               }
               else{
-            $select_stock_full = $db->prepare("SELECT branch_stock.stock_id,full_stock_id_log,type_name,catagories_name,img_stock,full_stock_id, code_item ,item_name, bn_name,bn_id, SUM(branch_stock_log.item_quantity) as sum,unit_name, type_name, catagories_name, img_stock,exp_date_log,exd_date_log FROM branch_stock  
+            $select_stock_full = $db->prepare("SELECT price_stock_log,branch_stock.stock_id,full_stock_id_log,type_name,catagories_name,img_stock,full_stock_id, code_item ,item_name, bn_name,bn_id, SUM(branch_stock_log.item_quantity) as sum,unit_name, type_name, catagories_name, img_stock,exp_date_log,exd_date_log FROM branch_stock  
             INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
             INNER JOIN item ON stock.item_id = item.item_id
             INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
@@ -258,7 +258,7 @@
                                     </b></label>
                             <div class="row g-3">
                                 <div class="col-sm-8 mb-3 ">
-                                    <input type="text" name="text_code_new" value="<?php echo$code_item?>"
+                                    <input type="text" name="text_code_new" value="<?php echo$code_item,$price_stock_log?>"
                                         class="form-control" placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด"
                                         disabled>
                                     <input type="text" name="txt_code_item" value="" hidden>
@@ -280,6 +280,9 @@
                                 </div>
 
                             </div>
+                            
+                                   
+                              
                             <div class="row g-2">
                                 <label for="formGroupExampleInput"
                                     class="form-label mt-3">ประเภทรายการ</label>
@@ -329,6 +332,7 @@
                                 <input type="text" name="txt_bn_id" value="<?php echo$bn_id?>" hidden>
                                 <input type="text" name="txt_user_id" value="<?php echo$row_session['user_id'] ?>"
                                     hidden>
+                                <input type="text" name="txt_stock_price" value="<?php echo$price_stock_log?>" class="form-control" hidden>
 
                                     <input type="text" name="txt_sum" value="<?php echo$sum ?>"
                                     hidden>

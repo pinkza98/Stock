@@ -68,6 +68,7 @@
         <th scope="col" class="text-center">รายการ</th>
         <th scope="col" class="text-center">จำนวน</th>
         <th scope="col" class="text-center"></th>
+        <th scope="col" class="text-center">ราคา</th>
         <th scope="col" class="text-center">หมวด</th>
         <th scope="col" class="text-center">ประเภท</th>
         <th scope="col" class="text-center">ผู้ลงบันทึก</th>
@@ -84,7 +85,7 @@
 <tbody>
 
     <?php 
-$select_stmt = $db->prepare("SELECT full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
+$select_stmt = $db->prepare("SELECT price_stock_log,full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
 INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
 INNER JOIN item ON stock.item_id = item.item_id
 INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
@@ -104,6 +105,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
         <td><?php echo $row["item_name"]; ?></td>
         <td><?php echo $row["item_quantity"]; ?> </td>
         <td><?php echo $row["unit_name"]; ?> </td>
+        <td><?php echo number_format($row["price_stock_log"],2); ?> </td>
         <td><?php echo $row["catagories_name"]; ?></td>
         <td><?php echo $row["type_name"]; ?></td>
         <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
@@ -114,7 +116,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                             $exd_date =DateDiff($date_s,$date_e);
                             if($exd_date > 1 && $exd_date < 400 ){
                         ?>
-                        <td>ในอีก <?php echo $exd_date ?>(วัน)</td>
+                        <td>ในอีก <?php echo number_format($exd_date); ?>(วัน)</td>
                         <?php }else {?>
                             <td>-</td>
                             <?php }?>

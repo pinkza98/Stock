@@ -47,7 +47,7 @@
                   $insert_stmt->bindParam(':new_exd_date', $exd_date);
                  
                   if ($insert_stmt->execute()) {
-                      $insertMsg = "Insert Successfully...";
+                      $insertMsg = "Record update successfully...";
                       header("refresh:1;item.php");
                   }
               }
@@ -180,8 +180,9 @@
    <table class="table table-dark table-hover text-xl-center" id="stock">
     <thead>
       <tr>
-        <th>ชื่อรายการ</th>
+        
         <th>รหัสบาร์โค้ด</th>
+        <th>ชื่อรายการ</th>
         <th>หน่วยนับ</th>
         <th>ราคา(บาท)</th>
         <th>วันหมดอายุ</th>
@@ -199,8 +200,9 @@
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr>
-        <td><?php echo $row["item_name"]; ?></td>
+        
         <td><?php echo $row["code_item"]; ?></td>
+        <td><?php echo $row["item_name"]; ?></td>
         <td><?php echo $row["unit_name"]; ?></td>
         <td><?php echo $row["price_stock"]; ?></td>
         <?php if($row['exd_date'] == null){?>

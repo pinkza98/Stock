@@ -89,5 +89,8 @@ session_start();
         position: sticky;
         left: 0;
     }
+    .dataTables_filter {
+    float: right !important;
+    }
     </style>
    

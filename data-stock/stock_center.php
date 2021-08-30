@@ -5,7 +5,8 @@
       $stock_bn_stock= $_REQUEST['txt_user_bn'];
       $stock_id = $_REQUEST['txt_stock_id'];
       $stock_quantity = $_REQUEST['txt_quantity'];
-       $exd_date_set = $_REQUEST['txt_exd_date'];
+      $price_stock = $_REQUEST['txt_price_stock'];
+      $exd_date_set = $_REQUEST['txt_exd_date'];
     
     
     if (empty($exd_date_set )){
@@ -33,10 +34,11 @@
                   $insert_full_stock->bindParam(':bn_stock', $stock_bn_stock);
 
 
-                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log) VALUES (:user_id_log,NOW(),:item_quantity,:new_exd_date_log,LAST_INSERT_ID())");
+                  $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_id_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log,price_stock_log) VALUES (:user_id_log,NOW(),:item_quantity,:new_exd_date_log,LAST_INSERT_ID(),:new_price)");
                   $insert_full_stock_log->bindParam(':user_id_log', $stock_user_id);
                   $insert_full_stock_log->bindParam(':item_quantity', $stock_quantity);
                   $insert_full_stock_log->bindParam(':new_exd_date_log', $exd_date);
+                  $insert_full_stock_log->bindParam(':new_price', $price_stock);
                   
 
 
@@ -249,8 +251,10 @@
                                 </div>
                                 
                                 <div class="col-sm">
-                                    <input type="text" class="form-control" name="txt_price"
+                                    <input type="text" class="form-control" 
                                         value="<?php echo$price_stock?>" placeholder="ราคา" aria-label="ราคา" disabled>
+                                        <input type="text" class="form-control" name="txt_price_stock"
+                                        value="<?php echo$price_stock?>" hidden>
                                 </div>
                                 <div class="col-sm">
                             
