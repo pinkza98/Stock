@@ -37,11 +37,20 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
   <script src="../node_modules/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
     <script>
         $(document).ready( function () {
             
-        $('#stock').DataTable();
+        $('#stock').DataTable({
+          dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
+      
+        });
             } );
     </script>
     <script>

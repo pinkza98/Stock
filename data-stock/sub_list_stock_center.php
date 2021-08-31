@@ -34,11 +34,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+    <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable();
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
     });
     </script>
     <?php include('../components/header.php');?>
@@ -102,7 +109,7 @@
             INNER JOIN user ON branch_stock.user_id = user.user_id
             INNER JOIN vendor ON stock.vendor = vendor.vendor_id
             WHERE bn_stock = 1 AND item_quantity != 0
-            ORDER BY full_stock_id DESC");
+            ORDER BY exp_date_log DESC");
             $select_stmt->execute();
             while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             ?>

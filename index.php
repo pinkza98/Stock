@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="node_modules/data-table/dataTables.bootstrap.min.css" />  
 
  <script type="text/javascript" src="node_modules/data-table/dataTables_excel.js"></script>
+ <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
     <script>
         $(document).ready( function () {
@@ -38,7 +39,7 @@
           },
           dom: 'lBfrtip',
           buttons: [
-            'excel', 'copy'
+            'excel','print'
           ],
           "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ]
   });

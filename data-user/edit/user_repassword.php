@@ -11,18 +11,21 @@
       $row = $select_user_check->fetch(PDO::FETCH_ASSOC);
      $password_check=password_verify($password,$row['password']);
      if($password_check ==true){
-        if(empty($password1)){
+        if(is_null($password1)){
             $errorMsg="รหัสผ่านใหม่ ไม่เป็นค่าว่าง";
           }
-          elseif(empty($password2)){
+          elseif(is_null($password2)){
             $errorMsg = "กรุณากรอกรหัสผ่านยืนยันใหม่ ";
           }elseif($password1 =! $password2){
               $errorMsg = "รหัสผ่านใหม่ทั้งสอง ไม่เหมือนกัน";
           }
           else{
-              $new_password = $password1.$password2;
-              $super_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+             
             try {
+              if (!isset($errorMsg)) {
+                $new_password = $password1;
+                $super_new_password = password_hash($new_password, PASSWORD_DEFAULT);
                 $select_user_profile = $db->prepare("UPDATE user SET  password = :super_new_password WHERE user_id = :new_user_id");
                 $select_user_profile->bindParam(':super_new_password', $super_new_password);
                 $select_user_profile->bindParam(':new_user_id', $user_id);
@@ -34,7 +37,9 @@
                 }else{
                   $errorMsg = "พบข้อผิดพลาดด้าน MYSQL แจ้งฝ่ายไอที";
                 }
-              
+              }else{
+                $errorMsg = "รหัสผ่านไม่ถูกต้อง";
+              }
             } catch(PDOException $e) {
                  echo $e->getMessage();
             }

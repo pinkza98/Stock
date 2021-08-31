@@ -24,9 +24,9 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
 
-  
-        <!-- <==========================================booystrap 5==================================================> -->
-        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- <==========================================booystrap 5==================================================> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <==========================================booystrap 5==================================================> -->
 
@@ -36,67 +36,72 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
     <!---แก้ไขแล้ว-->
+    <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable();
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+            buttons: [
+                'excel', 'print'
+            ],
+        });
     });
     </script>
     <?php include('../components/header.php');?>
 
-    </head>
+</head>
+
 <body>
     <?php include('../components/nav_stock.php'); ?>
-   
 
 
-    
-        <header></header>
-        <div class="display-3 text-xl-center">
-            <H2>รายการคลังสาขา </H2>
-        </div>
-        <hr>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <?php include('../components/nav_stock_sild_bn.php'); ?>
-                </div>
+
+
+    <header></header>
+    <div class="display-3 text-xl-center">
+        <H2>รายการคลังสาขา </H2>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <?php include('../components/nav_stock_sild_bn.php'); ?>
             </div>
         </div>
-        </header>
-        <?php include('../components/content.php')?>
-        <div class="m-5">
-            <br>
-            <table class="table table-dark table-hover text-xl-center" id="stock">
+    </div>
+    </header>
+    <?php include('../components/content.php')?>
+    <div class="m-5">
+        <br>
+        <table class="table table-dark table-hover text-xl-center" id="stock">
 
-                <thead class="table-dark">
-                    <tr class="table-active">
+            <thead class="table-dark">
+                <tr class="table-active">
 
-                        <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">รายการ</th>
-                        <th scope="col" class="text-center">จำนวน</th>
-                        <!-- <th scope="col" class="text-center">ราคา</th> -->
-                        <th scope="col" class="text-center">หมวด</th>
-                        <th scope="col" class="text-center">ประเภท</th>
-                        <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วันที่เพิ่ม</th>
-                        <th scope="col" class="text-center">หมดอายุ</th>
-                        <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">ผู้ขาย</th>
-                        <!-- <th scope="col" class="text-center">ชนิด</th> -->
-                        
-                        <!-- <th scope="col" class="text-center">รูปภาพประกอบ</th> -->
-                        <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                        <th scope="col" class="text-center">ลบ</th>
+                    <th scope="col" class="text-center">รหัส</th>
+                    <th scope="col" class="text-center">รายการ</th>
+                    <th scope="col" class="text-center">จำนวน</th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center">ราคา</th>
+                    <th scope="col" class="text-center">หมวด</th>
+                    <th scope="col" class="text-center">ประเภท</th>
+                    <th scope="col" class="text-center">ผู้ลงบันทึก</th>
+                    <th scope="col" class="text-center">วันที่เพิ่ม</th>
+                    <th scope="col" class="text-center">หมดอายุในอีก</th>
+                    <th scope="col" class="text-center">สาขา</th>
+                    <th scope="col" class="text-center">ผู้ขาย</th>
+                    <th scope="col" class="text-center">ลบ</th>
 
-                    </tr>
-                </thead>
-                <tbody>
+                </tr>
+            </thead>
+            <tbody>
 
-                    <?php 
+                <?php 
                   
-                        $select_stmt = $db->prepare("SELECT full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
+                        $select_stmt = $db->prepare("SELECT price_stock_log,full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
                         INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
@@ -106,58 +111,59 @@
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                         INNER JOIN user ON branch_stock.user_id = user.user_id
                         INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-                        WHERE bn_stock ='".$row_session["user_bn"]."' AND bn_stock != 1 AND item_quantity != 0
-                        ORDER BY full_stock_id DESC");
+                        WHERE item_quantity != 0 AND bn_stock ='".$row_session["user_bn"]."' AND bn_stock != 1 AND item_quantity != 0
+                        ORDER BY exp_date_log DESC");
                     
                         $select_stmt->execute();
                         while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
-                    <tr class="table-light">
+                <tr class="table-light">
                     <td><?php echo $row["code_item"]; ?></td>
-                        <td><?php echo $row["item_name"]; ?></td>
-                        <td><?php echo $row["item_quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
-                        <!-- <td><?php echo $row["price_stock"]; ?> บาท</td> -->
-                        <td><?php echo $row["catagories_name"]; ?></td>
-                        <td><?php echo $row["type_name"]; ?></td>
-                        <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
-                        <td><?php echo DateThai($row["exp_date_log"]); ?></td>
-                        <?php 
+                    <td><?php echo $row["item_name"]; ?></td>
+                    <td><?php echo $row["item_quantity"]; ?> </td>
+                    <td><?php echo $row["unit_name"]; ?> </td>
+                    <td><?php echo number_format($row["price_stock_log"],2); ?> </td>
+                    <td><?php echo $row["catagories_name"]; ?></td>
+                    <td><?php echo $row["type_name"]; ?></td>
+                    <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
+                    <td><?php echo DateThai($row["exp_date_log"]); ?></td>
+                    <?php 
                             $date_s = $row["exp_date_log"];
                             $date_e = $row["exd_date_log"]; 
                             $exd_date =DateDiff($date_s,$date_e);
                             if($exd_date > 1 && $exd_date < 400 ){
                         ?>
-                        <td>ในอีก <?php echo number_format($exd_date) ?>(วัน)</td>
-                        <?php }else {?>
-                            <td>-</td>
-                            <?php }?>
-                        <td><?php echo $row["bn_name"]; ?></td>
-                        <td><?php echo $row["vendor_name"]; ?></td>
-                        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
-                        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>
-                        <?php } ?>
-                    </tr>
-                </tbody>
-                <tfoot a>
-                    <tr class="table-active">
+                    <td>ในอีก <?php echo number_format($exd_date); ?>(วัน)</td>
+                    <?php }else {?>
+                    <td>-</td>
+                    <?php }?>
+                    <td><?php echo $row["bn_name"]; ?></td>
+                    <td><?php echo $row["vendor_name"]; ?></td>
+                    <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
+                    <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>
+                    <?php } ?>
+                </tr>
+            </tbody>
+            <tfoot a>
+                <tr class="table-active">
                     <th scope="col" class="text-center">รหัส</th>
-                        <th scope="col" class="text-center">รายการ</th>
-                        <th scope="col" class="text-center">จำนวน</th>
-                        <!-- <th scope="col" class="text-center">ราคา</th> -->
-                        <th scope="col" class="text-center">หมวด</th>
-                        <th scope="col" class="text-center">ประเภท</th>
-                        <th scope="col" class="text-center">ผู้ลงบันทึก</th>
-                        <th scope="col" class="text-center">วันที่เพิ่ม</th>
-                        <th scope="col" class="text-center">หมดอายุในอีก</th>
-                        <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">ผู้ขาย</th>
-                        <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <th scope="col" class="text-center">ลบ</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <?php
+                    <th scope="col" class="text-center">รายการ</th>
+                    <th scope="col" class="text-center">จำนวน</th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center">ราคา</th>
+                    <th scope="col" class="text-center">หมวด</th>
+                    <th scope="col" class="text-center">ประเภท</th>
+                    <th scope="col" class="text-center">ผู้ลงบันทึก</th>
+                    <th scope="col" class="text-center">วันที่เพิ่ม</th>
+                    <th scope="col" class="text-center">หมดอายุในอีก</th>
+                    <th scope="col" class="text-center">สาขา</th>
+                    <th scope="col" class="text-center">ผู้ขาย</th>
+                    <th scope="col" class="text-center">ลบ</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <?php
 	function DateThai($strDate)
 	{
 		$strYear = date("Y",strtotime($strDate))+543;
@@ -182,6 +188,6 @@
             }
 ?>
 
-    </body>
+</body>
 
 </html>

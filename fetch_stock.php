@@ -104,10 +104,10 @@ if($page == 1){
     echo json_encode($output);
 }
 if($page == 2){
-    $column = array('code_item','item_name','vendor','unit','BN2','BN3','BN4','BN5','BN6','BN7','BN8','BN9','BN10','BN11','BN12','BN1','SUM_BN');
+    $column = array('code_item','item_name','vendor','unit','price_stock','BN2','BN3','BN4','BN5','BN6','BN7','BN8','BN9','BN10','BN11','BN12','BN1','SUM_BN');
     
     $query = "SELECT
-    it.code_item,unit_name,item_name,v.vendor_name,
+    it.code_item,unit_name,item_name,v.vendor_name,price_stock,
     SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN1,
     SUM(IF(bn_stock = 2, item_quantity, 0)) AS BN2,
     SUM(IF(bn_stock = 3, item_quantity, 0)) AS BN3,
@@ -129,8 +129,25 @@ if($page == 2){
     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
     WHERE
       bn.bn_stock BETWEEN 1 AND 12
-    GROUP BY
-      it.item_id";
+    ";
+    if(isset($_POST['search']['value']))
+    {
+     $query .= '
+    AND code_item LIKE "%'.$_POST['search']['value'].'%" 
+     OR item_name LIKE "%'.$_POST['search']['value'].'%"   
+     OR vendor_name LIKE "%'.$_POST['search']['value'].'%"   
+     OR unit_name LIKE "%'.$_POST['search']['value'].'%"   
+     ';
+    }
+    if(isset($_POST['GROUP BY']))
+    {
+     $query .= 'GROUP BY '.$column[$_POST['GROUP']['0']['column']].' '.$_POST['GROUP']['0']['dir'].' ';
+    }
+    else
+    {
+     $query .= 'GROUP BY
+     it.item_id ';
+    }
     
     $statement = $db->prepare($query);
     
@@ -152,7 +169,8 @@ if($page == 2){
      $sub_array[]= $row["code_item"]; 
      $sub_array[]= $row["item_name"]; 
      $sub_array[]= $row["unit_name"]; 
-     $sub_array[]= $row["vendor_name"]; 
+     $sub_array[]= $row["vendor_name"];
+     $sub_array[]= $row["price_stock"];  
      $sub_array[]= $row["BN2"]; 
      $sub_array[]= $row["BN3"]; 
      $sub_array[]= $row["BN4"]; 
@@ -172,7 +190,7 @@ if($page == 2){
     function count_all_data($db)
     {
      $query = "SELECT
-     it.code_item,unit_name,item_name,v.vendor_name,
+     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
      SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN1,
      SUM(IF(bn_stock = 2, item_quantity, 0)) AS BN2,
      SUM(IF(bn_stock = 3, item_quantity, 0)) AS BN3,
@@ -206,8 +224,121 @@ if($page == 2){
     
     echo json_encode($output);
   }
-  //หน้ารายการคลังทุกสาขา
+  //หน้ารายการคลังทุกสาขา===================================================>
   if($page == 3){
+    $column = array('full_stock_id','code_item','item_name', 'unit_name','item_quantity','bn_name', 'type_name','catagories_name','cotton_name','cotton_name');
 
+    $query = "SELECT full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,cotton_name,nature_name FROM branch_stock  
+    INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+    INNER JOIN item ON stock.item_id = item.item_id
+    INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+    INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+    INNER JOIN unit ON  item.unit = unit.unit_id
+    INNER JOIN type_name ON stock.type_item = type_name.type_id
+    INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+    INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
+    INNER JOIN nature ON stock.nature_id = nature.nature_id
+    WHERE branch_stock_log.item_quantity !=0
+    ";
+    
+    if(isset($_POST['search']['value']))
+    {
+      
+     $query .= '
+     
+     AND code_item LIKE "%'.$_POST['search']['value'].'%" 
+     OR item_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR unit_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR type_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR catagories_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR cotton_name LIKE "%'.$_POST['search']['value'].'%"
+     OR nature_name LIKE "%'.$_POST['search']['value'].'%"  
+     ';
+    }
+    if(isset($_POST['group']))
+    {
+     $query .= 'GROUP BY '.$column[$_POST['group']['0']['column']].' '.$_POST['group']['0']['dir'].' ';
+    }
+    else
+    {
+     $query .= 'GROUP BY code_item, bn_name  ';
+    }
+    if(isset($_POST['order']))
+    {
+     $query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+    }
+    else
+    {
+     $query .= 'ORDER BY code_item ASC ';
+    }
+    
+    $query1 = '';
+    
+    if($_POST['length'] != -1)
+    {
+     $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+    }
+    
+    if($_POST['length'] != -1)
+    {
+     $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+    }
+    
+    $statement = $db->prepare($query);
+    
+    $statement->execute();
+    
+    $number_filter_row = $statement->rowCount();
+    
+    $statement = $db->prepare($query. $query1);
+    
+    $statement->execute();
+    
+    $result = $statement->fetchAll();
+    
+    $data = array();
+    
+    foreach($result as $row)
+    {
+     $sub_array = array();
+     $sub_array[] = $row['code_item'];
+     $sub_array[] = $row['item_name'];
+     $sub_array[] = $row['sum'];
+     $sub_array[] = $row['unit_name'];
+     $sub_array[] = $row['type_name'];
+     $sub_array[] = $row['catagories_name'];
+     $sub_array[] = $row['cotton_name'];
+     $sub_array[] = $row['nature_name'];
+     $sub_array[] = $row['bn_name'];
+    
+     $data[] = $sub_array;
+    }
+    
+    function count_all_data($db)
+    {
+     $query = "SELECT full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,exp_date_log,exd_date_log,cotton_name,nature_name FROM branch_stock  
+     INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+     INNER JOIN item ON stock.item_id = item.item_id
+     INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+     INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+     INNER JOIN unit ON  item.unit = unit.unit_id
+     INNER JOIN type_name ON stock.type_item = type_name.type_id
+     INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+     INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
+     INNER JOIN nature ON stock.nature_id = nature.nature_id
+     WHERE item_quantity != 0";
+     $statement = $db->prepare($query);
+     $statement->execute();
+     return $statement->rowCount();
+    }
+    
+    $output = array(
+     'draw'    => intval($_POST['draw']),
+     'recordsTotal'  => count_all_data($db),
+     'recordsFiltered' => $number_filter_row,
+     'data'    => $data
+    );
+    
+    echo json_encode($output);
   }
 ?>

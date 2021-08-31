@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
     <!---แก้ไขแล้ว-->
+    <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
 
     <!-- <==========================================fancybox==================================================> -->
@@ -44,7 +46,12 @@
     <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable();
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
     });
     </script>
     <script>

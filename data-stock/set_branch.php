@@ -46,12 +46,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-
     <title>Plus dental clinic</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<!-- <==========================================booystrap 5==================================================> -->
+<!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+<!-- <========================================== jquery ==================================================> -->
+<script src="../node_modules/jquery/dist/jquery.js"></script>
+  <!-- <==========================================data-teble==================================================> -->
+  <script type="text/javascript" src="../node_modules/data-table/jquery-table-2.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
+  <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
+<!-- <==========================================data-teble==================================================> -->
     <?php include('../components/header.php');?>
   </head>
+  <script>
+    $(document).ready(function() {
+
+        $('#stock_bn').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
+    });
+    </script>
   <body>
     <?php include('../components/nav_stock.php'); ?>
     <header>
@@ -93,23 +113,23 @@
     </H2>
   </div>
   <br>
-   <table class="table table-dark table-hover text-xl-center">
+   <table class="table table-dark table-hover text-xl-center" id="stock_bn">
     <thead>
       <tr>
-        <th scope="col">#</th>
+        
         <th scope="col">ชื่อสาขา</th>
         <th scope="col">แก้ไข</th>
         <th scope="col">ลบ</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-light">
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr>
-        <td><?php echo $row["bn_id"]; ?></td>
+       
         <td><?php echo $row["bn_name"]; ?></td>
         <td><a href="edit/bn_edit.php?update_id=<?php echo $row["bn_id"]; ?>" class="btn btn-outline-warning">View</a></td>
          <td><a href="?delete_id=<?php echo $row["bn_id"];?>" class="btn btn-outline-danger">Delete</a></td>

@@ -31,12 +31,18 @@
   <script type="text/javascript" src="../node_modules/data-table/jquery-table-2.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
   <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
-  <!---แก้ไขแล้ว--> 
+  <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
-        $('#stock_sub').DataTable();
+        $('#stock_sub').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
     });
     </script>
     <?php include('../components/header.php');?>
@@ -96,7 +102,7 @@ INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.ful
 INNER JOIN user ON branch_stock.user_id = user.user_id
 INNER JOIN vendor ON stock.vendor = vendor.vendor_id
 WHERE item_quantity != 0
-ORDER BY full_stock_id DESC LIMIT 100");
+ORDER BY exp_date_log DESC LIMIT 100");
 $select_stmt->execute();
 while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>
@@ -134,6 +140,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
         <th scope="col" class="text-center">รายการ</th>
         <th scope="col" class="text-center">จำนวน</th>
         <th scope="col" class="text-center"></th>
+        <th scope="col" class="text-center">ราคา</th>
         <th scope="col" class="text-center">หมวด</th>
         <th scope="col" class="text-center">ประเภท</th>
         <th scope="col" class="text-center">ผู้ลงบันทึก</th>

@@ -33,6 +33,7 @@
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
@@ -49,10 +50,10 @@
             },
             dom: 'lBfrtip',
             buttons: [
-                'excel', 'copy'
+                'excel', 'print'
             ],
             //   "lengthMenu": [ [50, -1], [50, "All"] ],
-            "searching": false,
+            "searching": true,
             "lengthChange": false,
             "paging": false
 
@@ -89,10 +90,11 @@
         <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" class="text-center">รหัสใหม่</th>
+                    <th scope="col" class="text-center">รหัส</th>
                     <th scope="col" class="text-center">รายการ</th>
                     <th scope="col" class="text-center">หน่วย</th>
                     <th scope="col" class="text-center">ผู้ขาย</th>
+                    <th scope="col" class="text-center">ราคา</th>
                     <th scope="col" class="text-center">รามคำแหง</th>
                     <th scope="col" class="text-center">อารีย์</th>
                     <th scope="col" class="text-center">สาทร</th>
@@ -106,7 +108,6 @@
                     <th scope="col" class="text-center">บางแค</th>
                     <th scope="col" class="text-center">สาขาส่วนกลาง</th>
                     <th scope="col" class="text-center">รวม</th>
-
                 </tr>
             </thead>
             <tbody class="table-light">

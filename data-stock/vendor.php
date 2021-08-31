@@ -49,22 +49,31 @@
     <!-- Bootstrap CSS -->
 
     <title>Plus dental clinic</title>
-       <!-- <==========================================booystrap 5==================================================> -->
-<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <==========================================booystrap 5==================================================> -->
-  <!-- <==========================================data-teble==================================================> -->
-  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />   
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
-  <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
-  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
-<!-- <==========================================data-teble==================================================> -->
+    
+    <!-- <==========================================booystrap 5==================================================> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <==========================================booystrap 5==================================================> -->
+
+    <!-- <==========================================data-teble==================================================> -->
+    <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+    <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
+    <!-- <==========================================data-teble==================================================> -->
     <?php include('../components/header.php');?>
   </head>
   <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable();
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
     });
     </script>
   <body>
