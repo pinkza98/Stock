@@ -63,7 +63,7 @@ if ($row_session['user_lv'] >= 3) {
                         <li><a class="dropdown-item" href="data-stock/stock_main.php">จัดการรายการคลังหลัก</a>
                         </li>
                         <li><a class="dropdown-item" href="data-stock/stock.php">จัดรายการ คลัง</a></li>
-                        <?php if ($row_session['user_lv'] >= 4) {?>
+                        <?php if ($row_session['user_lv'] >= 3) {?>
                         <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ สาขา</a></li>
 
                         <li>

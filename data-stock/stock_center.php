@@ -155,7 +155,7 @@
                             
                             <div class="col-md-3">
 
-                                <button name="check" class="btn btn-primary" type="submit">ค้นหาข้อมูล</button>
+                                <button name="check" class="btn btn-primary" type="submit" autofocus>ค้นหาข้อมูล</button>
                             </div>
                         </div>
                     </form>
