@@ -2,15 +2,20 @@
     require_once('../database/db.php');
     if (isset($_REQUEST['delete_id'])) {
       $stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE stock_id = :new_stock_id");
+      $select_stmt = $db->prepare("SELECT stock_log_id FROM branch_stock_log WHERE stock_log_id  = :new_stock_id");
       $select_stmt->bindParam(':new_stock_id', $stock_id);
       $select_stmt->execute();
       $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
       // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM stock WHERE stock_id = :new_stock_id');
-      $delete_stmt->bindParam(':new_stock_id', $stock_id);
-      $delete_stmt->execute();
-        header('Location:stock_main.php');
+      $delete_branch_stock = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
+      $delete_branch_stock->bindParam(':new_stock_id', $stock_id);
+      $delete_branch_stock_log = $db->prepare('DELETE FROM branch_stock_log WHERE stock_log_id  = :new_stock_id');
+      $delete_branch_stock_log->bindParam(':new_stock_id', $stock_id);
+      if($delete_branch_stock_log->execute()){
+          $delete_branch_stock->execute();
+        $insertMsg = "ลบข้อมูลสำเร็จ...";
+      }
+        // header('Location:sub_list_stock_branch.php');
     }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
@@ -66,6 +71,13 @@
     </div>
     <hr>
     <div class="container">
+    <?php 
+        if (isset($insertMsg)) {
+    ?>
+        <div class="alert alert-success mb-2">
+            <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
+        </div>
+        <?php } ?>
         <div class="row">
             <div class="col">
                 <?php include('../components/nav_stock_sild_bn.php'); ?>
