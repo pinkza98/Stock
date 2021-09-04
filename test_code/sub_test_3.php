@@ -58,9 +58,12 @@
                             </td>
                             <td>
                                 <input class="form-control" type="text" name="code_item"
-                                    id="code_item"  />
+                                    placeholder="Enter your Code item" class="form-control " id="code_item" autofocus>
                             </td>
-                           
+                            <td>
+                             <!-- <button type="submit" name="check" hidden/> -->
+                                <button type="button" id="add" class="btn btn-success" hidden>Add More</button>
+                            </td>
                         </tr>
                     </table>
                 </form>
@@ -102,7 +105,6 @@ $(document).ready(function() {
 
         if (event.keyCode === 13) {
             if(!this.value == ""){ 
-                
                 event.preventDefault(event);
            $.ajax({
             url:'data-php.php',
@@ -117,7 +119,6 @@ $(document).ready(function() {
                 var sum_item = result.sum_item;
                 var bn_name = result.bn_name;
                 i++;
-                
                 $('#dynamic_field').append('<tr id="row' + i +
             '" class="dynamic-added"><td><input type="text" value="' + code_item+
             '" placeholder="Enter your Name" class="form-control " name="name[]"/disabled></td><td><input type="text" value="' +
@@ -129,15 +130,11 @@ $(document).ready(function() {
             '" placeholder="Enter your Name" class="form-control "/disabled></td><td><input type="text" value="' +
             bn_name +
             '" placeholder="Enter your Name" class="form-control "/disabled></td><td><button type="button" name="remove" id="' +
-            i + '" class="btn btn-danger btn_remove">X</button></td></tr>'
-            );
-            
-            
+            i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
 
             $(document).on('click', '.btn_remove', function() {
             var button_id = $(this).attr("id");
             $('#row' + button_id + '').remove();
-
         });
                
                }

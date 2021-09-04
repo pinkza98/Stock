@@ -153,7 +153,7 @@ foreach ($_SESSION['cart'] as $key => $value) {
                 <form method="post">
                     <!-- action="keranjang_act.php" -->
                     <div class="form-group">
-                        <input type="text" name="kode_barang" class="form-control" placeholder="รหัสบาร์โค้ด" onfocus>
+                        <input type="text" name="kode_barang" class="form-control" placeholder="รหัสบาร์โค้ด" autofocus>
                     </div>
                 </form>
                 <br>
