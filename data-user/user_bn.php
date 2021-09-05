@@ -81,7 +81,7 @@
     <?php 
           $select_stmt = $db->prepare("SELECT * FROM user 
           INNER JOIN branch ON user.user_bn = branch.bn_id 
-          INNER JOIN prefix ON user.user_prefix = prefix.prefix_id 
+         
           INNER JOIN level ON user.user_lv = level.level_id
             WHERE user_bn != 1
             ORDER BY user.user_lv ASC
@@ -91,7 +91,7 @@
     ?>
       <tr class="table-light">
         <td><?php echo $row["username"]; ?></td>
-        <td><?php echo $row["prefix_name"]; ?><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
+        <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
         <td><?php echo $row["level_name"]; ?></td>
         <td><?php echo $row["bn_name"]; ?></td>
        

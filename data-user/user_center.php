@@ -80,7 +80,7 @@
     <?php 
           $select_user_bn = $db->prepare("SELECT * FROM user 
           INNER JOIN branch ON user.user_bn = branch.bn_id 
-          INNER JOIN prefix ON user.user_prefix = prefix.prefix_id 
+       
           INNER JOIN level ON user.user_lv = level.level_id
           WHERE user.user_bn = branch.bn_id AND user.user_bn = 1 AND user.user_id != '".$row_session["user_id"]."'
           ORDER BY user.user_lv ASC
@@ -90,7 +90,7 @@
     ?>
       <tr class="table-light">
         <td><?php echo $row["username"]; ?></td>
-        <td><?php echo $row["prefix_name"]; ?><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
+        <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
         <td><?php echo $row["level_name"]; ?></td>
         <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["user_tel"]; ?></td>

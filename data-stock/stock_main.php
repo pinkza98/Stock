@@ -21,7 +21,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <title>Plus dental clinic</title>
+    <title>รายการคงคลัง</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- <==========================================booystrap 5==================================================> -->
 <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -64,30 +64,30 @@
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัส</th>
-            
             <th scope="col" class="text-center">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
-            <th scope="col" class="text-center">EXD</th>
-            <th scope="col" class="text-center">ชนิด</th> 
-            <th scope="col" class="text-center">หมวดหมู่</th>
-            <th scope="col" class="text-center">ฝ่าย</th>
+            <th scope="col" class="text-center">ราคา</th>
+            <th scope="col" class="text-center">หมดอายุ</th>
+            <th scope="col" class="text-center">ประเภท</th> 
             <th scope="col" class="text-center">ลักษณะ</th>
+            <th scope="col" class="text-center">แผนก</th>
             <th scope="col" class="text-center">ผู้ขาย</th>
+            <th scope="col" class="text-center">ยี้ห้อ</th>
             <th scope="col" class="text-center">แก้ไข</th>  
             <th scope="col" class="text-center">ลบ</th>  
         </tr>
     </thead>
     <tbody class="table-light">
     <?php 
-          $select_stmt = $db->prepare("SELECT stock_id,code_item ,catagories_name,item_name,unit_name,type_name,vendor_name,item.exd_date,cotton_name,nature_name FROM stock  
+          $select_stmt = $db->prepare("SELECT price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
           INNER JOIN item ON stock.item_id = item.item_id 
-          INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-          INNER JOIN unit ON item.unit = unit.unit_id  
-          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
-          INNER JOIN type_name ON stock.type_item = type_name.type_id
-          INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
-          INNER JOIN nature ON stock.nature_id = nature.nature_id
-          ORDER BY stock_id DESC ");
+          INNER JOIN unit ON item.unit_id = unit.unit_id  
+          INNER JOIN nature ON stock.nature_id = nature.nature_id   
+          INNER JOIN type_item ON stock.type_id = type_item.type_id
+          INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
+          INNER JOIN division ON stock.division_id = division.division_id
+          LEFT JOIN marque ON stock.marque_id = marque.marque_id
+          ORDER BY code_item DESC ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
@@ -96,24 +96,29 @@
         <td><?php echo $row["code_item"]; ?></td>
         <td><?php echo $row["item_name"]; ?></td>
           <td><?php echo $row["unit_name"]; ?></td>
+          <td><?php echo $row["price_stock"]; ?></td>
           <?php if($row["exd_date"] >=1 && $row["exd_date"] <= 400){?>
           <td><?php echo $row["exd_date"]; ?>(วัน)</td>
           <?php }else{?>
             <td>-</td>
             <?php } ?>
         <td><?php echo $row["type_name"]; ?></td>
-        <td><?php echo $row["catagories_name"]; ?></td>
-        <td><?php echo $row["cotton_name"]; ?></td>
         <td><?php echo $row["nature_name"]; ?></td>
-        
-        <td><?php echo $row["vendor_name"]; ?></td>  
+        <td><?php echo $row["division_name"]; ?></td>
+        <td><?php echo $row["vendor_name"]; ?></td>
+        <?php if ($row["marque_id"] == null) {?>
+          <td>-</td>
+        <?php }else{?>
+          <td><?php echo $row["marque_name"]; ?></td>  
+        <?php }?>      
         <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>
         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
         <?php } ?>
       </tr>
     </tbody>
-    <tfoot  a>
+    <tfoot>
             <tr class="table-active">
+            <th scope="col" class="text-center"></th>
             <th scope="col" class="text-center"></th>
             <th scope="col" class="text-center"></th>
             <th scope="col" class="text-center"></th>

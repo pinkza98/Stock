@@ -126,7 +126,7 @@
             <div class="col-md-6">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <h5>
-                        ชื่อ-สกุล <?php echo $row_session['prefix_name']; ?>
+                        ชื่อ-สกุล 
                         <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?>
                     </h5>
                     <h6>

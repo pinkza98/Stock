@@ -76,13 +76,12 @@
     <title>Plus dental clinic</title>
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   </head>
   <body>
-    
     <?php include('../components/nav_stock.php'); ?>
     <header>
-    
       <div class="display-3 text-xl-center mt-3">
         <H2>เพิ่มรายการคลัง</H2>  
       </div>
@@ -155,7 +154,7 @@
         <div class="col-md-5">
             <form method='post' enctype='multipart/form-data'>
             <?php 
-         if (isset($errorcodeMsg)) {
+        if (isset($errorcodeMsg)) {
             ?>
                 <div class="alert alert-danger mb-2">
                     <strong>คำเตือน! <?php echo $errorcodeMsg; ?></strong>
@@ -163,7 +162,6 @@
             <?php } ?>
               <div class="card">
                 <div class="card-header">
-               
                 <label for="formGroupExampleInput" class="form-label"><b>รายการ</b></label>
                 <div class="mb-3">
                 <input type="text" value="<?php echo$row['code_item']?>" class="form-control"placeholder="รหัสบาร์โค้ด" disabled>
@@ -182,14 +180,13 @@
                   
                 </div>
               </div>
-              
               <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
               <div class="row g-2">
                 <div class="col-sm-8">
                 <select class="form-select" name="txt_type_item"aria-label="Default select example">
-                  <option value="" selected>-- เลือก --</option>
+                  <option value="" selected>-- ประเภท --</option>
                   <?php   
-                    $select_type_name = $db->prepare("SELECT * FROM type_name");
+                    $select_type_name = $db->prepare("SELECT * FROM type_item");
                     $select_type_name->execute();
                     while ($row = $select_type_name->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['type_id']?>"><?php echo$row['type_name']?></option>
@@ -198,12 +195,12 @@
                 </div>
                 <div class="col-sm-4">
                 <select class="form-select" name="txt_type_catagories"aria-label="Default select example">
-                  <option value="" selected>-- เลือก --</option>
+                  <option value="" selected>-- ลักษณะ --</option>
                   <?php   
-                    $select_catagories = $db->prepare("SELECT * FROM catagories");
-                    $select_catagories->execute();
-                    while ($row = $select_catagories->fetch(PDO::FETCH_ASSOC)) { ?>
-                  <option value="<?php echo$row['catagories_id']?>"><?php echo$row['catagories_name']?></option>
+                    $select_nature = $db->prepare("SELECT * FROM nature");
+                    $select_nature->execute();
+                    while ($row = $select_nature->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row['nature_id']?>"><?php echo$row['nature_name']?></option>
                   <?php }?>
                 </select>
                 </div>
@@ -211,7 +208,7 @@
               <div class="row g-2 mt-2 mb-2">
                 <div class="col-sm-6">
                 <select class="form-select" name="txt_nature_id"aria-label="Default select example">
-                  <option value="" selected>-- เลือก --</option>
+                  <option value="" selected>-- ยี่ห้อ --</option>
                   <?php   
                     $select_nature = $db->prepare("SELECT * FROM nature");
                     $select_nature->execute();
@@ -232,23 +229,19 @@
                 </select>
                 </div>
               </div>
-              
               <div class="mb-3">
                 <label for="formGroupExampleInput2" class="form-label">ผู้ขาย</label>
                 <select name="txt_vendor"class="form-select" aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
-                  
                   <?php   
                     $select_vendor = $db->prepare("SELECT * FROM vendor");
                     $select_vendor->execute();
                     while ($row = $select_vendor->fetch(PDO::FETCH_ASSOC)) { ?>
                   <option value="<?php echo$row['vendor_id']?>"><?php echo$row['vendor_name']?></option>
                   <?php }?>
-          
                   </option>
                 </select>
               </div>
-              
                 <label class="form-label" for="customFile">รูปภาพประกอบ</label>
                 <input type="file"  name='txt_file' class="form-control" id="customFile" multiple  />
                 <br>
@@ -262,12 +255,6 @@
             </div>
           </div>
         </div>   
-    
    <?php include('../components/footer.php')?>
-
-   
-   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

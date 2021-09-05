@@ -180,7 +180,6 @@
    <table class="table table-dark table-hover text-xl-center" id="stock">
     <thead>
       <tr>
-        
         <th>รหัสบาร์โค้ด</th>
         <th>ชื่อรายการ</th>
         <th>หน่วยนับ</th>
@@ -188,14 +187,11 @@
         <th>วันหมดอายุ</th>
         <th>แก้ไข</th>
         <th>ลบ</th>
-        
-        
-      
       </tr>
     </thead>
     <tbody class=" table-light">
     <?php 
-          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit.unit_id ORDER BY code_item ASC LIMIT 100");
+          $select_stmt = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit_id = unit.unit_id ORDER BY code_item ASC LIMIT 100");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>

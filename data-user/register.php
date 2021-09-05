@@ -5,7 +5,6 @@
       $email = $_REQUEST['txt_email'];
       $password1 = $_REQUEST['txt_password1'];
       $password2 = $_REQUEST['txt_password2'];
-      $prefix = $_REQUEST['txt_prefix'];
       $fname = $_REQUEST['txt_fname'];
       $lname = $_REQUEST['txt_lname'];
       $user_bn = $_REQUEST['txt_user_bn'];
@@ -40,9 +39,7 @@
       else if (strlen($password1) < 6) {
         $errorMsg = "Password ของท่านต้องมีมากกว่า 6 ตัวอักษร";
       }
-      elseif (empty($prefix)) {
-        $errorMsg = "กรุณาเลือกคำนำหน้า!";
-      } 
+     
       elseif(empty($fname)) {
         $errorMsg = "กรุณาเพิ่ม ชื่อ!";
       }elseif (empty($lname)) {
@@ -69,11 +66,10 @@
               if (!isset($errorMsg)) {
                   $password = $password1;
                   $new_password = password_hash($password, PASSWORD_DEFAULT);
-                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_prefix,user_fname,user_lname,user_bn,user_lv,user_line,user_tel,user_img) 
-                  VALUES (:username,:password,:user_prefix,:user_fname,:user_lname,:user_bn,:user_lv,:user_line,:user_tel,:user_img)");
+                  $insert_stmt = $db->prepare("INSERT INTO user (username,password,user_fname,user_lname,user_bn,user_lv,user_line,user_tel,user_img) 
+                  VALUES (:username,:password,:user_fname,:user_lname,:user_bn,:user_lv,:user_line,:user_tel,:user_img)");
                   $insert_stmt->bindParam(':username', $email);
                   $insert_stmt->bindParam(':password', $new_password);
-                  $insert_stmt->bindParam(':user_prefix', $prefix);
                   $insert_stmt->bindParam(':user_fname', $fname);
                   $insert_stmt->bindParam(':user_lname', $lname);
                   $insert_stmt->bindParam(':user_bn', $user_bn);
@@ -148,18 +144,6 @@
               </div>
               <div class="row g-2">
               <label for="formGroupExampleInput" class="form-label"><b>ชื่อ-นามสกุล</b></label>
-                <div class="col-sm-2">
-                <select name="txt_prefix" class="form-select">
-                    <option value=""  class="text-wrap"selected hidden> คำนำหน้า</option>
-                    <?php 
-                      $select_prefix = $db->prepare("SELECT * FROM prefix ORDER BY prefix_id DESC");
-                      $select_prefix->execute();
-                      while ($row = $select_prefix->fetch(PDO::FETCH_ASSOC)) {
-                    ?>
-                    <option value="<?php echo $row['prefix_id'];?>"  class="text-wrap"><?php echo $row['prefix_name'];?></option>
-                  <?php } ?>
-                  </select>
-                </div>
                 <div class="col-sm-5">
                 <input type="text" name="txt_fname" value="" class="form-control"placeholder="ชื่อ" >
                 </div>

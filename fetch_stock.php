@@ -7,16 +7,17 @@ include('database/db.php');
 
 //หน้า INDEX
 if($page == 1){
-    $column = array('code_item', 'item_name', 'unit_name', 'price_stock', 'type_name', 'catagories_name','vendor_name','cotton_name','nature_name');
+    $column = array('code_item', 'item_name', 'unit_name', 'price_stock', 'type_name', 'division_name','vendor_name','marque_name','nature_name');
 
-    $query = "SELECT stock_id,code_item,item_name,unit_name,item.price_stock,type_name,catagories_name,vendor_name,cotton_name,nature_name FROM stock  
-    INNER JOIN item ON stock.item_id = item.item_id  
-    INNER JOIN unit ON item.unit = unit.unit_id  
-    INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-    INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
-    INNER JOIN type_name ON stock.type_item = type_name.type_id
-    INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
-    INNER JOIN nature ON stock.nature_id = nature.nature_id";
+    $query = "SELECT price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
+    INNER JOIN item ON stock.item_id = item.item_id 
+    INNER JOIN unit ON item.unit_id = unit.unit_id  
+    INNER JOIN nature ON stock.nature_id = nature.nature_id   
+    INNER JOIN type_item ON stock.type_id = type_item.type_id
+    INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
+    INNER JOIN division ON stock.division_id = division.division_id
+    LEFT JOIN marque ON stock.marque_id = marque.marque_id
+    ";
     
     if(isset($_POST['search']['value']))
     {
@@ -26,9 +27,9 @@ if($page == 1){
      OR unit_name LIKE "%'.$_POST['search']['value'].'%" 
      OR price_stock LIKE "%'.$_POST['search']['value'].'%" 
      OR type_name LIKE "%'.$_POST['search']['value'].'%" 
-     OR catagories_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR division_name LIKE "%'.$_POST['search']['value'].'%" 
      OR vendor_name LIKE "%'.$_POST['search']['value'].'%" 
-     OR cotton_name LIKE "%'.$_POST['search']['value'].'%"
+     OR marque_name LIKE "%'.$_POST['search']['value'].'%"
      OR nature_name LIKE "%'.$_POST['search']['value'].'%"  
      ';
     }
@@ -39,7 +40,7 @@ if($page == 1){
     }
     else
     {
-     $query .= 'ORDER BY stock_id DESC ';
+     $query .= 'ORDER BY code_item DESC';
     }
     
     $query1 = '';
@@ -71,9 +72,10 @@ if($page == 1){
      $sub_array[] = $row['unit_name'];
      $sub_array[] = $row['price_stock'];
      $sub_array[] = $row['type_name'];
-     $sub_array[] = $row['catagories_name'];
-     $sub_array[] = $row['cotton_name'];
+     $sub_array[] = $row['division_name'];
      $sub_array[] = $row['nature_name'];
+     $sub_array[] = $row['marque_name'];
+     
      $sub_array[] = $row['vendor_name'];
     
      $data[] = $sub_array;
@@ -81,14 +83,15 @@ if($page == 1){
     
     function count_all_data($db)
     {
-     $query = "SELECT stock_id,code_item,item_name,unit_name,item.price_stock,type_name,catagories_name,vendor_name,cotton_name,nature_name FROM stock  
-     INNER JOIN item ON stock.item_id = item.item_id  
-     INNER JOIN unit ON item.unit = unit.unit_id  
-     INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-     INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id   
-     INNER JOIN type_name ON stock.type_item = type_name.type_id
-     INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
-     INNER JOIN nature ON stock.nature_id = nature.nature_id";
+     $query = "SELECT price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
+     INNER JOIN item ON stock.item_id = item.item_id 
+     INNER JOIN unit ON item.unit_id = unit.unit_id  
+     INNER JOIN nature ON stock.nature_id = nature.nature_id   
+     INNER JOIN type_item ON stock.type_id = type_item.type_id
+     INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
+     INNER JOIN division ON stock.division_id = division.division_id
+     LEFT JOIN marque ON stock.marque_id = marque.marque_id
+     ORDER BY code_item DESC";
      $statement = $db->prepare($query);
      $statement->execute();
      return $statement->rowCount();

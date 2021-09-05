@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_login'])) {
 $id = $_SESSION['user_login'];
 $select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  
 INNER JOIN branch ON user.user_bn = branch.bn_id 
-INNER JOIN prefix ON user.user_prefix = prefix.prefix_id
  WHERE user_id = :uid");
 $select_session->execute(array(':uid' => $id));
 $row_session = $select_session->fetch(PDO::FETCH_ASSOC);
@@ -116,11 +115,11 @@ if ($row_session['user_lv'] >= 3) {
         </div>
         <div class="nav-item me-6 ">
             <a class="nav-link disabled" 
-                aria-disabled="true"><?php echo $row_session['prefix_name']; ?>
+                aria-disabled="true">คุณ :
                 <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?> |
                 สถานะ :
                 <?php echo $row_session['level_name']; ?> สาขา :
-                <?php echo $row_session['bn_name'];} ?></a>
+                <?php echo $row_session['bn_name'];}  ?></a>
         </div>
         <div class="nav-item">
             <button class="btn btn-outline-danger " type="submit"><a href="logout.php" text-light>Logout</a></button>

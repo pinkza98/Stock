@@ -42,7 +42,7 @@
             
         $('#stock_all').DataTable({
           
-          "processing" : true,
+          "processing" : true, 
           "serverSide" : true,
           "ajax" : {
             url:"../fetch_stock.php?page=3",
