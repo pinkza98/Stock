@@ -134,7 +134,7 @@ $(document).ready(function() {
                             item_id +
                             '" class="btn btn-info  text-center">View</button></td><td><button type="button" name="remove" id="' +
                             i +
-                            '" class="btn btn-danger btn_remove  text-center">X</button></td></tr>');
+                            '" class="btn btn-danger btn_remove  text-center">X</button></td><input type="text" value="' +item_name +'" class=" form-control  text-center"/hidden></tr>');
                         event.currentTarget.value = "";
                     }
                 });
