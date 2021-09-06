@@ -72,7 +72,7 @@
             <th scope="col" class="text-center">ลักษณะ</th>
             <th scope="col" class="text-center">แผนก</th>
             <th scope="col" class="text-center">ผู้ขาย</th>
-            <th scope="col" class="text-center">ยี้ห้อ</th>
+            <th scope="col" class="text-center">ยี่ห้อ</th>
             <th scope="col" class="text-center">แก้ไข</th>  
             <th scope="col" class="text-center">ลบ</th>  
         </tr>

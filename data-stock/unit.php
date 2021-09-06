@@ -123,7 +123,7 @@
       
         <th scope="col">หน่วยนับ</th>
         <th scope="col">แก้ไข</th>
-        <th scope="col">ลบ</th>
+        <!-- <th scope="col">ลบ</th> -->
       
       </tr>
     </thead>
@@ -137,7 +137,7 @@
         
         <td><?php echo $row["unit_name"]; ?></td>
         <td><a href="edit/unit_edit.php?update_id=<?php echo $row["unit_id"]; ?>" class="btn btn-outline-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["unit_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+         <!-- <td><a href="?delete_id=<?php echo $row["unit_id"];?>" class="btn btn-outline-danger">Delete</a></td> -->
         <?php } ?>
       </tr>
     </tbody>

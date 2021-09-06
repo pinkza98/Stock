@@ -60,12 +60,12 @@
     
   <div class="m-4 ">
     <br>
-    <table class="table table-dark table-hover text-xl-center " id="stock">
+    <table class="table table-dark table-hover  " id="stock">
     <thead class="table-dark ">
         <tr class="table-active">
             
             <th scope="col" class="text-center">รหัส</th>
-            <th scope="col" class="text-center">ชื่อรายการ</th>
+            <th scope="col" class="text-left">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">ราคา</th>
             <th scope="col" class="text-center">ประเภท</th>
@@ -73,7 +73,7 @@
             <th scope="col" class="text-center">แผนก</th>
             <th scope="col" class="text-center">ยี่ห้อ</th>  
             <th scope="col" class="text-center">ผู้ขาย</th>  
-            <!-- <th scope="col" class="text-center">รูปภาพ</th> -->
+
             
         </tr>
     </thead>
@@ -86,7 +86,7 @@
     <tfoot>
             <tr class="table-active">
             <th scope="col" class="text-center">รหัส</th>
-            <th scope="col" class="text-center">ชื่อรายการ</th>
+            <th scope="col" class="text-left">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">ราคา</th>
             <th scope="col" class="text-center">หมวดหมู่</th>
@@ -94,7 +94,7 @@
             <th scope="col" class="text-center">ฝ่าย</th>
             <th scope="col" class="text-center">ลักษณะ</th>  
             <th scope="col" class="text-center">ผู้ขาย</th>  
-            <!-- <th scope="col" class="text-center">รูปภาพ</th> -->
+
             </tr>
         </tfoot>
   </table>

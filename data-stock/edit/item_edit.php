@@ -4,12 +4,11 @@
     if (isset($_REQUEST['update_id'])) {
         try {
             $item_id = $_REQUEST['update_id'];
-            $select_stmt = $db->prepare("SELECT * FROM item WHERE item_id = :id");
-            $select_stmt->bindParam(':id', $item_id);
+            $select_item = $db->prepare("SELECT * FROM item WHERE item_id = '$item_id'");
             
-            $select_stmt->execute();
-            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-            extract($row);
+            $select_item->execute();
+            $row_item = $select_item->fetch(PDO::FETCH_ASSOC);
+            extract($row_item);
             
             
         
@@ -20,7 +19,7 @@
 
     if (isset($_REQUEST['btn_update'])) {
         $item_name = $_REQUEST['txt_item_name'];
-        $code_item = $_REQUEST['txt_code_item'];
+
         $exd_date = $_REQUEST['txt_exd_date'];
         $price = $_REQUEST['txt_price'];
         $unit = $_REQUEST['txt_unit'];
@@ -28,9 +27,6 @@
         if (empty($item_name)) {
             $errorMsg = "Please Enter item Name";
         } 
-        if (empty($code_item)) {
-          $errorMsg = "Please Enter item Name";
-        }
         if (empty($exd_date)) {
           $errorMsg = "Please Enter EXD";
         }
@@ -42,17 +38,16 @@
       }else {
             try {
                 if (!isset($errorMsg)) {
-                    $update_stmt = $db->prepare("UPDATE item SET item_name = :new_item_name ,code_item = :new_code_item ,exd_date = :new_exd_date ,price_stock = :new_price ,unit = :new_unit WHERE item_id = :id");
+                    $update_stmt = $db->prepare("UPDATE item SET item_name = :new_item_name ,exd_date = :new_exd_date ,price_stock = :new_price ,unit_id = :new_unit WHERE item_id = :id");
                     $update_stmt->bindParam(':id', $item_id);
                     $update_stmt->bindParam(':new_item_name', $item_name);
-                    $update_stmt->bindParam(':new_code_item', $code_item);
                     $update_stmt->bindParam(':new_exd_date', $exd_date);
                     $update_stmt->bindParam(':new_price', $price);
                     $update_stmt->bindParam(':new_unit', $unit);
 
                     if ($update_stmt->execute()) {
                         $updateMsg = "Record update successfully...";
-                        header("refresh:2;../item.php");
+                        header("refresh:1;../item.php");
                     }
                 }
             } catch(PDOException $e) {
@@ -137,20 +132,17 @@
             <div class="mb-4">
                 <label for="formGroupExampleInput" class="form-label">ชื่อรายการ</label>
                 <input type="text" class="form-control" name="txt_item_name" 
-                    value="<?php echo $item_name?>" >
+                    value="<?php echo $row_item['item_name'];?>" >
             </div>
             <div class="mb-4">
                 <label for="formGroupExampleInput" class="form-label">รหัสบาร์โค้ด</label>
-                <input type="number" class="form-control" value="<?php echo $code_item?>" name="txt_code_item"
-                    min="100000" max="999999"
-                    onKeyUp="if(this.value>999999){this.value='999999';}else if(this.value<0){this.value='100000';}"
-                    id="yourid">
+                <input type="text" class="form-control" value="<?php echo $row_item['code_item'];?>"  disabled/>
             </div>
             <div class="mb-4">
                 <label for="formGroupExampleInput" class="form-label">หน่วยนับ</label>
 
                 <select name="txt_unit" id="unit_name" class="form-control">
-                    <option value="<?php echo $unit?>" selected>--- ค่าเดิม ---</option>
+                    <option value="<?php echo $unit_id?>" selected>--- ค่าเดิม ---</option>
                     <?php 
               $query = "SELECT * FROM unit ORDER BY unit_id ";
               $result = $db->query($query);
@@ -184,11 +176,6 @@
             </div>
         </form>
     </div>
-
-
-
-
-
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,14 +1,13 @@
 <?php 
     require_once('../database/db.php');
     if (isset($_REQUEST['save'])) {
-      $vendor = $_REQUEST['txt_vendor'];
-     
+
       $item_id = $_REQUEST['txt_item_id'];
-      $type_item = $_REQUEST['txt_type_item'];
-      $type_catagories = $_REQUEST['txt_type_catagories'];
-      
-      $cotton_id = $_REQUEST['txt_cotton_id'];
+      $division_id = $_REQUEST['txt_division_id'];
+      $type_id = $_REQUEST['txt_type_id'];
+      $marque_id = $_REQUEST['txt_marque_id'];
       $nature_id = $_REQUEST['txt_nature_id'];
+      $vendor_id = $_REQUEST['txt_vendor_id'];
 
       $image_file = $_FILES['txt_file']['name'];  
       $type = $_FILES['txt_file']['type'];
@@ -17,19 +16,19 @@
       $path = "img_stock/" . $image_file; // set upload folder path
       
     
-      if (empty($type_item)) {
+      if (empty($type_id)) {
           $errorMsg = "Please enter type item";
-      }  elseif(empty($cotton_id)) {
-        $errorMsg = "Please enter type item cotton";
+      }  elseif(empty($division_id)) {
+        $errorMsg = "Please enter type item division";
       } elseif(empty($nature_id)) {
         $errorMsg = "Please enter type item nature";
       } elseif(empty($item_id)) {
         $errorMsg = "รายการนี้ไม่มีอยู่ในระบบ";
       }
-      elseif(empty($type_catagories)) {
-        $errorMsg = "Please enter type item catagories";
-      }elseif (empty($vendor)) {
-          $errorMsg = "Please enter vendor ";
+      elseif(empty($marque_id)) {
+        $marque_id = null;
+      }elseif (empty($vendor_id)) {
+          $errorMsg = "Please enter vendor";
       } elseif (!empty($image_file)) {
           if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
               if (!file_exists($path)) { // check file not exist in your upload folder path
@@ -46,14 +45,15 @@
           }
       } try {
               if (!isset($errorMsg)) {
-                  $insert_stock_item = $db->prepare("INSERT INTO stock (vendor,item_id,type_item,type_catagories,img_stock,nature_id,cotton_id) VALUES (:vendor,:item_id,:type_item,:type_catagories,:img_stock,:nature_id,:cotton_id)");
-                  $insert_stock_item->bindParam(':vendor', $vendor);
+                  $insert_stock_item = $db->prepare("INSERT INTO stock (item_id,vendor_id,type_id,division_id,img_stock,nature_id,marque_id) VALUES (:item_id,:vendor_id,:type_id,:division_id,:img_stock,:nature_id,:marque_id)");
                   $insert_stock_item->bindParam(':item_id', $item_id);
-                  $insert_stock_item->bindParam(':type_item', $type_item);
-                  $insert_stock_item->bindParam(':type_catagories', $type_catagories);
-                  $insert_stock_item->bindParam(':img_stock', $image_file);
+                  $insert_stock_item->bindParam(':type_id', $type_id);
                   $insert_stock_item->bindParam(':nature_id', $nature_id);
-                  $insert_stock_item->bindParam(':cotton_id', $cotton_id);
+                  $insert_stock_item->bindParam(':division_id', $division_id);
+                  $insert_stock_item->bindParam(':marque_id', $marque_id);
+                  $insert_stock_item->bindParam(':vendor_id', $vendor_id);
+                  $insert_stock_item->bindParam(':img_stock', $image_file);
+
                   if ($insert_stock_item->execute() && !isset($errorMsg)) {
                       $insertMsg = "เพิ่มข้อมูล...";
                       header("refresh:1;stock.php");
@@ -62,7 +62,6 @@
           } catch (PDOException $e) {
               echo $e->getMessage();
           }
-      
   }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
@@ -134,14 +133,12 @@
         }
           if(isset($_POST['check'])){
             $code_item_check= $_REQUEST['get_code_item'];
-            $select_check_stock  = $db->prepare("SELECT * FROM stock inner JOIN item ON stock.item_id = item.item_id WHERE code_item='".$code_item_check."' AND stock.item_id = item.item_id");
+            $select_check_stock  = $db->prepare("SELECT * FROM stock INNER JOIN item ON stock.item_id = item.item_id WHERE code_item='".$code_item_check."' AND stock.item_id = item.item_id");
             $select_check_stock ->execute();
             if ($select_check_stock ->fetchColumn() != false) {
               $errorcodeMsg = 'รหัสบาร์โค้ดนี้อยู่ใน ถูกนำไปใช้แล้ว ';
             }else{
-            
-            
-            $select_item = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit = unit_id WHERE code_item = '".$code_item_check."' ");
+            $select_item = $db->prepare("SELECT * FROM item INNER JOIN unit ON item.unit_id = unit.unit_id WHERE code_item = '".$code_item_check."' ");
             $select_item->execute();
             $row = $select_item->fetch(PDO::FETCH_ASSOC);
             @@extract($row);
@@ -183,7 +180,7 @@
               <label for="formGroupExampleInput" class="form-label">ประเภทรายการ</label>
               <div class="row g-2">
                 <div class="col-sm-8">
-                <select class="form-select" name="txt_type_item"aria-label="Default select example">
+                <select class="form-select" name="txt_type_id"aria-label="Default select example">
                   <option value="" selected>-- ประเภท --</option>
                   <?php   
                     $select_type_name = $db->prepare("SELECT * FROM type_item");
@@ -194,7 +191,7 @@
                 </select>
                 </div>
                 <div class="col-sm-4">
-                <select class="form-select" name="txt_type_catagories"aria-label="Default select example">
+                <select class="form-select" name="txt_nature_id"aria-label="Default select example">
                   <option value="" selected>-- ลักษณะ --</option>
                   <?php   
                     $select_nature = $db->prepare("SELECT * FROM nature");
@@ -206,32 +203,33 @@
                 </div>
               </div>
               <div class="row g-2 mt-2 mb-2">
+              <div class="col-sm-6">
+                <select class="form-select" name="txt_division_id"aria-label="Default select example">
+                  <option value="" selected>-- แผนก --</option>
+                  <?php   
+                    $select_division = $db->prepare("SELECT * FROM division");
+                    $select_division->execute();
+                    while ($row = $select_division->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row['division_id']?>"><?php echo$row['division_name']?></option>
+                  <?php }?>
+                </select>
+                </div>
                 <div class="col-sm-6">
-                <select class="form-select" name="txt_nature_id"aria-label="Default select example">
+                <select class="form-select" name="txt_marque_id"aria-label="Default select example">
                   <option value="" selected>-- ยี่ห้อ --</option>
                   <?php   
-                    $select_nature = $db->prepare("SELECT * FROM nature");
-                    $select_nature->execute();
-                    while ($row = $select_nature->fetch(PDO::FETCH_ASSOC)) { ?>
-                  <option value="<?php echo$row['nature_id']?>"><?php echo$row['nature_name']?></option>
+                    $select_marque = $db->prepare("SELECT * FROM marque");
+                    $select_marque->execute();
+                    while ($row = $select_marque->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <option value="<?php echo$row['marque_id']?>"><?php echo$row['marque_name']?></option>
                   <?php }?>
                 </select>
                 </div>
-                <div class="col-sm-6">
-                <select class="form-select" name="txt_cotton_id"aria-label="Default select example">
-                  <option value="" selected>-- เลือก --</option>
-                  <?php   
-                    $select_cotton = $db->prepare("SELECT * FROM cotton");
-                    $select_cotton->execute();
-                    while ($row = $select_cotton->fetch(PDO::FETCH_ASSOC)) { ?>
-                  <option value="<?php echo$row['cotton_id']?>"><?php echo$row['cotton_name']?></option>
-                  <?php }?>
-                </select>
-                </div>
+                
               </div>
               <div class="mb-3">
                 <label for="formGroupExampleInput2" class="form-label">ผู้ขาย</label>
-                <select name="txt_vendor"class="form-select" aria-label="Default select example">
+                <select name="txt_vendor_id"class="form-select" aria-label="Default select example">
                   <option value="" selected>-- เลือก --</option>
                   <?php   
                     $select_vendor = $db->prepare("SELECT * FROM vendor");

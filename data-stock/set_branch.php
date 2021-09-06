@@ -119,7 +119,7 @@
         
         <th scope="col">ชื่อสาขา</th>
         <th scope="col">แก้ไข</th>
-        <th scope="col">ลบ</th>
+        <!-- <th scope="col">ลบ</th> -->
       </tr>
     </thead>
     <tbody class="table-light">
@@ -132,7 +132,7 @@
        
         <td><?php echo $row["bn_name"]; ?></td>
         <td><a href="edit/bn_edit.php?update_id=<?php echo $row["bn_id"]; ?>" class="btn btn-outline-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["bn_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+         <!-- <td><a href="?delete_id=<?php echo $row["bn_id"];?>" class="btn btn-outline-danger">Delete</a></td> -->
         <?php } ?>
       </tr>
     </tbody>

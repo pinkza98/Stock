@@ -127,7 +127,7 @@
        
         <th scope="col">ผู้ขาย</th>
         <th scope="col">แก้ไข</th>
-        <th scope="col">ลบ</th>
+        <!-- <th scope="col">ลบ</th> -->
       
       </tr>
     </thead>
@@ -141,7 +141,7 @@
         
         <td><?php echo $row["vendor_name"]; ?></td>
         <td><a href="edit/vendor_edit.php?update_id=<?php echo $row["vendor_id"]; ?>" class="btn btn-outline-warning">View</a></td>
-         <td><a href="?delete_id=<?php echo $row["vendor_id"];?>" class="btn btn-outline-danger">Delete</a></td>
+         <!-- <td><a href="?delete_id=<?php echo $row["vendor_id"];?>" class="btn btn-outline-danger">Delete</a></td> -->
         <?php } ?>
       </tr>
     </tbody>

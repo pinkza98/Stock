@@ -139,7 +139,7 @@
                         <td><?php echo $row["user_fname"];?> <?php echo $row["user_lname"]  ?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
                         <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
-                        <td><button data-fancybox="gallery"data-src="img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
+                        <td><button data-fancybox="gallery"data-src="img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25"></button>
                         <?php }else{?>
                         <td>-</td>
                         <?php } ?>
