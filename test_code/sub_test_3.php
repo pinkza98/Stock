@@ -62,6 +62,13 @@
                             </tr>
                         </table>
                     </form>
+                    <?php 
+                    if (isset($errorMsg)) {
+                ?>
+                                    <div class="alert alert-danger mb-2">
+                                        <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
+                                    </div>
+                                    <?php } ?>
                     <form name="add_name" id="add_name">
                         <div class="responsive p-6">
 
@@ -76,13 +83,7 @@
                                     <th class="col-md-1">ลบ</th>
                                 </thead>
                                 <tr>
-                                    <?php 
-                    if (isset($errorMsg)) {
-                ?>
-                                    <div class="alert alert-danger mb-2">
-                                        <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
-                                    </div>
-                                    <?php } ?>
+                                   
 
                                 </tr>
                             </table>
@@ -118,23 +119,28 @@ $(document).ready(function() {
                         var code_item = result.code_item;
                         var sum_item = result.sum_item;
                         var bn_name = result.bn_name;
+                        var bn_id = result.bn_id;
+                        var stock_id = result.stock_id;
+                        var exd_date = result.exd_date;
+                        var price_stock = result.price_stock;
+// 
                         i++;
                         $('#dynamic_field').append('<tr id="row' + i +
                             '" class="dynamic-added"><td><input type="text" value="' +
                             code_item +
-                            '" class=" form-control  text-center" name="name[]"/disabled></td><td><input type="text" value="' +
+                            '" class=" form-control  text-center" /></td><td><input type="text" value="' +
                             item_name +
                             '" class=" form-control  text-center"/disabled></td><td><input type="number" value="' +
                             qty +
-                            '" class=" form-control  text-center"/></td><td><input type="text" value="' +
+                            '" class=" form-control  text-center" name="qty[]"/><input type="text" value="'+stock_id+'" name="stock_id[]" hidden></td><td><input type="text" value="' +
                             sum_item +
                             '" class=" form-control  text-center"/disabled></td><td><input type="text" value="' +
                             bn_name +
                             '" class=" form-control text-center"/disabled></td><td><button type="button" name="view" id="' +
-                            item_id +
+                            stock_id +
                             '" class="btn btn-info  text-center">View</button></td><td><button type="button" name="remove" id="' +
                             i +
-                            '" class="btn btn-danger btn_remove  text-center">X</button></td><input type="text" value="' +item_name +'" class=" form-control  text-center"/hidden></tr>');
+                            '" class="btn btn-danger btn_remove  text-center">X</button></td></tr>');
                         event.currentTarget.value = "";
                     }
                 });
