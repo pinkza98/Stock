@@ -34,13 +34,20 @@ include('../database/db.php');
     $sum = 0;
    }
    if(is_null($exd_date)){
-   $exd_date =NULL;
+   $exd_date_gen =NULL;
+   }else{
+     
+      $date=date_create();
+      $data_date_set  = '+'.$exd_date.' days';
+      $exd_date_set2=date_modify($date,"".$data_date_set);
+      $exd_date_gen=date_format($exd_date_set2 ,"Y-m-d" );
+   
    }
    if(!empty($errorMsg)){
       echo $errorMsg;
    }else{
-   $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name);
+   $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name);
    }
    echo json_encode($list_item,JSON_UNESCAPED_UNICODE);
 }
-   
+   ?>

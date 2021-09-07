@@ -85,7 +85,7 @@
                             <div class="col-md-9">
                                 <div class="form.group">
                                     <input type="text" name="code_item" id="code_item" class="form-control"
-                                        placeholder=" รหัสบาร์โค้ด" required>
+                                        placeholder=" รหัสบาร์โค้ด" required autofocus>
                                         <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
                                         <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>" hidden>
                                 </div>
@@ -184,6 +184,7 @@ $(document).ready(function() {
             method: "POST",
             data: $('#add_name').serialize(),
             success: function(data) {
+                alert(data);
                 $('#add_name')[0][0].reset();
             }
         });
