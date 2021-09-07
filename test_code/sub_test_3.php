@@ -57,32 +57,24 @@
                                 </td>
                                 <td>
                                     <input class="form-control" type="text" name="code_item"
-                                        placeholder="Enter your Code item" class="form-control " id="code_item">
+                                        placeholder="Enter your Code item" class="form-control " id="code_item" required>
                                 </td>
                             </tr>
                         </table>
                     </form>
                     <form name="add_name" id="add_name">
                         <div class="responsive p-6">
-
                             <table class="table table-bordered" id="dynamic_field">
                                 <thead class="table-dark text-center">
                                     <th class="col-md-1">รหัสบาร์โค้ด</th>
                                     <th class="col-md-4">ชื่อรายการ</th>
                                     <th class="col-md-1">จำนวน</th>
                                     <th class="col-md-1">ที่มีจำนวน</th>
-                                    <th class="col-md-2">สาขา</th>
-                                    <th class="col-md-1 btn-center">view</th>
+                                    <th class="col-md-1">สาขา</th>
                                     <th class="col-md-1">ลบ</th>
                                 </thead>
                                 <tr>
-                                    <?php 
-                    if (isset($errorMsg)) {
-                ?>
-                                    <div class="alert alert-danger mb-2">
-                                        <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
-                                    </div>
-                                    <?php } ?>
+                
 
                                 </tr>
                             </table>
@@ -94,7 +86,6 @@
             </div>
         </div>
     </body>
-
     </html>
     <script type="text/javascript">
 $(document).ready(function() {
@@ -113,28 +104,34 @@ $(document).ready(function() {
                     dataType: 'json',
                     data: $('#list_item').serialize(),
                     success: function(result) {
-                        var item_id = result.item_id;
+                        var stock_id = result.stock_id;
                         var item_name = result.item_name;
                         var code_item = result.code_item;
                         var sum_item = result.sum_item;
                         var bn_name = result.bn_name;
+                        var bn_id = result.bn_id;
+                        var exd_date = result.exd_date;
                         i++;
                         $('#dynamic_field').append('<tr id="row' + i +
                             '" class="dynamic-added"><td><input type="text" value="' +
                             code_item +
-                            '" class=" form-control  text-center" name="name[]"/disabled></td><td><input type="text" value="' +
+                            '" class=" form-control  text-center"/disabled></td><td><input type="text" value="' +
                             item_name +
                             '" class=" form-control  text-center"/disabled></td><td><input type="number" value="' +
                             qty +
-                            '" class=" form-control  text-center"/></td><td><input type="text" value="' +
+                            '" class=" form-control  text-center" name="qty[]"/></td><td><input type="text" value="' +
                             sum_item +
                             '" class=" form-control  text-center"/disabled></td><td><input type="text" value="' +
                             bn_name +
-                            '" class=" form-control text-center"/disabled></td><td><button type="button" name="view" id="' +
-                            item_id +
-                            '" class="btn btn-info  text-center">View</button></td><td><button type="button" name="remove" id="' +
+                            '" class=" form-control text-center" /disabled></td><input type="hidden" value="' +
+                            bn_id +
+                            '" name="bn_id[]"/><input type="hidden" value="' +
+                            stock_id +
+                            '"name="stock_id[]"/><input type="hidden" value="' +
+                            exd_date +
+                            '" name="exd_date[]"/><td><button type="button" name="remove" id="' +
                             i +
-                            '" class="btn btn-danger btn_remove  text-center">X</button></td><input type="text" value="' +item_name +'" class=" form-control  text-center"/hidden></tr>');
+                            '" class="btn btn-danger btn_remove  text-center">X</button></td></tr>');
                         event.currentTarget.value = "";
                     }
                 });
