@@ -2,15 +2,20 @@
     require_once('../database/db.php');
     if (isset($_REQUEST['delete_id'])) {
       $stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE stock_id = :new_stock_id");
+      $select_stmt = $db->prepare("SELECT stock_log_id FROM branch_stock_log WHERE stock_log_id  = :new_stock_id");
       $select_stmt->bindParam(':new_stock_id', $stock_id);
       $select_stmt->execute();
       $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
       // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM stock WHERE stock_id = :new_stock_id');
-      $delete_stmt->bindParam(':new_stock_id', $stock_id);
-      $delete_stmt->execute();
-        header('Location:stock_main.php');
+      $delete_branch_stock = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
+      $delete_branch_stock->bindParam(':new_stock_id', $stock_id);
+      $delete_branch_stock_log = $db->prepare('DELETE FROM branch_stock_log WHERE stock_log_id  = :new_stock_id');
+      $delete_branch_stock_log->bindParam(':new_stock_id', $stock_id);
+      if($delete_branch_stock_log->execute()){
+          $delete_branch_stock->execute();
+        $insertMsg = "ลบข้อมูลสำเร็จ...";
+      }
+        // header('Location:sub_list_stock_branch.php');
     }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
@@ -54,13 +59,19 @@
 <body>
     <?php include('../components/nav_stock.php'); ?>
 
-
     <header></header>
     <div class="display-3 text-xl-center">
         <H2>รายการคลังของส่วนกลาง </H2>
     </div>
     <hr>
     <div class="container">
+    <?php 
+        if (isset($insertMsg)) {
+    ?>
+        <div class="alert alert-success mb-2">
+            <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
+        </div>
+        <?php } ?>
         <div class="row">
             <div class="col">
                 <?php include('../components/nav_stock_slid.php'); ?>   
@@ -75,90 +86,83 @@
 
             <thead class="table-dark">
                 <tr class="table-active">
-
-                    <th scope="col" class="text-center">รหัส</th>
+                <th scope="col" class="text-center">รหัส</th>
                     <th scope="col" class="text-center">รายการ</th>
                     <th scope="col" class="text-center">จำนวน</th>
+                    <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center">ราคา</th>
-                    <th scope="col" class="text-center">หมวด</th>
                     <th scope="col" class="text-center">ประเภท</th>
-                    <th scope="col" class="text-center">ผู้ลงบันทึก</th>
+                    <th scope="col" class="text-center">ลักษณะ</th>
+                    <th scope="col" class="text-center">แผนก</th>
+                    <th scope="col" class="text-center">ผู้บันทึก</th>
                     <th scope="col" class="text-center">วันที่เพิ่ม</th>
                     <th scope="col" class="text-center">หมดอายุ</th>
                     <th scope="col" class="text-center">สาขา</th>
                     <th scope="col" class="text-center">ผู้ขาย</th>
-
-                    <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                    <?php if($row_session['user_bn']==1) {?> 
                     <th scope="col" class="text-center">ลบ</th>
-                    <?php } ?>
-
                 </tr>
             </thead>
             <tbody>
 
-                <?php 
-            $select_stmt = $db->prepare("SELECT price_stock_log,full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,catagories_name,type_name,user_fname,user_lname,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name FROM branch_stock  
-            INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-            INNER JOIN item ON stock.item_id = item.item_id
-            INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
-            INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON item.unit = unit.unit_id
-            INNER JOIN type_name ON stock.type_item = type_name.type_id
-            INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-            INNER JOIN user ON branch_stock.user_id = user.user_id
-            INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-            WHERE bn_stock = 1 AND item_quantity != 0
-            ORDER BY exp_date_log DESC");
-            $select_stmt->execute();
-            while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-                <tr class="table-light">
-                    <td><?php echo $row["code_item"]; ?></td>
-                    <td><?php echo $row["item_name"]; ?></td>
-                    <td><?php echo $row["item_quantity"]; ?> <?php echo $row["unit_name"]; ?> </td>
-                    <td><?php echo number_format($row["price_stock_log"],2); ?> บาท</td>
-                    <td><?php echo $row["catagories_name"]; ?></td>
-                    <td><?php echo $row["type_name"]; ?></td>
-                    <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
-                    <td><?php echo DateThai($row["exp_date_log"]); ?></td>
-                    <?php 
+            <?php 
+$select_stmt = $db->prepare("SELECT full_stock_id,division_name,nature_name,price_stock_log,full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,type_name,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name,user_name_log FROM branch_stock  
+INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
+INNER JOIN item ON stock.item_id = item.item_id
+INNER JOIN unit ON item.unit_id = unit.unit_id
+INNER JOIN type_item ON stock.type_id = type_item.type_id
+INNER JOIN division ON stock.division_id = division.division_id
+INNER JOIN nature ON stock.nature_id = nature.nature_id
+INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
+INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
+INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+WHERE item_quantity != 0 AND bn_stock = 1
+ORDER BY exp_date_log DESC");
+$select_stmt->execute();
+while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
+?>
+    <tr class="table-light">
+        <td><?php echo $row["code_item"]; ?></td>
+        <td><?php echo $row["item_name"]; ?></td>
+        <td><?php echo $row["item_quantity"]; ?> </td>
+        <td><?php echo $row["unit_name"]; ?> </td>
+        <td><?php echo number_format($row["price_stock_log"],2); ?> </td>
+        <td><?php echo $row["type_name"]; ?></td>
+        <td><?php echo $row["nature_name"]; ?></td>
+        <td><?php echo $row["division_name"]; ?></td>
+        <td><?php echo $row["user_name_log"]; ?></td>
+        <td><?php echo DateThai($row["exp_date_log"]); ?></td>
+                        <?php 
                             $date_s = $row["exp_date_log"];
                             $date_e = $row["exd_date_log"]; 
                             $exd_date =DateDiff($date_s,$date_e);
-                            if($exd_date > 1 && $exd_date < 400 ){
+                            if($exd_date > 1 && $exd_date < 400 OR $exd_date == NULL){
                         ?>
-                    <td>ในอีก <?php echo number_format($exd_date) ?>(วัน)</td>
-                    <?php }else {?>
-                    <td>-</td>
-                    <?php }?>
-                    <td><?php echo $row["bn_name"]; ?></td>
-                    <td><?php echo $row["vendor_name"]; ?></td>
-
-                    <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td>  -->
-                    <?php if($row_session['user_bn']==1) {?> 
-                    <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
-                    <?php } ?>
-                    <?php } ?>
-                </tr>
+                        <td>ในอีก <?php echo number_format($exd_date); ?>(วัน)</td>
+                        <?php }else {?>
+                            <td>-</td>
+                            <?php }?>
+        <td><?php echo $row["bn_name"]; ?></td>
+        <td><?php echo $row["vendor_name"]; ?></td>  
+        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>
+        <?php } ?>
+    </tr>
             </tbody>
             <tfoot a>
                 <tr class="table-active">
+                <th scope="col" class="text-center">รหัส</th>
+                    <th scope="col" class="text-center">รายการ</th>
+                    <th scope="col" class="text-center">จำนวน</th>
                     <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <!-- <th scope="col" class="text-center">ราคา</th> -->
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <?php if($row_session['user_bn']==1) {?> 
+                    <th scope="col" class="text-center">ราคา</th>
+                    <th scope="col" class="text-center">ประเภท</th>
+                    <th scope="col" class="text-center">ลักษณะ</th>
+                    <th scope="col" class="text-center">แผนก</th>
+                    <th scope="col" class="text-center">ผู้บันทึก</th>
+                    <th scope="col" class="text-center">วันที่เพิ่ม</th>
+                    <th scope="col" class="text-center">หมดอายุ</th>
+                    <th scope="col" class="text-center">สาขา</th>
+                    <th scope="col" class="text-center">ผู้ขาย</th>
                     <th scope="col" class="text-center">ลบ</th>
-                    <?php } ?>
                     <!-- <th scope="col" class="text-center">แก้ไข</th> -->
                     <!-- <th scope="col" class="text-center">ลบ</th> -->
                 </tr>
