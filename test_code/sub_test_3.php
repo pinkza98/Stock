@@ -111,6 +111,7 @@ $(document).ready(function() {
                         var bn_name = result.bn_name;
                         var bn_id = result.bn_id;
                         var exd_date = result.exd_date;
+                        var price_stock = result.price_stock;
                         i++;
                         $('#dynamic_field').append('<tr id="row' + i +
                             '" class="dynamic-added"><td><input type="text" value="' +
@@ -126,6 +127,8 @@ $(document).ready(function() {
                             '" class=" form-control text-center" /disabled></td><input type="hidden" value="' +
                             bn_id +
                             '" name="bn_id[]"/><input type="hidden" value="' +
+                            price_stock +
+                            '" name="price_stock[]"/><input type="hidden" value="' +
                             stock_id +
                             '"name="stock_id[]"/><input type="hidden" value="' +
                             exd_date +
