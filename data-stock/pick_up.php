@@ -7,8 +7,8 @@
         $user_id = $_REQUEST['txt_user_id'];
         $bn_id = $_REQUEST['txt_bn_id'];
         $stock_id = $_REQUEST['txt_stock_id'];
-        $cut_date = $now = date_create()->format('Y-m-d');
         $price_stock_log = $_REQUEST['txt_stock_price'];
+        $item_name = $_REQUEST['txt_item_name'];
         $result = $quantity;
         if ($quantity > $sum) {
            $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
@@ -16,16 +16,15 @@
             $errorMsg = "กรุณาใส่กรองจำนวนที่ต้องการเบิกคลัง!!";
         }else{
                 try{
-
                     $select_rowCount = $db->query("SELECT *  FROM branch_stock_log  
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                    WHERE branch_stock.bn_stock = '".$bn_id."' AND branch_stock.stock_id = '".$stock_id."' ORDER BY exd_date_log ");
+                    WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
                     $row_count = $select_rowCount->rowCount();
                     $i=1;
-
-                        $select_stock_full_log = $db->prepare("SELECT full_stock_id_log,branch_stock_log.stock_log_id,item_quantity,full_stock_id  FROM branch_stock_log  
+                    
+                        $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                WHERE branch_stock.bn_stock = '".$bn_id."' AND branch_stock.stock_id = '".$stock_id."' ORDER BY exd_date_log ");
+                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ");
                 if ($select_stock_full_log->execute()) {
                     while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)){
 
@@ -49,29 +48,26 @@
                             $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity  WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $update_stock_log->bindParam(':new_item_quantity', $quantity_as);
                             
-                            $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('.$user_id.','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock_log.')");
+                            $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('$user_id','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock_log.')");
                            
                             if ( $insert_cut_stock->execute()) {
                                 $insertMsg = "เบิกยอด1";
                                 if($update_stock_log->execute()){
-                                    $insertMsg = "$price_stock_log";
-                                    header('refresh:1:pick_up.php');
+                                    $insertMsg = "เบิกรายการ (".$item_name.") เบิกออก ".$quantity." คงเหลือ = ".$quantity_as;
+                                    // header('refresh:1:pick_up.php');
                                 }
-                            
-                           
                             
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                         }
-                        }
-                        // else{
-                        //     $errorMsg = "ข้อมูล quantity ไม่ถูกต้อง!!";
-                        // }
+                        }else{
+                            $errorMsg = "$quantity_as";
+                            }
+                      }else{
+                        $errorMsg = "$quantity_as";
                       }
                     }
-                }
-            
-               
+                } 
             
             }catch (PDOException $e) {
                      echo $e->getMessage();
@@ -186,7 +182,6 @@
             $price_stock =null;
             $unit = null;
             $vendor = null;
-            $type_catagories = null;
             $type_item = null;
             $exd_date = null;
             $sum = null;
@@ -197,11 +192,12 @@
             $full_stock_id = null;
             $item_id = null;
             $type_name = null;
-            $catagories_name = null;
             $vendor_name = null;
             $bn_name = null;
             $full_stock_id_log  = null;
             $price_stock_log = null;
+            $nature_name= null;
+            $division_name = null;
           }
           if(isset($_POST['check'])){
             $code_item_check = $_REQUEST['get_code_item'];
@@ -217,17 +213,17 @@
                 $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
               }
               else{
-            $select_stock_full = $db->prepare("SELECT price_stock_log,branch_stock.stock_id,full_stock_id_log,type_name,catagories_name,img_stock,full_stock_id, code_item ,item_name, bn_name,bn_id, SUM(branch_stock_log.item_quantity) as sum,unit_name, type_name, catagories_name, img_stock,exp_date_log,exd_date_log FROM branch_stock  
+            $select_stock_full = $db->prepare("SELECT division_name,nature_name,price_stock_log,branch_stock.stock_id,full_stock_id_log,type_name,full_stock_id, code_item ,item_name, bn_name,bn_id, SUM(branch_stock_log.item_quantity) as sum,unit_name, type_name, stock.img_stock,exp_date_log,exd_date_log FROM branch_stock  
             INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
             INNER JOIN item ON stock.item_id = item.item_id
-            INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
             INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON item.unit = unit.unit_id
-            INNER JOIN type_name ON stock.type_item = type_name.type_id
+            INNER JOIN unit ON item.unit_id = unit.unit_id
+            INNER JOIN type_item ON stock.type_id = type_item.type_id
             INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-            INNER JOIN user ON branch_stock.user_id = user.user_id
-            INNER JOIN vendor ON stock.vendor = vendor.vendor_id
-            WHERE bn_stock = '".$user_bn."' AND code_item = '".$code_item_check."' ");
+            INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
+            INNER JOIN nature ON stock.nature_id = nature.nature_id
+            INNER JOIN division ON stock.division_id = division.division_id
+            WHERE bn_stock = '".$user_bn."' AND code_item = '".$code_item."' ");
             $select_stock_full->execute();
             $row_stock_full = $select_stock_full->fetch(PDO::FETCH_ASSOC);
             @@extract($row_stock_full);
@@ -258,10 +254,9 @@
                                     </b></label>
                             <div class="row g-3">
                                 <div class="col-sm-8 mb-3 ">
-                                    <input type="text" name="text_code_new" value="<?php echo$code_item,$price_stock_log?>"
+                                    <input type="text" name="text_code_new" value="<?php echo$code_item?>"
                                         class="form-control" placeholder="รหัสบาร์โค้ด" aria-label="รหัสบาร์โค้ด"
                                         disabled>
-                                    <input type="text" name="txt_code_item" value="" hidden>
                                 </div>
                                 <div class="col-sm-4 mb-3">
                                     <input type="text" name="text_code_new" value="<?php echo$bn_name?>"
@@ -273,35 +268,39 @@
                                     <input type="text" class="form-control" name="txt_item_name"
                                         value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ"
                                         disabled>
+                                        <input type="text" name="txt_item_name"
+                                        value="<?php echo$item_name?>" hidden>
                                 </div>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" value="<?php echo$sum,$unit_name ?>"
                                         placeholder="จำนวนคงเหลือ" disabled>
                                 </div>
-
                             </div>
                             
-                                   
-                              
                             <div class="row g-2">
                                 <label for="formGroupExampleInput"
                                     class="form-label mt-3">ประเภทรายการ</label>
                                 <div class="col-sm-6">
-
-
-                                    <input type="text" placeholder="type" class="form-control"
-                                        value="<?php echo$type_name?>" placeholder="type" disabled>
-
+                                    <input type="text" placeholder="ประเภท" class="form-control"
+                                        value="<?php echo$type_name?>"  disabled>
                                 </div>
 
                                 <div class="col-sm-6">
-
-                                    <input type="text" class="form-control" value="<?php echo$catagories_name?>"
-                                        placeholder="Catagories" disabled>
-
+                                <input type="text" placeholder="ลักษณะ" class="form-control"
+                                        value="<?php echo$nature_name?>"  disabled>
                                 </div>
                             </div>
+                            <div class="row g-2 mt-2">
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="แผนก" class="form-control"
+                                        value="<?php echo$division_name?>" disabled>
+                                </div>
 
+                                <div class="col-sm-6">
+                                <input type="text" placeholder="ยี่ห้อ" class="form-control"
+                                        value="" disabled>
+                                </div>
+                            </div>
                             <div class="row">
                                 <label class="form-label mt-2" for="customFile">จำนวนที่ต้องการเบิก</label>
                                 <div class="col-md-6">
@@ -322,7 +321,7 @@
                                         ?>
                                     <img class="me-3" src="img_stock/<?=$img_stock?>" style="" width="200" height="200">
                                     <?php
-                                        }else{?>
+                                        }else{ $img_stock = "box1.png";?>
                                     <img class="me-3" src="img_stock/<?=$img_stock?>" style="" width="200" height="200">
                                     <?php      
                                         }
@@ -330,7 +329,8 @@
                                 </div>
                                 <input type="text" name="txt_stock_id" value="<?php echo$stock_id?>" hidden>
                                 <input type="text" name="txt_bn_id" value="<?php echo$bn_id?>" hidden>
-                                <input type="text" name="txt_user_id" value="<?php echo$row_session['user_id'] ?>"
+                                <?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
+                                <input type="text" name="txt_user_id" value="<?php echo$user_name;?>"
                                     hidden>
                                 <input type="text" name="txt_stock_price" value="<?php echo$price_stock_log?>" class="form-control" hidden>
 
@@ -338,7 +338,6 @@
                                     hidden>
                                 <br>
                                 <div class="col-sm-4">
-
                                 </div>
 
                             </div>

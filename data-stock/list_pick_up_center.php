@@ -121,14 +121,12 @@
                 </thead>
                 <tbody>
                     <?php 
-          $select_stmt = $db->prepare("SELECT *FROM cut_stock_log  
+          $select_stmt = $db->prepare("SELECT stock.stock_id,code_item,item_name,quantity,unit_name,bn_name,img_stock,date,user_id FROM cut_stock_log  
           INNER JOIN stock ON cut_stock_log.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
-          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
           INNER JOIN branch ON cut_stock_log.bn_id = branch.bn_id
-          INNER JOIN unit ON item.unit = unit.unit_id
-          INNER JOIN user ON cut_stock_log.user_id = user.user_id
-          INNER JOIN type_name ON stock.type_item = type_name.type_id
+          INNER JOIN unit ON item.unit_id = unit.unit_id
+          INNER JOIN type_item ON stock.type_id = type_item.type_id
           WHERE cut_stock_log.bn_id = 1
           ORDER BY cut_stock_id DESC LIMIT 20");
         
@@ -140,10 +138,10 @@
                         <td><?php echo $row["item_name"]; ?></td>
                         <td><?php echo $row["quantity"];?><?php  echo$row["unit_name"];  ?></td>
                         <td><?php echo DateThai($row["date"]); ?></td>
-                        <td><?php echo $row["user_fname"];?> <?php echo $row["user_lname"]  ?></td>
+                        <td><?php echo $row["user_id"];?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
                         <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?> 
-                        <td><button data-fancybox="gallery"data-src="img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
+                        <td><button data-fancybox="gallery"data-src="img_stock/<?php echo $row['img_stock']?>"className="button button--secondary"><img src="img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25" alt=""></button>
                         <?php }else{?>
                         <td>-</td>
                         <?php } ?>

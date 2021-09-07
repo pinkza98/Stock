@@ -126,9 +126,9 @@ if($page == 2){
       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
     FROM branch_stock bn
     INNER JOIN stock s  on bn.stock_id = s.stock_id
-    INNER JOIN vendor v  on s.vendor = v.vendor_id
+    INNER JOIN vendor v  on s.vendor_id = v.vendor_id
     INNER JOIN item it  on s.item_id = it.item_id
-    INNER JOIN unit u  on it.unit = u.unit_id
+    INNER JOIN unit u  on it.unit_id = u.unit_id
     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
     WHERE
       bn.bn_stock BETWEEN 1 AND 12
@@ -209,9 +209,9 @@ if($page == 2){
        SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
      FROM branch_stock bn
      INNER JOIN stock s  on bn.stock_id = s.stock_id
-     INNER JOIN vendor v  on s.vendor = v.vendor_id
+     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
      INNER JOIN item it  on s.item_id = it.item_id
-     INNER JOIN unit u  on it.unit = u.unit_id
+     INNER JOIN unit u  on it.unit_id = u.unit_id
      INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log";
      $statement = $db->prepare($query);
      $statement->execute();
@@ -229,19 +229,19 @@ if($page == 2){
   }
   //หน้ารายการคลังทุกสาขา===================================================>
   if($page == 3){
-    $column = array('full_stock_id','code_item','item_name', 'unit_name','item_quantity','bn_name', 'type_name','catagories_name','cotton_name','cotton_name');
+    $column = array('full_stock_id','code_item','item_name', 'unit_name','item_quantity','bn_name', 'type_name','nature_name','division_name');
 
-    $query = "SELECT full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,cotton_name,nature_name FROM branch_stock  
+    $query = "SELECT division_name,full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,type_name,branch.bn_name,nature_name FROM branch_stock  
     INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
     INNER JOIN item ON stock.item_id = item.item_id
-    INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+    INNER JOIN division ON stock.division_id = division.division_id
     INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-    INNER JOIN unit ON  item.unit = unit.unit_id
-    INNER JOIN type_name ON stock.type_item = type_name.type_id
+    INNER JOIN unit ON  item.unit_id = unit.unit_id
+    INNER JOIN type_item ON stock.type_id = type_item.type_id
     INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-    INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
     INNER JOIN nature ON stock.nature_id = nature.nature_id
     WHERE branch_stock_log.item_quantity !=0
+    GROUP BY code_item , bn_name 
     ";
     
     if(isset($_POST['search']['value']))
@@ -253,19 +253,12 @@ if($page == 2){
      OR item_name LIKE "%'.$_POST['search']['value'].'%" 
      OR unit_name LIKE "%'.$_POST['search']['value'].'%" 
      OR type_name LIKE "%'.$_POST['search']['value'].'%" 
-     OR catagories_name LIKE "%'.$_POST['search']['value'].'%" 
-     OR cotton_name LIKE "%'.$_POST['search']['value'].'%"
-     OR nature_name LIKE "%'.$_POST['search']['value'].'%"  
+     OR nature_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR division_name LIKE "%'.$_POST['search']['value'].'%"  
+     OR nature_name LIKE "%'.$_POST['search']['value'].'%"   
      ';
     }
-    if(isset($_POST['group']))
-    {
-     $query .= 'GROUP BY '.$column[$_POST['group']['0']['column']].' '.$_POST['group']['0']['dir'].' ';
-    }
-    else
-    {
-     $query .= 'GROUP BY code_item, bn_name  ';
-    }
+    
     if(isset($_POST['order']))
     {
      $query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
@@ -309,9 +302,8 @@ if($page == 2){
      $sub_array[] = $row['sum'];
      $sub_array[] = $row['unit_name'];
      $sub_array[] = $row['type_name'];
-     $sub_array[] = $row['catagories_name'];
-     $sub_array[] = $row['cotton_name'];
      $sub_array[] = $row['nature_name'];
+     $sub_array[] = $row['division_name'];
      $sub_array[] = $row['bn_name'];
     
      $data[] = $sub_array;
@@ -319,17 +311,16 @@ if($page == 2){
     
     function count_all_data($db)
     {
-     $query = "SELECT full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,catagories_name,type_name,bn_name,exp_date_log,exd_date_log,cotton_name,nature_name FROM branch_stock  
+     $query = "SELECT division_name,full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,type_name,branch.bn_name,nature_name FROM branch_stock  
      INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
      INNER JOIN item ON stock.item_id = item.item_id
-     INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
+     INNER JOIN division ON stock.division_id = division.division_id
      INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-     INNER JOIN unit ON  item.unit = unit.unit_id
-     INNER JOIN type_name ON stock.type_item = type_name.type_id
+     INNER JOIN unit ON  item.unit_id = unit.unit_id
+     INNER JOIN type_item ON stock.type_id = type_item.type_id
      INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-     INNER JOIN cotton ON stock.cotton_id = cotton.cotton_id
      INNER JOIN nature ON stock.nature_id = nature.nature_id
-     WHERE item_quantity != 0";
+     WHERE branch_stock_log.item_quantity !=0";
      $statement = $db->prepare($query);
      $statement->execute();
      return $statement->rowCount();

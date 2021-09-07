@@ -86,10 +86,9 @@
                         <th scope="col" class="text-center">ชื่อรายการ</th>
                         <th scope="col" class="text-center">จำนวน</th>
                         <th scope="col" class="text-center">หน่วย</th>
-                        <th scope="col" class="text-center">หมวดหมู่</th>
-                        <th scope="col" class="text-center">ประเภท</th>
+                        <th scope="col" class="text-center">ปรเภท</th>
                         <th scope="col" class="text-center">ลักษณะ</th>
-                        <th scope="col" class="text-center">ฝ่าย</th>
+                        <th scope="col" class="text-center">แผนก</th>
                         <th scope="col" class="text-center">สาขา</th>
 
                         <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
@@ -112,7 +111,6 @@
                         <th scope="col" class="text-center">หมวดหมู่</th>
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">ลักษณะ</th>
-                        <th scope="col" class="text-center">ฝ่าย</th>
                         <th scope="col" class="text-center">สาขา</th>
 
                         <!-- <th scope="col" class="text-center">แก้ไข</th> -->

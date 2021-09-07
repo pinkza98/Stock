@@ -118,16 +118,13 @@
                 </thead>
                 <tbody>
                     <?php 
-          $select_stmt = $db->prepare("SELECT *FROM cut_stock_log  
+          $select_stmt = $db->prepare("SELECT stock.stock_id,code_item,item_name,quantity,unit_name,bn_name,img_stock,date,user_id FROM cut_stock_log  
           INNER JOIN stock ON cut_stock_log.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
-          INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
           INNER JOIN branch ON cut_stock_log.bn_id = branch.bn_id
-          INNER JOIN unit ON item.unit = unit.unit_id
-          INNER JOIN user ON cut_stock_log.user_id = user.user_id
-          INNER JOIN type_name ON stock.type_item = type_name.type_id
-          
-          ORDER BY cut_stock_id DESC LIMIT 20");
+          INNER JOIN unit ON item.unit_id = unit.unit_id
+          INNER JOIN type_item ON stock.type_id = type_item.type_id
+          ORDER BY cut_stock_id DESC LIMIT 100");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>

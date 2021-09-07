@@ -30,7 +30,7 @@
                 if ($select_stock_full_log->execute()) {
                     while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)){
                         if($sum == 0){
-                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET item_quantity = '.$quantity.' ,user_id_log = '.$user_id.' WHERE stock_log_id = '". $row['stock_log_id']."'");
+                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET item_quantity = '.$quantity.' ,user_name_log = '.$user_id.' WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $update_stock_log_reconcile->bindParam(':new_item_quantity', $quantity);
                             $update_stock_log_reconcile->bindParam(':new_user_id', $user_id);
                             if ($update_stock_log_reconcile->execute()){
@@ -38,7 +38,7 @@
                             }
 
                         }
-                        elseif ($i < $row_count) {
+                        elseif ($i < $row_count or $i > $row_count) {
                             
                             
                             
@@ -51,7 +51,7 @@
                                 }
                             
                         }elseif($i == $row_count){
-                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET exd_date_log = NOW() ,item_quantity = :new_item_quantity ,user_id_log = :new_user_id WHERE stock_log_id = '". $row['stock_log_id']."'");
+                            $update_stock_log_reconcile = $db->prepare("UPDATE branch_stock_log SET exd_date_log = NOW() ,item_quantity = :new_item_quantity ,user_name_log = :new_user_id WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $update_stock_log_reconcile->bindParam(':new_item_quantity', $quantity);
                             $update_stock_log_reconcile->bindParam(':new_user_id', $user_id);
 
@@ -184,7 +184,6 @@
             $price_stock =null;
             $unit = null;
             $vendor = null;
-            $type_catagories = null;
             $type_item = null;
             $exd_date = null;
             $sum = null;
@@ -195,7 +194,6 @@
             $full_stock_id = null;
             $item_id = null;
             $type_name = null;
-            $catagories_name = null;
             $vendor_name = null;
             $bn_name = null;
             $full_stock_id_log  = null;
@@ -214,16 +212,14 @@
                 $errorMsg_item = 'ไม่มีรายการรหัสบาร์โค้ดนี้ในระบบ!!!';
               }
               else{
-            $select_stock_full = $db->prepare("SELECT branch_stock.stock_id,full_stock_id_log,type_name,catagories_name,img_stock,full_stock_id, code_item ,item_name, bn_name,bn_id, SUM(branch_stock_log.item_quantity) as sum,unit_name, type_name, catagories_name, img_stock,exp_date_log,exd_date_log FROM branch_stock  
+            $select_stock_full = $db->prepare("SELECT branch_stock.stock_id,full_stock_id_log,type_name,img_stock,full_stock_id,code_item ,item_name,bn_name,bn_id,SUM(branch_stock_log.item_quantity) as sum,unit_name, type_name,img_stock,exp_date_log,exd_date_log,user_name_log FROM branch_stock  
             INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
             INNER JOIN item ON stock.item_id = item.item_id
-            INNER JOIN catagories ON stock.type_catagories = catagories.catagories_id
             INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-            INNER JOIN unit ON item.unit = unit.unit_id
-            INNER JOIN type_name ON stock.type_item = type_name.type_id
+            INNER JOIN unit ON item.unit_id = unit.unit_id
+            INNER JOIN type_item ON stock.type_id = type_item.type_id
             INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-            INNER JOIN user ON branch_stock.user_id = user.user_id
-            INNER JOIN vendor ON stock.vendor = vendor.vendor_id
+            INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
             WHERE bn_stock = '".$user_bn."' AND code_item = '".$code_item_check."' ");
             $select_stock_full->execute();
             $row_stock_full = $select_stock_full->fetch(PDO::FETCH_ASSOC);
@@ -290,9 +286,6 @@
 
                                 <div class="col-sm-6">
 
-                                    <input type="text" class="form-control" value="<?php echo$catagories_name?>"
-                                        placeholder="Catagories" disabled>
-
                                 </div>
                             </div>
 
@@ -324,8 +317,8 @@
                                 </div>
                                 <input type="text" name="txt_stock_id" value="<?php echo$stock_id?>" hidden>
                                 <input type="text" name="txt_bn_id" value="<?php echo$bn_id?>" hidden>
-                                <input type="text" name="txt_user_id" value="<?php echo$row_session['user_id'] ?>"
-                                    hidden>
+                                <?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
+                                <input type="text" name="txt_user_id" value="<?php echo$user_name ?>"hidden>
 
                                     <input type="text" name="txt_sum" value="<?php echo$sum ?>"
                                     hidden>
