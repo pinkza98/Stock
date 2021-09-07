@@ -24,7 +24,7 @@
     <header>
 
         <div class="display-3 text-xl-center mt-3">
-            <H2>นับสต๊อกของส่วนกลาง</H2>
+            <H2>นับสต๊อกของคลังสาขา</H2>
         </div>
     </header>
     <hr><br>
