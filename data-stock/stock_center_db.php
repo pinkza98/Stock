@@ -15,10 +15,11 @@ $number = count($_POST["stock_id"]);
                 $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log,price_stock_log) VALUES ('$user_name',NOW(),'.$qty.','$exd_date',LAST_INSERT_ID(),'.$price_stock.')");
             }elseif(strtotime($exd_date) <= 62169984000){
                 $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log,price_stock_log) VALUES ('$user_name',NOW(),'.$qty.',NULL,LAST_INSERT_ID(),'.$price_stock.')");
+            }else{
+                echo "พบข้อผิดพลาด ข้อมูลไม่เข้าเงื่อนไข การทำงาน";
             }
             if($insert_full_stock->execute()){
-                if($insert_full_stock_log->execute()){
-                    echo "เพิ่มข้อมูลสำเร็จ >".$exd_date;  
+                if($insert_full_stock_log->execute()){ 
                 }else{
                     echo "พบข้อผิดพลาด full stock bn ไม่ทำงาน";
                 }
@@ -29,4 +30,6 @@ $number = count($_POST["stock_id"]);
             echo "ERROR: ".$e->getMessage();
         }
     }
+    echo "การส่งข้อมูลผิดพลาด";
+    
 ?> 

@@ -10,8 +10,11 @@
         $price_stock_log = $_REQUEST['txt_stock_price'];
         $item_name = $_REQUEST['txt_item_name'];
         $result = $quantity;
+        $sum_new = $sum;
+        $quantity_new = $quantity;
+        $answer;
         if ($quantity > $sum) {
-           $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
+        $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
         }elseif (is_null($quantity)) {
             $errorMsg = "กรุณาใส่กรองจำนวนที่ต้องการเบิกคลัง!!";
         }else{
@@ -21,18 +24,15 @@
                     WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
                     $row_count = $select_rowCount->rowCount();
                     $i=1;
-                    
-                        $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
-                INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ");
-                if ($select_stock_full_log->execute()) {
-                    while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)){
-
+                    $stop_row = 0;
+                            $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
+                    INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
+                    WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ASC");
+                    if ($select_stock_full_log->execute()) {
+                    while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)AND  $stop_row != 1){
                         if($i > $row_count){
                         if ($row['item_quantity']< $quantity) {
-                            
                             $quantity = $quantity- $row['item_quantity'];
-                            
                                 $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                 if($del_stock_log->execute()){
                                     $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
@@ -40,37 +40,44 @@
                                     $i++;
                                 }
                             }
-                            
                         }elseif($i <= $row_count){
-                        if ($row['item_quantity']>= $quantity){
-                            $quantity_as = $row ['item_quantity']-$quantity;
-        
-                            $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = :new_item_quantity  WHERE stock_log_id = '". $row['stock_log_id']."'");
-                            $update_stock_log->bindParam(':new_item_quantity', $quantity_as);
-                            
+                        if ($row['item_quantity']> $quantity){
+                            $quantity_as = $row['item_quantity']-$quantity;
+                            $answer = $sum - $quantity_new;
+                            $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = '$quantity_as'  WHERE stock_log_id = '". $row['stock_log_id']."'");
                             $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('$user_id','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock_log.')");
-                           
                             if ( $insert_cut_stock->execute()) {
-                                $insertMsg = "เบิกยอด1";
                                 if($update_stock_log->execute()){
-                                    $insertMsg = "เบิกรายการ (".$item_name.") เบิกออก ".$quantity." คงเหลือ = ".$quantity_as;
+                                    $insertMsg = "เบิกรายการ (".$item_name.") เบิกออก ".$quantity_new." คงเหลือ = ".$answer;
+                                    $stop_row++;
                                     // header('refresh:1:pick_up.php');
                                 }
-                            
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                         }
+                        }elseif($row['item_quantity'] < $quantity){
+                            $quantity = $quantity- $row['item_quantity'];
+                            $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                if($del_stock_log->execute()){
+                                    $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
+                                    $del_bn_stock->execute();
+                                }
                         }else{
-                            $errorMsg = "$quantity_as";
+                            $quantity = $quantity- $row['item_quantity'];
+                            $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                            if($del_stock_log->execute()){
+                                $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
+                                $del_bn_stock->execute();
                             }
-                      }else{
-                        $errorMsg = "$quantity_as";
-                      }
+                        }
                     }
-                } 
+                    }
+                    $insertMsg;
+                
+            }
             
             }catch (PDOException $e) {
-                     echo $e->getMessage();
+                    echo $e->getMessage();
             }
            
         }
@@ -241,17 +248,17 @@
         ?>
             <div class="col-md-5">
                 <form method='post' enctype='multipart/form-data'>
-                <?php 
+                    <?php 
                 if (isset($errorMsg_item)) {
                 ?>
-                <div class="alert alert-danger mb-2">
-                    <strong>คำเตือน! <?php echo $errorMsg_item; ?></strong>
-                </div>
-                <?php } ?>
+                    <div class="alert alert-danger mb-2">
+                        <strong>คำเตือน! <?php echo $errorMsg_item; ?></strong>
+                    </div>
+                    <?php } ?>
                     <div class="card">
                         <div class="card-header">
                             <label for="formGroupExampleInput" class="form-label"><b>รายการ
-                                    </b></label>
+                                </b></label>
                             <div class="row g-3">
                                 <div class="col-sm-8 mb-3 ">
                                     <input type="text" name="text_code_new" value="<?php echo$code_item?>"
@@ -268,26 +275,24 @@
                                     <input type="text" class="form-control" name="txt_item_name"
                                         value="<?php echo$item_name?>" placeholder="รายการ" aria-label="รายการ"
                                         disabled>
-                                        <input type="text" name="txt_item_name"
-                                        value="<?php echo$item_name?>" hidden>
+                                    <input type="text" name="txt_item_name" value="<?php echo$item_name?>" hidden>
                                 </div>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" value="<?php echo$sum,$unit_name ?>"
                                         placeholder="จำนวนคงเหลือ" disabled>
                                 </div>
                             </div>
-                            
+
                             <div class="row g-2">
-                                <label for="formGroupExampleInput"
-                                    class="form-label mt-3">ประเภทรายการ</label>
+                                <label for="formGroupExampleInput" class="form-label mt-3">ประเภทรายการ</label>
                                 <div class="col-sm-6">
                                     <input type="text" placeholder="ประเภท" class="form-control"
-                                        value="<?php echo$type_name?>"  disabled>
+                                        value="<?php echo$type_name?>" disabled>
                                 </div>
 
                                 <div class="col-sm-6">
-                                <input type="text" placeholder="ลักษณะ" class="form-control"
-                                        value="<?php echo$nature_name?>"  disabled>
+                                    <input type="text" placeholder="ลักษณะ" class="form-control"
+                                        value="<?php echo$nature_name?>" disabled>
                                 </div>
                             </div>
                             <div class="row g-2 mt-2">
@@ -297,8 +302,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                <input type="text" placeholder="ยี่ห้อ" class="form-control"
-                                        value="" disabled>
+                                    <input type="text" placeholder="ยี่ห้อ" class="form-control" value="" disabled>
                                 </div>
                             </div>
                             <div class="row">
@@ -330,12 +334,11 @@
                                 <input type="text" name="txt_stock_id" value="<?php echo$stock_id?>" hidden>
                                 <input type="text" name="txt_bn_id" value="<?php echo$bn_id?>" hidden>
                                 <?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
-                                <input type="text" name="txt_user_id" value="<?php echo$user_name;?>"
-                                    hidden>
-                                <input type="text" name="txt_stock_price" value="<?php echo$price_stock_log?>" class="form-control" hidden>
+                                <input type="text" name="txt_user_id" value="<?php echo$user_name;?>" hidden>
+                                <input type="text" name="txt_stock_price" value="<?php echo$price_stock_log?>"
+                                    class="form-control" hidden>
 
-                                    <input type="text" name="txt_sum" value="<?php echo$sum ?>"
-                                    hidden>
+                                <input type="text" name="txt_sum" value="<?php echo$sum ?>" hidden>
                                 <br>
                                 <div class="col-sm-4">
                                 </div>

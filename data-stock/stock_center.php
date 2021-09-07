@@ -184,8 +184,11 @@ $(document).ready(function() {
             method: "POST",
             data: $('#add_name').serialize(),
             success: function(data) {
-                alert(data);
+                alert("เพิ่มข้อมูลสำเร็จ");
                 $('#add_name')[0][0].reset();
+            },
+            fail: function(data){
+                alert(data);
             }
         });
     });
