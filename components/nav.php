@@ -61,16 +61,19 @@ if ($row_session['user_lv'] >= 3) {
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="data-stock/stock_main.php">จัดการรายการคลังหลัก</a>
                         </li>
-                        <li><a class="dropdown-item" href="data-stock/stock.php">จัดรายการ คลัง</a></li>
+                        <li><a class="dropdown-item" href="data-stock/stock.php">จัดการรายการใหม่-2</a></li>
+                        <li><a class="dropdown-item" href="data-stock/item.php">จัดการรายการใหม่-1</a></li>
                         <?php if ($row_session['user_lv'] >= 3) {?>
-                        <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ สาขา</a></li>
-
                         <li>
                             <hr class="dropdown-divider"><a>(กระบวการจัดเตรียมข้อมูล)</a>
                         </li>
-                        <li><a class="dropdown-item" href="data-stock/item.php">จัดการรายชื่อรายการ</a></li>
-                        <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการvendor</a></li>
-                        <li><a class="dropdown-item" href="data-stock/unit.php">จัดการหน่วยสินค้า</a></li>
+                        <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ-สาขา</a></li>
+                        <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการ-vendor</a></li>
+                        <li><a class="dropdown-item" href="data-stock/unit.php">จัดการ-หน่วย</a></li>
+                        <li><a class="dropdown-item" href="#">จัดการ-ประเภท</a></li>
+                        <li><a class="dropdown-item" href="#">จัดการ-ลักษณะ</a></li>
+                        <li><a class="dropdown-item" href="#">จัดการ-แผนก</a></li>
+                        <li><a class="dropdown-item" href="#">จัดการ-ยี้ห้อ</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

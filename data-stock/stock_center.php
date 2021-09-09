@@ -72,7 +72,7 @@
                                     <?php
                                     }else{
                                     ?>
-                                    <select class="form-select" name="txt_user_bn">
+                                    <select class="form-select mt-3" name="bn_id" id="bn_id">
                                         <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
                                         </option>
                                     </select>

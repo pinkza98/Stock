@@ -76,8 +76,18 @@
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- <==========================================data-teble==================================================> -->
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
+  <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  
+<!-- <==========================================data-teble==================================================> -->
   </head>
-  </head>
+  <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable();
+    });
+    </script>
   <body>
     <?php include('../components/nav_stock.php'); ?>
     <header>
@@ -251,8 +261,39 @@
               </div>
               </form>
             </div>
+            <!-- <div class="text-center mt-4">
+              <h3>รายการใหม่ 1 ที่ยังไม่เข้าคลัง</h3>
+            </div>
+            <table class="table table mt-2" id="stock">
+            <tr>
+                  <th>รหัส</th>
+                  <th>รหัส</th>
+                  <th>ชื่อรายการ</th>
+                  <th>หน่วย</th>
+                  <th>ราคา</th>
+                  <th>หมดอายุ</th>
+            </tr>
+            <?php 
+          $select_stmt = $db->prepare("SELECT stock_id,item.item_id,code_item,item_name,unit_name,price_stock,IFnull(exd_date, 'ไม่มี') as exd FROM item 
+          INNER JOIN unit ON item.unit_id = unit.unit_id
+          INNER JOIN stock ON item.item_id = stock.item_id = item.item_id
+          ");
+          $select_stmt->execute();
+          while ($row_item = $select_stmt->fetch(PDO::FETCH_ASSOC)) {?>
+            <tr>
+              <?php ?> 
+              <td><?php echo$row_item["code_item"];?></td>
+              <td><?php echo$row_item["stock_id"];?></td>
+              <td><?php echo $row_item["item_name"]; ?></td>
+              <td><?php echo $row_item["unit_name"]; ?></td>
+              <td><?php echo $row_item["price_stock"]; ?></td>
+              <td><?php echo $row_item["exd"]; ?></td>
+              <?php } ?>
+            </tr>
+          </table> -->
           </div>
-        </div>   
-   <?php include('../components/footer.php')?>
+          
+        </div>
+   <!-- <?php include('../components/footer.php')?> -->
   </body>
 </html>

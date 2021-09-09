@@ -82,8 +82,9 @@
     <!-- <==========================================data-teble==================================================> -->
     <!-- <==========================================fancybox==================================================> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
     <!-- <==========================================fancybox==================================================> -->
-    <!---แก้ไขแล้ว-->
+    
     </head>
 
     <body>
@@ -178,7 +179,7 @@ function DateThai($strDate)
 }
 ?>
 <!-- <==========================================fancybox==================================================> -->
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
   <!-- <==========================================fancybox==================================================> -->
   <!-- <==========================================booystrap 5==================================================> -->
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
