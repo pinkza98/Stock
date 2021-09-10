@@ -12,7 +12,6 @@
       $delete_stmt->execute();
         header('Location:stock_main.php');
     }
-    
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>

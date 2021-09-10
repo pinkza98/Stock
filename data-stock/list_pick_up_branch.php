@@ -133,12 +133,12 @@
                         <td><?php echo $row["item_name"]; ?></td>
                         <td><?php echo $row["quantity"];?><?php  echo$row["unit_name"];  ?></td>
                         <td><?php echo DateThai($row["date"]); ?></td>
-                        <td><?php echo $row["user_fname"];?> <?php echo $row["user_lname"]  ?></td>
+                        <td><?php echo $row["user_id"];?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
                         <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?>
                         <td><button data-fancybox="gallery" data-src="img_stock/<?php echo $row['img_stock']?>"
                                 className="button button--secondary"><img
-                                    src="img_stock//<?php echo $row['img_stock'] ?>" width="25" height="25"
+                                    src="img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25"
                                     alt=""></button>
                             <?php }else{?>
                         <td>-</td>

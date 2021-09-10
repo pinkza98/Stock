@@ -51,7 +51,7 @@ if (isset($_SESSION['user_login'])) {
                     </ul>
                 </li>
                 <?php
-if ($row_session['user_lv'] >= 3) {
+if ($row_session['user_lv'] >= 2) {
         ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -68,12 +68,12 @@ if ($row_session['user_lv'] >= 3) {
                             <hr class="dropdown-divider"><a>(กระบวการจัดเตรียมข้อมูล)</a>
                         </li>
                         <li><a class="dropdown-item" href="data-stock/set_branch.php">จัดรายการ-สาขา</a></li>
-                        <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการ-vendor</a></li>
+                        <li><a class="dropdown-item" href="data-stock/vendor.php">จัดการ-ผู้ขาย</a></li>
                         <li><a class="dropdown-item" href="data-stock/unit.php">จัดการ-หน่วย</a></li>
-                        <li><a class="dropdown-item" href="#">จัดการ-ประเภท</a></li>
-                        <li><a class="dropdown-item" href="#">จัดการ-ลักษณะ</a></li>
-                        <li><a class="dropdown-item" href="#">จัดการ-แผนก</a></li>
-                        <li><a class="dropdown-item" href="#">จัดการ-ยี้ห้อ</a></li>
+                        <li><a class="dropdown-item" href="data-stock/set_type_item.php">จัดการ-ประเภท</a></li>
+                        <li><a class="dropdown-item" href="data-stock/set_nature.php">จัดการ-ลักษณะ</a></li>
+                        <li><a class="dropdown-item" href="data-stock/set_division.php">จัดการ-แผนก</a></li>
+                        <li><a class="dropdown-item" href="data-stock/set_marque.php">จัดการ-ยี้ห้อ</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

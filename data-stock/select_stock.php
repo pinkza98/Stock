@@ -43,7 +43,7 @@ $select_stmt = $db->prepare("SELECT stock_id,price_stock,stock.marque_id,ifnull(
         <td class="control-form"><label>ยี่ห้อ</label> :<td>  '.$marque.'</td></td>
         </tr>';
 @@$outp.='<tr class="table-light mt-2">
-        <td><td><img src="img_stock/'.$img_stock.'" width="auto" height="auto"></td></td>
+        <td><td><img src="img_stock/'.$img_stock.'" width="auto" height="120"></td></td>
         </tr>';
 @@$outp.="";
 echo $outp;

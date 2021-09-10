@@ -72,12 +72,10 @@ if($page == 1){
      $sub_array[] = $row['unit_name'];
      $sub_array[] = $row['price_stock'];
      $sub_array[] = $row['type_name'];
-     $sub_array[] = $row['division_name'];
      $sub_array[] = $row['nature_name'];
+     $sub_array[] = $row['division_name'];
      $sub_array[] = $row['marque_name'];
-     
      $sub_array[] = $row['vendor_name'];
-    
      $data[] = $sub_array;
     }
     
