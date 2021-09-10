@@ -131,16 +131,17 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
         <td><?php echo $row["division_name"]; ?></td>
         <td><?php echo $row["user_name_log"]; ?></td>
         <td><?php echo DateThai($row["exp_date_log"]); ?></td>
-                        <?php 
-                            $date_s = $row["exp_date_log"];
-                            $date_e = $row["exd_date_log"]; 
-                            $exd_date =DateDiff($date_s,$date_e);
-                            if($exd_date > 1 && $exd_date < 400 OR $exd_date == NULL){
-                        ?>
-                        <td>ในอีก <?php echo number_format($exd_date); ?>(วัน)</td>
-                        <?php }else {?>
-                            <td>-</td>
-                            <?php }?>
+        <?php 
+            date_default_timezone_set("Asia/Bangkok");
+                $date_now=date("Y-m-d");
+            $exd_2 = $row["exd_date_log"];
+            $exd_date =DateDiff($date_now,$exd_2);
+            if($exd_date > 1 && $exd_date < 400 OR $exd_date == NULL){
+        ?>
+        <td>ในอีก <?php echo number_format($exd_date); ?>(วัน)</td>
+        <?php }else {?>
+            <td>-</td>
+            <?php }?>
         <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>  
         <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>

@@ -129,7 +129,7 @@
           INNER JOIN unit ON item.unit_id = unit.unit_id
           INNER JOIN type_item ON stock.type_id = type_item.type_id
           WHERE cut_stock_log.bn_id = 1
-          ORDER BY cut_stock_id DESC LIMIT 20");
+          ORDER BY cut_stock_id DESC LIMIT 100");
         
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {

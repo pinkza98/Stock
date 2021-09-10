@@ -14,12 +14,9 @@
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
 </head>
-</head>
-
 <body>
-
     <?php include('../components/nav_stock.php'); ?>
     <header>
 
@@ -50,49 +47,51 @@
                     <h4 class="card-title">ค้นหาข้อมูลด้วยรหัสบาร์โค้ด</h4>
                 </div>
                 <form id="list_item" name="list_item">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <?php 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <?php 
                                     if($row_session['user_lv']>=3){
                                         ?>
-                                    <?php 
+                                <?php 
                                         $select_bn = $db->prepare("SELECT * FROM branch ORDER BY bn_id DESC");
                                         $select_bn->execute();
                                         ?>
 
-                                    <select class="form-select mt-3" name="bn_id" id="bn_id">
-                                        <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
-                                        </option>
-                                        <?php  while ($row_bn = $select_bn->fetch(PDO::FETCH_ASSOC)) {?>
-                                        <option value="<?php echo$row_bn['bn_id']?>"><?php echo$row_bn['bn_name']?>
-                                        </option>
-                                        <?php } ?>
-                                    </select>
-                                    <?php
+                                <select class="form-select mt-3" name="bn_id" id="bn_id">
+                                    <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
+                                    </option>
+                                    <?php  while ($row_bn = $select_bn->fetch(PDO::FETCH_ASSOC)) {?>
+                                    <option value="<?php echo$row_bn['bn_id']?>"><?php echo$row_bn['bn_name']?>
+                                    </option>
+                                    <?php } ?>
+                                </select>
+                                <?php
                                     }else{
                                     ?>
-                                    <select class="form-select mt-3" name="bn_id" id="bn_id">
-                                        <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
-                                        </option>
-                                    </select>
-                                    <?php }?>
-                                </div>
+                                <select class="form-select mt-3" name="bn_id" id="bn_id">
+                                    <option value="<?php echo$row_session['user_bn']?>">สาขาปัจจุบันที่สังกัด
+                                    </option>
+                                </select>
+                                <?php }?>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form.group">
-                                    <input type="text" name="code_item" id="code_item" class="form-control"
-                                        placeholder=" รหัสบาร์โค้ด" required autofocus>
-                                        <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
-                                        <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>" hidden>
-                                </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form.group">
+                                <input type="text" name="code_item" id="code_item" class="form-control"
+                                    placeholder=" รหัสบาร์โค้ด" required autofocus>
+                                <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
+                                <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
+                                    hidden>
+                                    
                             </div>
-                        </div> 
-                    </form>
-                    <form name="add_name" id="add_name">
+                        </div>
+                    </div>
+                </form>
+                <form name="add_name" id="add_name">
                     <div class="responsive p-6">
                         <table class="table table-bordered" id="dynamic_field">
                             <thead class="table-dark text-center">
@@ -101,29 +100,28 @@
                                 <th class="col-md-1">จำนวน</th>
                                 <th class="col-md-1">ที่มีจำนวน</th>
                                 <th class="col-md-2">สาขา</th>
+                                <th class="col-md-1">view</th>
                                 <th class="col-md-1">ลบ</th>
                             </thead>
                             <tr>
-
+                            
 
                             </tr>
                         </table>
                         <input type="submit" name="submit" id="submit" class="btn btn-success" value="Add" />
                     </div>
                 </form>
-                </div>
             </div>
         </div>
- 
+    </div>
 </body>
 </html>
+<?php require ('viewmodal.php');?>
 <script type="text/javascript">
 $(document).ready(function() {
     var i = 1;
     var qty = 1;
-    // var Data = newFormData();
     $("#code_item").keypress(function(event) {
-
         if (event.keyCode === 13) {
             if (!this.value == "") {
 
@@ -156,7 +154,8 @@ $(document).ready(function() {
                             stock_id +
                             '" name="stock_id[]"/><input type="hidden" value="' +
                             bn_id + '" name="bn_id[]"/><input type="hidden" value="' +
-                            user_name + '" name="user_name[]"/><input type="hidden" value="' +
+                            user_name +
+                            '" name="user_name[]"/><input type="hidden" value="' +
                             price_stock +
                             '" name="price_stock[]"/><input type="hidden" value="' +
                             exd_date +
@@ -164,10 +163,10 @@ $(document).ready(function() {
                             sum_item +
                             '" class=" form-control  text-center"/disabled></td><td><input type="text" value="' +
                             bn_name +
-                            '" class=" form-control text-center"/disabled></td><td><button type="button" name="remove" id="' +
+                            '" class=" form-control text-center"/disabled></td><td><input type="button" name="view" value="view" class="btn btn-info view_data" id="'+stock_id+'"/></td><td><button type="button" name="remove" id="' +
                             i +
-                            '" class="btn btn-danger btn_remove  text-center">X</button></td></tr>'
-                            );
+                            '" class="btn btn-danger btn_remove">X</button></td></tr>'
+                        );
                         event.currentTarget.value = "";
                     }
                 });
@@ -177,6 +176,19 @@ $(document).ready(function() {
             var button_id = $(this).attr("id");
             $('#row' + button_id + '').remove();
         });
+        $(document).on('click', '.view_data', function() {
+        var uid=$(this).attr("id");
+        // $.ajax({
+        // url:"select_stock.php",
+        // method:"POST",
+        // data:{uid},
+        // success:function(data) {
+        //   $('#detail').html(data);
+        //   $('#dataModal').modal('show');
+        // }
+        $('#dataModal').modal('show');
+      });
+       
     });
     $('#submit').click(function() {
         $.ajax({
@@ -187,10 +199,13 @@ $(document).ready(function() {
                 alert("เพิ่มข้อมูลสำเร็จ");
                 $('#add_name')[0][0].reset();
             },
-            fail: function(data){
+            fail: function(data) {
                 alert(data);
             }
         });
+  
     });
+   
+
 });
 </script>

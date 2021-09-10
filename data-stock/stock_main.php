@@ -111,7 +111,7 @@
         <?php }else{?>
           <td><?php echo $row["marque_name"]; ?></td>  
         <?php }?>      
-        <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row["stock_id"]; ?>""/></td>
+        <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row["stock_id"]; ?>"/></td>
         <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">Edit</a></td>
         <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>
         <?php } ?>
@@ -152,15 +152,13 @@ require 'viewmodal.php'
           $('#dataModal').modal('show');
         }
       });
-
-      // $('#dataModal').modal('show');
     });
     $('#stock_main').DataTable({
             dom: 'lBfrtip',
           buttons: [
             'excel', 'print'
           ],
-          "lengthMenu": [ [10,50, -1], [10,50, "All"] ],
+          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ]
         });
   });
 </script>
