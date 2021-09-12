@@ -125,7 +125,7 @@ if ($row_session['user_lv'] >= 2) {
                 <?php echo $row_session['bn_name'];}  ?></a>
         </div>
         <div class="nav-item">
-            <button class="btn btn-outline-danger " type="submit"><a href="logout.php" text-light>Logout</a></button>
+            <button type="button" class="btn btn-danger"><a  href="logout.php" class="text-light">Logout</a></button>
         </div>
     </div>
 </nav>
