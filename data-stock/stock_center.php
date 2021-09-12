@@ -21,7 +21,7 @@
     <header>
 
         <div class="display-3 text-xl-center mt-3">
-            <H2>นับสต๊อกของคลังสาขา</H2>
+            <H2>สต๊อก/เบิก คลังสาขา</H2>
         </div>
     </header>
     <hr><br>
@@ -50,6 +50,11 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
+                                <select class="form-select mb-2 mt-2" name="status" id="status" >
+                                    <option value="" selected>เลือกรายการ</option>
+                                    <option value="stock_item">สต๊อกคลัง</option>
+                                    <option value="disburse">เบิกคลัง</option>
+                                </select>
                                 <?php 
                                     if($row_session['user_lv']>=3){
                                         ?>
@@ -109,6 +114,7 @@
                             </tr>
                         </table>
                         <input type="submit" name="submit" id="submit" class="btn btn-success" value="Add" />
+                        <input type="submit" href="stock_center.php" class="btn btn-primary"value="Reset"/>
                     </div>
                 </form>
             </div>
@@ -141,6 +147,7 @@ $(document).ready(function() {
                         var exd_date = result.exd_date;
                         var price_stock = result.price_stock;
                         var user_name = result.user_name;
+                        var status = result.status;
                         // 
                         i++;
                         $('#dynamic_field').append('<tr id="row' + i +
@@ -159,7 +166,11 @@ $(document).ready(function() {
                             price_stock +
                             '" name="price_stock[]"/><input type="hidden" value="' +
                             exd_date +
-                            '" name="exd_date[]"/><td><input type="text" value="' +
+                            '" name="exd_date[]"/><input type="hidden" value="' +
+                            status +
+                            '" name="status[]"/><input type="hidden" value="' +
+                            sum_item +
+                            '" name="sum[]"/><td><input type="text" value="' +
                             sum_item +
                             '" class=" form-control  text-center"/disabled></td><td><input type="text" value="' +
                             bn_name +
@@ -185,7 +196,7 @@ $(document).ready(function() {
             method: "POST",
             data: $('#add_name').serialize(),
             success: function(data) {
-                alert("เพิ่มข้อมูลสำเร็จ");
+                alert(data);
                 $('#add_name')[0][0].reset();
             },
             fail: function(data) {

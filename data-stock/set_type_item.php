@@ -79,16 +79,12 @@
   <body>
     
     <?php include('../components/nav_stock.php'); ?>
-
     <header>
-    
       <div class="display-3 text-xl-center">
         <H2>เพิ่มประเภท</H2>  
       </div>
-
     </header>
     <hr><br>
-
     <?php include('../components/content.php')?>
     <?php 
          if (isset($errorMsg)) {
@@ -112,10 +108,9 @@
       </div>
       <div class="mb-4">
       <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
-                    <a href="set_type_item.php" class="btn btn-outline-danger">reset</a>
+      <a href="set_type_item.php" class="btn btn-outline-danger">reset</a>
     </div>
     </form>
-  
   <hr>
   <div class="text-center"><H2>แสดงข้อมูล</H2></div>
   <br>
@@ -134,7 +129,6 @@
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
     ?>
       <tr>
-        
         <td><?php echo $row["type_name"]; ?></td>
         <td><a href="edit/type_item_edit.php?update_id=<?php echo $row["type_id"]; ?>" class="btn btn-outline-warning">View</a></td>
          <!-- <td><a href="?delete_id=<?php echo $row["type_id"];?>" class="btn btn-outline-danger">Delete</a></td> -->

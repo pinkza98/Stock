@@ -15,7 +15,7 @@
         $answer;
         if ($quantity > $sum) {
         $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
-        }elseif (is_null($quantity)) {
+        }elseif (is_null($quantity) or $quantity ==0) {
             $errorMsg = "กรุณาใส่กรองจำนวนที่ต้องการเบิกคลัง!!";
         }else{
                 try{

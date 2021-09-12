@@ -36,7 +36,7 @@ if (isset($_SESSION['user_login'])) {
                         จัดการการคลัง
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="data-stock/list_stock_all.php">คลังรวม</a></li>
+                        <li><a class="dropdown-item" href="data-stock/pivot_list_stock_all.php">คลังรวม</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

@@ -55,7 +55,10 @@
       <H2>Plus Dental Clinic</H2>
       </div>
     </header>
-    <hr><br>
+    
+    <?php include('components/nav_stock_sild_index.php');?>
+
+    <hr>
     <?php include('components/content.php')?>
     
   <div class="m-4 ">

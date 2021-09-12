@@ -3,13 +3,7 @@
         <ul class="navbar-nav nav-table-striped">
             <li class="nav-item">
                 <a class="nav-link " href="stock_center.php">
-                    <button class="btn btn-success">นับสต๊อกเข้าสาขา
-                    </button>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="pick_up.php">
-                    <button class="btn btn-secondary">เบิกคลัง
+                    <button class="btn btn-success">สต๊อก/เบิก คลังสาขา
                     </button>
                 </a>
             </li>
