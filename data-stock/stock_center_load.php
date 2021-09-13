@@ -12,7 +12,7 @@ if(isset($status)!==false){
    $row_item = $select_item->fetch(PDO::FETCH_ASSOC);
    extract($row_item);
    if($row_item['code_item']!= $code){
-   echo $errorMsg ="ไม่มีรหัสนี้อยู่ในระบบ";
+    $errorMsg ="ไม่มีรหัสนี้อยู่ในระบบ";
    }else{
    $select_bn = $db ->query("SELECT * FROM branch WHERE bn_id = '$bn'");
    $select_bn->execute();
