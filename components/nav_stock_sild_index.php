@@ -14,6 +14,13 @@
                     </button>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="data-stock/transfer.php">
+                    <button class="btn btn-primary">
+                        โอนสินค้าคลังไปสาขาอื่น
+                    </button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

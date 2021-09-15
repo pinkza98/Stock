@@ -20,6 +20,15 @@ if(isset($status)!==false){
    $bn_name = $row_bn['bn_name'];
    $bn_id = $row_bn['bn_id'];
 
+   if($status =="transfer"){
+      $bn2 = $_POST['bn_id_end'];
+      $select_bn2 = $db ->query("SELECT * FROM branch WHERE bn_id = '$bn2'");
+      $select_bn2->execute();
+      $row_bn2 = $select_bn2->fetch(PDO::FETCH_ASSOC);
+      $bn_name2 = $row_bn2['bn_name'];
+      $bn_id2 = $row_bn2['bn_id'];
+   }
+
    $select_stock =$db->prepare("SELECT stock_id FROM stock WHERE item_id ='$item_id'");
    $select_stock->execute();
    $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
@@ -44,10 +53,16 @@ if(isset($status)!==false){
       $exd_date_set2=date_modify($date,"".$data_date_set);
       $exd_date_gen=date_format($exd_date_set2 ,"Y-m-d" );
    
+
+
+
    }
    if(!empty($errorMsg)){
       echo $errorMsg;
-   }else{
+   }elseif($status =="transfer"){
+      $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status,'bn_id2'=>$bn_id2,'bn_name2'=>$bn_name2);
+   }
+   else{
    $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status);
    }
    echo json_encode($list_item,JSON_UNESCAPED_UNICODE);
