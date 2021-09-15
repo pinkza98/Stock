@@ -207,17 +207,15 @@ $(document).ready(function() {
     });
     $(document).on('click', '.view_data', function() {
         var uid=$(this).attr("id");
-        // $.ajax({
-        // url:"select_stock.php",
-        // method:"POST",
-        // data:{uid},
-        // success:function(data) {
-        //   $('#detail').html(data);
-        //   $('#dataModal').modal('show');
-        // }
-        $('#dataModal').modal('show');
+        $.ajax({
+        url:"select_stock.php",
+        method:"POST",
+        data:{uid},
+        success:function(data) {
+          $('#detail').html(data);
+          $('#dataModal').modal('show');
+        }
       });
-   
-
+});
 });
 </script>
