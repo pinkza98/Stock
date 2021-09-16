@@ -19,6 +19,8 @@ if(isset($status)!==false){
    $row_bn = $select_bn->fetch(PDO::FETCH_ASSOC);
    $bn_name = $row_bn['bn_name'];
    $bn_id = $row_bn['bn_id'];
+   $bn_acronym = $row_bn['bn_acronym'];
+   
 
    if($status =="transfer"){
       $bn2 = $_POST['bn_id_end'];
@@ -27,6 +29,7 @@ if(isset($status)!==false){
       $row_bn2 = $select_bn2->fetch(PDO::FETCH_ASSOC);
       $bn_name2 = $row_bn2['bn_name'];
       $bn_id2 = $row_bn2['bn_id'];
+      $bn2_acronym = $row_bn2['bn_acronym'];
    }
 
    $select_stock =$db->prepare("SELECT stock_id FROM stock WHERE item_id ='$item_id'");
@@ -60,7 +63,7 @@ if(isset($status)!==false){
    if(!empty($errorMsg)){
       echo $errorMsg;
    }elseif($status =="transfer"){
-      $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status,'bn_id2'=>$bn_id2,'bn_name2'=>$bn_name2);
+      $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status,'bn_id2'=>$bn_id2,'bn_name2'=>$bn_name2,'bn_acronym'=>$bn_acronym,'bn2_acronym'=>$bn2_acronym);
    }
    else{
    $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status);

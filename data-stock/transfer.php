@@ -166,6 +166,8 @@ $(document).ready(function() {
                         var status = result.status;
                         var bn_id2 = result.bn_id2;
                         var bn_name2 = result.bn_name2;
+                        var bn_acronym = result.bn_acronym;
+                        var bn2_acronym = result.bn2_acronym;
                         // 
                         i++;
                         $('#dynamic_field').append('<tr id="row' + i +
@@ -179,6 +181,7 @@ $(document).ready(function() {
                             stock_id +
                             '" name="stock_id[]"/><input type="hidden" value="' +
                             bn_id + '" name="bn_id[]"/><input type="hidden" value="' +
+                            bn_id2 + '" name="bn_id2[]"/><input type="hidden" value="' +
                             user_name +
                             '" name="user_name[]"/><input type="hidden" value="' +
                             price_stock +
@@ -187,6 +190,10 @@ $(document).ready(function() {
                             '" name="exd_date[]"/><input type="hidden" value="' +
                             status +
                             '" name="status[]"/><input type="hidden" value="' +
+                            bn_acronym +
+                            '" name="bn_acronym[]"/><input type="hidden" value="' +
+                            bn2_acronym +
+                            '" name="bn2_acronym[]"/><input type="hidden" value="' +
                             sum_item +
                             '" name="sum[]"/><td><input type="text" value="' +
                             sum_item +

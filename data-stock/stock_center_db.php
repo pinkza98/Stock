@@ -93,11 +93,68 @@ $number = count($_POST["stock_id"]);
                                 }
                             }
                             $insertMsg ="เบิกคลัง";
+
+                             
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                         }
                 }
-            }else{
+            }elseif($status=="transfer"){
+                $bn_acronym = $_POST["bn_acronym"][$i];
+                $bn2_acronym = $_POST["bn2_acronym"][$i];
+                $result = $quantity;
+                $sum_new = $sum;
+                $quantity_new = $quantity;
+                $answer;
+
+                $select_rowCount = $db->query("SELECT *  FROM branch_stock_log  
+                INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
+                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
+                $row_count = $select_rowCount->rowCount();
+                $i=1;
+                $stop_row = 0;
+                $transfer =$bn_acronym."123456".$bn2_acronym;
+                $insert_transfer = $db->prepare("INSERT INTO transfer (transfer_name) VALUES ('$transfer')");
+                $insert_transfer->execute(); 
+                $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
+                INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
+                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ASC");
+                            if ($select_stock_full_log->execute()) {
+                                
+                            while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)AND  $stop_row != 1){
+                                if($i > $row_count){
+                                if ($row['item_quantity']< $quantity) {
+                                    $quantity = $quantity- $row['item_quantity'];
+                                        $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer'  WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                        if($update_stock_log->execute()){
+                                            $i++;
+                                        }
+                                    }
+                                }elseif($i <= $row_count){
+                                if ($row['item_quantity']> $quantity){
+                                    $quantity_as = $row['item_quantity']-$quantity;
+                                    $answer = $sum - $quantity_new;
+                                  $stop_row++;
+                                }elseif($row['item_quantity'] < $quantity){
+                                    $quantity = $quantity- $row['item_quantity'];
+                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                        $update_stock_log->execute();
+                                            
+                                        
+                                }else{
+                                    $quantity = $quantity- $row['item_quantity'];
+                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                    $update_stock_log->execute();
+                                    
+                                }
+                            }
+                        }
+                        $insertMsg ="โอนย้าย";
+                    }else{
+                        $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
+                    }
+            }
+            else{
                 $errorMsg = "กรุณาเลือกรายการก่อนเพิ่มข้อมูล";
             }
         }catch (PDOException $e) {

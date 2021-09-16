@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2021 at 09:18 PM
+-- Generation Time: Sep 16, 2021 at 01:09 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -29,26 +29,27 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `branch` (
   `bn_id` int(11) NOT NULL,
-  `bn_name` varchar(100) NOT NULL
+  `bn_name` varchar(100) NOT NULL,
+  `bn_acronym` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `branch`
 --
 
-INSERT INTO `branch` (`bn_id`, `bn_name`) VALUES
-(1, 'ส่วนกลาง'),
-(2, 'รามคำแหง'),
-(3, 'อารีย์'),
-(4, 'สาทร'),
-(5, 'อโศก'),
-(6, 'อ่อนนุช'),
-(7, 'อุดมสุข'),
-(8, 'งามวงค์วาน'),
-(9, 'แจ้งวัฒนะ'),
-(10, 'พระราม2'),
-(11, 'ลาดกระบัง'),
-(12, 'บางแค');
+INSERT INTO `branch` (`bn_id`, `bn_name`, `bn_acronym`) VALUES
+(1, 'ส่วนกลาง', 'CN'),
+(2, 'รามคำแหง', 'RA'),
+(3, 'อารีย์', 'AR'),
+(4, 'สาทร', 'SA'),
+(5, 'อโศก', 'AS'),
+(6, 'อ่อนนุช', 'ON'),
+(7, 'อุดมสุข', 'UD'),
+(8, 'งามวงค์วาน', 'NW'),
+(9, 'แจ้งวัฒนะ', 'CW'),
+(10, 'พระราม2', 'R2'),
+(11, 'ลาดกระบัง', 'LB'),
+(12, 'บางแค', 'BK');
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,13 @@ INSERT INTO `branch_stock` (`full_stock_id`, `stock_id`, `bn_stock`) VALUES
 (107, 1688, 1),
 (180, 1688, 1),
 (182, 1688, 1),
-(214, 1688, 1);
+(214, 1688, 1),
+(215, 1690, 1),
+(216, 1690, 10),
+(217, 1689, 1),
+(218, 1689, 1),
+(219, 1689, 1),
+(220, 1689, 1);
 
 -- --------------------------------------------------------
 
@@ -85,18 +92,25 @@ CREATE TABLE `branch_stock_log` (
   `item_quantity` int(11) NOT NULL,
   `price_stock_log` int(11) DEFAULT NULL,
   `exd_date_log` date DEFAULT NULL,
-  `full_stock_id_log` int(11) NOT NULL
+  `full_stock_id_log` int(11) NOT NULL,
+  `status_log` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `branch_stock_log`
 --
 
-INSERT INTO `branch_stock_log` (`stock_log_id`, `user_name_log`, `exp_date_log`, `item_quantity`, `price_stock_log`, `exd_date_log`, `full_stock_id_log`) VALUES
-(107, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-08', 6, 92, '2021-09-08', 107),
-(180, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-08', 1, 92, '2021-09-07', 180),
-(182, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-08', 1, 92, '2021-09-06', 182),
-(214, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-13', 5, 92, NULL, 214);
+INSERT INTO `branch_stock_log` (`stock_log_id`, `user_name_log`, `exp_date_log`, `item_quantity`, `price_stock_log`, `exd_date_log`, `full_stock_id_log`, `status_log`) VALUES
+(107, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-08', 6, 92, '2021-09-08', 107, NULL),
+(180, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-08', 1, 92, '2021-09-07', 180, NULL),
+(182, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-08', 1, 92, '2021-09-06', 182, NULL),
+(214, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-13', 5, 92, NULL, 214, NULL),
+(215, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-16', 1, 500, '2021-11-15', 215, NULL),
+(216, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-16', 1, 500, '2021-11-15', 216, 'R2123456NW'),
+(217, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-16', 20, 321, NULL, 217, NULL),
+(218, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-16', 15, 321, NULL, 218, 'CN123456UD'),
+(219, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-16', 7, 321, NULL, 219, 'CN123456AR'),
+(220, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-16', 16, 321, NULL, 220, 'CN123456AR');
 
 -- --------------------------------------------------------
 
@@ -260,7 +274,9 @@ INSERT INTO `cut_stock_log` (`cut_stock_id`, `user_id`, `quantity`, `price_cut_s
 (139, 'เจ้าหน้าที่ไอที(เจ๋ง)', 3, 92, '2021-09-13', 1688, 1),
 (140, 'เจ้าหน้าที่ไอที(เจ๋ง)', 1, 92, '2021-09-13', 1688, 1),
 (141, 'เจ้าหน้าที่ไอที(เจ๋ง)', 2, 92, '2021-09-13', 1688, 1),
-(142, 'เจ้าหน้าที่ไอที(เจ๋ง)', 11, 92, '2021-09-13', 1688, 1);
+(142, 'เจ้าหน้าที่ไอที(เจ๋ง)', 11, 92, '2021-09-13', 1688, 1),
+(143, 'เจ้าหน้าที่ไอที(เจ๋ง)', 24, 321, '2021-09-16', 1689, 1),
+(144, 'เจ้าหน้าที่ไอที(เจ๋ง)', 25, 321, '2021-09-16', 1689, 1);
 
 -- --------------------------------------------------------
 
@@ -3842,6 +3858,62 @@ INSERT INTO `stock` (`stock_id`, `item_id`, `type_id`, `nature_id`, `division_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transfer`
+--
+
+CREATE TABLE `transfer` (
+  `transfer_id` int(11) NOT NULL,
+  `transfer_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transfer`
+--
+
+INSERT INTO `transfer` (`transfer_id`, `transfer_name`) VALUES
+(1, 'CN123456AR');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfer_stock`
+--
+
+CREATE TABLE `transfer_stock` (
+  `transfer_stock_id` int(11) NOT NULL,
+  `bn_id_1` int(11) NOT NULL,
+  `bn_id_2` int(11) NOT NULL,
+  `transfer_id` int(11) NOT NULL,
+  `transfer_status` varchar(100) DEFAULT NULL,
+  `user1` int(11) NOT NULL,
+  `user2` int(11) DEFAULT NULL,
+  `user3` int(11) DEFAULT NULL,
+  `note1` varchar(100) DEFAULT NULL,
+  `note2` varchar(100) DEFAULT NULL,
+  `note3` varchar(100) DEFAULT NULL,
+  `transfer_service` varchar(100) DEFAULT NULL,
+  `code_service` varchar(100) DEFAULT NULL,
+  `transfer_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfer_stock_log`
+--
+
+CREATE TABLE `transfer_stock_log` (
+  `transfer_log_id` int(11) NOT NULL,
+  `transfer_stock_id` int(11) NOT NULL,
+  `stock_id` int(11) NOT NULL,
+  `transfer_qty` int(11) NOT NULL,
+  `item_date` date DEFAULT NULL,
+  `transfer_note` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `type_item`
 --
 
@@ -4150,6 +4222,24 @@ ALTER TABLE `stock`
   ADD PRIMARY KEY (`stock_id`);
 
 --
+-- Indexes for table `transfer`
+--
+ALTER TABLE `transfer`
+  ADD PRIMARY KEY (`transfer_id`);
+
+--
+-- Indexes for table `transfer_stock`
+--
+ALTER TABLE `transfer_stock`
+  ADD PRIMARY KEY (`transfer_stock_id`);
+
+--
+-- Indexes for table `transfer_stock_log`
+--
+ALTER TABLE `transfer_stock_log`
+  ADD PRIMARY KEY (`transfer_log_id`);
+
+--
 -- Indexes for table `type_item`
 --
 ALTER TABLE `type_item`
@@ -4200,19 +4290,19 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 
 --
 -- AUTO_INCREMENT for table `branch_stock_log`
 --
 ALTER TABLE `branch_stock_log`
-  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 
 --
 -- AUTO_INCREMENT for table `cut_stock_log`
 --
 ALTER TABLE `cut_stock_log`
-  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `del_stock`
@@ -4267,6 +4357,24 @@ ALTER TABLE `nature`
 --
 ALTER TABLE `stock`
   MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1691;
+
+--
+-- AUTO_INCREMENT for table `transfer`
+--
+ALTER TABLE `transfer`
+  MODIFY `transfer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `transfer_stock`
+--
+ALTER TABLE `transfer_stock`
+  MODIFY `transfer_stock_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transfer_stock_log`
+--
+ALTER TABLE `transfer_stock_log`
+  MODIFY `transfer_log_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `type_item`
