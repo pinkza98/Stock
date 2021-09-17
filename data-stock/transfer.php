@@ -125,6 +125,7 @@
                                 <th class="col-md-1">ลบ</th>
                             </thead>
                             <tr>
+                               <tr><input type="text" class="form-control" placeholder="หมายเหตุถ้ามี!"name="note"id="note"/></tr>
                             
 
                             </tr>
@@ -218,6 +219,7 @@ $(document).ready(function() {
        
     });
     $('#submit').click(function() {
+        var test123="test";
         $.ajax({
             url: "stock_center_db.php",
             method: "POST",

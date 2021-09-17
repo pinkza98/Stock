@@ -68,7 +68,9 @@
 </head>
 
 <body>
+    
     <?php include('../components/nav_stock.php'); ?>
+    
 
     <header>
         <div class="display-3 text-xl-center">
@@ -85,29 +87,42 @@
     </div>
     </header>
     <?php include('../components/content.php')?>
-    <div class="table-responsive tableFixHead ">
+    <div  style ="width:2500; word-wrap: break-word">
         <br>
         <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" class="text-center">รหัส</th>
-                    <th scope="col" class="text-center">รายการ</th>
-                    <th scope="col" class="text-center">หน่วย</th>
-                    <th scope="col" class="text-center">ผู้ขาย</th>
-                    <th scope="col" class="text-center">ราคา</th>
-                    <th scope="col" class="text-center">รามคำแหง</th>
-                    <th scope="col" class="text-center">อารีย์</th>
-                    <th scope="col" class="text-center">สาทร</th>
-                    <th scope="col" class="text-center">อโศก</th>
-                    <th scope="col" class="text-center">อ่อนนุช</th>
-                    <th scope="col" class="text-center">อุดมสุข</th>
-                    <th scope="col" class="text-center">งามวงค์วาน</th>
-                    <th scope="col" class="text-center">แจ้งวัฒนะ</th>
-                    <th scope="col" class="text-center">พระราม2</th>
-                    <th scope="col" class="text-center">ลาดกระบัง</th>
-                    <th scope="col" class="text-center">บางแค</th>
-                    <th scope="col" class="text-center">สาขาส่วนกลาง</th>
-                    <th scope="col" class="text-center">รวม</th>
+                    <th class="text-center text-light">รหัส</th>
+                    <th class="text-center text-light">รายการ</th>
+                    <th class="text-center text-light">หน่วย</th>
+                    <th class="text-center text-light">ผู้ขาย</th>
+                    <th class="text-center text-light">ราคา</th>
+                    <th class="text-center text-success">RA</th>
+                    <th class="text-center text-success">AR</th>
+                    <th class="text-center text-success">SA</th>
+                    <th class="text-center text-success">AS</th>
+                    <th class="text-center text-success">ON</th>
+                    <th class="text-center text-success">UD</th>
+                    <th class="text-center text-success">NW</th>
+                    <th class="text-center text-success">CW</th>
+                    <th class="text-center text-success">R2</th>
+                    <th class="text-center text-success">LB</th>
+                    <th class="text-center text-success">BK</th>
+                    <th class="text-center text-success">CN</th>
+                    <th class="text-center text-success">รวม</th>
+                    <th class="text-center text-danger">RA</th>
+                    <th class="text-center text-danger">AR</th>
+                    <th class="text-center text-danger">SA</th>
+                    <th class="text-center text-danger">AS</th>
+                    <th class="text-center text-danger">ON</th>
+                    <th class="text-center text-danger">UD</th>
+                    <th class="text-center text-danger">NW</th>
+                    <th class="text-center text-danger">CW</th>
+                    <th class="text-center text-danger">R2</th>
+                    <th class="text-center text-danger">LB</th>
+                    <th class="text-center text-danger">BK</th>
+                    <th class="text-center text-danger">CN</th>
+                    <th class="text-center text-danger">รวมเบิก</th>
                 </tr>
             </thead>
             <tbody class="table-light">

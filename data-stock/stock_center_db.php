@@ -1,6 +1,8 @@
 <?php  
 include("../database/db.php");
-$number = count($_POST["stock_id"]); 
+$number = count($_REQUEST['stock_id']); 
+$randomking = rand(000001,999999);
+
 
     for($i=0; $i<$number; $i++){  
         $stock_id = $_POST["stock_id"][$i]; 
@@ -94,7 +96,6 @@ $number = count($_POST["stock_id"]);
                             }
                             $insertMsg ="เบิกคลัง";
 
-                             
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                         }
@@ -113,15 +114,14 @@ $number = count($_POST["stock_id"]);
                 $row_count = $select_rowCount->rowCount();
                 $i=1;
                 $stop_row = 0;
-                $transfer =$bn_acronym."123456".$bn2_acronym;
+                $transfer =$bn_acronym.$randomking.$bn2_acronym;
                 $insert_transfer = $db->prepare("INSERT INTO transfer (transfer_name) VALUES ('$transfer')");
                 $insert_transfer->execute(); 
                 $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ASC");
+                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY stock_log_id ASC");
                             if ($select_stock_full_log->execute()) {
-                                
-                            while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)AND  $stop_row != 1){
+                            while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC) AND $stop_row != 1){
                                 if($i > $row_count){
                                 if ($row['item_quantity']< $quantity) {
                                     $quantity = $quantity- $row['item_quantity'];
@@ -132,19 +132,30 @@ $number = count($_POST["stock_id"]);
                                     }
                                 }elseif($i <= $row_count){
                                 if ($row['item_quantity']> $quantity){
-                                    $quantity_as = $row['item_quantity']-$quantity;
-                                    $answer = $sum - $quantity_new;
-                                  $stop_row++;
+                                    $quantity_as = $row['item_quantity']-$quantity; 
+                                    if($quantity_as == $row['item_quantity']){
+                                        $stop_row++;
+                                    }else{
+                                        $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' ,remain_log='$quantity_as' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                        if($update_stock_log->execute()){
+                                            $stop_row++;
+                                        }; 
+                                    }
                                 }elseif($row['item_quantity'] < $quantity){
                                     $quantity = $quantity- $row['item_quantity'];
                                     $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                         $update_stock_log->execute();
-                                            
+                                        if($result==$row['item_quantity']){
+                                            $stop_row++;
+                                        }
                                         
                                 }else{
                                     $quantity = $quantity- $row['item_quantity'];
-                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer'  WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                     $update_stock_log->execute();
+                                    if($result==$row['item_quantity']){
+                                        $stop_row++;
+                                    }
                                     
                                 }
                             }
