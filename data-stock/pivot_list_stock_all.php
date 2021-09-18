@@ -65,6 +65,7 @@
 
 
     <?php include('../components/header.php');?>
+    
 </head>
 
 <body>
@@ -87,42 +88,30 @@
     </div>
     </header>
     <?php include('../components/content.php')?>
-    <div  style ="width:2500; word-wrap: break-word">
+    <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
         <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>
-                    <th class="text-center text-light">รหัส</th>
-                    <th class="text-center text-light">รายการ</th>
-                    <th class="text-center text-light">หน่วย</th>
-                    <th class="text-center text-light">ผู้ขาย</th>
-                    <th class="text-center text-light">ราคา</th>
-                    <th class="text-center text-success">RA</th>
-                    <th class="text-center text-success">AR</th>
-                    <th class="text-center text-success">SA</th>
-                    <th class="text-center text-success">AS</th>
-                    <th class="text-center text-success">ON</th>
-                    <th class="text-center text-success">UD</th>
-                    <th class="text-center text-success">NW</th>
-                    <th class="text-center text-success">CW</th>
-                    <th class="text-center text-success">R2</th>
-                    <th class="text-center text-success">LB</th>
-                    <th class="text-center text-success">BK</th>
-                    <th class="text-center text-success">CN</th>
-                    <th class="text-center text-success">รวม</th>
-                    <th class="text-center text-danger">RA</th>
-                    <th class="text-center text-danger">AR</th>
-                    <th class="text-center text-danger">SA</th>
-                    <th class="text-center text-danger">AS</th>
-                    <th class="text-center text-danger">ON</th>
-                    <th class="text-center text-danger">UD</th>
-                    <th class="text-center text-danger">NW</th>
-                    <th class="text-center text-danger">CW</th>
-                    <th class="text-center text-danger">R2</th>
-                    <th class="text-center text-danger">LB</th>
-                    <th class="text-center text-danger">BK</th>
-                    <th class="text-center text-danger">CN</th>
-                    <th class="text-center text-danger">รวมเบิก</th>
+                    <th class="text-center ">รหัส</th>
+                    <th class="text-center ">รายการ</th>
+                    <th class="text-center ">หน่วย</th>
+                    <th class="text-center ">ผู้ขาย</th>
+                    <th class="text-center ">ราคา</th>
+                    <th class="text-center">RA</th>
+                    <th class="text-center">AR</th>
+                    <th class="text-center">SA</th>
+                    <th class="text-center">AS</th>
+                    <th class="text-center">ON</th>
+                    <th class="text-center">UD</th>
+                    <th class="text-center">NW</th>
+                    <th class="text-center">CW</th>
+                    <th class="text-center">R2</th>
+                    <th class="text-center">LB</th>
+                    <th class="text-center">BK</th>
+                    <th class="text-center">CN</th>
+                    <th class="text-center">รวม</th>
+                    
                 </tr>
             </thead>
             <tbody class="table-light">
@@ -135,5 +124,4 @@
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

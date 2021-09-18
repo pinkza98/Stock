@@ -2,17 +2,24 @@
     require_once('../database/db.php');
     if (isset($_REQUEST['delete_id'])) {
       $stock_id = $_REQUEST['delete_id'];
+      $stock_uid = $_REQUEST['stock_id'];
+      $item_quantity = $_REQUEST['item_quantity'];
+      $user_name = $_REQUEST['user_name'];
+      $bn_stock = $_REQUEST['bn_stock'];
       $select_stmt = $db->prepare("SELECT stock_log_id FROM branch_stock_log WHERE stock_log_id  = :new_stock_id");
       $select_stmt->bindParam(':new_stock_id', $stock_id);
       $select_stmt->execute();
       $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-      // Delete an original record from db
+     
+      $insert_del_stock = $db->prepare("INSERT INTO del_stock (del_user_name,del_stock_id,del_quantity,del_bn,date_del) value ('$user_name','$stock_uid','$item_quantity','$bn_stock',NOW())");
+      $insert_del_stock->execute();
+       // Delete an original record from db
       $delete_branch_stock = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
       $delete_branch_stock->bindParam(':new_stock_id', $stock_id);
       $delete_branch_stock_log = $db->prepare('DELETE FROM branch_stock_log WHERE stock_log_id  = :new_stock_id');
       $delete_branch_stock_log->bindParam(':new_stock_id', $stock_id);
       if($delete_branch_stock_log->execute()){
-          $delete_branch_stock->execute();
+        $delete_branch_stock->execute();
         $insertMsg = "ลบข้อมูลสำเร็จ...";
       }
         // header('Location:sub_list_stock_branch.php');
@@ -33,6 +40,9 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
     <!-- <==========================================booystrap 5==================================================> -->
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
     <!-- <==========================================data-teble==================================================> -->
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
@@ -68,8 +78,24 @@
     <?php 
         if (isset($insertMsg)) {
     ?>
-        <div class="alert alert-success mb-2">
-            <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
+        <div class=" mb-2">
+            <script>
+            const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-start',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+            Toast.fire({
+            icon: 'success',
+            title: 'ลบข้อมูลสำเร็จ'
+            })
+            </script>
         </div>
         <?php } ?>
         <div class="row">
@@ -82,6 +108,9 @@
     <?php include('../components/content.php')?>
     <div class="m-4">
         <br>
+        <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
+                                <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
+                                    hidden>
         <table class="table table-dark table-hover text-xl-center" id="stock">
 
             <thead class="table-dark">
@@ -105,7 +134,7 @@
             <tbody>
 
             <?php 
-$select_stmt = $db->prepare("SELECT full_stock_id,division_name,nature_name,price_stock_log,full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,type_name,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name,user_name_log FROM branch_stock  
+$select_stmt = $db->prepare("SELECT full_stock_id,division_name,nature_name,price_stock_log,full_stock_id,bn_stock,code_item,item_name,item_quantity,price_stock,type_name,unit_name,exp_date_log ,exd_date_log,bn_name,vendor_name,user_name_log,stock.stock_id,bn_stock FROM branch_stock  
 INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
 INNER JOIN item ON stock.item_id = item.item_id
 INNER JOIN unit ON item.unit_id = unit.unit_id
@@ -144,7 +173,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             <?php }?>
         <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>  
-        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>" class="btn btn-danger">Delete</a></td>
+        <td><a  href="?delete_id=<?php echo $row["full_stock_id"];?>&item_quantity=<?php echo $row["item_quantity"];?>&stock_id=<?php echo $row["stock_id"];?>&user_name=<?php echo $user_name;?>&bn_stock=<?php echo $row["bn_stock"];?>" class="btn btn-danger delete" data-confirm="ต้องการที่จะลบ?">Delete</a></td>
         <?php } ?>
     </tr>
             </tbody>
@@ -194,8 +223,25 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                         return (strtotime($strDateTime2) - strtotime($strDateTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
             }
 ?>
+ <script type="text/javascript">
 
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+var deleteLinks = document.querySelectorAll('.delete');
+
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+	  event.preventDefault();
+    //   var result = prompt("ระบุหมายเหตุการลบ:", "");
+	  var choice = confirm(this.getAttribute('data-confirm'));
+
+	  if (choice) {
+	    window.location.href = this.getAttribute('href');
+        
+	  }
+  });
+}
+</script>
+
+   
 </body>
 
 </html>

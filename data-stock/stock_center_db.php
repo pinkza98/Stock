@@ -103,6 +103,7 @@ $randomking = rand(000001,999999);
             }elseif($status=="transfer"){
                 $bn_acronym = $_POST["bn_acronym"][$i];
                 $bn2_acronym = $_POST["bn2_acronym"][$i];
+                $bn_id2 = $_POST["bn_id2"][$i];
                 $result = $quantity;
                 $sum_new = $sum;
                 $quantity_new = $quantity;
@@ -117,6 +118,8 @@ $randomking = rand(000001,999999);
                 $transfer =$bn_acronym.$randomking.$bn2_acronym;
                 $insert_transfer = $db->prepare("INSERT INTO transfer (transfer_name) VALUES ('$transfer')");
                 $insert_transfer->execute(); 
+                $insert_transfer_stock =$db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,user1,transfer_date) VALUES ('$bn_id',' $bn_id2',LAST_INSERT_ID(),'$user_name',NOW())");
+                $insert_transfer_stock->execute();
                 $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                 WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY stock_log_id ASC");

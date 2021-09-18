@@ -121,27 +121,27 @@ if($page == 2){
       SUM(IF(bn_stock = 10, item_quantity, 0)) AS BN10,
       SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
       SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
-      SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN,
-      SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
-      SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,
-      SUM(IF(bn_id = 3, quantity, 0)) AS cut_BN3,
-      SUM(IF(bn_id = 4, quantity, 0)) AS cut_BN4,
-      SUM(IF(bn_id = 5, quantity, 0)) AS cut_BN5,
-      SUM(IF(bn_id = 6, quantity, 0)) AS cut_BN6,
-      SUM(IF(bn_id = 7, quantity, 0)) AS cut_BN7,
-      SUM(IF(bn_id = 8, quantity, 0)) AS cut_BN8,
-      SUM(IF(bn_id = 9, quantity, 0)) AS cut_BN9,
-      SUM(IF(bn_id = 10, quantity, 0)) AS cut_BN10,
-      SUM(IF(bn_id = 11, quantity, 0)) AS cut_BN11,
-      SUM(IF(bn_id = 12, quantity, 0)) AS cut_BN12,
-      SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 THEN quantity ELSE NULL END) AS SUM_CUT_BN
+      SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
+      -- SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
+      -- SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,
+      -- SUM(IF(bn_id = 3, quantity, 0)) AS cut_BN3,
+      -- SUM(IF(bn_id = 4, quantity, 0)) AS cut_BN4,
+      -- SUM(IF(bn_id = 5, quantity, 0)) AS cut_BN5,
+      -- SUM(IF(bn_id = 6, quantity, 0)) AS cut_BN6,
+      -- SUM(IF(bn_id = 7, quantity, 0)) AS cut_BN7,
+      -- SUM(IF(bn_id = 8, quantity, 0)) AS cut_BN8,
+      -- SUM(IF(bn_id = 9, quantity, 0)) AS cut_BN9,
+      -- SUM(IF(bn_id = 10, quantity, 0)) AS cut_BN10,
+      -- SUM(IF(bn_id = 11, quantity, 0)) AS cut_BN11,
+      -- SUM(IF(bn_id = 12, quantity, 0)) AS cut_BN12,
+      -- SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 THEN quantity ELSE 0 END) AS SUM_CUT_BN
     FROM branch_stock bn
     INNER JOIN stock s  on bn.stock_id = s.stock_id
     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
     INNER JOIN item it  on s.item_id = it.item_id
     INNER JOIN unit u  on it.unit_id = u.unit_id
     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-    INNER JOIN cut_stock_log cut on s.stock_id = cut.stock_id
+    -- LEFT JOIN cut_stock_log cut on s.stock_id = cut.stock_id
     WHERE
       bn.bn_stock BETWEEN 1 AND 12
     ";
@@ -199,19 +199,19 @@ if($page == 2){
      $sub_array[]= $row["BN12"]; 
      $sub_array[]= $row["BN1"]; 
      $sub_array[]= $row["SUM_BN"]; 
-     $sub_array[]= $row["cut_BN2"]; 
-     $sub_array[]= $row["cut_BN3"]; 
-     $sub_array[]= $row["cut_BN4"]; 
-     $sub_array[]= $row["cut_BN5"]; 
-     $sub_array[]= $row["cut_BN6"]; 
-     $sub_array[]= $row["cut_BN7"]; 
-     $sub_array[]= $row["cut_BN8"]; 
-     $sub_array[]= $row["cut_BN9"]; 
-     $sub_array[]= $row["cut_BN10"]; 
-     $sub_array[]= $row["cut_BN11"]; 
-     $sub_array[]= $row["cut_BN12"]; 
-     $sub_array[]= $row["cut_BN1"]; 
-     $sub_array[]= $row["SUM_CUT_BN"]; 
+    //  $sub_array[]= $row["cut_BN2"]; 
+    //  $sub_array[]= $row["cut_BN3"]; 
+    //  $sub_array[]= $row["cut_BN4"]; 
+    //  $sub_array[]= $row["cut_BN5"]; 
+    //  $sub_array[]= $row["cut_BN6"]; 
+    //  $sub_array[]= $row["cut_BN7"]; 
+    //  $sub_array[]= $row["cut_BN8"]; 
+    //  $sub_array[]= $row["cut_BN9"]; 
+    //  $sub_array[]= $row["cut_BN10"]; 
+    //  $sub_array[]= $row["cut_BN11"]; 
+    //  $sub_array[]= $row["cut_BN12"]; 
+    //  $sub_array[]= $row["cut_BN1"]; 
+    //  $sub_array[]= $row["SUM_CUT_BN"]; 
      $data[] = $sub_array;
     }
     
@@ -231,27 +231,28 @@ if($page == 2){
        SUM(IF(bn_stock = 10, item_quantity, 0)) AS BN10,
        SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
        SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
-       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN,
-       SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
-       SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,
-       SUM(IF(bn_id = 3, quantity, 0)) AS cut_BN3,
-       SUM(IF(bn_id = 4, quantity, 0)) AS cut_BN4,
-       SUM(IF(bn_id = 5, quantity, 0)) AS cut_BN5,
-       SUM(IF(bn_id = 6, quantity, 0)) AS cut_BN6,
-       SUM(IF(bn_id = 7, quantity, 0)) AS cut_BN7,
-       SUM(IF(bn_id = 8, quantity, 0)) AS cut_BN8,
-       SUM(IF(bn_id = 9, quantity, 0)) AS cut_BN9,
-       SUM(IF(bn_id = 10, quantity, 0)) AS cut_BN10,
-       SUM(IF(bn_id = 11, quantity, 0)) AS cut_BN11,
-       SUM(IF(bn_id = 12, quantity, 0)) AS cut_BN12,
-       SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 THEN quantity ELSE NULL END) AS SUM_CUT_BN
+       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
+      --  SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
+      --  SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,
+      --  SUM(IF(bn_id = 3, quantity, 0)) AS cut_BN3,
+      --  SUM(IF(bn_id = 4, quantity, 0)) AS cut_BN4,
+      --  SUM(IF(bn_id = 5, quantity, 0)) AS cut_BN5,
+      --  SUM(IF(bn_id = 6, quantity, 0)) AS cut_BN6,
+      --  SUM(IF(bn_id = 7, quantity, 0)) AS cut_BN7,
+      --  SUM(IF(bn_id = 8, quantity, 0)) AS cut_BN8,
+      --  SUM(IF(bn_id = 9, quantity, 0)) AS cut_BN9,
+      --  SUM(IF(bn_id = 10, quantity, 0)) AS cut_BN10,
+      --  SUM(IF(bn_id = 11, quantity, 0)) AS cut_BN11,
+      --  SUM(IF(bn_id = 12, quantity, 0)) AS cut_BN12,
+      --  SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 THEN quantity ELSE 0 END) AS SUM_CUT_BN
      FROM branch_stock bn
      INNER JOIN stock s  on bn.stock_id = s.stock_id
      INNER JOIN vendor v  on s.vendor_id = v.vendor_id
      INNER JOIN item it  on s.item_id = it.item_id
      INNER JOIN unit u  on it.unit_id = u.unit_id
      INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-     INNER JOIN cut_stock_log cut on s.stock_id = cut.stock_id";
+    --  LEFT JOIN cut_stock_log cut on s.stock_id = cut.stock_id
+     ";
      $statement = $db->prepare($query);
      $statement->execute();
      return $statement->rowCount();
