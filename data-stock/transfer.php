@@ -226,7 +226,7 @@ $(document).ready(function() {
             data: $('#add_name').serialize(),
             success: function(data) {
                 alert(data);
-                $('#add_name')[0][0].reset();
+                $('#add_name')[0].reset();
             },
             fail: function(data) {
                 alert(data);

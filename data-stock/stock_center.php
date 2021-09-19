@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
+
 </head>
 <body>
     <?php include('../components/nav_stock.php'); ?>
@@ -50,7 +51,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select class="form-select mb-2 mt-2" name="status" id="status" >
+                                <select class="form-select mb-2 mt-2" name="status" id="status" required="true" >
                                     <option value="" selected>เลือกรายการ</option>
                                     <option value="stock_item">สต๊อกคลัง</option>
                                     <option value="disburse">เบิกคลัง</option>
@@ -179,6 +180,7 @@ $(document).ready(function() {
                             '" class="btn btn-danger btn_remove">X</button></td></tr>'
                         );
                         event.currentTarget.value = "";
+                        qty =1;
                     }
                 });
             }
@@ -197,7 +199,7 @@ $(document).ready(function() {
             data: $('#add_name').serialize(),
             success: function(data) {
                 alert(data);
-                $('#add_name')[0][0].reset();
+                $('#add_name')[0].reset();
             },
             fail: function(data) {
                 alert(data);

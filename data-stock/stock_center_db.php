@@ -1,17 +1,15 @@
 <?php  
 include("../database/db.php");
-$number = count($_REQUEST['stock_id']); 
+
 $randomking = rand(000001,999999);
-
-
-    for($i=0; $i<$number; $i++){  
+    for($i=0; $i< count($_POST['stock_id']); $i++){  
+        $status = $_POST["status"][$i];
         $stock_id = $_POST["stock_id"][$i]; 
         $bn_id = $_POST["bn_id"][$i];
         $quantity = $_POST["qty"][$i];
         $price_stock = $_POST["price_stock"][$i];
         $exd_date =$_POST["exd_date"][$i];
         $user_name = $_POST["user_name"][$i];
-        $status = $_POST["status"][$i];
         $sum = $_POST["sum"][$i];
         try {
             if($status=="stock_item"){
@@ -31,8 +29,9 @@ $randomking = rand(000001,999999);
                 }
             }else{
                 $errorMsg = "พบข้อผิดพลาด stock bn ไม่ทำงาน";
+                }
             }
-            }elseif($status=="disburse"){
+            elseif($status=="disburse"){
                 if ($quantity > $sum) {
                 $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
                 }elseif (is_null($quantity) or $quantity ==0) {
@@ -42,29 +41,29 @@ $randomking = rand(000001,999999);
                     $sum_new = $sum;
                     $quantity_new = $quantity;
                     $answer;
-
+                    $i_check=1;
+                    $stop_row = 0;
                     $select_rowCount = $db->query("SELECT *  FROM branch_stock_log  
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                     WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
                     $row_count = $select_rowCount->rowCount();
-                    $i=1;
-                    $stop_row = 0;
+                    
                     $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                     WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ASC");
                                 if ($select_stock_full_log->execute()) {
                                 while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)AND  $stop_row != 1){
-                                    if($i > $row_count){
+                                    if($i_check > $row_count){
                                     if ($row['item_quantity']< $quantity) {
                                         $quantity = $quantity- $row['item_quantity'];
                                             $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                             if($del_stock_log->execute()){
                                                 $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
                                                 $del_bn_stock->execute();
-                                                $i++;
+                                                $i_check++;
                                             }
                                         }
-                                    }elseif($i <= $row_count){
+                                    }elseif($i_check <= $row_count){
                                     if ($row['item_quantity']> $quantity){
                                         $quantity_as = $row['item_quantity']-$quantity;
                                         $answer = $sum - $quantity_new;
@@ -83,6 +82,7 @@ $randomking = rand(000001,999999);
                                             if($del_stock_log->execute()){
                                                 $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
                                                 $del_bn_stock->execute();
+                                                $insertMsg = "เบิกคลัง";
                                             }
                                     }else{
                                         $quantity = $quantity- $row['item_quantity'];
@@ -94,7 +94,7 @@ $randomking = rand(000001,999999);
                                     }
                                 }
                             }
-                            $insertMsg ="เบิกคลัง";
+                            $insertMsg = "เบิกคลัง";
 
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
@@ -113,7 +113,7 @@ $randomking = rand(000001,999999);
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                 WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
                 $row_count = $select_rowCount->rowCount();
-                $i=1;
+                $i_check=1;
                 $stop_row = 0;
                 $transfer =$bn_acronym.$randomking.$bn2_acronym;
                 $insert_transfer = $db->prepare("INSERT INTO transfer (transfer_name) VALUES ('$transfer')");
@@ -125,15 +125,15 @@ $randomking = rand(000001,999999);
                 WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY stock_log_id ASC");
                             if ($select_stock_full_log->execute()) {
                             while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC) AND $stop_row != 1){
-                                if($i > $row_count){
+                                if($i_check > $row_count){
                                 if ($row['item_quantity']< $quantity) {
                                     $quantity = $quantity- $row['item_quantity'];
                                         $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer'  WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                         if($update_stock_log->execute()){
-                                            $i++;
+                                            $i_check++;
                                         }
                                     }
-                                }elseif($i <= $row_count){
+                                }elseif($i_check <= $row_count){
                                 if ($row['item_quantity']> $quantity){
                                     $quantity_as = $row['item_quantity']-$quantity; 
                                     if($quantity_as == $row['item_quantity']){
