@@ -34,7 +34,8 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <==========================================booystrap 5==================================================> -->
-
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -71,8 +72,24 @@
     <?php 
         if (isset($insertMsg)) {
     ?>
-        <div class="alert alert-success mb-2">
-            <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
+        <div class="mb-2">
+        <script>
+            const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-start',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+            Toast.fire({
+            icon: 'success',
+            title: 'ลบข้อมูลสำเร็จ'
+            })
+            </script>
         </div>
         <?php } ?>
         <div class="row">

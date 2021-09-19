@@ -38,12 +38,10 @@
 
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- <==========================================booystrap 5==================================================> -->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <==========================================booystrap 5==================================================> -->
     <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-
     <!-- <==========================================data-teble==================================================> -->
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">

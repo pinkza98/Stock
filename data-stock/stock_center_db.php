@@ -175,9 +175,9 @@ $randomking = rand(000001,999999);
             echo "ERROR: ".$e->getMessage();
         }
             if(isset($insertMsg)){
-            echo "ทำรายการ $insertMsg สำเร็จ!!";
+            echo "ทำรายการ สำเร็จ!!";
             }else{
-                echo $errorMsg;
+                echo "ทำรายการ ไม่สำเร็จ!!";
             }
     }
 
