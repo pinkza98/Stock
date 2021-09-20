@@ -125,6 +125,7 @@ $randomking = rand(000001,999999);
                 WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY stock_log_id ASC");
                             if ($select_stock_full_log->execute()) {
                             while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC) AND $stop_row != 1){
+                                $date_log = $row['exd_date_log'];
                                 if($i_check > $row_count){
                                 if ($row['item_quantity']< $quantity) {
                                     $quantity = $quantity- $row['item_quantity'];
@@ -133,13 +134,17 @@ $randomking = rand(000001,999999);
                                             $i_check++;
                                         }
                                     }
-                                }elseif($i_check <= $row_count){
+                                }elseif($i_check <= $row_count){  
                                 if ($row['item_quantity']> $quantity){
                                     $quantity_as = $row['item_quantity']-$quantity; 
                                     if($quantity_as == $row['item_quantity']){
+                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date) VALUES ('$transfer','$stock_id','$result','$date_log')");
+                                        $insert_transfer_stock_log->execute();
                                         $stop_row++;
                                     }else{
                                         $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' ,remain_log='$quantity_as' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date) VALUES ('$transfer','$stock_id','$result','$date_log')");
+                                        $insert_transfer_stock_log->execute();
                                         if($update_stock_log->execute()){
                                             $stop_row++;
                                         }; 
@@ -148,6 +153,7 @@ $randomking = rand(000001,999999);
                                     $quantity = $quantity- $row['item_quantity'];
                                     $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                         $update_stock_log->execute();
+                                        
                                         if($result==$row['item_quantity']){
                                             $stop_row++;
                                         }
@@ -159,11 +165,10 @@ $randomking = rand(000001,999999);
                                     if($result==$row['item_quantity']){
                                         $stop_row++;
                                     }
-                                    
                                 }
                             }
                         }
-                        $insertMsg ="โอนย้าย";
+                        $insertMsg = "โอนย้าย";
                     }else{
                         $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                     }
@@ -175,9 +180,12 @@ $randomking = rand(000001,999999);
             echo "ERROR: ".$e->getMessage();
         }
             if(isset($insertMsg)){
-            echo "ทำรายการ สำเร็จ!!";
+            echo "ทำรายการ $insertMsg สำเร็จ!!";
+                if(isset($transfer)){
+                echo "<br>ticket code = ".$transfer;
+                }
             }else{
-                echo "ทำรายการ ไม่สำเร็จ!!";
+                echo false;
             }
     }
 

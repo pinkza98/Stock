@@ -107,8 +107,8 @@
     <div class="m-4">
         <br>
         <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
-                                <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
-                                    hidden>
+        <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
+            hidden>
         <table class="table table-dark table-hover text-xl-center" id="stock">
 
             <thead class="table-dark">

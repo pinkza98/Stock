@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <!-- <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css"> -->
+   <!-- <==========================================booystrap 5==================================================> -->
+   <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <!-- <==========================================data-teble==================================================> -->
 
 </head>
 <body>
@@ -44,6 +46,7 @@
             <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
         </div>
         <?php } ?>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="card-header">
@@ -116,7 +119,7 @@
 
                             </tr>
                         </table>
-                        <input type="submit" name="submit" id="submit" class="btn btn-success" value="Add" />
+                        <input type="submit"  name="submit" id="submit" class="btn btn-success" value="Add" />
                         <input type="submit" href="stock_center.php" class="btn btn-primary"value="Reset"/>
                     </div>
                 </form>
@@ -191,23 +194,39 @@ $(document).ready(function() {
             var button_id = $(this).attr("id");
             $('#row' + button_id + '').remove();
         });
-        
-       
     });
-    $('#submit').click(function() {
+  $('#submit').click(function(e) {
+        var data_add = $('#add_name').serialize(); 
+        e.preventDefault();
         $.ajax({
             url: "stock_center_db.php",
             method: "POST",
-            data: $('#add_name').serialize(),
+            data: data_add,
             success: function(data) {
-                alert(data);
-                $('#add_name')[0].reset();
-            },
-            fail: function(data) {
-                alert(data);
+                if(data != false){
+                Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: "ทำรายการสำเร็จ",
+                showConfirmButton:false,
+                timer: 1500
+                }); 
+                setTimeout(function(){
+                window.location.reload(1);
+                }, 2000);
+            }else{
+                Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: "มีรายการไม่ถูกต้อง!!",
+                showConfirmButton: false,
+                timer: 1500
+                });
             }
-        });
+        }
     });
+});
+
     $(document).on('click', '.view_data', function() {
         var uid=$(this).attr("id");
         $.ajax({
@@ -222,4 +241,3 @@ $(document).ready(function() {
 });
 });
 </script>
-

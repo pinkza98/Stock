@@ -15,13 +15,18 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <!-- <==========================================booystrap 5==================================================> -->
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <!-- <==========================================data-teble==================================================> -->
 </head>
 <body>
     <?php include('../components/nav_stock.php'); ?>
     <header>
 
         <div class="display-3 text-xl-center mt-3">
-            <H2>โอนย้ายของไปยังสาขาอื่น</H2>
+            <H2>โอนย้ายของไปยังสาขาอื่น #ยังไม่พร้อมใช้งาน</H2>
+       
         </div>
     </header>
     <hr><br>
@@ -41,6 +46,7 @@
             <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
         </div>
         <?php } ?>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="card-header">
@@ -125,9 +131,8 @@
                                 <th class="col-md-1">ลบ</th>
                             </thead>
                             <tr>
-                               <tr><input type="text" class="form-control" placeholder="หมายเหตุถ้ามี!"name="note"id="note"/></tr>
+                            <!-- <tr><input type="text" class="form-control" placeholder="หมายเหตุถ้ามี!"name="note"id="note"/></tr> -->
                             
-
                             </tr>
                         </table>
                         <input type="submit" name="submit" id="submit" class="btn btn-success" value="Add" />
@@ -218,21 +223,35 @@ $(document).ready(function() {
         
        
     });
-    $('#submit').click(function() {
-        var test123="test";
+    $('#submit').click(function(e) {
+        var data_add = $('#add_name').serialize(); 
         $.ajax({
             url: "stock_center_db.php",
             method: "POST",
-            data: $('#add_name').serialize(),
+            data: data_add,
             success: function(data) {
-                alert(data);
+                // alert(data);
+                if(data !="ทำรายการ ไม่สำเร็จ!!"){
+                Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: data,
+                showConfirmButton: true,
+                timer: false
+                })
                 $('#add_name')[0].reset();
-            },
-            fail: function(data) {
-                alert(data);
+            }else{
+                Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: data,
+                showConfirmButton: false,
+                timer: 1500
+                })
+            }
             }
         });
-  
+        e.preventDefault();
     });
     $(document).on('click', '.view_data', function() {
         var uid=$(this).attr("id");

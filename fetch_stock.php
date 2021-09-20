@@ -180,25 +180,29 @@ if($page == 2){
     
     foreach($result as $row)
     {
-     $sub_array = array();
-     $sub_array[]= $row["code_item"]; 
-     $sub_array[]= $row["item_name"]; 
-     $sub_array[]= $row["unit_name"]; 
-     $sub_array[]= $row["vendor_name"];
-     $sub_array[]= $row["price_stock"];  
-     $sub_array[]= $row["BN2"]; 
-     $sub_array[]= $row["BN3"]; 
-     $sub_array[]= $row["BN4"]; 
-     $sub_array[]= $row["BN5"]; 
-     $sub_array[]= $row["BN6"]; 
-     $sub_array[]= $row["BN7"]; 
-     $sub_array[]= $row["BN8"]; 
-     $sub_array[]= $row["BN9"]; 
-     $sub_array[]= $row["BN10"]; 
-     $sub_array[]= $row["BN11"]; 
-     $sub_array[]= $row["BN12"]; 
-     $sub_array[]= $row["BN1"]; 
-     $sub_array[]= $row["SUM_BN"]; 
+    $sub_array = array();
+    $sub_array[]= $row["code_item"]; 
+    $sub_array[]= $row["item_name"]; 
+    $sub_array[]= $row["unit_name"]; 
+    $sub_array[]= $row["vendor_name"];
+    $sub_array[]= $row["price_stock"];  
+    $sub_array[]= $row["BN2"]; 
+    $sub_array[]= $row["BN3"]; 
+    $sub_array[]= $row["BN4"]; 
+    $sub_array[]= $row["BN5"]; 
+    $sub_array[]= $row["BN6"]; 
+    $sub_array[]= $row["BN7"]; 
+    $sub_array[]= $row["BN8"]; 
+    $sub_array[]= $row["BN9"]; 
+    $sub_array[]= $row["BN10"]; 
+    $sub_array[]= $row["BN11"]; 
+    $sub_array[]= $row["BN12"]; 
+    $sub_array[]= $row["BN1"]; 
+    if($row["SUM_BN"]<=12){
+    $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
+    }else{
+    $sub_array[]= '<div style="background-color: #00A00F;color:#fff;">'.$row["SUM_BN"].'</div>';
+    }
     //  $sub_array[]= $row["cut_BN2"]; 
     //  $sub_array[]= $row["cut_BN3"]; 
     //  $sub_array[]= $row["cut_BN4"]; 

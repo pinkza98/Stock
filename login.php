@@ -62,6 +62,9 @@ session_start();
 	<link rel="stylesheet" type="text/css" href="node_modules/css/util.css">
 	<link rel="stylesheet" type="text/css" href="node_modules/css/main.css">
 <!--===============================================================================================-->
+<script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+	<!--===============================================================================================-->
 </head>
 <body>
 	
@@ -77,18 +80,35 @@ session_start();
 							if (isset($errorMsg)) {
 								foreach($errorMsg as $error) {
 						?>
-							<div class="alert alert-danger mb-2">
-								<strong>ERORR! <?php echo $error; ?></strong>
+							<div class=" mb-2">
+								<!-- <strong>ERORR! <?php echo $error; ?></strong> -->
+								<script>
+									Swal.fire({
+								position: 'center',
+								icon: 'error',
+								title: 'ข้อมูลไม่ถูกต้อง!!',
+								showConfirmButton: false,
+								timer: 1500
+								})
+								</script>
 							</div>
 						<?php	}?>
 						<?php	} ?>
 						<?php 
 							if(isset($loginMsg)) {
 						?>
-							<div class="alert alert-success mb-1" role="alert">
-								<strong>กำลังเข้าสู่ระบบ! <?php echo $loginMsg; ?></strong>
+							<div class=" mb-1" role="alert">
+								<!-- <strong>กำลังเข้าสู่ระบบ! <?php echo $loginMsg; ?></strong> -->
+								<script>
+									Swal.fire({
+								position: 'center',
+								icon: 'success',
+								title: 'กำลังเข้าสู่ระบบ',
+								showConfirmButton: false,
+								timer: 1500
+								})
+								</script>
 							</div>
-							<hr>
     					<?php } ?>	
 					</span>
 					<div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
