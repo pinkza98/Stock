@@ -79,15 +79,17 @@
 
 
             <?php 
-          $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2 FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
-          LEFT JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
-          INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
-          INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-           GROUP BY transfer_name
-          ");
-          $select_transfer_stock->execute();
-          while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {?>
-          <tr class="table-light">
+        $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2 FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+        LEFT JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
+        INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
+        INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
+        where transfer_status = 1
+        GROUP BY transfer_name
+        
+        ");
+        $select_transfer_stock->execute();
+        while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {?>
+        <tr class="table-light">
                     <td><?php echo $row_transfer['transfer_name'];?></td>
                     <td><?php echo $row_transfer['bn_name1'];?></td>
                     <td><?php echo $row_transfer['bn_name2'];?></td>
