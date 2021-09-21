@@ -221,7 +221,6 @@ $(document).ready(function() {
             $('#row' + button_id + '').remove();
         });
         
-       
     });
     $('#submit').click(function(e) {
         var data_add = $('#add_name').serialize(); 
@@ -231,7 +230,7 @@ $(document).ready(function() {
             data: data_add,
             success: function(data) {
                 // alert(data);
-                if(data !="ทำรายการ ไม่สำเร็จ!!"){
+                if(data != false){
                 Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -244,7 +243,7 @@ $(document).ready(function() {
                 Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: data,
+                title: "มีรายการไม่ถูกต้อง!!",
                 showConfirmButton: false,
                 timer: 1500
                 })

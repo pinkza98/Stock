@@ -3,8 +3,9 @@ include("../database/db.php");
 if(empty($_POST['stock_id'])){
     $errorMsg=false;
 }else{
+$number = count($_POST['stock_id']);
 $randomking = rand(000001,999999);
-    for($i=0; $i< count($_POST['stock_id']); $i++){  
+    for($i=0; $i< $number; $i++){  
         $status = $_POST["status"][$i];
         $stock_id = $_POST["stock_id"][$i]; 
         $bn_id = $_POST["bn_id"][$i];
@@ -13,7 +14,6 @@ $randomking = rand(000001,999999);
         $exd_date =$_POST["exd_date"][$i];
         $user_name = $_POST["user_name"][$i];
         $sum = $_POST["sum"][$i];
-      
         try {
             if($status=="stock_item"){
             $insert_full_stock = $db->prepare("INSERT INTO branch_stock (stock_id,bn_stock) VALUES ('.$stock_id.','.$bn_id.')");
@@ -119,10 +119,16 @@ $randomking = rand(000001,999999);
                 $i_check=1;
                 $stop_row = 0;
                 $transfer =$bn_acronym.$randomking.$bn2_acronym;
-                $insert_transfer = $db->prepare("INSERT INTO transfer (transfer_name) VALUES ('$transfer')");
-                $insert_transfer->execute(); 
-                $insert_transfer_stock =$db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,user1,transfer_date) VALUES ('$bn_id',' $bn_id2',LAST_INSERT_ID(),'$user_name',NOW())");
-                $insert_transfer_stock->execute();
+                    if($i+1== $number){
+                    $insert_transfer = $db->prepare("INSERT INTO transfer (transfer_name) VALUES ('$transfer')");
+                    
+                    $insert_transfer_stock =$db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,user1,transfer_date,transfer_status) VALUES ('$bn_id',' $bn_id2',LAST_INSERT_ID(),'$user_name',NOW(),1)");
+                    
+                    if($insert_transfer->execute()){
+                        $insert_transfer_stock->execute();
+                        $insertMsg = "โอนย้าย รหัสติดตามสถานะพัสดุ ".$transfer;
+                    }
+                    }
                 $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                 WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY stock_log_id ASC");
@@ -171,7 +177,6 @@ $randomking = rand(000001,999999);
                                 }
                             }
                         }
-                        $insertMsg = "โอนย้าย";
                     }else{
                         $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                     }
@@ -184,9 +189,6 @@ $randomking = rand(000001,999999);
         }
             if(isset($insertMsg)){
             echo "ทำรายการ $insertMsg สำเร็จ!!";
-                if(isset($transfer)){
-                echo "<br>ticket code = ".$transfer;
-                }
             }else{
                 echo false;
             }
