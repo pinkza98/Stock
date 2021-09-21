@@ -203,11 +203,11 @@ $(document).ready(function() {
             method: "POST",
             data: data_add,
             success: function(data) {
-                if(data != false){
+                if(data != false ) {
                 Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: "ทำรายการสำเร็จ",
+                title: data,
                 showConfirmButton:false,
                 timer: 1500
                 }); 

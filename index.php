@@ -92,10 +92,10 @@
             <th scope="col" class="text-left">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
             <th scope="col" class="text-center">ราคา</th>
-            <th scope="col" class="text-center">หมวดหมู่</th>
-            <th scope="col" class="text-center">ชนิด</th>
-            <th scope="col" class="text-center">ฝ่าย</th>
-            <th scope="col" class="text-center">ลักษณะ</th>  
+            <th scope="col" class="text-center">ประเภท</th>
+            <th scope="col" class="text-center">ลักษณะ</th>
+            <th scope="col" class="text-center">แผนก</th>
+            <th scope="col" class="text-center">ยี่ห้อ</th>  
             <th scope="col" class="text-center">ผู้ขาย</th>  
 
             </tr>

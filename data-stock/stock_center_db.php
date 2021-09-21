@@ -1,6 +1,8 @@
 <?php  
 include("../database/db.php");
-
+if(empty($_POST['stock_id'])){
+    $errorMsg=false;
+}else{
 $randomking = rand(000001,999999);
     for($i=0; $i< count($_POST['stock_id']); $i++){  
         $status = $_POST["status"][$i];
@@ -11,6 +13,7 @@ $randomking = rand(000001,999999);
         $exd_date =$_POST["exd_date"][$i];
         $user_name = $_POST["user_name"][$i];
         $sum = $_POST["sum"][$i];
+      
         try {
             if($status=="stock_item"){
             $insert_full_stock = $db->prepare("INSERT INTO branch_stock (stock_id,bn_stock) VALUES ('.$stock_id.','.$bn_id.')");
@@ -188,6 +191,7 @@ $randomking = rand(000001,999999);
                 echo false;
             }
     }
+}
 
     
 ?>
