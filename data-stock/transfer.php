@@ -46,7 +46,11 @@
             <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
         </div>
         <?php } ?>
-        
+        <div class="row">
+            <div class="col">
+                <?php include('../components/nav_transfer_status.php'); ?>   
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card-header">
