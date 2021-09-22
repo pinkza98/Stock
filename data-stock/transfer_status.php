@@ -16,13 +16,13 @@
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
     <!-- <==========================================booystrap 5==================================================> -->
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <!-- <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css"> -->
     <!-- <==========================================data-teble==================================================> -->
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
@@ -68,7 +68,7 @@
                     <th scope="col" class="text-center">สาขาส่ง</th>
                     <th scope="col" class="text-center">สาขารับ</th>
                     <th scope="col" class="text-center">ผู้ส่งคำขอ</th>
-                    <th scope="col" class="text-center">ราคา</th>
+                    <th scope="col" class="text-center">มูลค่า</th>
                     <th scope="col" class="text-center">รายการ</th>
                     <th scope="col" class="text-center">วันที่</th>
                     <th scope="col" class="text-center">อนุมัติ</th>
@@ -76,31 +76,36 @@
                 </tr>
             </thead>
             <tbody>
-
-    
     <?php 
           $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2 FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
           LEFT JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
           INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
           INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-          
            GROUP BY transfer_name
           ");
           $select_transfer_stock->execute();
-          while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {?>
+          while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {
+          extract($row_transfer);
+          $select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id");
+          $select_transfer_log->execute();
+          $sum_new = 0;
+          while ($row_transfer_log = $select_transfer_log->fetch(PDO::FETCH_ASSOC)) {
+
+           $sum_new = $sum_new+ $row_transfer_log['sum']; 
+        
+?>
           <tr class="table-light">
                     <td><?php echo $row_transfer['transfer_name'];?></td>
                     <td><?php echo $row_transfer['bn_name1'];?></td>
                     <td><?php echo $row_transfer['bn_name2'];?></td>
                     <td><?php echo $row_transfer['user1'];?></td>
-                    <td>ราคา</td>
-                    <td><button class="btn btn-info"><?php echo $row_transfer['count_log'];?>รายการ</button></td>
+                    <td><?php echo number_format($sum_new);  ?></td>
+                    <td><input type="button" name="view" value="<?php echo $row_transfer['count_log'];?>รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <td><button class="btn btn-success">อนุมัติ</button></td>
                     <td><button class="btn btn-danger">ไม่อนุมัติ</button></td>
                     </tr>
-                    <?php }?>
-    
+                    <?php  }}?>
             </tbody>
             <tfoot>
                 <tr class="table-active">
@@ -108,17 +113,23 @@
                     <th scope="col" class="text-center">สาขาส่ง</th>
                     <th scope="col" class="text-center">สาขารับ</th>
                     <th scope="col" class="text-center">ผู้ส่งคำขอ</th>
-                    <th scope="col" class="text-center">ราคา</th>
+                    <th scope="col" class="text-center">มูลค่า</th>
                     <th scope="col" class="text-center">รายการ</th>
                     <th scope="col" class="text-center">วันที่</th>
                     <th scope="col" class="text-center">อนุมัติ</th>
                     <th scope="col" class="text-center">ไม่อนุมัติ</th>
-                    <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                    <!-- <th scope="col" class="text-center">ลบ</th> -->
                 </tr>
             </tfoot>
         </table>
-    </div>   
+    </div>
+<?php require ('viewmodal_transfer.php');?>
+<script>
+    $(document).ready(function(){
+        $('.view_data').click(function(){
+            $('#dataModal').modal('show');
+        });
+    });
+</script>   
 </body>
 </html>
 <?php

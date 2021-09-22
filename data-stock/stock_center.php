@@ -136,7 +136,6 @@ $(document).ready(function() {
     $("#code_item").keypress(function(event) {
         if (event.keyCode === 13) {
             if (!this.value == "") {
-
                 event.preventDefault(event);
                 $.ajax({
                     url: 'stock_center_load.php',
