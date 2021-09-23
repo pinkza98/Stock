@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-    <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
@@ -19,6 +18,15 @@
     <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
     <!-- <==========================================data-teble==================================================> -->
+    <?php include('../components/header.php');?>
+    <style>
+        .btn-info {
+            color: #FFF;
+        }
+        .btn-warning {
+            color: #FFF; 
+        }
+    </style>
 </head>
 <body>
     <?php include('../components/nav_stock.php'); ?>

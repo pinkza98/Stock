@@ -138,7 +138,7 @@ $randomking = rand(000001,999999);
                                 if($i_check > $row_count){
                                 if ($row['item_quantity']< $quantity) {
                                     $quantity = $quantity- $row['item_quantity'];
-                                        $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer'  WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                        $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' ,remain_log=1000  WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
                                         if($update_stock_log->execute()){
                                             $i_check++;
                                         }
@@ -160,17 +160,23 @@ $randomking = rand(000001,999999);
                                     }
                                 }elseif($row['item_quantity'] < $quantity){
                                     $quantity = $quantity- $row['item_quantity'];
-                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
-                                        $update_stock_log->execute();
-                                        
+                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer',remain_log=NULL WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+
+                                        if($update_stock_log->execute()){
+                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date,transfer_price) VALUES ('$transfer','$stock_id','".$row['item_quantity']."','$date_log','$price_stock')");
+                                        $insert_transfer_stock_log->execute();
+                                        }
                                         if($result==$row['item_quantity']){
                                             $stop_row++;
                                         }
                                         
                                 }else{
                                     $quantity = $quantity- $row['item_quantity'];
-                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer'  WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
-                                    $update_stock_log->execute();
+                                    $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer',remain_log=NULL WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                    if($update_stock_log->execute()){
+                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date,transfer_price) VALUES ('$transfer','$stock_id','".$row['item_quantity']."','$date_log','$price_stock')");
+                                        $insert_transfer_stock_log->execute();
+                                    }
                                     if($result==$row['item_quantity']){
                                         $stop_row++;
                                     }

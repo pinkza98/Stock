@@ -30,6 +30,9 @@
   <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
+<script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
@@ -42,6 +45,14 @@
     });
     </script>
     <?php include('../components/header.php');?>
+    <style>
+        .btn-info {
+            color: #FFF;
+        }
+        .btn-warning {
+            color: #FFF; 
+        }
+    </style>
 </head>
 
 <body>
@@ -80,20 +91,25 @@
             </thead>
             <tbody>
     <?php 
-          $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2 FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+          $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
           LEFT JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
           INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
           INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
+          WHERE transfer_status = 1
            GROUP BY transfer_name
           ");
           $select_transfer_stock->execute();
-          while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {
+          $i =0;
+          while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC) ) {
           extract($row_transfer);
-          $select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id");
+          $select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum ,transfer_stock_id FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id");
           $select_transfer_log->execute();
+          $sum_count = $row_transfer['count_log'];
           $sum_new = 0;
+          $i++;
           while ($row_transfer_log = $select_transfer_log->fetch(PDO::FETCH_ASSOC)) {
-
+             
+            
            $sum_new = $sum_new+ $row_transfer_log['sum']; 
         
 ?>
@@ -103,12 +119,14 @@
                     <td><?php echo $row_transfer['bn_name2'];?></td>
                     <td><?php echo $row_transfer['user1'];?></td>
                     <td><?php echo number_format($sum_new);  ?></td>
-                    <td><input type="button" name="view" value="<?php echo $row_transfer['count_log'];?>รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <td><input type="button" name="view" value="<?php echo $row_transfer['count_log']?>รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
-                    <td><button class="btn btn-success">อนุมัติ</button></td>
-                    <td><button class="btn btn-danger">ไม่อนุมัติ</button></td>
+                    <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>อนุมัติ</button></td>
+                    <td><button type="submit" class="btn btn-danger data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ไม่อนุมัติ</button></td>
                     </tr>
-                    <?php  }}?>
+                    <?php }?>
+                    <?php ?>
+                    <?php }?>
             </tbody>
             <tfoot>
                 <tr class="table-active">
@@ -131,19 +149,45 @@
   <script>
   $(document).ready(function(){
     $('.view_data').click(function(){
-    //   var uid=$(this).attr("id");
-    //   $.ajax({
-    //     url:"select_stock.php",
-    //     method:"POST",
-    //     data:{uid},
-    //     success:function(data) {
-    //       $('#detail').html(data);
-    //       $('#dataModal').modal('show');
-    //     }
-    //   });
-    $('#dataModal').modal('show');
+      var uid=$(this).attr("id");
+      $.ajax({
+        url:"select_transfer.php",
+        method:"POST",
+        data:{uid},
+        success:function(data) {
+          $('#detail').html(data);
+          $('#dataModal').modal('show');
+        }
+      });
     });
   });
+</script>
+<script type="text/javascript" >
+ function submitResult(e) {
+        $('.data_id').click(function(){ 
+        Swal.fire({
+        title: "หมายเหตุ!",
+        text: "ยืนยันข้อมูลการโอนย้ายของ",
+        input: 'text',
+        showCancelButton: true        
+        }).then((result) => {
+            if (result.value) {
+                text1 = result.value;
+            var uid=$(this).attr("id");
+                $.ajax({
+                    url:"transfer_db.php",
+                    method:"POST",
+                    data:{uid:uid,text1:text1},
+                    success:function(data) {
+                        setTimeout(function(){
+                window.location.reload(1);
+                }, 2000);
+                    }
+                });
+            }
+        });
+    });
+}
 </script>
 </html>
 <?php

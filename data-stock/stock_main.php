@@ -44,6 +44,14 @@
 
             
     <?php include('../components/header.php');?>
+    <style>
+        .btn-info {
+            color: #FFF;
+        }
+        .btn-warning {
+            color: #FFF; 
+        }
+    </style>
 
     </head>
   <body>

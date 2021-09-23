@@ -92,5 +92,6 @@ session_start();
     .dataTables_filter {
     float: right !important;
     }
+    
     </style>
    
