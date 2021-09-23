@@ -13,20 +13,23 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
 
-    <!-- <==========================================booystrap 5==================================================> -->
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-    <!-- <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css"> -->
-    <!-- <==========================================data-teble==================================================> -->
-    <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
-    <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
+ <!-- <==========================================booystrap 5==================================================> -->
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+<!-- <========================================== jquery ==================================================> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script> -->
+<!-- <========================================== jquery ==================================================> -->
+<script src="../node_modules/jquery/dist/jquery.js"></script>
+  <!-- <==========================================data-teble==================================================> -->
+ <script type="text/javascript" src="../node_modules/data-table/jquery-table-2.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">     -->
+   <!-- <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  -->
+  <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-    <!-- <==========================================data-teble==================================================> -->
+<!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
 
@@ -109,28 +112,39 @@
             </tbody>
             <tfoot>
                 <tr class="table-active">
-                    <th scope="col" class="text-center">รหัสติดตาม</th>
-                    <th scope="col" class="text-center">สาขาส่ง</th>
-                    <th scope="col" class="text-center">สาขารับ</th>
-                    <th scope="col" class="text-center">ผู้ส่งคำขอ</th>
-                    <th scope="col" class="text-center">มูลค่า</th>
-                    <th scope="col" class="text-center">รายการ</th>
-                    <th scope="col" class="text-center">วันที่</th>
-                    <th scope="col" class="text-center">อนุมัติ</th>
-                    <th scope="col" class="text-center">ไม่อนุมัติ</th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th>
                 </tr>
             </tfoot>
         </table>
     </div>
-<?php require ('viewmodal_transfer.php');?>
-<script>
-    $(document).ready(function(){
-        $('.view_data').click(function(){
-            $('#dataModal').modal('show');
-        });
-    });
-</script>   
+   
 </body>
+<?php require 'viewmodal_transfer.php'?>
+  <script>
+  $(document).ready(function(){
+    $('.view_data').click(function(){
+    //   var uid=$(this).attr("id");
+    //   $.ajax({
+    //     url:"select_stock.php",
+    //     method:"POST",
+    //     data:{uid},
+    //     success:function(data) {
+    //       $('#detail').html(data);
+    //       $('#dataModal').modal('show');
+    //     }
+    //   });
+    $('#dataModal').modal('show');
+    });
+  });
+</script>
 </html>
 <?php
 	function DateThai($strDate)
