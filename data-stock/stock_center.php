@@ -138,7 +138,7 @@ $(document).ready(function() {
             if (!this.value == "") {
                 event.preventDefault(event);
                 $.ajax({
-                    url: 'stock_center_load.php',
+                    url: 'select_stock/stock_center_load.php',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#list_item').serialize(),

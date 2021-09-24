@@ -1,7 +1,7 @@
 <?php  
 include("../database/db.php");
 
-if($_POST['uid']){
+if($_POST['status']=="pass"){
 $transfer_stock_id=$_POST['uid'];
  $text1=$_POST['text1'];
 
@@ -27,12 +27,12 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                     if($select_stock_del->execute()){
                         $select_stock_log_del->execute();
                     }
-                    //ลบbn_stock_id ด้วย
+                
                 }
-                    //qty=57 remain_log =27 =  set item_qty 27
+                
 
             }
-            // echo "สำเร็จ";
+            echo "สำเร็จ";
         }
         
         
@@ -40,7 +40,36 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
     }else{
         echo "การ update ข้อมูลผิดพลาด";
     }
-}else{
+}elseif($_POST['status']=="no_pass"){
+    $transfer_stock_id=$_POST['uid'];
+    $text1=$_POST['text1'];
+
+$update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 3 ,note2 = '$text1' WHERE transfer_stock_id  ='$transfer_stock_id'");//set t_stock status ไม่อนุมัติ และโน๊ต และ user2 (1)
+    if($update_transfer_stock->execute()){
+
+    $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");//ดึงค่า t_stock มมาเพื่อจะloop t_stock_log (2)
+    if( $select_transfer_stock->execute()){
+        $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
+        extract($row_transfer_stock);
+
+        $select_transfer_stock_log = $db->prepare("SELECT * FROM transfer_stock_log  WHERE transfer_stock_id  = '$transfer_name'"); //ดึง t_stock_log ทั้งหมด (3)
+        
+        if($select_transfer_stock_log->execute()){
+                $update_stock_stock_log = $db->prepare("UPDATE branch_stock_log SET status_log =null,remain_log=null WHERE status_log ='$transfer_name'"); // set (6)
+                if($update_stock_stock_log->execute()){
+                    $select_transfer_stock_log_del = $db->prepare("DELETE FROM transfer_stock_log WHERE transfer_stock_id  = '$transfer_name'"); // ลบข้อมูล t_stock_log ตาม t_stock_log (7)
+                    if($select_transfer_stock_log_del->execute()){
+                        echo "บันทึกรายการยกเลิกแล้ว";
+                    }
+
+                }
+               
+            }
+        }
+            
+    }
+}
+else{
    echo "error";
 }
 ?>

@@ -1,5 +1,5 @@
 <?php 
-include('../database/db.php');
+include('../../database/db.php');
    if(isset($_POST["code_item"])){
    $code= $_POST['code_item'];
    $bn=$_POST['bn_id'];
@@ -20,7 +20,9 @@ if(isset($status)!==false){
    $bn_name = $row_bn['bn_name'];
    $bn_id = $row_bn['bn_id'];
    $bn_acronym = $row_bn['bn_acronym'];
-   
+   if($status == null){
+      $errorMsg ="เลือกรายการ";
+   }
 
    if($status =="transfer"){
       $bn2 = $_POST['bn_id_end'];
@@ -30,19 +32,30 @@ if(isset($status)!==false){
       $bn_name2 = $row_bn2['bn_name'];
       $bn_id2 = $row_bn2['bn_id'];
       $bn2_acronym = $row_bn2['bn_acronym'];
+      if($bn_id2 == null){
+         $errorMsg ="เลือกสาขา2ก่อน";
+      }
    }
 
    $select_stock =$db->prepare("SELECT stock_id FROM stock WHERE item_id ='$item_id'");
    $select_stock->execute();
    $row_stock = $select_stock->fetch(PDO::FETCH_ASSOC);
    extract($row_stock);
-
-   $select_stock_bn =$db->prepare("SELECT SUM(branch_stock_log.item_quantity) as sum FROM branch_stock 
-   INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-   WHERE stock_id='$stock_id' AND bn_stock ='$bn_id'");
+   if($status =="transfer" or $status == "disburse"){
+   $select_stock_bn =$db->prepare("SELECT SUM(branch_stock_log.item_quantity) as sum FROM branch_stock_log 
+   INNER JOIN branch_stock ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+   WHERE stock_id='$stock_id' AND bn_stock ='$bn_id' AND status_log IS NULL");
    $select_stock_bn->execute();
    $row_stock_bn = $select_stock_bn->fetch(PDO::FETCH_ASSOC);
    extract($row_stock_bn);
+   }else{
+      $select_stock_bn =$db->prepare("SELECT SUM(branch_stock_log.item_quantity) as sum FROM branch_stock 
+      INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+      WHERE stock_id='$stock_id' AND bn_stock ='$bn_id'");
+      $select_stock_bn->execute();
+      $row_stock_bn = $select_stock_bn->fetch(PDO::FETCH_ASSOC);
+      extract($row_stock_bn);
+   }
    }
    if(is_null($row_stock_bn['sum'])){
     $sum = 0;

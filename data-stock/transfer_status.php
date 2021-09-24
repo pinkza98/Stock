@@ -119,10 +119,10 @@
                     <td><?php echo $row_transfer['bn_name2'];?></td>
                     <td><?php echo $row_transfer['user1'];?></td>
                     <td><?php echo number_format($sum_new);  ?></td>
-                    <td><input type="button" name="view" value="<?php echo $row_transfer['count_log']?>รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>อนุมัติ</button></td>
-                    <td><button type="submit" class="btn btn-danger data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ไม่อนุมัติ</button></td>
+                    <td><button type="submit" class="btn btn-danger data_id_1" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ไม่อนุมัติ</button></td>
                     </tr>
                     <?php }?>
                     <?php ?>
@@ -174,11 +174,38 @@
             if (result.value) {
                 text1 = result.value;
             var uid=$(this).attr("id");
+            var status ="pass";
                 $.ajax({
                     url:"transfer_db.php",
                     method:"POST",
-                    data:{uid:uid,text1:text1},
+                    data:{uid:uid,text1:text1,status:status},
                     success:function(data) {
+                        setTimeout(function(){
+                window.location.reload(1);
+                }, 2000);
+                    }
+                });
+            }
+        });
+    });
+    $('.data_id_1').click(function(){ 
+        e.preventDefault();
+        Swal.fire({
+        title: "หมายเหตุ!",
+        text: "ยืนยันข้อมูลไม่โอนย้ายของ",
+        input: 'text',
+        showCancelButton: true        
+        }).then((result) => {
+            if (result.value) {
+                text1 = result.value;
+            var uid=$(this).attr("id");
+            var status ="no_pass";
+                $.ajax({
+                    url:"transfer_db.php",
+                    method:"POST",
+                    data:{uid:uid,text1:text1,status:status},
+                    success:function(data) {
+                        alert(data);
                         setTimeout(function(){
                 window.location.reload(1);
                 }, 2000);

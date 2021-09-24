@@ -133,14 +133,14 @@
                     <div class="responsive p-6">
                         <table class="table table-bordered" id="dynamic_field">
                             <thead class="table-dark text-center">
-                                <th class="col-md-1">รหัสบาร์โค้ด</th>
+                                <th class="col-md-2">รหัสบาร์โค้ด</th>
                                 <th class="col-md-4">ชื่อรายการ</th>
                                 <th class="col-md-1">ยอดส่ง</th>
                                 <th class="col-md-1">ยอดสาขาส่ง</th>
                                 <th class="col-md-2">สาขาส่ง</th>
                                 <th class="col-md-2">สาขารับ</th>
-                                <th class="col-md-1">view</th>
-                                <th class="col-md-1">ลบ</th>
+                                <th class="col">view</th>
+                                <th class="col">ลบ</th>
                             </thead>
                             <tr>
                             <!-- <tr><input type="text" class="form-control" placeholder="หมายเหตุถ้ามี!"name="note"id="note"/></tr> -->
@@ -167,7 +167,7 @@ $(document).ready(function() {
 
                 event.preventDefault(event);
                 $.ajax({
-                    url: 'stock_center_load.php',
+                    url: 'select_stock/stock_center_load.php',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#list_item').serialize(),
@@ -250,7 +250,9 @@ $(document).ready(function() {
                 showConfirmButton: true,
                 timer: false
                 })
-                $('#add_name')[0].reset();
+                setTimeout(function(){
+                window.location.reload(1);
+                }, 8000);
             }else{
                 Swal.fire({
                 position: 'center',

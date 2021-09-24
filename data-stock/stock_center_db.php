@@ -26,13 +26,16 @@ $randomking = rand(000001,999999);
             }
             if($insert_full_stock->execute()){
                 if($insert_full_stock_log->execute()){ 
-                    $insertMsg = "สต๊อกคลัง";
+                    
                 }else{
                     $errorMsg = "พบข้อผิดพลาด full stock bn ไม่ทำงาน";
                 }
-            }else{
+                
+            }
+            else{
                 $errorMsg = "พบข้อผิดพลาด stock bn ไม่ทำงาน";
                 }
+                $insertMsg = "สต๊อกคลัง";
             }
             elseif($status=="disburse"){
                 if ($quantity > $sum) {
@@ -48,12 +51,12 @@ $randomking = rand(000001,999999);
                     $stop_row = 0;
                     $select_rowCount = $db->query("SELECT *  FROM branch_stock_log  
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                    WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
+                    WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' AND status_log IS NULL");
                     $row_count = $select_rowCount->rowCount();
                     
                     $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                    WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY exd_date_log ASC");
+                    WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' AND status_log IS NULL ORDER BY exd_date_log ASC");
                                 if ($select_stock_full_log->execute()) {
                                 while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)AND  $stop_row != 1){
                                     if($i_check > $row_count){
@@ -114,7 +117,7 @@ $randomking = rand(000001,999999);
 
                 $select_rowCount = $db->query("SELECT *  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  ");
+                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  AND status_log IS NULL");
                 $row_count = $select_rowCount->rowCount();
                 $i_check=1;
                 $stop_row = 0;
@@ -131,7 +134,7 @@ $randomking = rand(000001,999999);
                     }
                 $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
-                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' ORDER BY stock_log_id ASC");
+                WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id'  AND status_log IS NULL ORDER BY stock_log_id ASC");
                             if ($select_stock_full_log->execute()) {
                             while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC) AND $stop_row != 1){
                                 $date_log = $row['exd_date_log'];
