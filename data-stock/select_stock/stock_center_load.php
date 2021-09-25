@@ -70,8 +70,6 @@ if(isset($status)!==false){
       $exd_date_gen=date_format($exd_date_set2 ,"Y-m-d" );
    
 
-
-
    }
    if(!empty($errorMsg)){
       echo $errorMsg;

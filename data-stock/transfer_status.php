@@ -122,7 +122,7 @@
                     <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>อนุมัติ</button></td>
-                    <td><button type="submit" class="btn btn-danger data_id_1" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ไม่อนุมัติ</button></td>
+                    <td><button type="submit" class="btn btn-danger data_id" onclick="nosubmit(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ไม่อนุมัติ</button></td>
                     </tr>
                     <?php }?>
                     <?php ?>
@@ -166,8 +166,8 @@
  function submitResult(e) {
         $('.data_id').click(function(){ 
         Swal.fire({
-        title: "หมายเหตุ!",
-        text: "ยืนยันข้อมูลการโอนย้ายของ",
+        title: "หมายเหตุ#ผ่าน!",
+        text: "ยืนยันรายการโอนย้ายของ",
         input: 'text',
         showCancelButton: true        
         }).then((result) => {
@@ -188,11 +188,13 @@
             }
         });
     });
-    $('.data_id_1').click(function(){ 
+}
+    function nosubmit(e) {
+        $('.data_id').click(function(){ 
         e.preventDefault();
         Swal.fire({
-        title: "หมายเหตุ!",
-        text: "ยืนยันข้อมูลไม่โอนย้ายของ",
+        title: "หมายเหตุ#ไม่ผ่าน!",
+        text: "ยืนยันยกเลิกรายการ",
         input: 'text',
         showCancelButton: true        
         }).then((result) => {

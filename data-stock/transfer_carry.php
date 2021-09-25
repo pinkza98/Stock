@@ -84,7 +84,7 @@
 </thead>
 <tbody>
 <?php 
-$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
@@ -115,7 +115,11 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
         <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
         <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
         <td><?php echo $row_transfer['note2'];?></td>
-        <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ส่ง</button></td>
+        <?php if($row_transfer['transfer_status']==2){?>
+            <td><button type="submit" class="btn btn-success data_id" onclick="sweetAlert()" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ส่ง</button></td>
+        <?php }elseif($row_transfer['transfer_status']==3){?>
+            <td><button type="submit" class="btn btn-danger data_id_1" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ลบ</button></td>
+        <?php }?>
         
         </tr>
         <?php }?>
@@ -159,30 +163,30 @@ $('#dataModal').modal('show');
 </script>
 <script type="text/javascript" >
 function submitResult(e) {
-$('.data_id').click(function(){ 
-Swal.fire({
-title: "หมายเหตุ!",
-text: "ยืนยันข้อมูลการโอนย้ายของ",
-input: 'text',
-showCancelButton: true        
-}).then((result) => {
-if (result.value) {
-    text1 = result.value;
-var uid=$(this).attr("id");
-var status ="pass";
-    $.ajax({
-        url:"transfer_db.php",
-        method:"POST",
-        data:{uid:uid,text1:text1,status:status},
-        success:function(data) {
-            setTimeout(function(){
-    window.location.reload(1);
-    }, 2000);
-        }
-    });
-}
-});
-});
+// $('.data_id').click(function(){ 
+// Swal.fire({
+// title: "หมายเหตุ!",
+// text: "ยืนยันข้อมูลการโอนย้ายของ",
+// input: 'text',
+// showCancelButton: true        
+// }).then((result) => {
+// if (result.value) {
+//     text1 = result.value;
+// var uid=$(this).attr("id");
+// var status ="pass";
+//     $.ajax({
+//         url:"transfer_db.php",
+//         method:"POST",
+//         data:{uid:uid,text1:text1,status:status},
+//         success:function(data) {
+//             setTimeout(function(){
+//     window.location.reload(1);
+//     }, 2000);
+//         }
+//     });
+// }
+// });
+// });
 $('.data_id_1').click(function(){ 
 e.preventDefault();
 Swal.fire({
@@ -209,6 +213,36 @@ var status ="no_pass";
 }
 });
 });
+}
+</script>
+<script>
+    
+    function sweetAlert(){
+        
+  (async () => {
+  const { value: formValues } = await Swal.fire({
+    title: 'ข้อมูลขนส่งโอนย้าย',
+    html:
+      '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง">' +
+      '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
+      '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        document.getElementById('text1').value,
+        document.getElementById('text2').value,
+        document.getElementById('text3').value
+      ]
+    }
+  })
+
+  if (formValues) {
+    // alert((formValues[0]));
+    
+  }
+
+  })()
+
 }
 </script>
 </html>
