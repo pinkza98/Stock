@@ -168,6 +168,7 @@
         Swal.fire({
         title: "หมายเหตุ#ผ่าน!",
         text: "ยืนยันรายการโอนย้ายของ",
+        icon:'question',
         input: 'text',
         showCancelButton: true        
         }).then((result) => {
@@ -195,6 +196,7 @@
         Swal.fire({
         title: "หมายเหตุ#ไม่ผ่าน!",
         text: "ยืนยันยกเลิกรายการ",
+        icon:'warning',
         input: 'text',
         showCancelButton: true        
         }).then((result) => {

@@ -252,14 +252,14 @@ $(document).ready(function() {
                 })
                 setTimeout(function(){
                 window.location.reload(1);
-                }, 8000);
+                }, 2800);
             }else{
                 Swal.fire({
                 position: 'center',
                 icon: 'error',
                 title: "มีรายการไม่ถูกต้อง!!",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2200
                 })
             }
             }

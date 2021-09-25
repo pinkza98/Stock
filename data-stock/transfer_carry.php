@@ -116,9 +116,9 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
         <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
         <td><?php echo $row_transfer['note2'];?></td>
         <?php if($row_transfer['transfer_status']==2){?>
-            <td><button type="submit" class="btn btn-success data_id" onclick="sweetAlert()" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ส่ง</button></td>
+            <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ส่ง</button></td>
         <?php }elseif($row_transfer['transfer_status']==3){?>
-            <td><button type="submit" class="btn btn-danger data_id_1" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ลบ</button></td>
+            <td><button type="submit" class="btn btn-danger data_id_2" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ลบ</button></td>
         <?php }?>
         
         </tr>
@@ -163,35 +163,37 @@ $('#dataModal').modal('show');
 </script>
 <script type="text/javascript" >
 function submitResult(e) {
-// $('.data_id').click(function(){ 
-// Swal.fire({
-// title: "หมายเหตุ!",
-// text: "ยืนยันข้อมูลการโอนย้ายของ",
-// input: 'text',
-// showCancelButton: true        
-// }).then((result) => {
-// if (result.value) {
-//     text1 = result.value;
-// var uid=$(this).attr("id");
-// var status ="pass";
-//     $.ajax({
-//         url:"transfer_db.php",
-//         method:"POST",
-//         data:{uid:uid,text1:text1,status:status},
-//         success:function(data) {
-//             setTimeout(function(){
-//     window.location.reload(1);
-//     }, 2000);
-//         }
-//     });
-// }
-// });
-// });
 $('.data_id_1').click(function(){ 
+    (async () => {
+  const { value: formValues } = await Swal.fire({
+    title: 'ข้อมูลขนส่งโอนย้าย',
+    html:
+      '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง" required>' +
+      '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
+      '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
+    showCancelButton: true,
+    icon: 'question',
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        document.getElementById('text1').value,
+        document.getElementById('text2').value,
+        document.getElementById('text3').value
+      ]
+    }
+  })
+  if (formValues) {
+    alert((formValues[0]));
+    
+  }
+  })()
+});
+$('.data_id_2').click(function(){ 
 e.preventDefault();
 Swal.fire({
 title: "หมายเหตุ!",
 text: "ยืนยันข้อมูลไม่โอนย้ายของ",
+icon: 'warning',
 input: 'text',
 showCancelButton: true        
 }).then((result) => {
@@ -213,36 +215,6 @@ var status ="no_pass";
 }
 });
 });
-}
-</script>
-<script>
-    
-    function sweetAlert(){
-        
-  (async () => {
-  const { value: formValues } = await Swal.fire({
-    title: 'ข้อมูลขนส่งโอนย้าย',
-    html:
-      '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง">' +
-      '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
-      '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
-    focusConfirm: false,
-    preConfirm: () => {
-      return [
-        document.getElementById('text1').value,
-        document.getElementById('text2').value,
-        document.getElementById('text3').value
-      ]
-    }
-  })
-
-  if (formValues) {
-    // alert((formValues[0]));
-    
-  }
-
-  })()
-
 }
 </script>
 </html>
