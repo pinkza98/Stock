@@ -89,7 +89,7 @@ $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.tra
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN  1 AND 4 
+WHERE transfer_status BETWEEN 1 AND 4
 GROUP BY transfer_name
 ");
 $select_transfer_stock->execute();
@@ -116,20 +116,19 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                     <td><input type="button" name="view" value="ปรับยอด" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <td><?php echo $row_transfer['code_service'];?></td>
-                    <?php if($row_transfer['transfer_status']==4){?>
-                    <td>รอตรวจรับ</td>
-                    <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)"id<?php echo $row_transfer['transfer_stock_id'] ?>>รับ</button></td>
-                    <?php }elseif($row_transfer['transfer_status']==1 or 2 or 3){?>
-                        <?php if($row_transfer['transfer_stock_id']==1){?>
-                            <td>รออนุมัติ</td>
-                       <?php }elseif($row_transfer['transfer_stock_id']==2){?>
-                        <td>รอขนส่ง</td>
-                       <?php }elseif($row_transfer['transfer_stock_id']==3){?>
-                        <td>ระหว่างขนส่ง</td>
-                       <?php }?>
-                    <td><button type="submit" class="btn btn-danger ">กำลังดำเนินการ</button></td>
-                    <?php }?>
-
+                    <?php if($row_transfer['transfer_status'] == 1){?>
+                        <td>รออนุมัติรายการ</td>
+                        <td><button type="submit" class="btn btn-primary ">กำลังดำเนินการ</button></td>
+                        <?php }elseif($row_transfer['transfer_status'] == 2){?>
+                        <td>รอแพ๊คของส่ง/อนุมัติแล้ว</td>
+                        <td><button type="submit" class="btn btn-primary ">กำลังดำเนินการ</button></td>
+                        <?php }elseif($row_transfer['transfer_status'] == 3){?>
+                        <td>รายการถูกยกเลิกแล้ว</td>
+                        <td><button type="submit" class="btn btn-danger ">ไม่อนุมัติรายการ</button></td>
+                        <?php }elseif($row_transfer['transfer_status'] == 4){?>
+                        <td>กำลังส่ง/รอตรวจรับ</td>
+                        <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)"id<?php echo $row_transfer['transfer_stock_id'] ?>>รับ</button></td>
+                        <?php } ?>    
                 </tr>
                 <?php }?>
                 <?php ?>

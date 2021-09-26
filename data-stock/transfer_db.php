@@ -78,7 +78,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
 
 }elseif($_POST['status']=="del_row"){
     $transfer_stock_id=$_POST['uid'];
-    $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 6,transfer_service =$text1,code_service=$text2,transfer_price=$text3  WHERE transfer_stock_id  ='$transfer_stock_id'");
+    $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 6  WHERE transfer_stock_id  ='$transfer_stock_id'");
     $update_transfer_stock->execute();
     // $select_transfer_stock_log_del = $db->prepare("DELETE FROM transfer_stock_log WHERE transfer_stock_id  = '$transfer_name'"); // ลบข้อมูล t_stock_log ตาม t_stock_log (7)
     // if($select_transfer_stock_log_del->execute()){
