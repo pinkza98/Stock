@@ -52,7 +52,7 @@
 
     <header></header>
     <div class="display-3 text-xl-center">
-        <H2>รายการขนส่ง </H2>
+        <H2>รายการสินค้าคลังที่โอนย้ายสำเร็จ </H2>
     </div>
     <hr>
     <div class="container">
@@ -88,7 +88,7 @@ $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.tra
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN  2 AND 3
+WHERE transfer_status BETWEEN  5 AND 6
 GROUP BY transfer_name
 ");
 $select_transfer_stock->execute();
@@ -174,7 +174,7 @@ function submitResult(e) {
                 value: formValues
             } = await Swal.fire({
                 title: 'ข้อมูลขนส่งโอนย้าย',
-                html: '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง/สาขา" >' +
+                html: '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง" required>' +
                     '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
                     '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
                 showCancelButton: true,
@@ -214,9 +214,9 @@ function submitResult(e) {
                             showConfirmButton: true,
                             timer: false
                             })
-                            // setTimeout(function(){
-                            // window.location.reload(1);
-                            // }, 2800);
+                            setTimeout(function(){
+                            window.location.reload(1);
+                            }, 2800);
                         }else{
                             Swal.fire({
                             position: 'center',
@@ -236,7 +236,7 @@ function submitResult(e) {
         e.preventDefault();
         Swal.fire({
             title: "หมายเหตุ!",
-            text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่และรายงานไปยังผู้รับ",
+            text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่",
             icon: 'warning',
             input: 'text',
             showCancelButton: true

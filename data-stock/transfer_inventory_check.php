@@ -52,7 +52,7 @@
 
     <header></header>
     <div class="display-3 text-xl-center">
-        <H2>รายการขนส่ง </H2>
+        <H2>รายการตรวจรับสินค้า </H2>
     </div>
     <hr>
     <div class="container">
@@ -73,22 +73,23 @@
                     <th scope="col" class="text-center">รหัสติดตาม</th>
                     <th scope="col" class="text-center">สาขาส่ง</th>
                     <th scope="col" class="text-center">สาขารับ</th>
-                    <th scope="col" class="text-center">ผู้ส่งคำขอ</th>
                     <th scope="col" class="text-center">มูลค่า</th>
                     <th scope="col" class="text-center">รายการ</th>
-                    <th scope="col" class="text-center">วันที่</th>
-                    <th scope="col" class="text-center">หมายเหตุ</th>
+                    <th scope="col" class="text-center">ปรับยอดรายการ</th>
+                    <th scope="col" class="text-center">บริษัทขนส่ง</th>
+                    <th scope="col" class="text-center">รหัสติดตามพัสดุ</th>
+                    <th scope="col" class="text-center">ขั้นตอน</th>
                     <th scope="col" class="text-center">กดส่ง</th>
 
                 </tr>
             </thead>
             <tbody>
                 <?php 
-$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN  2 AND 3
+WHERE transfer_status BETWEEN  1 AND 4 
 GROUP BY transfer_name
 ");
 $select_transfer_stock->execute();
@@ -110,18 +111,23 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                     <td><?php echo $row_transfer['transfer_name'];?></td>
                     <td><?php echo $row_transfer['bn_name1'];?></td>
                     <td><?php echo $row_transfer['bn_name2'];?></td>
-                    <td><?php echo $row_transfer['user1'];?></td>
-                    <td><?php echo number_format($sum_new);  ?></td>
-                    <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"
-                            id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <td><?php  echo number_format($sum_new); ?></td>
+                    <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <td><input type="button" name="view" value="ปรับยอด" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
-                    <td><?php echo $row_transfer['note2'];?></td>
-                    <?php if($row_transfer['transfer_status']==2){?>
-                    <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)"
-                            id=<?php echo $row_transfer['transfer_stock_id'] ?>>ส่ง</button></td>
-                    <?php }elseif($row_transfer['transfer_status']==3){?>
-                    <td><button type="submit" class="btn btn-danger data_id_2" onclick="submitResult(event)"
-                            id=<?php echo $row_transfer['transfer_stock_id'] ?>>ลบ</button></td>
+                    <td><?php echo $row_transfer['code_service'];?></td>
+                    <?php if($row_transfer['transfer_status']==4){?>
+                    <td>รอตรวจรับ</td>
+                    <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)"id<?php echo $row_transfer['transfer_stock_id'] ?>>รับ</button></td>
+                    <?php }elseif($row_transfer['transfer_status']==1 or 2 or 3){?>
+                        <?php if($row_transfer['transfer_stock_id']==1){?>
+                            <td>รออนุมัติ</td>
+                       <?php }elseif($row_transfer['transfer_stock_id']==2){?>
+                        <td>รอขนส่ง</td>
+                       <?php }elseif($row_transfer['transfer_stock_id']==3){?>
+                        <td>ระหว่างขนส่ง</td>
+                       <?php }?>
+                    <td><button type="submit" class="btn btn-danger ">กำลังดำเนินการ</button></td>
                     <?php }?>
 
                 </tr>
@@ -131,6 +137,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
             </tbody>
             <tfoot>
                 <tr class="table-active">
+                    <!-- <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
@@ -138,8 +145,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-center"></th> -->
 
                 </tr>
             </tfoot>
@@ -174,7 +180,7 @@ function submitResult(e) {
                 value: formValues
             } = await Swal.fire({
                 title: 'ข้อมูลขนส่งโอนย้าย',
-                html: '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง/สาขา" >' +
+                html: '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง" required>' +
                     '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
                     '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
                 showCancelButton: true,
@@ -214,9 +220,9 @@ function submitResult(e) {
                             showConfirmButton: true,
                             timer: false
                             })
-                            // setTimeout(function(){
-                            // window.location.reload(1);
-                            // }, 2800);
+                            setTimeout(function(){
+                            window.location.reload(1);
+                            }, 2800);
                         }else{
                             Swal.fire({
                             position: 'center',
@@ -236,7 +242,7 @@ function submitResult(e) {
         e.preventDefault();
         Swal.fire({
             title: "หมายเหตุ!",
-            text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่และรายงานไปยังผู้รับ",
+            text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่",
             icon: 'warning',
             input: 'text',
             showCancelButton: true

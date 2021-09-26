@@ -21,14 +21,14 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="transfer_inventory_check.php">
                     <button class="btn btn-primary">
                         รายการรับโอน
                     </button>
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="transfer_success.php">
                     <button class="btn btn-dark">
                         รายการโอนย้ายที่สำเร็จ
                     </button>

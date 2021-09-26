@@ -181,9 +181,26 @@
                     method:"POST",
                     data:{uid:uid,text1:text1,status:status},
                     success:function(data) {
-                        setTimeout(function(){
-                window.location.reload(1);
-                }, 2000);
+                        if(data != false){
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: data,
+                            showConfirmButton: true,
+                            timer: false
+                            })
+                            setTimeout(function(){
+                            window.location.reload(1);
+                            }, 2800);
+                        }else{
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: "มีรายการไม่ถูกต้อง!!",
+                            showConfirmButton: false,
+                            timer: 2200
+                            })
+                        }
                     }
                 });
             }
@@ -209,10 +226,26 @@
                     method:"POST",
                     data:{uid:uid,text1:text1,status:status},
                     success:function(data) {
-                        alert(data);
-                        setTimeout(function(){
-                window.location.reload(1);
-                }, 2000);
+                        if(data != false){
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: data,
+                            showConfirmButton: true,
+                            timer: false
+                            })
+                            setTimeout(function(){
+                            window.location.reload(1);
+                            }, 2800);
+                        }else{
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: "มีรายการไม่ถูกต้อง!!",
+                            showConfirmButton: false,
+                            timer: 2200
+                            })
+                        }
                     }
                 });
             }

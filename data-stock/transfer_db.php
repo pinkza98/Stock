@@ -27,15 +27,11 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                     if($select_stock_del->execute()){
                         $select_stock_log_del->execute();
                     }
-                
                 }
                 
-
             }
             echo "สำเร็จ";
         }
-        
-        
     }
     }else{
         echo "การ update ข้อมูลผิดพลาด";
@@ -64,12 +60,32 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                     // }
 
                 }
-               
             }
         }
             
     }
+}elseif($_POST['status']=="set_carry"){
+    $transfer_stock_id=$_POST['uid'];
+    $text1=$_POST['text1'];
+     $text2=$_POST['text2'];
+     $text3=$_POST['text3'];
+    $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4,transfer_service ='$text1',code_service='$text2',transfer_price=$text3  WHERE transfer_stock_id  ='$transfer_stock_id'");
+    if($update_transfer_stock->execute()){
+        echo "บันทึกข้อมูลขนส่งเรียบร้อย";
+    }
+    
+
+
+}elseif($_POST['status']=="del_row"){
+    $transfer_stock_id=$_POST['uid'];
+    $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 6,transfer_service =$text1,code_service=$text2,transfer_price=$text3  WHERE transfer_stock_id  ='$transfer_stock_id'");
+    $update_transfer_stock->execute();
+    // $select_transfer_stock_log_del = $db->prepare("DELETE FROM transfer_stock_log WHERE transfer_stock_id  = '$transfer_name'"); // ลบข้อมูล t_stock_log ตาม t_stock_log (7)
+    // if($select_transfer_stock_log_del->execute()){
+        echo "จัดการบันทึกรายการยกเลิกสำเร็จ";
+    // }
 }
+
 else{
    echo "error";
 }
