@@ -70,7 +70,7 @@
 
             <thead class="table-dark">
                 <tr class="table-active">
-                    <th scope="col" class="text-center">รหัสติดตาม</th>
+                    <th scope="col" class="text-center">รหัสรายการ</th>
                     <th scope="col" class="text-center">สาขาส่ง</th>
                     <th scope="col" class="text-center">สาขารับ</th>
                     <th scope="col" class="text-center">ผู้ส่งคำขอ</th>

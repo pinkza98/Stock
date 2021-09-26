@@ -70,7 +70,7 @@
 
             <thead class="table-dark">
                 <tr class="table-active">
-                    <th scope="col" class="text-center">รหัสติดตาม</th>
+                    <th scope="col" class="text-center">รหัสรายการ</th>
                     <th scope="col" class="text-center">สาขาส่ง</th>
                     <th scope="col" class="text-center">สาขารับ</th>
                     <th scope="col" class="text-center">มูลค่า</th>
@@ -85,7 +85,7 @@
             </thead>
             <tbody>
                 <?php 
-$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service,transfer_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
@@ -114,7 +114,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                     <td><?php  echo number_format($sum_new); ?></td>
                     <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><input type="button" name="view" value="ปรับยอด" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
-                    <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
+                    <td><?php echo $row_transfer['transfer_service'];?></td>
                     <td><?php echo $row_transfer['code_service'];?></td>
                     <?php if($row_transfer['transfer_status'] == 1){?>
                         <td>รออนุมัติรายการ</td>
