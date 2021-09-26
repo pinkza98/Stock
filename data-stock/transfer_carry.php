@@ -192,7 +192,7 @@ $('.data_id_2').click(function(){
 e.preventDefault();
 Swal.fire({
 title: "หมายเหตุ!",
-text: "ยืนยันข้อมูลไม่โอนย้ายของ",
+text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่",
 icon: 'warning',
 input: 'text',
 showCancelButton: true        
