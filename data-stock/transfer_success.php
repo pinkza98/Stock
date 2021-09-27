@@ -78,7 +78,7 @@
                     <th scope="col" class="text-center">รายการ</th>
                     <th scope="col" class="text-center">วันที่</th>
                     <th scope="col" class="text-center">หมายเหตุ</th>
-                    <th scope="col" class="text-center">กดส่ง</th>
+                    <th scope="col" class="text-center">ขั้นตอน</th>
 
                 </tr>
             </thead>
@@ -116,14 +116,11 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                             id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <td><?php echo $row_transfer['note2'];?></td>
-                    <?php if($row_transfer['transfer_status']==2){?>
-                    <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)"
-                            id=<?php echo $row_transfer['transfer_stock_id'] ?>>ส่ง</button></td>
-                    <?php }elseif($row_transfer['transfer_status']==3){?>
-                    <td><button type="submit" class="btn btn-danger data_id_2" onclick="submitResult(event)"
-                            id=<?php echo $row_transfer['transfer_stock_id'] ?>>ลบ</button></td>
+                    <?php if($row_transfer['transfer_status']==5){?>
+                    <td>โอนย้ายรายการสำเร็จแล้ว</td>
+                    <?php }elseif($row_transfer['transfer_status']==6){?>
+                    <td>รายการถูกยกเลิกแล้ว</td>
                     <?php }?>
-
                 </tr>
                 <?php }?>
                 <?php ?>

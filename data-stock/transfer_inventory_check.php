@@ -46,7 +46,6 @@
     </script>
     <?php include('../components/header.php');?>
 </head>
-
 <body>
     <?php include('../components/nav_stock.php'); ?>
 
@@ -89,7 +88,7 @@ $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.tra
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN 1 AND 4
+WHERE transfer_status BETWEEN 1 AND 4 AND bn_id_2 = ".$row_session['user_bn']."
 GROUP BY transfer_name
 ");
 $select_transfer_stock->execute();
@@ -127,7 +126,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                         <td><button type="submit" class="btn btn-danger ">ไม่อนุมัติรายการ</button></td>
                         <?php }elseif($row_transfer['transfer_status'] == 4){?>
                         <td>กำลังส่ง/รอตรวจรับ</td>
-                        <td><button type="submit" class="btn btn-success data_id_1" onclick="submitResult(event)"id<?php echo $row_transfer['transfer_stock_id'] ?>>รับ</button></td>
+                        <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)"id=<?php echo $row_transfer['transfer_stock_id'] ?>>รับสินค้า</button></td>
                         <?php } ?>    
                 </tr>
                 <?php }?>
@@ -136,15 +135,17 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
             </tbody>
             <tfoot>
                 <tr class="table-active">
-                    <!-- <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th>
-                    <th scope="col" class="text-center"></th> -->
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    
 
                 </tr>
             </tfoot>
@@ -153,6 +154,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
 
 </body>
 <?php require 'viewmodal_transfer.php'?>
+<?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
 <script>
 $(document).ready(function() {
     $('.view_data').click(function() {
@@ -173,46 +175,27 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 function submitResult(e) {
-    $('.data_id_1').click(function() {
-        (async () => {
-            const {
-                value: formValues
-            } = await Swal.fire({
-                title: 'ข้อมูลขนส่งโอนย้าย',
-                html: '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง" required>' +
-                    '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
-                    '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
-                showCancelButton: true,
-                icon: 'question',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return [
-                        document.getElementById('text1').value,
-                        document.getElementById('text2').value,
-                        document.getElementById('text3').value
-                    ]
-                }
-            })
-            if (formValues) {
-                var text1 = formValues[0];
-                var text2 = formValues[1];
-                var text3 = formValues[2];
-                var status = "set_carry";
-                var uid=$(this).attr("id");
+    $('.data_id').click(function() {
+        e.preventDefault();
+        Swal.fire({
+            title: 'รับสินค้า?',
+            text: "เพิ่มสินค้าเข้าคลัง: #กรุณาตรวจเช็ค ปรับยอดก่อนทุกครั้งที่ กดปุ่มนี้!",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#BAB3B1',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var uid = $(this).attr("id");
+                var status ="add_stock";
+                var name = "<?php echo $user_name?>";
                 $.ajax({
                     url: "transfer_db.php",
                     method: "POST",
-                    data: {
-                        uid: uid,
-                        status: status,
-                        text1:text1,
-                        text2:text2,
-                        text3:text3,
-                    },
+                    data:{uid:uid,status:status,name:name},
                     success: function(data) {
-                        // alert(data);
-                                    if(data != false){
-                            Swal.fire({
+                        Swal.fire({
                             position: 'center',
                             icon: 'success',
                             title: data,
@@ -222,51 +205,11 @@ function submitResult(e) {
                             setTimeout(function(){
                             window.location.reload(1);
                             }, 2800);
-                        }else{
-                            Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: "มีรายการไม่ถูกต้อง!!",
-                            showConfirmButton: false,
-                            timer: 2200
-                            })
-                        }
+                        
                     }
-                });
-
+                })
             }
-        })()
-    });
-    $('.data_id_2').click(function() {
-        e.preventDefault();
-        Swal.fire({
-            title: "หมายเหตุ!",
-            text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่",
-            icon: 'warning',
-            input: 'text',
-            showCancelButton: true
-        }).then((result) => {
-            if (result.value) {
-                text1 = result.value;
-                var uid = $(this).attr("id");
-                var status = "del_row";
-                $.ajax({
-                    url: "transfer_db.php",
-                    method: "POST",
-                    data: {
-                        uid: uid,
-                        text1: text1,
-                        status: status
-                    },
-                    success: function(data) {
-                        alert(data);
-                        setTimeout(function() {
-                            window.location.reload(1);
-                        }, 2000);
-                    }
-                });
-            }
-        });
+        })
     });
 }
 </script>

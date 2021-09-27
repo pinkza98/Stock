@@ -74,8 +74,8 @@
     <?php include('../components/content.php')?>
     <div class="m-5">
         <br>
-        <table class="table table-dark table-hover text-xl-center" id="stock">
 
+        <table class="table table-dark table-hover text-xl-center" id="stock">
             <thead class="table-dark">
                 <tr class="table-active">
                     <th scope="col" class="text-center">รหัสรายการ</th>
@@ -146,6 +146,7 @@
    
 </body>
 <?php require 'viewmodal_transfer.php'?>
+<?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
   <script>
   $(document).ready(function(){
     $('.view_data').click(function(){
@@ -176,10 +177,11 @@
                 text1 = result.value;
             var uid=$(this).attr("id");
             var status ="pass";
+            var name = "<?php echo $user_name ?>"
                 $.ajax({
                     url:"transfer_db.php",
                     method:"POST",
-                    data:{uid:uid,text1:text1,status:status},
+                    data:{uid:uid,text1:text1,status:status,name:name},
                     success:function(data) {
                         if(data != false){
                             Swal.fire({
@@ -221,10 +223,11 @@
                 text1 = result.value;
             var uid=$(this).attr("id");
             var status ="no_pass";
+            var name = "<?php echo $user_name ?>"
                 $.ajax({
                     url:"transfer_db.php",
                     method:"POST",
-                    data:{uid:uid,text1:text1,status:status},
+                    data:{uid:uid,text1:text1,status:status,name:name},
                     success:function(data) {
                         if(data != false){
                             Swal.fire({
@@ -253,6 +256,7 @@
     });
 }
 </script>
+
 </html>
 <?php
 	function DateThai($strDate)
@@ -265,4 +269,5 @@
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear";
 	}
+    
 ?>

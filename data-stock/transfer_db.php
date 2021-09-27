@@ -4,8 +4,9 @@ include("../database/db.php");
 if($_POST['status']=="pass"){
 $transfer_stock_id=$_POST['uid'];
  $text1=$_POST['text1'];
+ $name=$_POST['name'];
 
-$update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 2 ,note2 = '$text1' WHERE transfer_stock_id  ='$transfer_stock_id'");
+$update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 2 ,note2 = '$text1',user2='$name' WHERE transfer_stock_id  ='$transfer_stock_id'");
     if($update_transfer_stock->execute()){
 
     $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");
@@ -84,9 +85,32 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
     // if($select_transfer_stock_log_del->execute()){
         echo "จัดการบันทึกรายการยกเลิกสำเร็จ";
     // }
-}
+}elseif($_POST['status']=="add_stock"){
+    $transfer_stock_id=$_POST['uid'];
+    $name=$_POST['name'];
+    $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5 ,user3='$name'  WHERE transfer_stock_id  ='$transfer_stock_id'");
+    $update_transfer_stock->execute();
 
-else{
+    $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");
+    $select_transfer_stock->execute();
+    $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
+    
+
+    $select_transfer_stock_log = $db->prepare("SELECT * FROM transfer_stock_log  WHERE transfer_stock_id  = '".$row_transfer_stock['transfer_name']."'"); 
+    if($select_transfer_stock_log->execute()){
+    while ($row_transfer_log = $select_transfer_stock_log->fetch(PDO::FETCH_ASSOC) ) {
+        $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_transfer_stock['bn_id_2'].",".$row_transfer_log['stock_id'].")");
+        if($insert_full_stock->execute()){
+        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_transfer_log['item_date']."',".$row_transfer_log['transfer_qty'].",LAST_INSERT_ID(),".$row_transfer_log['transfer_price'].")");    
+        $insert_full_stock_log->execute();
+        }else{
+            echo "เพิ่มข้อมูลไม่สำเร็จ";
+        }
+        
+    }
+}
+    echo "เพิ่มเข้าคลังสินค้าสำเร็จ";
+}else{
    echo "error";
 }
 ?>

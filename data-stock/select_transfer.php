@@ -11,7 +11,7 @@ INNER JOIN item ON stock.item_id = item.item_id
 @@$outp.='';
 @@$outp.='<table class="table table">';
 $i=1;
-@@$outp.='<thead class="table">
+@@$outp.='<thead class="table" id="transfer">
                 <tr class="table-active">
                     <th>NO.</th>
                     <th>รหัส</th>

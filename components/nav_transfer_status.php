@@ -7,12 +7,14 @@
                     </button>
                 </a>
             </li>
-            <li class="nav-item">
+           <?php  if($row_session['user_lv']>=2){ ?> 
+           <li class="nav-item">
                 <a class="nav-link " href="transfer_status.php">
                     <button class="btn btn-info">รายการรอ อนุมัติ
                     </button>
                 </a>
             </li>
+            <?php }?>
             <li class="nav-item ">
                 <a class="nav-link" href="transfer_carry.php">
                     <button class="btn btn-warning">
