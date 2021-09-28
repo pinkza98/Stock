@@ -225,7 +225,7 @@
             var status ="no_pass";
             var name = "<?php echo $user_name ?>"
                 $.ajax({
-                    url:"transfer_db.php",
+                    url:"select_stock/select_transfer.php",
                     method:"POST",
                     data:{uid:uid,text1:text1,status:status,name:name},
                     success:function(data) {

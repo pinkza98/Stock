@@ -112,7 +112,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                     <td><?php echo $row_transfer['bn_name2'];?></td>
                     <td><?php  echo number_format($sum_new); ?></td>
                     <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
-                    <td><input type="button" name="view" value="ปรับยอด" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <td><input type="button" name="view" value="ปรับยอด" class="btn btn-info edit_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo $row_transfer['transfer_service'];?></td>
                     <td><?php echo $row_transfer['code_service'];?></td>
                     <?php if($row_transfer['transfer_status'] == 1){?>
@@ -154,6 +154,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
 
 </body>
 <?php require 'viewmodal_transfer.php'?>
+<?php require 'view/viewmodal_transfer_edit.php'?>
 <?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
 <script>
 $(document).ready(function() {
@@ -168,6 +169,20 @@ $(document).ready(function() {
             success: function(data) {
                 $('#detail').html(data);
                 $('#dataModal').modal('show');
+            }
+        });
+    });
+    $('.edit_data').click(function() {
+        var uid = $(this).attr("id");
+        $.ajax({
+            url: "select_stock/select_transfer_edit.php",
+            method: "POST",
+            data: {
+                uid
+            },
+            success: function(data) {
+                $('#detail_edit').html(data);
+                $('#dataModal_edit').modal('show');
             }
         });
     });
