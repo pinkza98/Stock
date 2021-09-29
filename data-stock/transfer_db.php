@@ -88,13 +88,23 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
 }elseif($_POST['status']=="add_stock"){
     $transfer_stock_id=$_POST['uid'];
     $name=$_POST['name'];
-    $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5 ,user3='$name'  WHERE transfer_stock_id  ='$transfer_stock_id'");
-    $update_transfer_stock->execute();
+  
 
-    $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");
+    $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");//แปร id เป็น code
     $select_transfer_stock->execute();
     $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
     
+    $select_transfer_stock_log_check = $db->prepare("SELECT transfer_stock_id,SUM(transfer_qty)as sum_qty,SUM(transfer_qty_set)as sum_qty_set  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id WHERE transfer_stock_id = '".$row_transfer_stock['transfer_name']."'"); 
+    $select_transfer_stock_log_check->execute();
+    $row_transfer_stock_log_check = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
+    if($row_transfer_stock_log_check['sum_qty']==$row_transfer_stock_log_check['sum_qty_set']){//เช็คค่าปรับตรงกันไหม
+          $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transf-er_status = 5 ,user3='$name'  WHERE transfer_stock_id  ='$transfer_stock_id'");
+         $update_transfer_stock->execute();
+        
+    }else{
+
+    }
+
 
     $select_transfer_stock_log = $db->prepare("SELECT * FROM transfer_stock_log  WHERE transfer_stock_id  = '".$row_transfer_stock['transfer_name']."'"); 
     if($select_transfer_stock_log->execute()){

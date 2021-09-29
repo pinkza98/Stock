@@ -17,7 +17,7 @@ $i=1;
                     <th>รหัส</th>
                     <th>รายการ</th>
                     <th>จำนวนส่ง</th>
-                    <th>จำนวนที่ได้รับ</th>
+                    <th>จำนวนที่รับ</th>
                     <th>ราคา</th>
                 </tr>
             </thead>';
@@ -27,9 +27,9 @@ while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {
 @@$outp.='<td >'.$row_transfer['item_name'].'</td>';
 @@$outp.='<td >'.$row_transfer['sum_qty'].'</td>';
 if(IS_NULL($row_transfer['sum_qty_set'])){
-    @@$outp.='<td ><input type="number" name="sum_qty_set_row'.$i.'" class="input-group-text"  value="0" disabled/></td>';
+    @@$outp.='<td >0</td>';
 }else{
-    @@$outp.='<td ><input type="number" name="sum_qty_set_row'.$i.'" class="input-group-text"  value="'.$row_transfer['sum_qty_set'].'" disabled /></td>';
+    @@$outp.='<td >'.$row_transfer['sum_qty_set'].'</td>';
 }
 
 @@$outp.='<td >'.$row_transfer['transfer_price'].'</td>';

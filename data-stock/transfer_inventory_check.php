@@ -88,9 +88,10 @@ $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.tra
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN 1 AND 4 AND bn_id_2 = ".$row_session['user_bn']."
+WHERE transfer_status BETWEEN 1 AND 4
 GROUP BY transfer_name
 ");
+//  AND bn_id_2 = ".$row_session['user_bn']."
 $select_transfer_stock->execute();
 $i =0;
 while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC) ) {
@@ -106,13 +107,18 @@ while ($row_transfer_log = $select_transfer_log->fetch(PDO::FETCH_ASSOC)) {
 $sum_new = $sum_new+ $row_transfer_log['sum']; 
 
 ?>
+<form action="">
                 <tr class="table-light">
                     <td><?php echo $row_transfer['transfer_name'];?></td>
                     <td><?php echo $row_transfer['bn_name1'];?></td>
                     <td><?php echo $row_transfer['bn_name2'];?></td>
                     <td><?php  echo number_format($sum_new); ?></td>
                     <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
-                    <td><input type="button" name="view" value="ปรับยอด" class="btn btn-info edit_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <?php if($row_transfer['transfer_status']==4){?>
+                    <td><a href="edit/transfer_reconcile.php?update_id=<?php echo $row_transfer['transfer_name']?>" class="btn btn-warning">ปรับยอด</a></td>
+                    <?php }else{?>
+                    <td><a href="#" class="btn btn-secondary">ปรับยอด</a></td>
+                    <?php } ?>
                     <td><?php echo $row_transfer['transfer_service'];?></td>
                     <td><?php echo $row_transfer['code_service'];?></td>
                     <?php if($row_transfer['transfer_status'] == 1){?>
@@ -129,6 +135,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                         <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)"id=<?php echo $row_transfer['transfer_stock_id'] ?>>รับสินค้า</button></td>
                         <?php } ?>    
                 </tr>
+</form>
                 <?php }?>
                 <?php ?>
                 <?php }?>
@@ -153,26 +160,12 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
     </div>
 
 </body>
-<?php require 'viewmodal_transfer.php'?>
+
 <?php require 'view/viewmodal_transfer_edit.php'?>
 <?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
 <script>
 $(document).ready(function() {
     $('.view_data').click(function() {
-        var uid = $(this).attr("id");
-        $.ajax({
-            url: "select_transfer.php",
-            method: "POST",
-            data: {
-                uid
-            },
-            success: function(data) {
-                $('#detail').html(data);
-                $('#dataModal').modal('show');
-            }
-        });
-    });
-    $('.edit_data').click(function() {
         var uid = $(this).attr("id");
         $.ajax({
             url: "select_stock/select_transfer_edit.php",
