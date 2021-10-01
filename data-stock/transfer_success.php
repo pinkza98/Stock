@@ -84,18 +84,19 @@
             </thead>
             <tbody>
                 <?php 
-$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+$select_transfer_stock = $db->prepare("SELECT note3,bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
 WHERE transfer_status BETWEEN  5 AND 6
 GROUP BY transfer_name
+ORDER BY transfer_date DESC
 ");
 $select_transfer_stock->execute();
 $i =0;
 while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC) ) {
 extract($row_transfer);
-$select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum ,transfer_stock_id FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id");
+$select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum ,transfer_stock_id FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id ORDER BY transfer_stock_id DESC");
 $select_transfer_log->execute();
 $sum_count = $row_transfer['count_log'];
 $sum_new = 0;
@@ -112,10 +113,13 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                     <td><?php echo $row_transfer['bn_name2'];?></td>
                     <td><?php echo $row_transfer['user1'];?></td>
                     <td><?php echo number_format($sum_new);  ?></td>
-                    <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"
-                            id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
+                    <?php if (is_null($row_transfer['note3'])){?>
                     <td><?php echo $row_transfer['note2'];?></td>
+                    <?php }else{?>
+                    <td><?php echo $row_transfer['note3'];?></td>
+                    <?php } ?>
                     <?php if($row_transfer['transfer_status']==5){?>
                     <td>โอนย้ายรายการสำเร็จแล้ว</td>
                     <?php }elseif($row_transfer['transfer_status']==6){?>

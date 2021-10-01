@@ -75,8 +75,6 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
         echo "บันทึกข้อมูลขนส่งเรียบร้อย";
     }
     
-
-
 }elseif($_POST['status']=="del_row"){
     $transfer_stock_id=$_POST['uid'];
     $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 6  WHERE transfer_stock_id  ='$transfer_stock_id'");
@@ -89,7 +87,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
     $transfer_stock_id=$_POST['uid'];
     $name=$_POST['name'];
     
-        $select_transfer_stock_1 = $db->prepare("SELECT transfer_name,bn_id_2 FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");//แปร id เป็นรหัสไอเท็ม
+        $select_transfer_stock_1 = $db->prepare("SELECT transfer_name,bn_id_1,bn_id_2,transfer_price FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");//แปร id เป็นรหัสไอเท็ม
         $select_transfer_stock_1->execute();
         $row_1 = $select_transfer_stock_1->fetch(PDO::FETCH_ASSOC);
 
@@ -97,99 +95,77 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
         $select_transfer_stock_2->execute();
         $row_count_1 = $select_transfer_stock_2->rowCount();//นับจำรายการ stock_id ใน transfer_log ที่ code รายการ
         $set_i_1 = 1;
-        while ($row_transfer_log = $select_transfer_stock_2->fetch(PDO::FETCH_ASSOC) ) {
-
+        while ($row_transfer_log = $select_transfer_stock_2->fetch(PDO::FETCH_ASSOC) ) {    
                 if($row_count_1 >=$set_i_1 ){
-                    $select_transfer_log_check_sum = $db->prepare("SELECT SUM(transfer_qty)as sum_qty,SUM(transfer_qty_set)as sum_qty_set FROM transfer_stock_log  WHERE stock_id = '".$row_transfer_log['stock_id']."'"); 
+                    $select_transfer_log_check_sum = $db->prepare("SELECT SUM(transfer_qty)as sum_qty,SUM(transfer_qty_set)as sum_qty_set FROM transfer_stock_log  WHERE stock_id = '".$row_transfer_log['stock_id']."' AND transfer_stock_id = '".$row_transfer_log['transfer_stock_id']."'"); 
                     $select_transfer_log_check_sum->execute();
                     $sum_log = $select_transfer_log_check_sum->fetch(PDO::FETCH_ASSOC);
-                    
-                    if($sum_log['sum_qty']==$sum_log['sum_qty_set']){ 
-                        
-
+                    $select_transfer_log = $db->prepare("SELECT * FROM transfer_stock_log  WHERE stock_id = '".$row_transfer_log['stock_id']."' AND transfer_stock_id = '".$row_transfer_log['transfer_stock_id']."' ORDER BY transfer_log_id ASC"); //ตัวโยนข้อมมูลรายละเอียด tranfer_stock_log
+                    $select_transfer_log->execute();
+                    $row_count_2 = $select_transfer_log->rowCount();
+                    $count2 = 1;
+                    if($sum_log['sum_qty']!=$sum_log['sum_qty_set']){ 
+                        while ($row_2 = $select_transfer_log->fetch(PDO::FETCH_ASSOC) ) {
+                            if($row_count_2 > $count2){
+                                $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_1['bn_id_2'].",".$row_2['stock_id'].")");
+                                if($insert_full_stock->execute()){
+                                        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."',".$sum_log['sum_qty_set'].",LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
+                                        if($insert_full_stock_log->execute()){
+                                            $set_new_transfer_stock_id = $row_1['transfer_name']."-1";
+                                            $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                            if($update_transfer_stock_log->execute()){
+                                                $select_transfer = $db->prepare("SELECT * FROM transfer WHERE transfer_name = '$set_new_transfer_stock_id'");
+                                                $select_transfer->execute();
+                                                $transfer = $select_transfer->fetch(PDO::FETCH_ASSOC);
+                                                if($transfer['transfer_id']==null){
+                                                    $insert_transfer =$db->prepare("INSERT INTO transfer (transfer_name)VALUES('$set_new_transfer_stock_id')");
+                                                    if($insert_transfer->execute()){
+                                                        $insert_transfer_stock = $db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,transfer_status,user3,note3,transfer_date)VALUES(".$row_1['bn_id_1'].",".$row_1['bn_id_2'].",LAST_INSERT_ID(),5,'$name','รายการมียอดค้างอยู่',NOW())");
+                                                    $insert_transfer_stock->execute();
+                                                    $count2++;
+                                                    }
+                                                    
+                                                }else{
+                                                    $count2++;
+                                                }
+                                                
+                                            }
+                                        }
+                                    }
+                            }else{
+                                $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4 ,user3='$name'  WHERE transfer_stock_id  =$transfer_stock_id");
+                                $update_transfer_stock->execute();
+                                $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
+                                $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                $update_transfer_log->execute();
+                                echo "รับสินค้าแต่มียอดค้างสำเร็จ";
+                            }
+                        }
                     }else{
-
+                        while ($row_2 = $select_transfer_log->fetch(PDO::FETCH_ASSOC) ) {
+                            if($row_count_2 > $count2){
+                                $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_1['bn_id_2'].",".$row_2['stock_id'].")");
+                                if($insert_full_stock->execute()){
+                                        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."',".$sum_log['sum_qty_set'].",LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
+                                        if($insert_full_stock_log->execute()){
+                                                $count2++;
+                                            
+                                        }
+                                    }
+                            }else{
+                                $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5,user3='$name',note3='รับของครบแล้ว'  WHERE transfer_stock_id  =$transfer_stock_id");
+                                $update_transfer_stock->execute();
+                                $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
+                                $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE  transfer_log_id = ".$row_2['transfer_log_id']." AND transfer_note = '".$row_2['transfer_stock_id']."'");
+                                $delete_transfer_stock_log->execute();
+                                echo "รับสินค้าไม่มียอดค้างสำเร็จ";
+                                
+                            }
+                        }
                     }
-
-
-                }else{
-                   echo $set_i_1++;
                 }
-    }
-
-
-
-
-
-
-        // 
-
-
-                                                            // $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");//แปร id เป็น code
-                                                            // $select_transfer_stock->execute();
-                                                            // $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
-                                                            
-                                                            // $select_transfer_stock_log_check = $db->prepare("SELECT transfer_log_id,transfer_stock_id,SUM(transfer_qty)as sum_qty,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id WHERE transfer_stock_id = '".$row_transfer_stock['transfer_name']."'"); 
-                                                            // $select_transfer_stock_log_check->execute();
-                                                            // $row_transfer_stock_log_check = $select_transfer_stock_log_check->fetch(PDO::FETCH_ASSOC);
-                                                            // $sum_qty_set=$row_transfer_stock_log_check['sum_qty_set'];
-                                                            // $sum_qty = $row_transfer_stock_log_check['sum_qty'];
-
-                                                            //     if($sum_qty_set==null or 0){
-                                                            //         echo false;
-                                                            //     }else{
-                                                            //     $select_transfer_stock_log = $db->prepare("SELECT * FROM transfer_stock_log  WHERE transfer_stock_id  = '".$row_transfer_stock['transfer_name']."' AND stock_id = '".$row_transfer_stock_log_check['stock_id']."' ORDER BY stock_id ASC"); 
-                                                            //     $check = 1;
-                                                                
-                                                            //     if($select_transfer_stock_log->execute()){
-                                                            //     $row_count = $select_transfer_stock_log->rowCount();
-                                                            //     while ($row_transfer_log = $select_transfer_stock_log->fetch(PDO::FETCH_ASSOC) ) {
-
-
-                                                            //         if($row_count > $check){
-                                                            //             $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_transfer_stock['bn_id_2'].",".$row_transfer_log['stock_id'].")");
-                                                            //             if($insert_full_stock->execute()){
-                                                            //                     $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_transfer_log['item_date']."',".$row_transfer_log['transfer_qty'].",LAST_INSERT_ID(),".$row_transfer_log['transfer_price'].")");    
-                                                            //                     if($insert_full_stock_log->execute()){
-                                                            //                         $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE transfer_log_id = ".$row_transfer_log['transfer_log_id']."");
-                                                            //                         if($delete_transfer_stock_log->execute()){
-                                                            //                             $check++;
-                                                            //                         }
-                                                                                    
-                                                            //                     }
-                                                            //                     }else{
-                                                            //                         echo "เพิ่มข้อมูลไม่สำเร็จ";
-                                                            //                     }
-                                                            //         }else{
-                                                            //             if($sum_qty==$sum_qty_set){//เช็คค่าปรับตรงกันไหม ต้องอัพเดด รับแล้ว หรือ ยังค้าง
-                                                                        
-                                                            //                 $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_transfer_stock['bn_id_2'].",".$row_transfer_log['stock_id'].")");
-                                                            //                 $insert_full_stock->execute();
-                                                            //                 $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_transfer_log['item_date']."',".$row_transfer_log['transfer_qty'].",LAST_INSERT_ID()".$row_transfer_log['transfer_price'].")");
-                                                            //                 if($insert_full_stock_log->execute()){
-                                                            //                     $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5 ,user3='$name'  WHERE transfer_stock_id  =$transfer_stock_id");
-                                                            //                     $update_transfer_stock->execute();
-                                                            //                     $check++;
-                                                            //                 }
-                                                                            
-                                                                        
-                                                            //            }else{
-                                                            //                $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4 ,user3='$name'  WHERE transfer_stock_id  =$transfer_stock_id");
-                                                            //                 $update_transfer_stock->execute();
-                                                            //                 $sum_new=$sum_qty-$sum_qty_set;
-                                                            //                 $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum_new,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_transfer_log['transfer_log_id']."");
-                                                            //                 $update_transfer_log->execute();
-                                                            //                 $check++;
-                                                            //            }
-                                                            //         }
-
-                                                                    
-                                                                    
-                                                            //     }
-                                                            // }
-                                                            // }
-
+            }
 }else{
-   echo "error";
+echo "error";
 }
 ?>
