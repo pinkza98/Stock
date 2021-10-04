@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2021 at 01:09 PM
+-- Generation Time: Oct 04, 2021 at 12:57 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -29,26 +29,27 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `branch` (
   `bn_id` int(11) NOT NULL,
-  `bn_name` varchar(100) NOT NULL
+  `bn_name` varchar(100) NOT NULL,
+  `bn_acronym` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `branch`
 --
 
-INSERT INTO `branch` (`bn_id`, `bn_name`) VALUES
-(1, 'ส่วนกลาง'),
-(2, 'รามคำแหง'),
-(3, 'อารีย์'),
-(4, 'สาทร'),
-(5, 'อโศก'),
-(6, 'อ่อนนุช'),
-(7, 'อุดมสุข'),
-(8, 'งามวงค์วาน'),
-(9, 'แจ้งวัฒนะ'),
-(10, 'พระราม2'),
-(11, 'ลาดกระบัง'),
-(12, 'บางแค');
+INSERT INTO `branch` (`bn_id`, `bn_name`, `bn_acronym`) VALUES
+(1, 'ส่วนกลาง', 'CN'),
+(2, 'รามคำแหง', 'RA'),
+(3, 'อารีย์', 'AR'),
+(4, 'สาทร', 'SA'),
+(5, 'อโศก', 'AS'),
+(6, 'อ่อนนุช', 'ON'),
+(7, 'อุดมสุข', 'UD'),
+(8, 'งามวงค์วาน', 'NW'),
+(9, 'แจ้งวัฒนะ', 'CW'),
+(10, 'พระราม2', 'R2'),
+(11, 'ลาดกระบัง', 'LB'),
+(12, 'บางแค', 'BK');
 
 -- --------------------------------------------------------
 
@@ -58,25 +59,9 @@ INSERT INTO `branch` (`bn_id`, `bn_name`) VALUES
 
 CREATE TABLE `branch_stock` (
   `full_stock_id` int(11) NOT NULL,
-  `stock_id` int(11) DEFAULT NULL,
-  `bn_stock` int(11) DEFAULT NULL
+  `stock_id` int(11) NOT NULL,
+  `bn_stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `branch_stock`
---
-
-INSERT INTO `branch_stock` (`full_stock_id`, `stock_id`, `bn_stock`) VALUES
-(5, 1690, 7),
-(7, 1689, 1),
-(8, 1690, 9),
-(9, 1689, 9),
-(10, 1689, 9),
-(11, 1689, 1),
-(12, 1689, 1),
-(14, 1689, 1),
-(15, 1689, 1),
-(16, 1690, 1);
 
 -- --------------------------------------------------------
 
@@ -91,24 +76,10 @@ CREATE TABLE `branch_stock_log` (
   `item_quantity` int(11) NOT NULL,
   `price_stock_log` int(11) DEFAULT NULL,
   `exd_date_log` date DEFAULT NULL,
-  `full_stock_id_log` int(11) NOT NULL
+  `full_stock_id_log` int(11) NOT NULL,
+  `status_log` varchar(100) DEFAULT NULL,
+  `remain_log` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `branch_stock_log`
---
-
-INSERT INTO `branch_stock_log` (`stock_log_id`, `user_name_log`, `exp_date_log`, `item_quantity`, `price_stock_log`, `exd_date_log`, `full_stock_id_log`) VALUES
-(5, 'เจ้าหน้าที่ไอที', '2021-09-07', 1, 500, NULL, 5),
-(7, 'เจ้าหน้าที่ไอที', '2021-09-07', 1, 321, NULL, 7),
-(8, 'เจ้าหน้าที่ไอที', '2021-09-07', 1, 500, NULL, 8),
-(9, 'เจ้าหน้าที่ไอที', '2021-09-07', 1, 321, NULL, 9),
-(10, 'เจ้าหน้าที่ไอที', '2021-09-07', 1, 321, NULL, 10),
-(11, 'เจ้าหน้าที่ไอที', '2021-09-07', 5, 321, '0000-00-00', 11),
-(12, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-07', 1, 321, '0000-00-00', 12),
-(14, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-07', 1, 321, '0000-00-00', 14),
-(15, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-07', 1, 321, '0000-00-00', 15),
-(16, 'เจ้าหน้าที่ไอที(เจ๋ง)', '2021-09-07', 60, 500, '2021-09-07', 16);
 
 -- --------------------------------------------------------
 
@@ -126,38 +97,21 @@ CREATE TABLE `cut_stock_log` (
   `bn_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `cut_stock_log`
+-- Table structure for table `del_stock`
 --
 
-INSERT INTO `cut_stock_log` (`cut_stock_id`, `user_id`, `quantity`, `price_cut_stock`, `date`, `stock_id`, `bn_id`) VALUES
-(1, '.เจ้าหน้าที่ไอที(เจ๋ง).', 1, 500, '2021-09-07', 1690, 1),
-(2, '.เจ้าหน้าที่ไอที(เจ๋ง).', 1, 500, '2021-09-07', 1690, 1),
-(3, '.เจ้าหน้าที่ไอที(เจ๋ง).', 1, 500, '2021-09-07', 1690, 1),
-(4, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(5, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(6, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(7, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(8, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(9, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(10, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(11, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(12, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(13, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(14, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(15, '.เจ้าหน้าที่ไอที(เจ๋ง).', 5, 500, '2021-09-07', 1690, 1),
-(16, 'เจ้าหน้าที่ไอที(เจ๋ง)', 2, 500, '2021-09-07', 1690, 1),
-(17, 'เจ้าหน้าที่ไอที(เจ๋ง)', 3, 500, '2021-09-07', 1690, 1),
-(18, 'เจ้าหน้าที่ไอที(เจ๋ง)', 4, 500, '2021-09-07', 1690, 1),
-(19, 'เจ้าหน้าที่ไอที(เจ๋ง)', 5, 500, '2021-09-07', 1690, 1),
-(20, 'เจ้าหน้าที่ไอที(เจ๋ง)', 5, 500, '2021-09-07', 1690, 1),
-(21, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1),
-(22, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1),
-(23, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1),
-(24, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1),
-(25, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1),
-(26, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1),
-(27, 'เจ้าหน้าที่ไอที(เจ๋ง)', 20, 500, '2021-09-07', 1690, 1);
+CREATE TABLE `del_stock` (
+  `del_id` int(11) NOT NULL,
+  `del_user_name` varchar(100) NOT NULL,
+  `del_stock_id` int(11) NOT NULL,
+  `del_quantity` int(11) NOT NULL,
+  `del_bn` int(11) NOT NULL,
+  `date_del` date NOT NULL,
+  `del_note` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1910,8 +1864,8 @@ INSERT INTO `item` (`item_id`, `item_name`, `unit_id`, `price_stock`, `code_item
 (1686, 'แปรงสีฟันจัดฟัน SOFT CLEAN', 23, '480.00', 'm4040021', '730004', 'B-B-0009-TG', NULL),
 (1687, 'แปรงซอกฟัน 3 M เขียว S', 1, '92.00', 'm4040031', '730005', 'B-B-0001-3M', NULL),
 (1688, 'แปรงซอกฟัน 3 M ชมพู SS', 1, '92.00', 'm4040041', '730006', 'B-B-0002-3M', NULL),
-(1689, 'แปรงซอกฟัน colgate 2 mm.', 4, '321.00', 'm4040051', '730007', 'B-B-0003-DK', 60),
-(1690, 'แปรงซอกฟัน Dr. Phillips', 4, '500.00', 'm4040061', '730008', 'B-B-0006-TG', NULL);
+(1689, 'แปรงซอกฟัน colgate 2 mm.', 4, '321.00', 'm4040051', '730007', 'B-B-0003-DK', NULL),
+(1690, 'แปรงซอกฟัน Dr. Phillips', 4, '500.00', 'm4040061', '730008', 'B-B-0006-TG', 60);
 
 -- --------------------------------------------------------
 
@@ -2028,7 +1982,7 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`stock_id`, `item_id`, `type_id`, `nature_id`, `division_id`, `marque_id`, `img_stock`, `vendor_id`) VALUES
-(1, 1, 1, 3, 1, 0, 'g1060011.jpg', 1),
+(1, 1, 1, 3, 1, NULL, 'g1060011.jpg', 1),
 (2, 2, 1, 3, 1, NULL, 'g1060021 .jpg', 2),
 (3, 3, 1, 3, 1, NULL, 'g1060031 .jpg', 3),
 (4, 4, 1, 3, 1, NULL, 'g1060041 .jpg', 3),
@@ -3723,6 +3677,58 @@ INSERT INTO `stock` (`stock_id`, `item_id`, `type_id`, `nature_id`, `division_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transfer`
+--
+
+CREATE TABLE `transfer` (
+  `transfer_id` int(11) NOT NULL,
+  `transfer_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfer_stock`
+--
+
+CREATE TABLE `transfer_stock` (
+  `transfer_stock_id` int(11) NOT NULL,
+  `bn_id_1` int(11) NOT NULL,
+  `bn_id_2` int(11) NOT NULL,
+  `transfer_id` int(11) NOT NULL,
+  `transfer_status` varchar(100) DEFAULT NULL,
+  `user1` varchar(100) NOT NULL,
+  `user2` varchar(100) DEFAULT NULL,
+  `user3` varchar(100) DEFAULT NULL,
+  `note1` varchar(100) DEFAULT NULL,
+  `note2` varchar(100) DEFAULT NULL,
+  `note3` varchar(100) DEFAULT NULL,
+  `transfer_service` varchar(100) DEFAULT NULL,
+  `code_service` varchar(100) DEFAULT NULL,
+  `transfer_price` decimal(10,2) DEFAULT NULL,
+  `transfer_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfer_stock_log`
+--
+
+CREATE TABLE `transfer_stock_log` (
+  `transfer_log_id` int(11) NOT NULL,
+  `transfer_stock_id` varchar(100) NOT NULL,
+  `stock_id` int(11) DEFAULT NULL,
+  `transfer_qty` int(11) DEFAULT NULL,
+  `transfer_qty_set` int(11) DEFAULT NULL,
+  `transfer_price` decimal(10,2) DEFAULT NULL,
+  `item_date` date DEFAULT NULL,
+  `transfer_note` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `type_item`
 --
 
@@ -3736,8 +3742,8 @@ CREATE TABLE `type_item` (
 --
 
 INSERT INTO `type_item` (`type_id`, `type_name`) VALUES
-(1, 'general\n'),
-(2, 'medical\n');
+(1, 'general'),
+(2, 'medical');
 
 -- --------------------------------------------------------
 
@@ -3819,6 +3825,7 @@ CREATE TABLE `user` (
   `user_bn` int(11) NOT NULL,
   `user_lv` int(11) NOT NULL,
   `user_tel` varchar(20) NOT NULL,
+  `user_prefix` int(11) NOT NULL,
   `user_fname` varchar(100) NOT NULL,
   `user_lname` varchar(100) NOT NULL,
   `user_line` varchar(100) NOT NULL,
@@ -3829,10 +3836,10 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_fname`, `user_lname`, `user_line`, `user_img`) VALUES
-(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 3, 1, '082602362', 'นายอรรถพล', 'สีชา', 'atthapol@line', ''),
-(26, 'pinkza88@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 4, '0828602362', 'เจ้าหน้าที่', 'ไอที(เจ๋ง)', '0828602362', ''),
-(32, 'plusdental.os@gmail.com', '$2y$10$07tizjbqFQ1E41KDsK6SWOtCwLf.YsMjRWwRZHD4QzRfsywVcFJqS', 10, 3, '', 'วิรชัย', 'อั้นจุ้ย', '', '');
+INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`, `user_img`) VALUES
+(16, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 3, 1, '082602362', 1, 'นายอรรถพล', 'สีชา', 'atthapol@line', ''),
+(26, 'pinkza88@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 4, '0828602362', 1, 'เจ้าหน้าที่', 'ไอที(เจ๋ง)', '0828602362', '12331.jpg'),
+(32, 'plusdental.os@gmail.com', '$2y$10$07tizjbqFQ1E41KDsK6SWOtCwLf.YsMjRWwRZHD4QzRfsywVcFJqS', 10, 3, '', 1, 'วิรชัย', 'อั้นจุ้ย', '', '');
 
 -- --------------------------------------------------------
 
@@ -3975,6 +3982,12 @@ ALTER TABLE `cut_stock_log`
   ADD PRIMARY KEY (`cut_stock_id`);
 
 --
+-- Indexes for table `del_stock`
+--
+ALTER TABLE `del_stock`
+  ADD PRIMARY KEY (`del_id`);
+
+--
 -- Indexes for table `division`
 --
 ALTER TABLE `division`
@@ -4022,6 +4035,24 @@ ALTER TABLE `nature`
 --
 ALTER TABLE `stock`
   ADD PRIMARY KEY (`stock_id`);
+
+--
+-- Indexes for table `transfer`
+--
+ALTER TABLE `transfer`
+  ADD PRIMARY KEY (`transfer_id`);
+
+--
+-- Indexes for table `transfer_stock`
+--
+ALTER TABLE `transfer_stock`
+  ADD PRIMARY KEY (`transfer_stock_id`);
+
+--
+-- Indexes for table `transfer_stock_log`
+--
+ALTER TABLE `transfer_stock_log`
+  ADD PRIMARY KEY (`transfer_log_id`);
 
 --
 -- Indexes for table `type_item`
@@ -4074,19 +4105,25 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `branch_stock`
 --
 ALTER TABLE `branch_stock`
-  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `full_stock_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `branch_stock_log`
 --
 ALTER TABLE `branch_stock_log`
-  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `stock_log_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cut_stock_log`
 --
 ALTER TABLE `cut_stock_log`
-  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `cut_stock_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `del_stock`
+--
+ALTER TABLE `del_stock`
+  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `division`
@@ -4104,7 +4141,7 @@ ALTER TABLE `group_bn`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1692;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1691;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -4134,13 +4171,31 @@ ALTER TABLE `nature`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1695;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1691;
+
+--
+-- AUTO_INCREMENT for table `transfer`
+--
+ALTER TABLE `transfer`
+  MODIFY `transfer_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transfer_stock`
+--
+ALTER TABLE `transfer_stock`
+  MODIFY `transfer_stock_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transfer_stock_log`
+--
+ALTER TABLE `transfer_stock_log`
+  MODIFY `transfer_log_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `type_item`
 --
 ALTER TABLE `type_item`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `unit`
@@ -4152,7 +4207,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `user_rank`

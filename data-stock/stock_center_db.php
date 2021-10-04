@@ -149,13 +149,15 @@ $randomking = rand(000001,999999);
                                 }elseif($i_check <= $row_count){  
                                 if ($row['item_quantity']> $quantity){
                                     $quantity_as = $row['item_quantity']-$quantity; 
+                                    $sum_last = $row['item_quantity']-$row['remain_log']; 
                                     if($quantity_as == $row['item_quantity']){
-                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date,transfer_price) VALUES ('$transfer','$stock_id','$result','$date_log','$price_stock')");
+                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date,transfer_price) VALUES ('$transfer','$stock_id','$quantity;','$date_log','$price_stock')");
                                         $insert_transfer_stock_log->execute();
                                         $stop_row++;
                                     }else{
+                                        $sum_last = $row['item_quantity']-$row['remain_log']; 
                                         $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' ,remain_log='$quantity_as' WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
-                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date,transfer_price) VALUES ('$transfer','$stock_id','$result','$date_log','$price_stock')");
+                                        $insert_transfer_stock_log = $db->prepare("INSERT INTO transfer_stock_log (transfer_stock_id,stock_id,transfer_qty,item_date,transfer_price) VALUES ('$transfer','$stock_id','$quantity;','$date_log','$price_stock')");
                                         $insert_transfer_stock_log->execute();
                                         if($update_stock_log->execute()){
                                             $stop_row++;

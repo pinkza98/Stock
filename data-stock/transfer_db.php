@@ -97,22 +97,29 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
         $set_i_1 = 1;
         while ($row_transfer_log = $select_transfer_stock_2->fetch(PDO::FETCH_ASSOC) ) {    
                 if($row_count_1 >=$set_i_1 ){
+                    $select_transfer_log_all_sum = $db->prepare("SELECT SUM(transfer_qty)as sum_qty,SUM(transfer_qty_set)as sum_qty_set FROM transfer_stock_log  WHERE  transfer_stock_id = '".$row_transfer_log['transfer_stock_id']."'"); 
+                    $select_transfer_log_all_sum->execute();///เช็คในcode
+                    $sum_all_log = $select_transfer_log_all_sum->fetch(PDO::FETCH_ASSOC);
                     $select_transfer_log_check_sum = $db->prepare("SELECT SUM(transfer_qty)as sum_qty,SUM(transfer_qty_set)as sum_qty_set FROM transfer_stock_log  WHERE stock_id = '".$row_transfer_log['stock_id']."' AND transfer_stock_id = '".$row_transfer_log['transfer_stock_id']."'"); 
-                    $select_transfer_log_check_sum->execute();
+                    $select_transfer_log_check_sum->execute();//เช็คใน
                     $sum_log = $select_transfer_log_check_sum->fetch(PDO::FETCH_ASSOC);
                     $select_transfer_log = $db->prepare("SELECT * FROM transfer_stock_log  WHERE stock_id = '".$row_transfer_log['stock_id']."' AND transfer_stock_id = '".$row_transfer_log['transfer_stock_id']."' ORDER BY transfer_log_id ASC"); //ตัวโยนข้อมมูลรายละเอียด tranfer_stock_log
                     $select_transfer_log->execute();
                     $row_count_2 = $select_transfer_log->rowCount();
+                    $row_count_log = $select_transfer_log->rowCount();
+                    $row_count_log =  $row_count_log-1;
                     $count2 = 1;
                     if($sum_log['sum_qty']!=$sum_log['sum_qty_set']){ 
                         while ($row_2 = $select_transfer_log->fetch(PDO::FETCH_ASSOC) ) {
                             if($row_count_2 > $count2){
                                 $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_1['bn_id_2'].",".$row_2['stock_id'].")");
                                 if($insert_full_stock->execute()){
-                                        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."',".$sum_log['sum_qty_set'].",LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
+                                    $sum_divide =$sum_log['sum_qty_set']/$row_count_log;
+                                        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."',' $sum_divide',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                                         if($insert_full_stock_log->execute()){
                                             $set_new_transfer_stock_id = $row_1['transfer_name']."-1";
-                                            $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                            // $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
+                                            $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_qty =".$sum_log['sum_qty_set'].", transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
                                             if($update_transfer_stock_log->execute()){
                                                 $select_transfer = $db->prepare("SELECT * FROM transfer WHERE transfer_name = '$set_new_transfer_stock_id'");
                                                 $select_transfer->execute();
@@ -146,10 +153,30 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                             if($row_count_2 > $count2){
                                 $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_1['bn_id_2'].",".$row_2['stock_id'].")");
                                 if($insert_full_stock->execute()){
-                                        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."',".$sum_log['sum_qty_set'].",LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
+                                    $sum_divide =$sum_log['sum_qty_set']/$row_count_log;
+                                        $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."','$sum_divide',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                                         if($insert_full_stock_log->execute()){
+                                            if($sum_all_log['sum_qty']!= $sum_all_log['sum_qty_set']){
+                                            $set_new_transfer_stock_id = $row_1['transfer_name']."-1";
+                                            $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                            if($update_transfer_stock_log->execute()){
+                                                $select_transfer = $db->prepare("SELECT * FROM transfer WHERE transfer_name = '$set_new_transfer_stock_id'");
+                                                $select_transfer->execute();
+                                                $transfer = $select_transfer->fetch(PDO::FETCH_ASSOC);
+                                                if($transfer['transfer_id']==null){
+                                                    $insert_transfer =$db->prepare("INSERT INTO transfer (transfer_name)VALUES('$set_new_transfer_stock_id')");
+                                                    if($insert_transfer->execute()){
+                                                        $insert_transfer_stock = $db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,transfer_status,user3,note3,transfer_date)VALUES(".$row_1['bn_id_1'].",".$row_1['bn_id_2'].",LAST_INSERT_ID(),5,'$name','รายการมียอดค้างอยู่',NOW())");
+                                                    $insert_transfer_stock->execute();
+                                                    $count2++;
+                                                }
+                                            }else{
                                                 $count2++;
-                                            
+                                            }
+                                        }
+                                        }else{
+                                            $count2++;
+                                        }
                                         }
                                     }
                             }else{

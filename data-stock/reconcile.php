@@ -40,8 +40,6 @@
                         }
                         elseif ($i < $row_count or $i > $row_count) {
                             
-                            
-                            
                                 $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['full_stock_id_log']."'");
                                 $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id_log']."'");
                                 if($del_stock_log->execute()&&  $del_bn_stock->execute()){
@@ -228,7 +226,8 @@
                 $errorMsg_item = 'ไมพบรายการนี้ในคลัง!!!';
         }   elseif($select_stock_full ->fetchColumn () > 1){
                 $errorMsg_item = 'ไมพบรายการนี้ในคลัง!!!';
-        }   elseif($sum < 1 and $sum == null){
+        }  
+         elseif($sum < 1 and $sum == null){
             $errorMsg_item = 'ยังไม่มีรายการนี้ในคลังสินค้าสาขานี้ หรือ สินค้าในคลังหมดแล้ว!!!';
         }
         
