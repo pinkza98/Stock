@@ -40,8 +40,9 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
 }elseif($_POST['status']=="no_pass"){
     $transfer_stock_id=$_POST['uid'];
     $text1=$_POST['text1'];
+    $name=$_POST['name'];
 
-$update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 3 ,note2 = '$text1' WHERE transfer_stock_id  ='$transfer_stock_id'");//set t_stock status ไม่อนุมัติ และโน๊ต และ user2 (1)
+$update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 3 ,note2 = '$text1' ,user2='$name' WHERE transfer_stock_id  ='$transfer_stock_id'");//set t_stock status ไม่อนุมัติ และโน๊ต และ user2 (1)
     if($update_transfer_stock->execute()){
 
     $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");//ดึงค่า t_stock มมาเพื่อจะloop t_stock_log (2)
