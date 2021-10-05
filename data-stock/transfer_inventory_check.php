@@ -210,9 +210,9 @@ function submitResult(e) {
                             showConfirmButton: true,
                             timer: false
                             })
-                            setTimeout(function(){
-                            window.location.reload(1);
-                            }, 2800);
+                            // setTimeout(function(){
+                            // window.location.reload(1);
+                            // }, 2800);
                         
                     }
                 })
