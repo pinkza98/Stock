@@ -26,7 +26,7 @@
     <header>
 
         <div class="display-3 text-xl-center mt-3">
-            <H2>สต๊อก/เบิก คลังสาขา</H2>
+            <H2>เพิ่ม/เบิกใช้ คลังสาขา</H2>
         </div>
     </header>
     <hr><br>
@@ -49,17 +49,19 @@
         
         <div class="row">
             <div class="col-md-12">
+            <div class="card text-white bg-secondary mb-3" style="max-width: 29rem;">
                 <div class="card-header">
-                    <h4 class="card-title">ค้นหาข้อมูลด้วยรหัสบาร์โค้ด</h4>
+                    <h4 class="card-title">จัดการรายการ เพิ่มสินค้า/เบิกใช้สินค้า คลัง</h4>
                 </div>
+            </div>
                 <form id="list_item" name="list_item">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <select class="form-select mb-2 mt-2" name="status" id="status" required="true" >
                                     <option value="" selected>เลือกรายการ</option>
-                                    <option value="stock_item">สต๊อกคลัง</option>
-                                    <option value="disburse">เบิกคลัง</option>
+                                    <option value="stock_item">เพิ่มสินค้า</option>
+                                    <option value="disburse">เบิกใช้</option>
                                 </select>
                                 <?php 
                                     if($row_session['user_lv']>=3){

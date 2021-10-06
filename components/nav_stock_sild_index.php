@@ -3,7 +3,7 @@
         <ul class="navbar-nav nav-table-striped">
             <li class="nav-item">
                 <a class="nav-link " href="data-stock/stock_center.php">
-                    <button class="btn btn-success">สต๊อก/เบิก คลังสาขา
+                    <button class="btn btn-success">เพิ่ม/เบิกใช้ คลังสาขา
                     </button>
                 </a>
             </li>
