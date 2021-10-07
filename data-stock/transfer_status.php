@@ -95,7 +95,7 @@
           LEFT JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
           INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
           INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-          WHERE transfer_status = 1
+          WHERE transfer_status = 1 AND bn_id_1 = ".$row_session['user_bn']."
            GROUP BY transfer_name
           ");
           $select_transfer_stock->execute();
