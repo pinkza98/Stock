@@ -179,8 +179,6 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                         $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
                         $delete_transfer_stock_log->execute();
                         }
-                        
-                        
                     }
                 }
             }
@@ -214,6 +212,8 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                 echo "มาครบ set code -1 ออก";
                 $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5,user3='$name',note3='รับของครบแล้ว'  WHERE transfer_stock_id  =$transfer_stock_id");
                 $update_transfer_stock->execute();
+                $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_stock_id = '".$row_1['transfer_name']."' WHERE transfer_stock_id =  '$set_new_transfer_stock_id'");
+                $update_transfer_stock_log->execute();
                 
             }else{
                 echo "หลุดลูป";
