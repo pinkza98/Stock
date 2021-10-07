@@ -148,9 +148,15 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
 
                     }
                     }else{
-                        $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
-                        $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
-                        $update_transfer_log->execute();
+                        if($status_transfer == 1){
+                            $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
+                            $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                            $update_transfer_log->execute();
+                        }else{  
+                            $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                            $delete_transfer_stock_log->execute();
+                        }
+                        
                     }
                 }
 
@@ -158,7 +164,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                     //สำหรับไม่ต้องถอน
                     //เก็บstatus
                     while ($row_2 = $select_transfer_log->fetch(PDO::FETCH_ASSOC) ) {//loop2 ลูปเช็คค่า
-                        if($row_count_2 >= $count2){//stap1
+                        if($row_count_2 > $count2){//stap1
                         $status_transfer = 3;
                         $insert_full_stock = $db->prepare("INSERT INTO branch_stock (bn_stock,stock_id) VALUES (".$row_1['bn_id_2'].",".$row_2['stock_id'].")");
                         $insert_full_stock->execute();
@@ -168,8 +174,10 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                         $count2++;
                         }else{
                         $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
-                        $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
-                        $update_transfer_log->execute();
+                        // $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                        // $update_transfer_log->execute();
+                        $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                        $delete_transfer_stock_log->execute();
                         }
                         
                         
@@ -206,8 +214,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                 echo "มาครบ set code -1 ออก";
                 $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5,user3='$name',note3='รับของครบแล้ว'  WHERE transfer_stock_id  =$transfer_stock_id");
                 $update_transfer_stock->execute();
-                $delete_transfer_stock_log = $db->prepare("DELETE FROM transfer_stock_log WHERE transfer_stock_id = ".$row_1['transfer_name']." AND transfer_note = '".$row_1['transfer_name']."'");
-                $delete_transfer_stock_log->execute();
+                
             }else{
                 echo "หลุดลูป";
             }
