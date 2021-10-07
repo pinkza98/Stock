@@ -88,10 +88,7 @@ $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.tra
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN  2 AND 3 
--- AND bn_id_2 = ".$row_session['user_bn']."
-GROUP BY transfer_name
-");
+WHERE transfer_status BETWEEN  2 AND 3 AND bn_id_1 = ".$row_session['user_bn']." GROUP BY transfer_name");
 $select_transfer_stock->execute();
 $i =0;
 while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC) ) {
