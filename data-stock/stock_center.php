@@ -59,7 +59,6 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <select class="form-select mb-2 mt-2" name="status" id="status" required="true" >
-                                    <option value="" selected>เลือกรายการ</option>
                                     <option value="stock_item">เพิ่มสินค้า</option>
                                     <option value="disburse">เบิกใช้</option>
                                 </select>

@@ -23,18 +23,7 @@
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
 
-    <script>
-    $(document).ready(function() {
-
-        $('#stock_bn').DataTable({
-            dom: 'lBfrtip',
-          buttons: [
-            'excel', 'print'
-          ],
-          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
-        });
-    });
-    </script>
+   
     
     <?php include('../components/header.php');?>
 </head>
@@ -75,7 +64,7 @@
                 <tbody>
                     <?php 
                     
-                        $select_stmt = $db->prepare("SELECT division_name,full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,type_name,bn_name,nature_name FROM branch_stock  
+                        $select_stmt = $db->prepare("SELECT division_name,full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,type_name,bn_name,nature_name,bn_stock FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
                         INNER JOIN division ON stock.division_id = division.division_id
@@ -84,7 +73,7 @@
                         INNER JOIN type_item ON stock.type_id = type_item.type_id
                         INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                         INNER JOIN nature ON stock.nature_id = nature.nature_id
-                        WHERE branch_stock_log.item_quantity != 0
+                        WHERE branch_stock_log.item_quantity != 0 AND bn_stock = ".$row_session['user_bn']."
                         group by code_item, bn_name");
                     
           
@@ -117,8 +106,28 @@
                 </tfoot>
             </table>
         </div>
-
-
-
     </body>
 </html>
+<?php if($row_session['user_lv']==1){?>
+    <script>
+    $(document).ready(function() {
+
+        $('#stock_bn').DataTable({
+          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
+        });
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock_bn').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
+        });
+    });
+    </script>
+      <?php }?>

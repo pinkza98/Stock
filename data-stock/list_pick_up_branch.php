@@ -43,17 +43,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
     <!-- <==========================================fancybox==================================================> -->
-    <script>
-    $(document).ready(function() {
 
-        $('#stock').DataTable({
-            dom: 'lBfrtip',
-          buttons: [
-            'excel', 'print'
-          ],
-        });
-    });
-    </script>
     <script>
     function Fancybox(props) {
         const delegate = props.delegate || "[data-fancybox]";
@@ -180,3 +170,23 @@ function DateThai($strDate)
     </body>
 
 </html>
+<?php if($row_session['user_lv']==1){?>
+    <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({});
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
+    });
+    </script>
+      <?php }?>

@@ -35,33 +35,7 @@
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
-    <script>
-    $(document).ready(function() {
-
-        var table = $('#stock').DataTable({
-            fixedHeader: {
-                header: true
-            },
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                url: "../fetch_stock.php?page=2",
-                type: "POST"
-            },
-            dom: 'lBfrtip',
-            buttons: [
-                'excel', 'print'
-            ],
-            //   "lengthMenu": [ [50, -1], [50, "All"] ],
-            "searching": true,
-            "lengthChange": false,
-            "paging": false
-
-
-        });
-
-    });
-    </script>
+  
 
 
     <?php include('../components/header.php');?>
@@ -109,6 +83,7 @@
                     <th class="text-center">R2</th>
                     <th class="text-center">LB</th>
                     <th class="text-center">BK</th>
+                    <th class="text-center">HQ</th>
                     <th class="text-center">CN</th>
                     <th class="text-center">รวม</th>
                     
@@ -125,3 +100,55 @@
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php if($row_session['user_lv']==1){?>
+    <script>
+    $(document).ready(function() {
+
+        var table = $('#stock').DataTable({
+            fixedHeader: {
+                header: true
+            },
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "../fetch_stock.php?page=2",
+                type: "POST"
+            },
+            "searching": true,
+            "lengthChange": false,
+            "paging": false
+
+
+        });
+
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        var table = $('#stock').DataTable({
+            fixedHeader: {
+                header: true
+            },
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "../fetch_stock.php?page=2",
+                type: "POST"
+            },
+            dom: 'lBfrtip',
+            buttons: [
+                'excel', 'print'
+            ],
+            "searching": true,
+            "lengthChange": false,
+            "paging": false
+
+
+        });
+
+    });
+    </script>
+
+      <?php }?>

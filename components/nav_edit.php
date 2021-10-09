@@ -50,7 +50,7 @@ INNER JOIN branch ON user.user_bn = branch.bn_id
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../data-stock/list_stock_all.php">คลังศูนย์</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/list_stock_all.php">คลังส่วนกลาง</a></li>
                            
                         </ul>
                     </li>

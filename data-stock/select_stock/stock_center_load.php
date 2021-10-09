@@ -18,6 +18,7 @@ if(isset($status)!==false){
    $select_bn->execute();
    $row_bn = $select_bn->fetch(PDO::FETCH_ASSOC);
    $bn_name = $row_bn['bn_name'];
+
    $bn_id = $row_bn['bn_id'];
    $bn_acronym = $row_bn['bn_acronym'];
    if($status == null){

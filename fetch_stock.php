@@ -121,6 +121,7 @@ if($page == 2){
       SUM(IF(bn_stock = 10, item_quantity, 0)) AS BN10,
       SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
       SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
+      SUM(IF(bn_stock = 13, item_quantity, 0)) AS BN13,
       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
       -- SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
       -- SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,
@@ -196,7 +197,8 @@ if($page == 2){
     $sub_array[]= $row["BN9"]; 
     $sub_array[]= $row["BN10"]; 
     $sub_array[]= $row["BN11"]; 
-    $sub_array[]= $row["BN12"]; 
+    $sub_array[]= $row["BN12"];
+    $sub_array[]= $row["BN13"]; 
     $sub_array[]= $row["BN1"]; 
     if($row["SUM_BN"]<=12){
     $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
@@ -235,6 +237,7 @@ if($page == 2){
        SUM(IF(bn_stock = 10, item_quantity, 0)) AS BN10,
        SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
        SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
+       SUM(IF(bn_stock = 13, item_quantity, 0)) AS BN13,
        SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
       --  SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
       --  SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,

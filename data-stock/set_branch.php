@@ -1,32 +1,19 @@
 <?php 
     require_once('../database/db.php');
-
-    if (isset($_REQUEST['delete_id'])) {
-      $bn_id = $_REQUEST['delete_id'];
-
-      $select_stmt = $db->prepare("SELECT * FROM branch WHERE bn_id = :bn_id");
-      $select_stmt->bindParam(':bn_id', $bn_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-
-      // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM branch WHERE bn_id = :bn_id');
-      $delete_stmt->bindParam(':bn_id', $bn_id);
-      $delete_stmt->execute();
-
-        header('Location:set_branch.php');
-    }if (isset($_REQUEST['save'])) {
+    if (isset($_REQUEST['save'])) {
       $bn_name = $_REQUEST['txt_branch_name'];
-      
+      $bn_acronym = $_REQUEST['txt_branch_acronym'];
 
       if (empty($bn_name)) {
           $errorMsg = "Please enter branch name";
-      } else {
+      }if (empty($bn_acronym)) {
+        $errorMsg = "Please enter branch acronym name";
+    }else {
           try {
               if (!isset($errorMsg)) {
-                  $insert_stmt = $db->prepare("INSERT INTO branch (bn_name) VALUES (:bn_name)");
+                  $insert_stmt = $db->prepare("INSERT INTO branch (bn_name,bn_acronym) VALUES (:bn_name,:bn_acronym)");
                   $insert_stmt->bindParam(':bn_name', $bn_name);
-
+                  $insert_stmt->bindParam(':bn_acronym', $bn_acronym);
                   if ($insert_stmt->execute()) {
                       $insertMsg = "Insert Successfully...";
                       header("refresh:1;set_branch.php");
@@ -99,7 +86,10 @@
   <form method="post">
    <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">ชื่อสาขา</label>
-      <input type="text" class="form-control" name="txt_branch_name" id="formGroupExampleInput" require>
+      <input type="text" class="form-control" name="txt_branch_name" id="formGroupExampleInput"  placeholder="ชื่อสาขา" require>
+      </div>
+      <div class="mb-4">
+      <input type="text" class="form-control" name="txt_branch_acronym" id="formGroupExampleInput" placeholder="ชื่อย่อสาขา" require>
       </div>
       <div class="mb-4">
       <input type="submit" name="save" class="btn btn-outline-success" value="Insert">
@@ -117,9 +107,9 @@
     <thead>
       <tr>
         
-        <th scope="col">ชื่อสาขา</th>
-        <th scope="col">แก้ไข</th>
-        <!-- <th scope="col">ลบ</th> -->
+        <th>ชื่อสาขา</th>
+        <th>ชื่อย่อ</th>
+        <th>แก้ไข</th>
       </tr>
     </thead>
     <tbody class="table-light">
@@ -131,8 +121,8 @@
       <tr>
        
         <td><?php echo $row["bn_name"]; ?></td>
+        <td><?php echo $row["bn_acronym"]; ?></td>
         <td><a href="edit/bn_edit.php?update_id=<?php echo $row["bn_id"]; ?>" class="btn btn-outline-warning">View</a></td>
-         <!-- <td><a href="?delete_id=<?php echo $row["bn_id"];?>" class="btn btn-outline-danger">Delete</a></td> -->
         <?php } ?>
       </tr>
     </tbody>

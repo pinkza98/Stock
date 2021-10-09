@@ -26,26 +26,7 @@
  <script type="text/javascript" src="node_modules/data-table/dataTables_excel.js"></script>
  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
-    <script>
-        $(document).ready( function () {
-            
-        $('#stock').DataTable({
-          
-          "processing" : true,
-          "serverSide" : true,
-          "ajax" : {
-            url:"fetch_stock.php?page=1",
-            type:"POST"
-          },
-          dom: 'lBfrtip',
-          buttons: [
-            'excel','print'
-          ],
-          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ]
-  });
-  
- });
-    </script>
+
     
   </head>
   <body>
@@ -105,3 +86,41 @@
 
   </body>
 </html>
+<?php if($row_session['user_lv']==1){?>
+    <script>
+        $(document).ready( function () {
+            
+        $('#stock').DataTable({
+          
+          "processing" : true,
+          "serverSide" : true,
+          "ajax" : {
+            url:"fetch_stock.php?page=1",
+            type:"POST"
+          },
+          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ]
+  });
+ });
+    </script>
+    <?php }else{?>
+      <script>
+        $(document).ready( function () {
+            
+        $('#stock').DataTable({
+          
+          "processing" : true,
+          "serverSide" : true,
+          "ajax" : {
+            url:"fetch_stock.php?page=1",
+            type:"POST"
+          },
+          dom: 'lBfrtip',
+          buttons: [
+            'excel','print'
+          ],
+          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ]
+  });
+ });
+    </script>
+
+      <?php }?>

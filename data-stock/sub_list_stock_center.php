@@ -50,17 +50,7 @@
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
-    <script>
-    $(document).ready(function() {
 
-        $('#stock').DataTable({
-            dom: 'lBfrtip',
-          buttons: [
-            'excel', 'print'
-          ],
-        });
-    });
-    </script>
     <?php include('../components/header.php');?>
 </head>
 
@@ -243,3 +233,25 @@ for (var i = 0; i < deleteLinks.length; i++) {
 </body>
 
 </html>
+
+      <?php if($row_session['user_lv']==1){?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+        });
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
+    });
+    </script>
+      <?php }?>

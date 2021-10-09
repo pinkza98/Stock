@@ -23,18 +23,7 @@
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
 
-    <script>
-    $(document).ready(function() {
-
-        $('#stock_bn').DataTable({
-            dom: 'lBfrtip',
-          buttons: [
-            'excel', 'print'
-          ],
-          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
-        });
-    });
-    </script>
+   
     
     <?php include('../components/header.php');?>
 </head>
@@ -122,3 +111,27 @@
 
     </body>
 </html>
+
+    <?php if($row_session['user_lv']==1){?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock_bn').DataTable({
+          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
+        });
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock_bn').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+          "lengthMenu": [ [10, 20, 50,100, -1], [10, 20, 50,100, "All"] ]
+        });
+    });
+    </script>
+      <?php }?>

@@ -45,17 +45,7 @@
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
-    <script>
-    $(document).ready(function() {
-
-        $('#stock').DataTable({
-            dom: 'lBfrtip',
-            buttons: [
-                'excel', 'print'
-            ],
-        });
-    });
-    </script>
+    
     <?php include('../components/header.php');?>
 
 </head>
@@ -97,8 +87,7 @@
                 <?php include('../components/nav_stock_sild_bn.php'); ?>
             </div>
             <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
-            <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
-                hidden>
+            <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"hidden>
         </div>
     </div>
     </header>
@@ -137,7 +126,7 @@ INNER JOIN nature ON stock.nature_id = nature.nature_id
 INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
 INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
 INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-WHERE item_quantity != 0 AND bn_stock != 1
+WHERE item_quantity != 0 AND bn_stock = ".$row_session['user_bn']."
 ORDER BY exp_date_log DESC");
 $select_stmt->execute();
 while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -166,11 +155,11 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             <?php }?>
         <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>  
-        <<td><a  href="?delete_id=<?php echo $row["full_stock_id"];?>&item_quantity=<?php echo $row["item_quantity"];?>&stock_id=<?php echo $row["stock_id"];?>&user_name=<?php echo $user_name;?>&bn_stock=<?php echo $row["bn_stock"];?>" class="btn btn-danger delete" data-confirm="ต้องการที่จะลบ?">Delete</a></td>
+        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>&item_quantity=<?php echo $row["item_quantity"];?>&stock_id=<?php echo $row["stock_id"];?>&user_name=<?php echo $user_name;?>&bn_stock=<?php echo $row["bn_stock"];?>" class="btn btn-danger delete" data-confirm="ต้องการที่จะลบ?">Delete</a></td>
         <?php } ?>
     </tr>
             </tbody>
-            <tfoot a>
+            <tfoot>
                 <tr class="table-active">
                     <th scope="col" class="text-center">รหัส</th>
                     <th scope="col" class="text-center">รายการ</th>
@@ -235,3 +224,24 @@ for (var i = 0; i < deleteLinks.length; i++) {
 </script>
 
 </html>
+<?php if($row_session['user_lv']==1){?>
+    <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+        });
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+            buttons: [
+                'excel', 'print'
+            ],
+        });
+    });
+    </script>
+      <?php }?>

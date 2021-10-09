@@ -16,15 +16,18 @@
 
     if (isset($_REQUEST['btn_update'])) {
         $bn_name_new = $_REQUEST['txt_bn_name'];
-        
+        $bn_acronym_new = $_REQUEST['txt_bn_acronym'];
 
         if (empty($bn_name_new)) {
             $errorMsg = "Please Enter branch Name";
+        }elseif (empty($bn_acronym_new)) {
+            $errorMsg = "Please Enter branch acronym Name";
         } else {
             try {
                 if (!isset($errorMsg)) {
-                    $update_stmt = $db->prepare("UPDATE branch SET bn_name = :barnch_name_up  WHERE bn_id = :bn_id");
+                    $update_stmt = $db->prepare("UPDATE branch SET bn_name = :barnch_name_up ,bn_acronym=:bn_acronym_up WHERE bn_id = :bn_id");
                     $update_stmt->bindParam(':barnch_name_up', $bn_name_new);
+                    $update_stmt->bindParam(':bn_acronym_up', $bn_acronym_new);
                     $update_stmt->bindParam(':bn_id', $bn_id);
 
                     if ($update_stmt->execute()) {
@@ -86,7 +89,9 @@
   <form method="post">
    <div class="mb-4">
       <label for="formGroupExampleInput" class="form-label">ชื่อสาขา</label>
-      <input type="text" class="form-control col-auto" name="txt_bn_name" id="formGroupExampleInput" value="<?php echo $bn_name; ?>" require>
+      <input type="text" class="form-control col-auto" name="txt_bn_name" id="formGroupExampleInput" value="<?php echo $row['bn_name']; ?>" require>
+      <label for="formGroupExampleInput" class="form-label">ชื่อสาขา</label>
+      <input type="text" class="form-control col-auto" name="txt_bn_acronym" id="formGroupExampleInput" value="<?php echo $row['bn_acronym']; ?>" require>
       </div>
       <div class="mb-4">
       <input type="submit" name="btn_update" class="btn btn-outline-success" value="update">

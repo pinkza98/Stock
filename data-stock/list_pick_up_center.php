@@ -32,17 +32,7 @@
     <script type="text/javascript" src="../node_modules/data-table/bootstrap-table.min.css"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js">
     </script>
-    <script>
-    $(document).ready(function() {
-
-        $('#stock').DataTable({
-            dom: 'lBfrtip',
-          buttons: [
-            'excel', 'print'
-          ],
-        });
-    });
-    </script>
+   
     <script>
       function Fancybox(props) {
       const delegate = props.delegate || "[data-fancybox]";
@@ -187,3 +177,24 @@ function DateThai($strDate)
     </body>
 
 </html>
+<?php if($row_session['user_lv']==1){?>
+    <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+        });
+    });
+    </script>
+    <?php }else{?>
+        <script>
+    $(document).ready(function() {
+
+        $('#stock').DataTable({
+            dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+        });
+    });
+    </script>
+      <?php }?>
