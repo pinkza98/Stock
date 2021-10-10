@@ -10,12 +10,12 @@ if($page == 1){
     $column = array('code_item', 'item_name', 'unit_name', 'price_stock', 'type_name', 'division_name','vendor_name','marque_name','nature_name');
 
     $query = "SELECT price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
-    INNER JOIN item ON stock.item_id = item.item_id 
-    INNER JOIN unit ON item.unit_id = unit.unit_id  
-    INNER JOIN nature ON stock.nature_id = nature.nature_id   
-    INNER JOIN type_item ON stock.type_id = type_item.type_id
-    INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
-    INNER JOIN division ON stock.division_id = division.division_id
+    RIGHT JOIN item ON stock.item_id = item.item_id 
+    LEFT JOIN unit ON item.unit_id = unit.unit_id  
+    LEFT JOIN nature ON stock.nature_id = nature.nature_id   
+    LEFT JOIN type_item ON stock.type_id = type_item.type_id
+    LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
+    LEFT JOIN division ON stock.division_id = division.division_id
     LEFT JOIN marque ON stock.marque_id = marque.marque_id
     ";
     
@@ -82,12 +82,12 @@ if($page == 1){
     function count_all_data($db)
     {
      $query = "SELECT price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
-     INNER JOIN item ON stock.item_id = item.item_id 
-     INNER JOIN unit ON item.unit_id = unit.unit_id  
-     INNER JOIN nature ON stock.nature_id = nature.nature_id   
-     INNER JOIN type_item ON stock.type_id = type_item.type_id
-     INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
-     INNER JOIN division ON stock.division_id = division.division_id
+     RIGHT JOIN item ON stock.item_id = item.item_id 
+     LEFT JOIN unit ON item.unit_id = unit.unit_id  
+     LEFT JOIN nature ON stock.nature_id = nature.nature_id   
+     LEFT JOIN type_item ON stock.type_id = type_item.type_id
+     LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
+     LEFT JOIN division ON stock.division_id = division.division_id
      LEFT JOIN marque ON stock.marque_id = marque.marque_id
      ORDER BY code_item DESC";
      $statement = $db->prepare($query);
@@ -122,7 +122,7 @@ if($page == 2){
       SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
       SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
       SUM(IF(bn_stock = 13, item_quantity, 0)) AS BN13,
-      SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
+      SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 or bn_stock=13 THEN item_quantity ELSE NULL END) AS SUM_BN
       -- SUM(IF(bn_id = 1, quantity, 0)) AS cut_BN1,
       -- SUM(IF(bn_id = 2, quantity, 0)) AS cut_BN2,
       -- SUM(IF(bn_id = 3, quantity, 0)) AS cut_BN3,

@@ -191,7 +191,7 @@
     </thead>
     <tbody class=" table-light">
     <?php 
-          $select_stmt = $db->prepare("SELECT item_id,code_item,item_name,unit_name,price_stock,exd_date FROM item INNER JOIN unit ON item.unit_id = unit.unit_id  ORDER BY code_item ASC");
+          $select_stmt = $db->prepare("SELECT item_id,code_item,item_name,unit_name,price_stock,exd_date FROM item LEFT JOIN unit ON item.unit_id = unit.unit_id  ORDER BY code_item ASC");
           $select_stmt->execute();
           while ($row_item = $select_stmt->fetch(PDO::FETCH_ASSOC)) {?>
       <tr>

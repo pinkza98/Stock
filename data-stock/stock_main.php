@@ -86,13 +86,13 @@
     </thead>
     <tbody class="table-light">
     <?php 
-          $select_stmt = $db->prepare("SELECT stock_id,price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
-          INNER JOIN item ON stock.item_id = item.item_id 
-          INNER JOIN unit ON item.unit_id = unit.unit_id  
-          INNER JOIN nature ON stock.nature_id = nature.nature_id   
-          INNER JOIN type_item ON stock.type_id = type_item.type_id
-          INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
-          INNER JOIN division ON stock.division_id = division.division_id
+          $select_stmt = $db->prepare("SELECT price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock  
+          RIGHT JOIN item ON stock.item_id = item.item_id 
+          LEFT JOIN unit ON item.unit_id = unit.unit_id  
+          LEFT JOIN nature ON stock.nature_id = nature.nature_id   
+          LEFT JOIN type_item ON stock.type_id = type_item.type_id
+          LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
+          LEFT JOIN division ON stock.division_id = division.division_id
           LEFT JOIN marque ON stock.marque_id = marque.marque_id
           ORDER BY code_item DESC ");
           $select_stmt->execute();
