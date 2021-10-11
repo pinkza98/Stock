@@ -126,7 +126,7 @@ INNER JOIN nature ON stock.nature_id = nature.nature_id
 INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
 INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
 INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-WHERE item_quantity != 0 AND bn_stock = ".$row_session['user_bn']."
+WHERE bn_stock = ".$row_session['user_bn']."
 ORDER BY exp_date_log DESC");
 $select_stmt->execute();
 while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {

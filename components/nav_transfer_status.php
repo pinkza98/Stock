@@ -7,7 +7,7 @@
                     </button>
                 </a>
             </li>
-           <?php  if($row_session['user_lv']>=2){ ?> 
+           <?php  if($row_session['user_lv']>=3){ ?> 
            <li class="nav-item">
                 <a class="nav-link " href="transfer_status.php">
                     <button class="btn btn-info">รายการรอ อนุมัติ

@@ -7,12 +7,14 @@
         $user_id = $_REQUEST['txt_user_id'];
         $bn_id = $_REQUEST['txt_bn_id'];
         $stock_id = $_REQUEST['txt_stock_id'];
-        // $cut_date = $now = date_create()->format('Y-m-d');
         $result = $quantity;
 
         if (is_null($quantity)) {
-            $errorMsg = $quantity;
-        }else{
+            $errorMsg = "จำนวนปรับเป็นค่าว่างไม่ได้";
+        }elseif($quantity==0){
+            $errorMsg ="ไม่อนุญาติให้ปรับเป็น 0 ได้";
+        }
+        else{
                 try{
                     
                         
