@@ -168,8 +168,7 @@
                                     <hr>
                                     <div class="row md-6 pt-4">
                                         <button class="btn btn-outline-dark" /><a
-                                            href="#">เปลี่ยนรหัสผ่าน(มีปัญหากำลังแก้ไข)</a></button>
-                                            <!-- edit/user_repassword.php -->
+                                            href="edit/user_repassword.php ">เปลี่ยนรหัสผ่าน(มีปัญหากำลังแก้ไข)</a></button>
                                     </div>
                                 </div>
 

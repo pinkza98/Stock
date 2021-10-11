@@ -72,7 +72,7 @@ if ($row_session['user_lv'] >= 2) {
                         <li><a class="dropdown-item" href="../data-stock/set_type_item.php">จัดการ-ประเภท</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_nature.php">จัดการ-ลักษณะ</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_division.php">จัดการ-แผนก</a></li>
-                        <li><a class="dropdown-item" href="../data-stock/set_marque.php">จัดการ-ยี้ห้อ</a></li>
+                        <li><a class="dropdown-item" href="../data-stock/set_marque.php">จัดการ-ยี่ห้อ</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

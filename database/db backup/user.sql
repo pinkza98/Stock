@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2021 at 12:26 AM
+-- Generation Time: Oct 11, 2021 at 06:45 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -48,7 +48,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `username`, `password`, `user_bn`, `user_lv`, `user_tel`, `user_prefix`, `user_fname`, `user_lname`, `user_line`, `user_img`) VALUES
 (1, 'test1@gmail.com', '$2y$10$mMVgQ8eGPHSVDJsYskZIAuUwY914k0L8iGqjDrnRQ0toOQVIM2k7a', 3, 1, '082602362', 1, 'นายอรรถพล', 'สีชา', 'atthapol@line', ''),
 (2, 'pinkza88@gmail.com', '$2y$10$ZTVlOj1moWpvfbPklprTeuRfef45Z8GIAHOSz2dx7UQ5SAQE9OcgW', 1, 4, '0828602362', 1, 'เจ้าหน้าที่', 'ไอที(เจ๋ง)', '0828602362', '12331.jpg'),
-(3, 'plusdental.os@gmail.com', '$2y$10$07tizjbqFQ1E41KDsK6SWOtCwLf.YsMjRWwRZHD4QzRfsywVcFJqS', 10, 3, '', 1, 'วิรชัย', 'อั้นจุ้ย', '', ''),
+(3, 'plusdental.os@gmail.com', '$2y$10$07tizjbqFQ1E41KDsK6SWOtCwLf.YsMjRWwRZHD4QzRfsywVcFJqS', 1, 3, '', 1, 'วิรชัย', 'อั้นจุ้ย', '', ''),
 (4, 'it@plusdentalclinic.com', '$2y$10$o8s2w5OkcAc0n1ZTQiwep.NtWso3808/7F/kxukj4BiLR44p2WwX2', 1, 4, '', 0, 'IT', 'plus', '', ''),
 (5, 'wichit.t@plusdentalclinic.com', '$2y$10$LLZOEBUWFPUEOqIgEPcYJ.8E1r6svVbpV9vuBV4DvMeeqd7G1xjy.', 1, 3, '', 0, 'wichit', 'AM', '', ''),
 (6, 'kamolwan.v@plusdentalclinic.com', '$2y$10$NdxqtIYmZ6Fl.trKKEb/t.HnWGgSwqIQWSEsyciKwg7RxQOEPm44i', 1, 3, '', 0, 'kamolwan', 'AM', '', ''),

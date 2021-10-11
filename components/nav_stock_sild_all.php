@@ -29,6 +29,13 @@
                     </button>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="transfer.php">
+                    <button class="btn btn-primary">
+                        จัดการโอนย้ายคลัง
+                    </button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

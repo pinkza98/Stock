@@ -5,12 +5,14 @@
       $password = $_REQUEST['txt_user_password'];
       $password1 = $_REQUEST['txt_user_password1'];
       $password2 = $_REQUEST['txt_user_password2'];
-      
       $select_user_check = $db->prepare("SELECT user_id,password FROM user WHERE user_id = :new_user_id");
       $select_user_check->execute(array(':new_user_id' => $user_id));
       $row = $select_user_check->fetch(PDO::FETCH_ASSOC);
      $password_check=password_verify($password,$row['password']);
-     if($password_check ==true){
+     $hashed_password = password_hash($row['password'], PASSWORD_DEFAULT);
+     $hashed_password2 = password_hash($row['password'], PASSWORD_BCRYPT);
+     var_dump($hashed_password);
+     if($password_check==true){
         if(is_null($password1)){
             $errorMsg="รหัสผ่านใหม่ ไม่เป็นค่าว่าง";
           }
@@ -20,8 +22,6 @@
               $errorMsg = "รหัสผ่านใหม่ทั้งสอง ไม่เหมือนกัน";
           }
           else{
-
-             
             try {
               if (!isset($errorMsg)) {
                 $new_password = $password1;
@@ -29,14 +29,13 @@
                 $select_user_profile = $db->prepare("UPDATE user SET  password = :super_new_password WHERE user_id = :new_user_id");
                 $select_user_profile->bindParam(':super_new_password', $super_new_password);
                 $select_user_profile->bindParam(':new_user_id', $user_id);
-                $select_user_profile->execute();
-                if ($select_user_profile->execute()) {
-                  $updateMsg = "ข้อมูลถูกอัพเดด...";
-                  header("refresh:2;../user_profile.php");
+                // if ($select_user_profile->execute()) {
+                //   $updateMsg = "ข้อมูลถูกอัพเดด...";
+                //   header("refresh:2;../user_profile.php");
                   
-                }else{
-                  $errorMsg = "พบข้อผิดพลาดด้าน MYSQL แจ้งฝ่ายไอที";
-                }
+                // }else{
+                //   $errorMsg = "พบข้อผิดพลาดด้าน MYSQL แจ้งฝ่ายไอที";
+                // }
               }else{
                 $errorMsg = "รหัสผ่านไม่ถูกต้อง";
               }

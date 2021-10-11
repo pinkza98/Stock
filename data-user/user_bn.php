@@ -94,7 +94,6 @@
         <td><?php echo $row["user_fname"]; ?> <?php echo $row["user_lname"]; ?></td>
         <td><?php echo $row["level_name"]; ?></td>
         <td><?php echo $row["bn_name"]; ?></td>
-       
         <td><?php echo $row["user_tel"]; ?></td>
         <td><?php echo $row["user_line"]; ?></td>
         <!-- <td><a href="edit/user_edit.php?update_id=<?php echo $row["user_id"]; ?>" class="btn btn-outline-warning">View</a></td> -->

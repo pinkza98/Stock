@@ -12,9 +12,6 @@ $row_session = $select_session->fetch(PDO::FETCH_ASSOC);
 extract($row_session);
 if (isset($_SESSION['user_login'])) {
     ?>
-
-
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light nav-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="img-resize "><a href="index.php"><img class="rounded float-start"
@@ -73,7 +70,7 @@ if ($row_session['user_lv'] >= 2) {
                         <li><a class="dropdown-item" href="data-stock/set_type_item.php">จัดการ-ประเภท</a></li>
                         <li><a class="dropdown-item" href="data-stock/set_nature.php">จัดการ-ลักษณะ</a></li>
                         <li><a class="dropdown-item" href="data-stock/set_division.php">จัดการ-แผนก</a></li>
-                        <li><a class="dropdown-item" href="data-stock/set_marque.php">จัดการ-ยี้ห้อ</a></li>
+                        <li><a class="dropdown-item" href="data-stock/set_marque.php">จัดการ-ยี่ห้อ</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

@@ -7,13 +7,15 @@ session_start();
 	if (isset($_REQUEST['btn_login'])) {
 		$username = strip_tags($_REQUEST['txt_username']);
 		$password = strip_tags($_REQUEST['txt_password']);
+		
 		if (empty($username)) {
 			$errorMsg[] = "Please enter username ";
 		} else if (empty($password)) {
 			$errorMsg[] = "Please enter password";
 		} else {
 			try {
-				$select_stmt = $db->prepare("SELECT * FROM user WHERE username = :uname");
+				$username=trim($username);
+				$select_stmt = $db->prepare("SELECT user_id,username,password FROM user WHERE username = :uname");
 				$select_stmt->execute(array(':uname' => $username));
 				$row = $select_stmt->fetch(PDO::FETCH_ASSOC);
 				if ($select_stmt->rowCount() > 0) {
