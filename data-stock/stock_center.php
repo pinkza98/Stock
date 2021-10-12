@@ -154,13 +154,14 @@ $(document).ready(function() {
                         var price_stock = result.price_stock;
                         var user_name = result.user_name;
                         var status = result.status;
+                        var unit_name = result.unit_name;
                         // 
                         i++;
                         $('#dynamic_field').append('<tr id="row' + i +
                             '" class="dynamic-added"><td><input type="text" value="' +
                             code_item +
                             '" class=" form-control text-center" /disabled></td><td><input type="text" value="' +
-                            item_name +
+                            item_name +'('+unit_name+')'+
                             '" class=" form-control text-center"/disabled></td><td><input type="number" value="' +
                             qty +
                             '" class=" form-control  text-center" name="qty[]"/></td><input type="hidden" value="' +

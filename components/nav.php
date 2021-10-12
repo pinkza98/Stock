@@ -100,6 +100,9 @@ if ($row_session['user_lv'] >= 2) {
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
+                        <?php if($row_session['user_lv'] >= 5){?>
+                        <li><a class="dropdown-item" href="data-user/resetpassword.php">รีเซ็ตรหัสผ่าน</a></li>
+                        <?php } ?>
                         <?php }?>
                     </ul>
                 </li>

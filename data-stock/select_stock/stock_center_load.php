@@ -7,7 +7,9 @@ include('../../database/db.php');
    $status=$_POST['status'];
    $code = lcfirst($code);
 if(isset($status)!==false){
-   $select_item =$db->prepare("SELECT item_id,item_name,code_item,price_stock,exd_date FROM item WHERE code_item='$code'");
+   $select_item =$db->prepare("SELECT item_id,item_name,code_item,price_stock,exd_date,unit_name FROM item 
+   INNER JOIN unit ON item.unit_id = unit.unit_id
+   WHERE code_item='$code'");
    $select_item->execute();
    $row_item = $select_item->fetch(PDO::FETCH_ASSOC);
    extract($row_item);
@@ -75,10 +77,10 @@ if(isset($status)!==false){
    if(!empty($errorMsg)){
       echo $errorMsg;
    }elseif($status =="transfer"){
-      $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status,'bn_id2'=>$bn_id2,'bn_name2'=>$bn_name2,'bn_acronym'=>$bn_acronym,'bn2_acronym'=>$bn2_acronym);
+      $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status,'bn_id2'=>$bn_id2,'bn_name2'=>$bn_name2,'bn_acronym'=>$bn_acronym,'bn2_acronym'=>$bn2_acronym,'unit_name'=>$unit_name);
    }
    else{
-   $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status);
+   $list_item = array('stock_id'=>$stock_id,'item_name'=>$item_name,'code_item'=>$code_item,'sum_item'=>$sum,'bn_name'=>$bn_name,'exd_date'=>$exd_date_gen,'bn_id'=>$bn_id,'price_stock'=>$price_stock,'user_name'=>$user_name,'status'=>$status,'unit_name'=>$unit_name);
    }
    echo json_encode($list_item,JSON_UNESCAPED_UNICODE);
 }
