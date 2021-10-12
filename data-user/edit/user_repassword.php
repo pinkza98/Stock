@@ -34,7 +34,7 @@
                 $select_user_profile->bindParam(':super_new_password', $super_new_password);
                 $select_user_profile->bindParam(':new_user_id', $user_id);
                 if ($select_user_profile->execute()) {
-                  $updateMsg = "ข้อมูลถูกอัพเดด...กำลังกลัับไปหน้าlogin....";
+                  $updateMsg = "ข้อมูลถูกอัพเดด...กำลังกลับไปหน้า login....";
                   header("refresh:2;../../logout.php");
                 }else{
                   $errorMsg = "พบข้อผิดพลาดด้าน MYSQL แจ้งฝ่ายไอที";

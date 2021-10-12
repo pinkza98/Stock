@@ -58,25 +58,26 @@ if ($row_session['user_lv'] >= 2) {
                             จัดการรายการคงคลัง
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <?php if ($row_session['user_lv'] >= 3) {?>
                         <li><a class="dropdown-item" href="../data-stock/stock_main.php">จัดการรายการคลังหลัก</a>
                         </li>
+                        <?php } ?>
                         <li><a class="dropdown-item" href="../data-stock/stock.php">จัดการรายการใหม่-2</a></li>
                         <li><a class="dropdown-item" href="../data-stock/item.php">จัดการรายการใหม่-1</a></li>
-                        <?php if ($row_session['user_lv'] >= 3) {?>
+                        <?php if ($row_session['user_lv'] >= 2) {?>
                         <li>
                             <hr class="dropdown-divider"><a>(กระบวการจัดเตรียมข้อมูล)</a>
                         </li>
+                        <?php if ($row_session['user_lv'] >= 4) {?>
                         <li><a class="dropdown-item" href="../data-stock/set_branch.php">จัดรายการ-สาขา</a></li>
-                        <li><a class="dropdown-item" href="../data-stock/vendor.php">จัดการ-ผู้ขาย</a></li>
-                        <li><a class="dropdown-item" href="../data-stock/unit.php">จัดการ-หน่วย</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_type_item.php">จัดการ-ประเภท</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_nature.php">จัดการ-ลักษณะ</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_division.php">จัดการ-แผนก</a></li>
+                        <?php }?>
+                        <li><a class="dropdown-item" href="../data-stock/vendor.php">จัดการ-ผู้ขาย</a></li>
+                        <li><a class="dropdown-item" href="../data-stock/unit.php">จัดการ-หน่วย</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_marque.php">จัดการ-ยี่ห้อ</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="../data-stock/reconcile.php">ปรับยอด สต๊อก</a></li>
+                        
                         <?php }?>
                     </ul>
                     </li>
