@@ -90,7 +90,7 @@ INNER JOIN vendor ON stock.vendor_id = vendor.vendor_id
 INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
 INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
 WHERE item_quantity != 0
-ORDER BY full_stock_id DESC LIMIT 100");
+ORDER BY full_stock_id DESC");
 $select_stmt->execute();
 while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>

@@ -1,7 +1,7 @@
 <?php 
     require_once('../../database/db.php');
     if (isset($_REQUEST['update_password'])) {
-        $user_id = $_REQUEST['txt_user_id'];
+      $user_id = $_REQUEST['txt_user_id'];
       $password = $_REQUEST['txt_user_password'];
       $password1 = $_REQUEST['txt_user_password1'];
       $password2 = $_REQUEST['txt_user_password2'];
@@ -9,44 +9,41 @@
       $select_user_check->execute(array(':new_user_id' => $user_id));
       $row = $select_user_check->fetch(PDO::FETCH_ASSOC);
      $password_check=password_verify($password,$row['password']);
-     $hashed_password = password_hash($row['password'], PASSWORD_DEFAULT);
-     $hashed_password2 = password_hash($row['password'], PASSWORD_BCRYPT);
-     var_dump($hashed_password);
-     if($password_check==true){
-        if(is_null($password1)){
-            $errorMsg="รหัสผ่านใหม่ ไม่เป็นค่าว่าง";
-          }
-          elseif(is_null($password2)){
-            $errorMsg = "กรุณากรอกรหัสผ่านยืนยันใหม่ ";
-          }elseif($password1 =! $password2){
-              $errorMsg = "รหัสผ่านใหม่ทั้งสอง ไม่เหมือนกัน";
-          }
-          else{
+  
+
+     if(is_null($password1) && is_null($password2)&& is_null($password)){
+      $errorMsg="กรุณากรอกรหัสผ่าน";
+    }
+    elseif(empty($password1) && empty($password2)){
+      $errorMsg="กรุณากรอกรหัสผ่าน";
+    }
+    elseif(!password_verify($password , $row['password'])) {
+      $errorMsg = "รหัสผ่านไม่ถูกต้อง";
+     }
+     else if (strlen($password1) < 6 && strlen($password2) < 6) {
+      $errorMsg = "Password ของท่านต้องมีมากกว่า 6 ตัวอักษร";
+    }
+    elseif($password1 != $password2){
+        $errorMsg = "ยืนยันรหัสผ่านไม่ถูกต้อง";
+    }
+    else{
             try {
               if (!isset($errorMsg)) {
-                $new_password = $password1;
-                $super_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+                $super_new_password = password_hash($password1, PASSWORD_DEFAULT);
                 $select_user_profile = $db->prepare("UPDATE user SET  password = :super_new_password WHERE user_id = :new_user_id");
                 $select_user_profile->bindParam(':super_new_password', $super_new_password);
                 $select_user_profile->bindParam(':new_user_id', $user_id);
-                // if ($select_user_profile->execute()) {
-                //   $updateMsg = "ข้อมูลถูกอัพเดด...";
-                //   header("refresh:2;../user_profile.php");
-                  
-                // }else{
-                //   $errorMsg = "พบข้อผิดพลาดด้าน MYSQL แจ้งฝ่ายไอที";
-                // }
-              }else{
-                $errorMsg = "รหัสผ่านไม่ถูกต้อง";
+                if ($select_user_profile->execute()) {
+                  $updateMsg = "ข้อมูลถูกอัพเดด...กำลังกลัับไปหน้าlogin....";
+                  header("refresh:2;../../logout.php");
+                }else{
+                  $errorMsg = "พบข้อผิดพลาดด้าน MYSQL แจ้งฝ่ายไอที";
+                }
               }
             } catch(PDOException $e) {
                  echo $e->getMessage();
             }
         }
-     }else{
-         $errorMsg="รหัสผ่านเดิม ไม่ถูกต้อง";
-     }
-      
   }
 ?>
 <link rel="icon" type="image/png" href="../../components/images/tooth.png"/>
