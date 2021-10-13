@@ -100,14 +100,16 @@ if ($row_session['user_lv'] >= 2) {
 
                             <li><a class="dropdown-item" href="../data-user/user_center.php">สมาชิกศูนย์</a></li>
                             <li><a class="dropdown-item" href="../data-user/user_bn.php">สมาชิกสาขา</a></li>
-                            <?php if ($row_session['user_lv'] >= 2) {?>
+                            <?php if($row_session['user_lv'] >= 5){?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
-                            <?php if($row_session['user_lv'] >= 5){?>
                             <li><a class="dropdown-item" href="../data-user/resetpassword.php">รีเซ็ตรหัสผ่าน</a></li>
-                            <?php } ?>
+                            <li><a class="dropdown-item" href="#">รีเซ็ตเครดิต</a></li>
+                            <li><a class="dropdown-item" href="#">เพิ่มเครดิต</a></li>
+                            <li><a class="dropdown-item" href="#">เปลี่ยนสาขา</a></li>
+                            <li><a class="dropdown-item" href="#">เปลี่ยนระดับผู้ใช้งาน</a></li>
                             <?php }?>
                         </ul>
                     </li>
