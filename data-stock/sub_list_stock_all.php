@@ -36,6 +36,14 @@
 <!-- <==========================================data-teble==================================================> -->
    
     <?php include('../components/header.php');?>
+    <style>
+        tfoot input {
+        width: 100%;
+        padding: 0px;
+        box-sizing: content-box;
+        color: black;
+    }
+    </style>
 
     <?php include('../components/nav_stock.php'); ?>
    
@@ -122,7 +130,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
         <?php } ?>
     </tr>
 </tbody>
-<tfoot a>
+<tfoot>
     <tr class="table-active">
         <th scope="col" class="text-center"></th>
         <th scope="col" class="text-center"></th>
@@ -179,14 +187,36 @@ function DateDiff($strDate1,$strDate2)
     </script>
     <?php }else{?>
         <script>
-    $(document).ready(function() {
-
-        $('#stock_sub').DataTable({
-            dom: 'lBfrtip',
+         $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#stock_sub tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+ 
+    // DataTable
+    var table = $('#stock_sub').DataTable({
+        dom: 'lBfrtip',
           buttons: [
             'excel', 'print'
           ],
-        });
+          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ],
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if (that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
     });
+ 
+} );
     </script>
       <?php }?>

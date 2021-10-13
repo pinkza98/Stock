@@ -53,6 +53,14 @@
 
     <?php include('../components/header.php');?>
 </head>
+<style>
+        tfoot input {
+        width: 100%;
+        padding: 0px;
+        box-sizing: content-box;
+        color: black;
+    }
+    </style>
 
 <body>
     <?php include('../components/nav_stock.php'); ?>
@@ -99,7 +107,7 @@
         <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
         <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
             hidden>
-        <table class="table table-dark table-hover text-xl-center" id="stock">
+        <table class="table table-dark table-hover text-xl-center" id="stock_sub">
 
             <thead class="table-dark">
                 <tr class="table-active">
@@ -234,24 +242,46 @@ for (var i = 0; i < deleteLinks.length; i++) {
 
 </html>
 
-      <?php if($row_session['user_lv']==1){?>
-        <script>
+<?php if($row_session['user_lv']==1){?>
+    <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable({
+        $('#stock_sub').DataTable({
         });
     });
     </script>
     <?php }else{?>
         <script>
-    $(document).ready(function() {
-
-        $('#stock').DataTable({
-            dom: 'lBfrtip',
+         $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#stock_sub tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+ 
+    // DataTable
+    var table = $('#stock_sub').DataTable({
+        dom: 'lBfrtip',
           buttons: [
             'excel', 'print'
           ],
-        });
+          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ],
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if (that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
     });
+ 
+} );
     </script>
       <?php }?>
