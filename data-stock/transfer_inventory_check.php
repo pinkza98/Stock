@@ -84,13 +84,24 @@
             </thead>
             <tbody>
                 <?php 
-$select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service,transfer_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
-INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
-INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
-INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
-WHERE transfer_status BETWEEN 1 AND 4 AND bn_id_2 = ".$row_session['user_bn']."
-GROUP BY transfer_name
-");
+                if($row_session['user_lv'] >= 5){
+                    $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service,transfer_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+                    INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
+                    INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
+                    INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
+                    WHERE transfer_status BETWEEN 1 AND 4
+                    GROUP BY transfer_name
+                    ");
+                }else{
+                    $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service,transfer_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+                    INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
+                    INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
+                    INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
+                    WHERE transfer_status BETWEEN 1 AND 4 AND bn_id_2 = ".$row_session['user_bn']."
+                    GROUP BY transfer_name
+                    ");
+                }
+
 //  AND bn_id_2 = ".$row_session['user_bn']."
 $select_transfer_stock->execute();
 $i =0;

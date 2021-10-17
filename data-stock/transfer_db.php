@@ -144,10 +144,9 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                 if($row_count_2 == $count2+1){
                                     $n=$sum_log['sum_qty_set']%$row_count_log;
                                     $sum_divide =$sum_log['sum_qty_set']/$row_count_log+($n);
-                                    $sum_divide = round($sum_divide);
                                 }else{
-                                    $sum_divide =$sum_log['sum_qty_set']/$row_count_log;
-                                    $sum_divide = floor($sum_divide);
+                                    $n=$sum_log['sum_qty_set']%$row_count_log;
+                                    $sum_divide =($sum_log['sum_qty_set']-$n)/$row_count_log;
                                 }
                             }
                             if($sum_log['sum_qty']!=$sum_log['sum_qty_set']){ 
@@ -179,13 +178,13 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                     $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
                                     $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
                                     $update_transfer_log->execute();
-                        }else{  
-                            $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
-                            $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
-                            $update_transfer_log->execute();
-                            $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
-                            $delete_transfer_stock_log->execute();
-                        }
+                                }else{  
+                                    $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
+                                    $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                    $update_transfer_log->execute();
+                                    $delete_transfer_stock_log = $db->prepare("DELETE  FROM transfer_stock_log WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                    $delete_transfer_stock_log->execute();
+                                }
                     }
                 }
                 }else{
@@ -199,10 +198,10 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                 if($row_count_2 == $count2+1){
                                     $n=$sum_log['sum_qty_set']%$row_count_log;
                                     $sum_divide =$sum_log['sum_qty_set']/$row_count_log+($n);
-                                    $sum_divide = round($sum_divide);
                                 }else{
-                                    $sum_divide =$sum_log['sum_qty_set']/$row_count_log;
-                                    $sum_divide = floor($sum_divide);
+                                    $n=$sum_log['sum_qty_set']%$row_count_log;
+                                    $sum_divide =($sum_log['sum_qty_set']-$n)/$row_count_log;
+
                                 }
                             }
                         $status_transfer = 3;
