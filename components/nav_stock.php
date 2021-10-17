@@ -122,13 +122,16 @@ if ($row_session['user_lv'] >= 2) {
                     </li>
                 </ul>
             </div>
-            <div class="nav-item me-2 ">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">คุณ :
-                    <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?> |
-                    สถานะ :
-                    <?php echo $row_session['level_name']; ?> สาขา :
-                    <?php echo $row_session['bn_name'];} ?></a>
-            </div>
+            <div class="nav-item me-6 ">
+            <a class="nav-link disabled" 
+                aria-disabled="true">คุณ :
+                <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?> |
+                สถานะ :
+                <?php echo $row_session['level_name']; ?> สาขา :
+                <?php echo $row_session['bn_name'];  ?>
+                | เครดิต :
+                <?php echo number_format($row_session['credit']);}?></a>
+        </div>
             <div class="nav-item fixed-relative">
             <button type="button" class="btn btn-danger"><a  href="../logout.php" class="text-light">Logout</a></button>
             </div>

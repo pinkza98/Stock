@@ -5,15 +5,21 @@ if($_POST['status']=="pass"){
 $transfer_stock_id=$_POST['uid'];
  $text1=$_POST['text1'];
  $name=$_POST['name'];
+ $credit=$_POST['credit'];
+ $user_id=$_POST['user_id'];
 
-$update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 2 ,note2 = '$text1',user2='$name' WHERE transfer_stock_id  ='$transfer_stock_id'");
-    if($update_transfer_stock->execute()){
+    
 
     $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");
-    if( $select_transfer_stock->execute()){
-        $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
-        extract($row_transfer_stock);
+    $select_transfer_stock->execute();
+    $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
+    extract($row_transfer_stock);
 
+    $select_transfer_credit = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum_price  FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name'");
+    $select_transfer_credit->execute();
+    $row_transfer_credit = $select_transfer_credit->fetch(PDO::FETCH_ASSOC);
+    
+    if($credit >= $row_transfer_credit['sum_price'] ){
         $select_stock_log = $db->prepare("SELECT * from branch_stock_log WHERE status_log ='$transfer_name'");
         if($select_stock_log->execute()){
             while ($row_stock_log = $select_stock_log->fetch(PDO::FETCH_ASSOC)) {
@@ -31,12 +37,20 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                 }
                 
             }
+            $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 2 ,note2 = '$text1',user2='$name' WHERE transfer_stock_id  ='$transfer_stock_id'");
+            $update_transfer_stock->execute();
+            $credit = $credit-$row_transfer_credit['sum_price'];
+            $update_credit_user=$db->prepare("UPDATE user SET credit =$credit WHERE user_id = '$user_id'");
+            $update_credit_user->execute();
             echo "สำเร็จ";
         }
-    }
     }else{
-        echo "การ update ข้อมูลผิดพลาด";
+            echo "เครดิตของคุณไม่เพียงพอ!!!";
     }
+
+        
+    
+   
 }elseif($_POST['status']=="no_pass"){
     $transfer_stock_id=$_POST['uid'];
     $text1=$_POST['text1'];
@@ -143,7 +157,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                 
                                 $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."','$sum_divide',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                                 $insert_full_stock_log->execute();
-                                $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_qty=".round($sum_log['sum_qty_set']/($row_count_2-1)).", transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_qty=".($sum_log['sum_qty_set']/($row_count_2-1)).", transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
                                 $update_transfer_stock_log->execute();
                                 $count2++;
                             }elseif($sum_log==0){
@@ -156,7 +170,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                 $insert_full_stock->execute();
                                 $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."','$sum_divide',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                                 $insert_full_stock_log->execute();
-                                $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_qty =".round($sum_log['sum_qty_set']/($row_count_2-1)).", transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
+                                $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_qty =".($sum_log['sum_qty_set']/($row_count_2-1)).", transfer_stock_id =  '$set_new_transfer_stock_id' WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
                                 $update_transfer_stock_log->execute();
                                 $count2++;
                             }

@@ -1,209 +1,145 @@
 <?php 
     require_once('../database/db.php');
+    if (isset($_REQUEST['update_credit'])) {
+        if(!empty($_REQUEST['txt_user_email'])){
+            $user_email = $_REQUEST['txt_user_email'];
+            $credit = $_REQUEST['txt_user_credit'];
+            $user_email = trim($user_email);
+            $select_user_check = $db->prepare("SELECT user_id,username,credit FROM user WHERE username = '$user_email'");
+            $select_user_check->execute();
+            $row = $select_user_check->fetch(PDO::FETCH_ASSOC);
+            $credit = $credit + $row['credit'];
+            if(empty($credit)){
+                $errorMsg="กรุณากรอกเครดิต";
+              }
+              elseif(is_null($user_email) or $row['username']==null ){
+                  $errorMsg="ไม่พบ e-mail ในระบบ";
+              }else{
+                try {
+                    if (!isset($errorMsg)) {
+                      $select_user_profile = $db->prepare("UPDATE user SET  credit = :new_credit WHERE user_id = :new_user_id");
+                      $select_user_profile->bindParam(':new_credit', $credit);
+                      $select_user_profile->bindParam(':new_user_id', $row['user_id']);
+                      if ($select_user_profile->execute()) {
+                        $updateMsg = "ข้อมูลถูกอัพเดด..";
+                        header("refresh:2;credit_reset.php");
+                      }else{
+                        $errorMsg = "พบข้อผิดพลาดด้าน MYSQL";
+                      }
+                    }
+                  } catch(PDOException $e) {
+                       echo $e->getMessage();
+                  }
+              }
+           
+        }else{
+            $user_lv = $_REQUEST['txt_user_lv'];
+            $credit = $_REQUEST['txt_user_credit'];
+            if(is_null($credit)){
+                $errorMsg = "เครดิตเป็นค่าว่าง";
+            }else{
+            try {
+                  $select_user_profile = $db->prepare("UPDATE user SET  credit = :new_credit WHERE user_lv = $user_lv");
+                  $select_user_profile->bindParam(':new_credit', $credit);
+                  if ($select_user_profile->execute()) {
+                    $updateMsg = "ข้อมูลถูกอัพเดด..";
+                    header("refresh:2;credit_reset.php");
+                  }else{
+                    $errorMsg = "พบข้อผิดพลาดด้าน MYSQL";
+                  }
+              } catch(PDOException $e) {
+                   echo $e->getMessage();
+              }
+         }
+        }
+     
+
+   
+   
+            
+        
+  }
 ?>
-<link rel="icon" type="image/png" href="../components/images/tooth.png" />
+<link rel="icon" type="image/png" href="../components/images/tooth.png"/>
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-    <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-    <!-- <==========================================data-teble==================================================> -->
     <?php include('../components/header.php');?>
-    <style>
-        .btn-info {
-            color: #FFF;
-        }
-        .btn-warning {
-            color: #FFF; 
-        }
-    </style>
-</head>
-<body>
-    <?php include('../components/nav_stock.php'); ?>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  </head>
+  </head>
+  <body>
+  <?php include('../components/nav_user.php'); ?>
     <header>
-
-       
+      <div class="display-3 text-xl-center mt-5">
+        <H2>Reset Password</H2>  
+      </div>
     </header>
     <hr><br>
     <?php include('../components/content.php')?>
     <div class="container">
-        <div class="row">
-            <div class="col">
-            </div>
+    <?php 
+         if (isset($errorMsg)) {
+    ?>
+        <div class="alert alert-danger mb-2">
+            <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card-header">
-                    <h4 class="card-title">ปรับปรุงเครดิตสมาชิก</h4>
-                </div>
-                <form id="list_item" name="list_item">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select class="form-select mb-2 mt-2" name="status" id="status" >
-                                    <option value="all">ทั้งหมด</option>
-                                    <option value="one">รายบุคคล</option>
-                                </select>
-                                <div class="row g-2">
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </form>
-                <div class="row">
-                        <div class="col-md-9">
-                            <div class="form.group">
-                                <input type="text" name="user_email" id="user_email" class="form-control"
-                                    placeholder="E-mail" required autofocus>
-                            </div>
-                        </div>
-                </div>
-                <br>
-                <form name="add_name" id="add_name">
-                    <div class="responsive p-6">
-                        <table class="table table-bordered" id="dynamic_field">
-                            <thead class="table-dark text-center">
-                                <th class="col-md-2">รหัสสมาชิก</th>
-                                <th class="col-md-4">สาขา</th>
-                                <th class="col-md-1">ตำแหน่ง</th>
-                                <th class="col-md-1">เพิ่มเครดิต</th>
-                                <th class="col-md-2">เครดิตที่มี</th>
-                                <th class="col">ลบ</th>
-                            </thead>
-                            <tr>
-                            <!-- <tr><input type="text" class="form-control" placeholder="หมายเหตุถ้ามี!"name="note"id="note"/></tr> -->
-                            
-                            </tr>
-                        </table>
-                        <input type="submit" name="submit" id="submit" class="btn btn-success" value="Add" />
-                        <input type="submit" href="transfer.php" class="btn btn-primary"value="Reset"/>
-                    </div>
-                </form>
-            </div>
+    <?php } ?>
+    <?php 
+        if (isset($updateMsg)) {
+    ?>
+        <div class="alert alert-success mb-2">
+            <strong>สำเร็จ! <?php echo $updateMsg; ?></strong>
         </div>
-    </div>
-</body>
+    <?php } ?>
+    <?php 
+    ?>
+      <div class="container pt-3">
+            <form method='POST' enctype='multipart/form-data'>
+              <div class="container col-md-5">
+                 
+                  <label for="formGroupExampleInput" class="form-label"><b>ข้อมูล</b></label>
+                  <div class="row g-4">
+                  <div class="mb-2">
+                  <input type="text"  name="txt_user_email" class="form-control" placeholder="E-mail " >
+                  <div class="col-sm-12"></div>
+                  </div>
+                  </div>
+                  <label>หรือ</label>
+                  <div class="col-sm-12 mb-2 mt-2">
+                  <div class="col-sm-6">
+                  <select name="txt_user_lv" class="form-select ">
+                    <option value=""  class="text-wrap"selected hidden>----- ระดับผู้ใช้งาน --------</option>
+                    <option value="1"  class="text-wrap">พนักงาน(Plus Dental Clinic)</option>
+                    <option value="2"  class="text-wrap">ผู้จัดการสาขา</option>
+                    <option value="3"  class="text-wrap">ผู้จัดการเขต</option>
+                    <option value="4"  class="text-wrap">CEO</option>
+                    <option value="5"  class="text-wrap">Admin</option>
+                  </select>
+                  </div>
+                  </div>
+                  <label>เครดิต</label>
+                    <input type="number" class="form-control" name="txt_user_credit"  placeholder="เครดิตที่ต้องการเพิ่ม" >
+                  
+                
+                <div class="mb-3 mt-3 mb-2">    
+                  <input type="submit" name="update_credit" class="btn btn-outline-success" value="Update">
+                  <a href="../index.php" class="btn btn-outline-danger">Back</a>
+                </div>
+                </div>
+                </div>
+               
+               
+              </form>
+        </div>   
+
+   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
+   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    var i = 1;
-    var qty = 1;
-    $("#user_email").keypress(function(event) {
-        if (event.keyCode === 13) {
-            if (!this.value == "") {
-
-                event.preventDefault(event);
-                $.ajax({
-                    url: 'select_user/user_load.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: $('#list_item').serialize(),
-                    success: function(result) {
-                        var item_name = result.item_name;
-                        var code_item = result.code_item;
-                        var sum_item = result.sum_item;
-                        var bn_name = result.bn_name;
-                        var bn_id = result.bn_id;
-                        var stock_id = result.stock_id;
-                        var exd_date = result.exd_date;
-                        var price_stock = result.price_stock;
-                        var user_name = result.user_name;
-                        var status = result.status;
-                        var bn_id2 = result.bn_id2;
-                        var bn_name2 = result.bn_name2;
-                        var bn_acronym = result.bn_acronym;
-                        var bn2_acronym = result.bn2_acronym;
-                        // 
-                        i++;
-                        $('#dynamic_field').append('<tr id="row' + i +
-                            '" class="dynamic-added"><td><input type="text" value="' +
-                            code_item +
-                            '" class=" form-control text-center" /disabled></td><td><input type="text" value="' +
-                            item_name +
-                            '" class=" form-control text-center"/disabled></td><td><input type="number" value="' +
-                            qty +
-                            '" class=" form-control  text-center" name="qty[]"/></td><input type="hidden" value="' +
-                            stock_id +
-                            '" name="stock_id[]"/><input type="hidden" value="' +
-                            bn_id + '" name="bn_id[]"/><input type="hidden" value="' +
-                            bn_id2 + '" name="bn_id2[]"/><input type="hidden" value="' +
-                            user_name +
-                            '" name="user_name[]"/><input type="hidden" value="' +
-                            price_stock +
-                            '" name="price_stock[]"/><input type="hidden" value="' +
-                            exd_date +
-                            '" name="exd_date[]"/><input type="hidden" value="' +
-                            status +
-                            '" name="status[]"/><input type="hidden" value="' +
-                            bn_acronym +
-                            '" name="bn_acronym[]"/><input type="hidden" value="' +
-                            bn2_acronym +
-                            '" name="bn2_acronym[]"/><input type="hidden" value="' +
-                            sum_item +
-                            '" name="sum[]"/><td><input type="text" value="' +
-                            sum_item +
-                            '" class=" form-control  text-center"/disabled></td><td><input type="text" value="' +
-                            bn_name +
-                            '" class=" form-control text-center"/disabled></td><td><input type="text" value="' +
-                            bn_name2 +
-                            '" class=" form-control text-center"/disabled></td><td><input type="button" name="view" value="view" class="btn btn-info view_data" id="'+stock_id+'"/></td><td><button type="button" name="remove" id="' +
-                            i +
-                            '" class="btn btn-danger btn_remove">X</button></td></tr>'
-                        );
-                        event.currentTarget.value = "";
-                    }
-                });
-            }
-        }
-        $(document).on('click', '.btn_remove', function() {
-            var button_id = $(this).attr("id");
-            $('#row' + button_id + '').remove();
-        });
-        
-    });
-    $('#submit').click(function(e) {
-        var data_add = $('#add_name').serialize(); 
-        $.ajax({
-            url: "stock_center_db.php",
-            method: "POST",
-            data: data_add,
-            success: function(data) {
-                // alert(data);
-                if(data != false){
-                Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: data,
-                showConfirmButton: true,
-                timer: false
-                })
-                setTimeout(function(){
-                window.location.reload(1);
-                }, 2800);
-            }else{
-                Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: "มีรายการไม่ถูกต้อง!!",
-                showConfirmButton: false,
-                timer: 2200
-                })
-            }
-            }
-        });
-        e.preventDefault();
-    });
-});
-</script>

@@ -157,7 +157,10 @@
    
 </body>
 <?php require 'viewmodal_transfer.php'?>
-<?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
+<?php $user_name = $row_session['user_fname'].$row_session['user_lname'];
+      $user_credit = $row_session['credit'];
+      $user_id = $row_session['user_id'];
+?>
   <script>
   $(document).ready(function(){
     $('.view_data').click(function(){
@@ -189,10 +192,12 @@
             var uid=$(this).attr("id");
             var status ="pass";
             var name = "<?php echo $user_name ?>"
+            var credit = "<?php echo $user_credit ?>"
+            var user_id = "<?php echo $user_id ?>"
                 $.ajax({
                     url:"transfer_db.php",
                     method:"POST",
-                    data:{uid:uid,text1:text1,status:status,name:name},
+                    data:{uid:uid,text1:text1,status:status,name:name,credit:credit,user_id:user_id},
                     success:function(data) {
                         if(data != false){
                             Swal.fire({
