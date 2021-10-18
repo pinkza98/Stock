@@ -124,7 +124,9 @@
                     <th scope="col" class="text-center">หมดอายุ</th>
                     <th scope="col" class="text-center">สาขา</th>
                     <th scope="col" class="text-center">ผู้ขาย</th>
+                    <?php if($row_session['user_bn']==1){?>
                     <th scope="col" class="text-center">ลบ</th>
+                    <?php } ?>
                 </tr>
             </thead>
             <tbody>
@@ -169,7 +171,9 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             <?php }?>
         <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>  
+        <?php if($row_session['user_bn']==1){?>
         <td><a  href="?delete_id=<?php echo $row["full_stock_id"];?>&item_quantity=<?php echo $row["item_quantity"];?>&stock_id=<?php echo $row["stock_id"];?>&user_name=<?php echo $user_name;?>&bn_stock=<?php echo $row["bn_stock"];?>" class="btn btn-danger delete" data-confirm="ต้องการที่จะลบ?">Delete</a></td>
+        <?php } ?>
         <?php } ?>
     </tr>
             </tbody>
@@ -188,7 +192,9 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     <th scope="col" class="text-center">หมดอายุ</th>
                     <th scope="col" class="text-center">สาขา</th>
                     <th scope="col" class="text-center">ผู้ขาย</th>
-                    <th scope="col" class="text-center">ลบ</th>
+                    <?php if($row_session['user_bn']==1){?>
+                        <th scope="col" class="text-center">ลบ</th>
+                    <?php }?> 
                     <!-- <th scope="col" class="text-center">แก้ไข</th> -->
                     <!-- <th scope="col" class="text-center">ลบ</th> -->
                 </tr>

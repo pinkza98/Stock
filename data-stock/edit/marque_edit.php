@@ -29,7 +29,7 @@
 
                     if ($update_stmt->execute()) {
                         $updateMsg = "Record update successfully...";
-                        header("refresh:2;../marque.php");
+                        header("refresh:2;../set_marque.php");
                     }
                 }
             } catch(PDOException $e) {
