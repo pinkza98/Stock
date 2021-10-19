@@ -75,6 +75,7 @@
                     <th scope="col" class="text-center">สาขารับ</th>
                     <th scope="col" class="text-center">ผู้ตรวจรับ</th>
                     <th scope="col" class="text-center">มูลค่า</th>
+                    <th scope="col" class="text-center">ค่าขนส่ง</th>
                     <th scope="col" class="text-center">รายการ</th>
                     <th scope="col" class="text-center">วันที่</th>
                     <th scope="col" class="text-center">หมายเหตุ</th>
@@ -84,7 +85,7 @@
             </thead>
             <tbody>
                 <?php 
-$select_transfer_stock = $db->prepare("SELECT note3,bn_id_1,bn_id_2,transfer_stock.transfer_id,user3,user2,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
+$select_transfer_stock = $db->prepare("SELECT transfer_stock.transfer_price,note3,bn_id_1,bn_id_2,transfer_stock.transfer_id,user3,user2,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
 INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
 INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
 INNER JOIN branch as b2 ON b2.bn_id  = transfer_stock.bn_id_2 
@@ -117,6 +118,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
                         <td><?php echo $row_transfer['user3'];?></td>
                     <?php } ?>
                     <td><?php echo number_format($sum_new);  ?></td>
+                    <td><?php echo number_format($row_transfer['transfer_price']); ?></td>
                     <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data"id="<?php echo $row_transfer['transfer_name']?>"></input></td>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <?php if (is_null($row_transfer['note3'])){?>
@@ -136,6 +138,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
             </tbody>
             <tfoot>
                 <tr class="table-active">
+                    <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
@@ -171,106 +174,6 @@ $(document).ready(function() {
     });
 });
 </script>
-<script type="text/javascript">
-function submitResult(e) {
-    $('.data_id_1').click(function() {
-        (async () => {
-            const {
-                value: formValues
-            } = await Swal.fire({
-                title: 'ข้อมูลขนส่งโอนย้าย',
-                html: '<input type="text"id="text1" class="swal2-input"  placeholder="บริษัทขนส่ง" required>' +
-                    '<input type="text" id="text2" class="swal2-input"  placeholder="รหัสติดตามสินค้า">' +
-                    '<input type="number"id="text3" class="swal2-input"  placeholder="ค่าบริการขนส่ง">',
-                showCancelButton: true,
-                icon: 'question',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return [
-                        document.getElementById('text1').value,
-                        document.getElementById('text2').value,
-                        document.getElementById('text3').value
-                    ]
-                }
-            })
-            if (formValues) {
-                var text1 = formValues[0];
-                var text2 = formValues[1];
-                var text3 = formValues[2];
-                var status = "set_carry";
-                var uid=$(this).attr("id");
-                $.ajax({
-                    url: "transfer_db.php",
-                    method: "POST",
-                    data: {
-                        uid: uid,
-                        status: status,
-                        text1:text1,
-                        text2:text2,
-                        text3:text3,
-                    },
-                    success: function(data) {
-                        // alert(data);
-                                    if(data != false){
-                            Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: data,
-                            showConfirmButton: true,
-                            timer: false
-                            })
-                            setTimeout(function(){
-                            window.location.reload(1);
-                            }, 2800);
-                        }else{
-                            Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: "มีรายการไม่ถูกต้อง!!",
-                            showConfirmButton: false,
-                            timer: 2200
-                            })
-                        }
-                    }
-                });
-
-            }
-        })()
-    });
-    $('.data_id_2').click(function() {
-        e.preventDefault();
-        Swal.fire({
-            title: "หมายเหตุ!",
-            text: "ลบรายการนี้ เพื่อดำเนินรายการโอนย้ายใหม่",
-            icon: 'warning',
-            input: 'text',
-            showCancelButton: true
-        }).then((result) => {
-            if (result.value) {
-                text1 = result.value;
-                var uid = $(this).attr("id");
-                var status = "del_row";
-                $.ajax({
-                    url: "transfer_db.php",
-                    method: "POST",
-                    data: {
-                        uid: uid,
-                        text1: text1,
-                        status: status
-                    },
-                    success: function(data) {
-                        alert(data);
-                        setTimeout(function() {
-                            window.location.reload(1);
-                        }, 2000);
-                    }
-                });
-            }
-        });
-    });
-}
-</script>
-
 </html>
 <?php
 function DateThai($strDate)
