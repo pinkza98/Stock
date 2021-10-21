@@ -230,37 +230,48 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
             else{
                 echo "Error";
             }
-            if($status_transfer ==1){
-                echo "ยังมียอดค้าง";
-                $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4 ,user3='$name',transfer_date=NOW()  WHERE transfer_stock_id  =$transfer_stock_id");
-                $update_transfer_stock->execute();
-                if($transfer['transfer_id']==null){ 
-                    $insert_transfer =$db->prepare("INSERT INTO transfer (transfer_name)VALUES('$set_new_transfer_stock_id')");
-                    $insert_transfer->execute();
-                    $insert_transfer_stock = $db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,transfer_status,user3,note3,transfer_date)VALUES(".$row_1['bn_id_1'].",".$row_1['bn_id_2'].",LAST_INSERT_ID(),5,'$name','รายการมียอดค้างอยู่',NOW())");
-                    $insert_transfer_stock->execute();
-                }
-            }elseif($status_transfer ==2){
-                echo "ยังมียอดค้าง";
-                $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4 ,user3='$name',transfer_date=NOW()  WHERE transfer_stock_id  =$transfer_stock_id");
-                $update_transfer_stock->execute();
-                if($transfer['transfer_id']==null){ 
-                    $insert_transfer =$db->prepare("INSERT INTO transfer (transfer_name)VALUES('$set_new_transfer_stock_id')");
-                    $insert_transfer->execute();
-                    $insert_transfer_stock = $db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,transfer_status,user3,note3,transfer_date)VALUES(".$row_1['bn_id_1'].",".$row_1['bn_id_2'].",LAST_INSERT_ID(),5,'$name','รายการมียอดค้างอยู่',NOW())");
-                    $insert_transfer_stock->execute();
-                }
-            }elseif($status_transfer ==3){
-                echo "รับสินค้าสำเร็จ";
-                $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5,user3='$name',note3='รับของครบแล้ว',transfer_date=NOW() WHERE transfer_stock_id  =$transfer_stock_id");
-                $update_transfer_stock->execute();
-                $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_stock_id = '".$row_1['transfer_name']."' WHERE transfer_stock_id =  '$set_new_transfer_stock_id'");
-                $update_transfer_stock_log->execute();
-                
-            }else{
-                echo "หลุดลูป";
-            }
         } 
+        if($status_transfer ==1){
+            echo "ยังมียอดค้าง";
+            $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4 ,user3='$name',transfer_date=NOW()  WHERE transfer_stock_id  =$transfer_stock_id");
+            $update_transfer_stock->execute();
+            if($transfer['transfer_id']==null){ 
+                $insert_transfer =$db->prepare("INSERT INTO transfer (transfer_name)VALUES('$set_new_transfer_stock_id')");
+                $insert_transfer->execute();
+                $insert_transfer_stock = $db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,transfer_status,user3,note3,transfer_date)VALUES(".$row_1['bn_id_1'].",".$row_1['bn_id_2'].",LAST_INSERT_ID(),5,'$name','รายการมียอดค้างอยู่',NOW())");
+                $insert_transfer_stock->execute();
+            }
+        }elseif($status_transfer ==2){
+            echo "ยังมียอดค้าง";
+            $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 4 ,user3='$name',transfer_date=NOW()  WHERE transfer_stock_id  =$transfer_stock_id");
+            $update_transfer_stock->execute();
+            if($transfer['transfer_id']==null){ 
+                $insert_transfer =$db->prepare("INSERT INTO transfer (transfer_name)VALUES('$set_new_transfer_stock_id')");
+                $insert_transfer->execute();
+                $insert_transfer_stock = $db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,transfer_status,user3,note3,transfer_date)VALUES(".$row_1['bn_id_1'].",".$row_1['bn_id_2'].",LAST_INSERT_ID(),5,'$name','รายการมียอดค้างอยู่',NOW())");
+                $insert_transfer_stock->execute();
+            }
+        }elseif($status_transfer ==3){
+            echo "รับสินค้าสำเร็จ";
+            $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 5,user3='$name',note3='รับของครบแล้ว',transfer_date=NOW() WHERE transfer_stock_id  =$transfer_stock_id");
+            $update_transfer_stock->execute();
+            $update_transfer_stock_log = $db->prepare("UPDATE transfer_stock_log  SET transfer_stock_id = '".$row_1['transfer_name']."' WHERE transfer_stock_id =  '$set_new_transfer_stock_id'");
+            if($update_transfer_stock_log->execute()){
+                $select_transfer_del = $db->prepare("SELECT transfer_id,transfer_name FROM transfer WHERE transfer_name = '$set_new_transfer_stock_id'");//หาค่าตาราง - 1 ที่เป็นยอดค้างเพิ่มนำมาลบตารางทิ้ง
+                $select_transfer_del->execute();
+                $row_transfer_del = $select_transfer_del->fetch(PDO::FETCH_ASSOC);
+                 if($row_transfer_count = $select_transfer_del->rowCount() == true){
+                    $delete_transfer_stock = $db->prepare("DELETE  FROM transfer_stock WHERE transfer_id = ".$row_transfer_del['transfer_id']."");
+                    $delete_transfer_stock->execute();
+                    $delete_transfer = $db->prepare("DELETE  FROM transfer WHERE transfer_id = ".$row_transfer_del['transfer_id']."");
+                    $delete_transfer->execute();
+                 }
+
+            }
+            
+        }else{
+            echo "หลุดลูป";
+        }
            
         }
 }else{
