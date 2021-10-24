@@ -54,12 +54,13 @@ include('../../database/db.php');
           $id=NULL;
       }
    
-    $select_transfer_stock = $db->prepare("SELECT code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_price,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
-INNER JOIN item ON stock.item_id = item.item_id
- WHERE transfer_stock_id='$id'
- GROUP BY code_item
+    $select_transfer_stock = $db->prepare("SELECT code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_stock_log.transfer_price,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id,bn_id_1  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
+    INNER JOIN item ON stock.item_id = item.item_id
+    INNER JOIN transfer ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
+    INNER JOIN transfer_stock ON transfer_stock.transfer_stock_id = transfer.transfer_id
+    WHERE transfer_stock_log.transfer_stock_id ='$id'
+     GROUP BY code_item
  ");
- 
         $select_transfer_stock->execute();
     
     ?>
@@ -102,7 +103,7 @@ INNER JOIN item ON stock.item_id = item.item_id
     <?php $i++; } ?>
     </table>
     <input type="submit" name="submit" id="submit" class="btn btn-outline-success" value="OK" />
-    <a href="../transfer_inventory_check.php" class="btn btn-outline-danger">Back</a>
+    <a href="../transfer_status.php" class="btn btn-outline-danger">Back</a>
     </div>
     </form>
 
@@ -125,7 +126,7 @@ INNER JOIN item ON stock.item_id = item.item_id
                 timer: false
                 })
                 setTimeout(function(){
-                    window.location.href = "../transfer_inventory_check.php";
+                    window.location.href = "../transfer_status.php";
                 }, 2800);
             
             }
