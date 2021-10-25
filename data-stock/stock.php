@@ -28,7 +28,7 @@
       elseif(empty($marque_id)) {
         $marque_id = null;
       }elseif (empty($vendor_id)) {
-          $errorMsg = "Please enter vendor";
+          $vendor_id = null;
       } elseif (!empty($image_file)) {
           if ($type == "image/jpg" || $type == 'image/jpeg' || $type == "image/png" || $type == "image/gif") {
               if (!file_exists($path)) { // check file not exist in your upload folder path

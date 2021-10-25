@@ -25,16 +25,16 @@
         $unit = $_REQUEST['txt_unit'];
 
         if (empty($item_name)) {
-            $errorMsg = "Please Enter item Name";
+            $item_name = null;
         } 
         if (empty($exd_date)) {
-          $errorMsg = "Please Enter EXD";
+            $exd_date = null;
         }
         if (empty($price)) {
-          $errorMsg = "Please Enter price item";
+            $price = null;
         }
         if (empty($unit)) {
-          $errorMsg = "Please Enter unit item";
+            $unit = null;
       }else {
             try {
                 if (!isset($errorMsg)) {

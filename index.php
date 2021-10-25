@@ -69,6 +69,7 @@
     </tbody>
     <tfoot>
             <tr class="table-active">
+            
             <th scope="col" class="text-center">รหัส</th>
             <th scope="col" class="text-left">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>

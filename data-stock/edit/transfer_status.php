@@ -54,7 +54,7 @@ include('../../database/db.php');
           $id=NULL;
       }
    
-    $select_transfer_stock = $db->prepare("SELECT code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_stock_log.transfer_price,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id,bn_id_1  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
+    $select_transfer_stock = $db->prepare("SELECT stock.stock_id as stock_id,code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_stock_log.transfer_price,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id as stock_code,bn_id_1  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
     INNER JOIN item ON stock.item_id = item.item_id
     INNER JOIN transfer ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
     INNER JOIN transfer_stock ON transfer_stock.transfer_stock_id = transfer.transfer_id
@@ -83,22 +83,33 @@ include('../../database/db.php');
         <th>จำนวนที่ขอส่ง</th>
         <th>จำนวนต้องการแก้ไข</th>
         <th>ราคา</th>
+        <th>ลบรายการ</th>
     </tr>
                 </thead>
     <?php $i=1; ?>
-    <?php while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {?>
+    <?php while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC)) {
+         $select_stock_bn =$db->prepare("SELECT SUM(branch_stock_log.item_quantity) as sum FROM branch_stock_log 
+         INNER JOIN branch_stock ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
+         WHERE stock_id=".$row_transfer['stock_id']." AND bn_stock = ".$row_transfer['bn_id_1']." AND status_log IS NULL OR status_log ='$id'");
+         $select_stock_bn->execute();
+         $row_bn_stock = $select_stock_bn->fetch(PDO::FETCH_ASSOC);
+        ?>
     <tr>
         <td><?php echo $i?></td>
         <td><?php echo $row_transfer['code_item'] ?></td>
         <td><?php echo $row_transfer['item_name'] ?></td>
-        <td><?php echo $row_transfer['sum_qty'] ?></td>
+        <td><?php echo $row_bn_stock['sum'] ?></td>
+        <input type="text" name="bn_stock" value="<?php echo $row_transfer['bn_id_1']?>" hidden>
+        <input type="text" name="sum[]" value="<?php echo $row_bn_stock['sum']?>" hidden>
         <td><?php echo $row_transfer['sum_qty'] ?></td>
         <input type="text" name="sum_qty[]" value="<?php echo $row_transfer['sum_qty']?>" hidden>
         <input type="text" name="code[]" value="<?php echo $id?>" hidden>
+        <input type="text" name="stock_code[]" value="<?php echo $row_transfer['stock_code']?>" hidden>
         <input type="text" name="stock_id[]" value="<?php echo $row_transfer['stock_id']?>" hidden>
         <td><div class="input-group mb-3"><span class="input-group-text" >จำนวนที่แก้ไข</span><input type="text" class="form-control" name="sum_qty_set[]" value="<?php echo $row_transfer['sum_qty'] ?>" size="1"></div></td>
         <td><?php echo $row_transfer['transfer_price'] ?></td>
         <input type="text" name="transfer_price[]" value="<?php echo $row_transfer['transfer_price']?>" hidden>
+        <td><a class="btn btn-danger">ลบ</a></td>
     </tr>
     <?php $i++; } ?>
     </table>
@@ -113,12 +124,12 @@ include('../../database/db.php');
         $('#submit').click(function(e) {
         var data_add = $('#surplus').serialize(); 
         $.ajax({
-            url: "transfer_reconcile_db.php",
+            url: "transfer_status_db.php",
             method: "POST",
             data: data_add,
             success: function(data) {
-                // alert(data);
-                Swal.fire({
+                if(data == true){
+                    Swal.fire({
                 position: 'center',
                 icon: 'success',
                 title: "สำเร็จ",
@@ -128,6 +139,16 @@ include('../../database/db.php');
                 setTimeout(function(){
                     window.location.href = "../transfer_status.php";
                 }, 2800);
+                }else{
+                    Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: data,
+                showConfirmButton: true,
+                timer: false
+                })
+                }
+                
             
             }
         });

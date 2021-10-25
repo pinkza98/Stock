@@ -70,7 +70,7 @@ if($page == 1){
      $sub_array[] = $row['code_item'];
      $sub_array[] = $row['item_name'];
      $sub_array[] = $row['unit_name'];
-     $sub_array[] = $row['price_stock'];
+     $sub_array[] = number_format($row['price_stock']);
      $sub_array[] = $row['type_name'];
      $sub_array[] = $row['nature_name'];
      $sub_array[] = $row['division_name'];

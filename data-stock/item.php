@@ -26,10 +26,10 @@
       $select_item = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
       $select_item->bindParam(':code_item_row', $code_item);
       $select_item->execute();
-      if ($select_item->fetchColumn() > 0){
+      if ($select_item->fetchColumn() == false) {
         $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
       }elseif(empty($unit_id)){
-        $errorMsg = "Please enter unit";
+        $unit_id = null;
       }
       elseif(empty($code_item)){
         $errorMsg = "Please enter code item";

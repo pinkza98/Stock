@@ -114,7 +114,7 @@
           INNER JOIN branch ON cut_stock_log.bn_id = branch.bn_id
           INNER JOIN unit ON item.unit_id = unit.unit_id
           INNER JOIN type_item ON stock.type_id = type_item.type_id
-          ORDER BY cut_stock_id DESC LIMIT 50");
+          ORDER BY date DESC ");
           $select_stmt->execute();
           while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
       ?>
