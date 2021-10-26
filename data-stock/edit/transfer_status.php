@@ -132,7 +132,7 @@ include('../../database/db.php');
                     Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: "สำเร็จ",
+                title: "ปรับรายการสำเร็จ",
                 showConfirmButton: true,
                 timer: false
                 })

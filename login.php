@@ -12,7 +12,8 @@ session_start();
 			$errorMsg[] = "Please enter username ";
 		} else if (empty($password)) {
 			$errorMsg[] = "Please enter password";
-		} else {
+		}
+		 else {
 			try {
 				$username=trim($username);
 				$select_stmt = $db->prepare("SELECT user_id,username,password FROM user WHERE username = :uname");
@@ -22,6 +23,18 @@ session_start();
 					if ($username == $row['username']) {
 						if (password_verify($password , $row['password'])) {
 							$_SESSION['user_login'] = $row['user_id'];
+							if (!empty($_POST['remember'])) {
+								setcookie('user_login', $_POST['txt_username'], time() + (10 * 365 * 24 * 60 * 60));
+								setcookie('user_password', $_POST['txt_password'], time() + (10 * 365 * 24 * 60 * 60));
+							} else {
+								if (isset($_COOKIE['user_login'])) {
+									setcookie('user_login', '');
+				
+									if (isset($_COOKIE['user_password'])) {
+										setcookie('user_password', '');
+									}
+								}
+							}
 							$loginMsg = "Login......";
 							header("refresh:2;index.php");
 							}else{
@@ -67,6 +80,9 @@ session_start();
 <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
 	<!--===============================================================================================-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
 </head>
 <body>
 	
@@ -114,18 +130,22 @@ session_start();
     					<?php } ?>	
 					</span>
 					<div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
-						<input class="input100" type="text" name="txt_username" placeholder="E-mail">
+						<input class="input100" type="text" name="txt_username" value="<?php if(isset($_COOKIE['user_login'])){echo $_COOKIE['user_login'];}?>" placeholder="E-mail">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user"></i>
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
-						<input class="input100" type="password" name="txt_password" placeholder="Password">
+						<input class="input100" type="password" name="txt_password" value="<?php if(isset($_COOKIE['user_login'])){echo $_COOKIE['user_password'];}?>" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock"></i>
 						</span>
+					</div>
+					<div  class="form-check form-switch ml-1">
+						<input type="checkbox"class="form-check-input" name="remember" <?php if (isset($_COOKIE['user_login'])) { ?> checked <?php } ?> id="remember">
+						<label class="form-check-label" for="remember">จดจำรหัสผ่านไว้?</label>
 					</div>
 					<div class="container-login100-form-btn p-t-10">
 						<button class="login100-form-btn" type="submit" name="btn_login" value="login">Login</button>
@@ -153,3 +173,4 @@ session_start();
 <!--===============================================================================================-->
 </body>
 </html>
+

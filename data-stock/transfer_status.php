@@ -84,7 +84,11 @@
                     <th scope="col" class="text-center">ผู้ส่งคำขอ</th>
                     <th scope="col" class="text-center">มูลค่า</th>
                     <th scope="col" class="text-center">รายการ</th>
+                    <?php 
+                    if($row_session['user_lv']>=3){
+                    ?>
                     <th scope="col" class="text-center">ปรับยอด</th>
+                    <?php } ?>
                     <th scope="col" class="text-center">วันที่</th>
                     <th scope="col" class="text-center">อนุมัติ</th>
                     <th scope="col" class="text-center">ไม่อนุมัติ</th>
@@ -132,7 +136,13 @@
                     <td><?php echo $row_transfer['user1'];?></td>
                     <td><?php echo number_format($sum_new);  ?></td>
                     <td><input type="button" name="view" value="รายการ" class="btn btn-info view_data" id="<?php echo $row_transfer['transfer_name']?>"></input></td>
+                    <?php 
+                    if($row_session['user_lv']>=3){
+                    ?>
                     <td><a href="edit/transfer_status.php?update_id=<?php echo $row_transfer['transfer_name']?>" class="btn btn-warning">ปรับยอด</a></td>
+                    <?php
+                    }
+                    ?>
                     <td><?php echo DateThai($row_transfer['transfer_date']);?></td>
                     <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>อนุมัติ</button></td>
                     <td><button type="submit" class="btn btn-danger data_id" onclick="nosubmit(event)" id=<?php echo $row_transfer['transfer_stock_id'] ?>>ไม่อนุมัติ</button></td>
@@ -152,7 +162,11 @@
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
                     <th scope="col" class="text-center"></th>
+                    <?php 
+                    if($row_session['user_lv']>=3){
+                    ?>
                     <th scope="col" class="text-center"></th>
+                    <?php } ?>
                 </tr>
             </tfoot>
         </table>

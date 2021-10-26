@@ -21,6 +21,13 @@
                     </button>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="https://www.youtube.com/watch?v=_Sw04XrmUBs">
+                    <button class="btn btn-info">
+                        วิธีใช้งาน
+                    </button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
