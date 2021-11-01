@@ -61,7 +61,7 @@ if($page == 1){
     $statement->execute();
     
     $result = $statement->fetchAll();
-    
+     
     $data = array();
     
     foreach($result as $row)
