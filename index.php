@@ -47,7 +47,7 @@
     <table class="table table-dark table-hover  " id="stock">
     <thead class="table-dark ">
         <tr class="table-active">
-            
+          <!-- <th scope="col" class="text-center">รหัสรายการ</th> -->
             <th scope="col" class="text-center">รหัส</th>
             <th scope="col" class="text-left">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
@@ -69,7 +69,7 @@
     </tbody>
     <tfoot>
             <tr class="table-active">
-            
+            <!-- <th scope="col" class="text-center">รหัสรายการ</th> -->
             <th scope="col" class="text-center">รหัส</th>
             <th scope="col" class="text-left">ชื่อรายการ</th>
             <th scope="col" class="text-center">หน่วยนับ</th>
