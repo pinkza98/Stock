@@ -93,6 +93,7 @@
         </header>
         <?php include('../components/content.php')?>
         <div class="container">
+           <!-- display the current date -->
             <br>
             <table class="table table-dark table-hover text-xl-center" id="stock">
                 <thead class="table-dark">
