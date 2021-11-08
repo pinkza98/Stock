@@ -103,7 +103,7 @@ if ($row_session['user_lv'] >= 2) {
                             </li>
                             <li><a class="dropdown-item" href="../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
                             <li><a class="dropdown-item" href="../data-user/resetpassword.php">รีเซ็ตรหัสผ่าน</a></li>
-                            <li><a class="dropdown-item" href="#">รีเซ็ตเครดิต</a></li>
+                            <li><a class="dropdown-item" href="../data-user/ui_run_scrip.php">Run Script</a></li>
                             <li><a class="dropdown-item" href="#">เพิ่มเครดิต</a></li>
                             <li><a class="dropdown-item" href="#">เปลี่ยนสาขา</a></li>
                             <li><a class="dropdown-item" href="#">เปลี่ยนระดับผู้ใช้งาน</a></li>

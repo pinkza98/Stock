@@ -17,8 +17,6 @@
         else{
                 try{
                     
-                        
-
                 $select_rowCount = $db->query("SELECT * FROM branch_stock_log  
                 INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                 WHERE branch_stock.bn_stock = '".$bn_id."' AND branch_stock.stock_id = '".$stock_id."' ");

@@ -35,6 +35,13 @@
                     </button>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="stock_bn_min-max.php">
+                    <button class="btn btn-primary">
+                        ตั้งค่า Min-Max
+                    </button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
