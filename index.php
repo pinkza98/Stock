@@ -57,7 +57,6 @@
             <th scope="col" class="text-center">แผนก</th>
             <th scope="col" class="text-center">ยี่ห้อ</th>  
             <th scope="col" class="text-center">ผู้ขาย</th>  
-
             
         </tr>
     </thead>
