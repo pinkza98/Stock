@@ -111,19 +111,16 @@
                             LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
                             LEFT JOIN division ON stock.division_id = division.division_id
                             LEFT JOIN marque ON stock.marque_id = marque.marque_id
-                            INNER JOIN branch_stock ON stock.stock_id = branch_stock.stock_id
-                            INNER JOIN branch_stock_log ON branch_stock.full_stock_id=branch_stock_log.full_stock_id_log
-                            WHERE bn_stock = ".$row_session['user_bn']."
-                            ORDER BY code_item ASC 
+                           
                                                 ");
                                                 $select_stock_po->execute();
-
                                                 while ($row_stock_po = $select_stock_po->fetch(PDO::FETCH_ASSOC)) {
+                                                    $select_total_stock = $db->prepare("SELECT * FROM bstock WHERE");
                                                 ?> 
                             <tr>
                             <td><?php echo $row_stock_po["code_item"]; ?></td>
                             <td><?php echo $row_stock_po["item_name"]; ?> (<?php echo $row_stock_po['unit_name'] ?>)</td>
-                            <td><?php echo $row_stock_po["item_quantity"]; ?></td>
+                            <td><?php echo $row_stock_po["sum_bn"]; ?></td>
                             <td><input type="number" name="" value="<?php echo $row_stock_po["sum_bn"]; ?>"/></td>
                             <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
                             <td><input type="button" name="view" value="update" class="btn btn-info view_data" id=""/></td>
