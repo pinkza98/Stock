@@ -35,6 +35,13 @@
                     </button>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="stock_po_center.php">
+                    <button class="btn btn-primary">
+                        รายการสั่งซื้อ
+                    </button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
