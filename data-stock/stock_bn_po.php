@@ -54,8 +54,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select  class="form-select mb-2 mt-2" name="status" id="status" hidden >
-                                    <option value="add_po" >update เพิ่มรายการสั่งซื้อ</option>
+                                <select class="form-select mb-2 mt-2" name="status" id="status" required="true" >
+                                    <option value="add_po">update เพิ่มรายการสั่งซื้อ</option>
                                 </select>
                             </div>
                         </div>
@@ -102,17 +102,20 @@
                                 <th class="col-md-1">view</th>
                                 <th class="col-md-1">update</th>
                             </thead>
-                            <?php  $select_stock_po = $db->prepare("SELECT division_name,full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,type_name,bn_name,nature_name,bn_stock FROM stock_po  
-                        
-                        INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
-                        INNER JOIN item ON stock.item_id = item.item_id
-                        INNER JOIN division ON stock.division_id = division.division_id
-                        INNER JOIN branch ON branch_stock.bn_stock = branch.bn_id
-                        INNER JOIN unit ON  item.unit_id = unit.unit_id
-                        INNER JOIN type_item ON stock.type_id = type_item.type_id
-                        INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
-                        INNER JOIN nature ON stock.nature_id = nature.nature_id
-                        WHERE bn_stock = ".$row_session['user_bn']." ");
+                            <?php  $select_stock_po = $db->prepare("SELECT $bn_id as sum_bn,price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock.stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock_po 
+                            INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
+                            LEFT JOIN item ON  item.item_id  =stock.item_id
+                            LEFT JOIN unit ON item.unit_id = unit.unit_id  
+                            LEFT JOIN nature ON stock.nature_id = nature.nature_id   
+                            LEFT JOIN type_item ON stock.type_id = type_item.type_id
+                            LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
+                            LEFT JOIN division ON stock.division_id = division.division_id
+                            LEFT JOIN marque ON stock.marque_id = marque.marque_id
+                            INNER JOIN branch_stock ON stock.stock_id = branch_stock.stock_id
+                            INNER JOIN branch_stock_log ON branch_stock.full_stock_id=branch_stock_log.full_stock_id_log
+                            WHERE bn_stock = ".$row_session['user_bn']."
+                            ORDER BY code_item ASC 
+                                                ");
                                                 $select_stock_po->execute();
 
                                                 while ($row_stock_po = $select_stock_po->fetch(PDO::FETCH_ASSOC)) {
@@ -120,8 +123,8 @@
                             <tr>
                             <td><?php echo $row_stock_po["code_item"]; ?></td>
                             <td><?php echo $row_stock_po["item_name"]; ?> (<?php echo $row_stock_po['unit_name'] ?>)</td>
-                            <td class="text-center"><?php echo $row_stock_po["sum"]; ?></td>
-                            <td ><input type="number" name="" class="form-control text-center" value="<?php echo $row_stock_po["sum_po"]; ?>"/></td>
+                            <td><?php echo $row_stock_po["item_quantity"]; ?></td>
+                            <td><input type="number" name="" value="<?php echo $row_stock_po["sum_bn"]; ?>"/></td>
                             <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
                             <td><input type="button" name="view" value="update" class="btn btn-info view_data" id=""/></td>
                             <?php } ?>
