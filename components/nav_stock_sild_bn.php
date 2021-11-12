@@ -42,6 +42,13 @@
                     </button>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="https://www.youtube.com/watch?v=JwtyWYWe-PQ&ab_channel=PlusProgrammer1">
+                    <button class="btn btn-danger">
+                        วิธีใช้งานขอสั่ง Po
+                    </button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

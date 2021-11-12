@@ -380,7 +380,6 @@ if($page == 2){
      'recordsFiltered' => $number_filter_row,
      'data'    => $data
     );
-    
     echo json_encode($output);
   }
 ?>

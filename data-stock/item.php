@@ -23,10 +23,9 @@
       $price_stock = $_REQUEST['txt_price'];
       $exd_date = $_REQUEST['txt_exd_date'];
 
-      $select_item = $db->prepare("SELECT * FROM item WHERE code_item = :code_item_row");
-      $select_item->bindParam(':code_item_row', $code_item);
+      $select_item = $db->prepare("SELECT * FROM item WHERE code_item = '".$code_item."'");
       $select_item->execute();
-      if ($select_item->fetchColumn() == false) {
+      if ($select_item->fetchColumn() == true) {
         $errorMsg = 'รหัสบาร์โค้ดมีรายการซ้ำ!!!';
       }elseif(empty($unit_id)){
         $unit_id = null;

@@ -55,6 +55,8 @@
                   $insert_stock_item->bindParam(':img_stock', $image_file);
 
                   if ($insert_stock_item->execute() && !isset($errorMsg)) {
+                    $insert_stock_po = $db->prepare("INSERT INTO stock_po (stock_po_id,cn,ra,ar,sa,as_1,on_1,ud,nw,cw,r2,lb,bk,hq) VALUES (LAST_INSERT_ID(),0,0,0,0,0,0,0,0,0,0,0,0,0)");
+                    $insert_stock_po->execute();
                       $insertMsg = "เพิ่มข้อมูล...";
                       header("refresh:1;stock.php");
                   }

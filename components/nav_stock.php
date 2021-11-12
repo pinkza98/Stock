@@ -40,8 +40,6 @@ if (!isset($_SESSION['user_login'])) {
                             </li>
                             <li><a class="dropdown-item" href="../data-stock/list_stock_branch.php">คลังสาขา</a></li>
 
-                  
-
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

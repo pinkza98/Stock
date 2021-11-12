@@ -1,13 +1,6 @@
 <?php 
     include('../database/db.php');
-    if (isset($_REQUEST['update_id'])) {
-      $stock_id = $_REQUEST['stock_id_po'];
-      $bn_id =$_REQUEST['bn_id'];
-      $num_po = $_REQUEST['num_po'];
-      $update_update_stock_id = $db->prepare("UPDATE stock_po SET $bn_id=".$num_po." WHERE stock_po_id = ".$stock_id."");
-      $update_update_stock_id->execute();
-        // header('Location:stock_po.php');
-    }
+   
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
@@ -111,42 +104,41 @@
                             <thead class="table-dark text-center">
                                 <th class="col-md-1">รหัสบาร์โค้ด</th>
                                 <th class="col-md-4">ชื่อรายการ</th>
-                                <th class="col-md-1">ที่มีจำนวน</th>
-                                <th class="col-md-1">จำนวนเบิกสั่ง</th>
+                                <th class="col-md-1">จำนวนในคลัง</th>
+                                <th class="col-md-1">จำนวนที่เบิกสั่งแล้ว</th>
                                 <th class="col-md-1">view</th>
-                                <th class="col-md-1">update</th>
+                                <th class="col-md-1">update จำนวนรายการ</th>
                             </thead>
-                            <?php  $select_stock_po = $db->prepare("SELECT stock_po_id,stock_id,$bn_id as sum_bn,price_stock,stock.marque_id,marque_name,division_name,vendor_name,stock.stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name FROM stock_po 
+                            <?php  $select_stock_po = $db->prepare("SELECT stock_po_id,stock_id,$bn_id as sum_bn,vendor_name,stock.stock_id,code_item ,item_name,unit_name FROM stock_po 
                             INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
                             LEFT JOIN item ON  item.item_id  =stock.item_id
-                            LEFT JOIN unit ON item.unit_id = unit.unit_id  
-                            LEFT JOIN nature ON stock.nature_id = nature.nature_id   
-                            LEFT JOIN type_item ON stock.type_id = type_item.type_id
+                            LEFT JOIN unit ON item.unit_id = unit.unit_id 
                             LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
-                            LEFT JOIN division ON stock.division_id = division.division_id
-                            LEFT JOIN marque ON stock.marque_id = marque.marque_id
                             ORDER BY code_item ASC");
                                 $select_stock_po->execute();
                                 $i_row=1;
                                 while ($row_stock_po = $select_stock_po->fetch(PDO::FETCH_ASSOC)) {
-                                    $select_total_stock = $db->prepare("SELECT COALESCE(SUM(item_quantity),0) as sum_item FROM branch_stock INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log WHERE stock_id = ".$row_stock_po['stock_id']." AND bn_stock = ".$row_session['user_bn']."  ");
+                                    $select_total_stock = $db->prepare("SELECT COALESCE(SUM(item_quantity),0) as sum_item ,bn_stock FROM branch_stock INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log WHERE stock_id = ".$row_stock_po['stock_id']." AND bn_stock = ".$row_session['user_bn']."  ");
                                     $select_total_stock->execute();
                                     $row_sum_bn = $select_total_stock->fetch(PDO::FETCH_ASSOC);
                                 ?> 
+                            <form name="update_id" method="POST">
                             <tr>
                             <td><?php echo $row_stock_po["code_item"]; ?></td>
                             <td><?php echo $row_stock_po["item_name"]; ?> (<?php echo $row_stock_po['unit_name'] ?>)</td>
                             <td class="text-center"><?php echo $row_sum_bn["sum_item"]; ?></td>
-                            <input type="text" name="bn_id" value="<?php echo $bn_id ?>" hidden>
-                            <td><input type="number"  class="form-control text-center"  name="num_po" value="<?php echo $row_stock_po["sum_bn"];?>"/></td>
+                            <td ><input type="number" class="form-control text-center" name="sum[]" value="<?php echo $row_stock_po["sum_bn"];?>"></td>
+                            <input type="hidden" class="form-control text-center" name="stock_id[]" value="<?php echo $row_stock_po["stock_id"];?>">
+                            <input type="hidden" class="form-control text-center" name="bn_stock[]" value="<?php echo $row_session['user_bn'] ?>">
                             <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
-                            <input type="text" name="stock_id_po" value="<?php echo $row_stock_po['stock_po_id'];?>" hidden>
-                            <td><input type="submit"  name="update_id" class="btn btn-success" value="update"/></td>
-                            <?php } ?>
+                            <td><input type="button" name="update" value="update" class="btn btn-info update_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
                             </tr>
+                            </form>
+                            <?php } ?>
+                            
                         </table>
-                        <input type="submit"  name="submit" id="submit" class="btn btn-success" value="update_all" />
-                        <input type="submit" href="stock_bn_min-max.php" class="btn btn-primary"value="Reset"/>
+                        <input type="submit"  name="submit" id="submit" class="btn btn-success" value="update all" />
+                        <input type="submit" href="stock_bn_po.php" class="btn btn-primary"value="Reset"/>
                     </div>
                 </form>
             </div>
@@ -154,21 +146,69 @@
     </div>
 </body>
 </html>
+
 <?php require ('viewmodal.php');?>
+<?php require ('vieweditpo.php');?>
 <script type="text/javascript">
 $(document).ready(function() {
-    $(document).on('click', '.view_data', function() {
+    $('.view_data').click(function(){
         var uid=$(this).attr("id");
         $.ajax({
         url:"select_stock.php",
         method:"POST",
         data:{uid},
         success:function(data) {
-          $('#detail').html(data);
-          $('#dataModal').modal('show');
+        $('#detail').html(data);
+        $('#dataModal').modal('show');
         }
-      });
+    });
 });
+$('.update_data').click(function(){
+        var uid=$(this).attr("id");
+        var bn_id="<?php echo $bn_id ?>";
+        $.ajax({
+        url:"select_inset_modal_stock_po.php",
+        method:"POST",
+        data:{uid,bn_id},
+        success:function(data) {
+        $('#detail_po').html(data);
+        $('#dataModal_po').modal('show');
+        }
+    });
+});
+$('#submit').click(function(e) {
+        var data_add = $('#add_name').serialize(); 
+        $.ajax({
+            url: "stock_po_db.php",
+            method: "POST",
+            data: data_add,
+            success: function(data) {
+                // alert(data);
+                if(data != false){
+                Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: data,
+                showConfirmButton: true,
+                timer: false
+                })
+                setTimeout(function(){
+                window.location.reload(1);
+                }, 2800);
+            }else{
+                Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: "มีรายการไม่ถูกต้อง!!",
+                showConfirmButton: false,
+                timer: 2200
+                })
+            }
+            }
+        });
+        e.preventDefault();
+    });
+
 });
 </script>
 <?php if($row_session['user_lv']==1){?>
@@ -200,3 +240,4 @@ $(document).ready(function() {
 } );
     </script>
       <?php }?>
+      
