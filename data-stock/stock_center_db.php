@@ -57,6 +57,10 @@ $randomking = rand(000001,999999);
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
                     WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' AND status_log IS NULL");
                     $row_count = $select_rowCount->rowCount();
+                    $use_stock = "เบิกใช้"; 
+                    $date_new = new DateTime();
+                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET name_update = '".$user_name."',transaction_update='".$use_stock."',datetime_update = NOW(),quantity_update=$quantity WHERE stock_id = ".$stock_id." AND bn_stock=$bn_id");
+                    $update_stock_bn_user_last ->execute();
                     
                     $select_stock_full_log = $db->prepare("SELECT *  FROM branch_stock_log  
                     INNER JOIN branch_stock ON  branch_stock_log.full_stock_id_log = branch_stock.full_stock_id 
@@ -103,6 +107,7 @@ $randomking = rand(000001,999999);
                                         }
                                     }
                                 }
+                                
                             }
                             $insertMsg = "เบิกคลัง";
 

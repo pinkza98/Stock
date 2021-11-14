@@ -49,14 +49,14 @@
 
     <header>
         <div class="display-3 text-xl-center">
-            <H2>PIVOT สต๊อกคลัง </H2>
+            <H2>PIVOT สต๊อกคลังสาขา : <?php echo $row_session['bn_name']; ?> </H2>
         </div>
     </header>
     <hr>
     <div class="container">
         <div class="row">
             <div class="col">
-                <?php include('../components/nav_stock_sild_all.php'); ?>
+            <?php include('../components/nav_stock_sild_bn.php'); ?>
             </div>
         </div>
     </div>
@@ -72,20 +72,11 @@
                     <th class="text-center ">หน่วย</th>
                     <th class="text-center ">ผู้ขาย</th>
                     <th class="text-center ">ราคา</th>
-                    <th class="text-center">RA</th>
-                    <th class="text-center">AR</th>
-                    <th class="text-center">SA</th>
-                    <th class="text-center">AS</th>
-                    <th class="text-center">ON</th>
-                    <th class="text-center">UD</th>
-                    <th class="text-center">NW</th>
-                    <th class="text-center">CW</th>
-                    <th class="text-center">R2</th>
-                    <th class="text-center">LB</th>
-                    <th class="text-center">BK</th>
-                    <th class="text-center">HQ</th>
-                    <th class="text-center">CN</th>
-                    <th class="text-center">รวม</th>
+                    <th class="text-center">คลัง :<?php echo $row_session['bn_name'];?></th>
+                    <th class="text-center">ธุระกรรม</th>
+                    <th class="text-center">จำนวน</th>
+                    <th class="text-center">ผู้ดำเนินการ</th>
+                
                     
                 </tr>
             </thead>
@@ -111,7 +102,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url: "../fetch_stock.php?page=2",
+                url: "../fetch_stock.php?page=4",
                 type: "POST"
             },
             "searching": true,
@@ -134,7 +125,8 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url: "../fetch_stock.php?page=2",
+                url: "../fetch_stock.php?page=4",
+                data: { user_bn: "<?php echo $row_session['user_bn'] ?>"},
                 type: "POST"
             },
             dom: 'lBfrtip',
@@ -144,10 +136,7 @@
             "searching": true,
             "lengthChange": false,
             "paging": false
-
-
         });
-
     });
     </script>
 
