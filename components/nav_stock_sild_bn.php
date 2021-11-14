@@ -15,6 +15,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="stock_branch_pivot.php">
+                    <button class="btn btn-primary">
+                        รายการ PIVOT สาขา
+                    </button>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="list_stock_branch.php">
                     <button class="btn btn-primary">
                         รายการรวม
