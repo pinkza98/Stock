@@ -76,6 +76,7 @@ if ($Key=="start") {//start
 
         }//loop2 เช็คจำนวนที่อยู่ในรายการนั้นมีกี่สาขา
     }//loop แรก
+    header("refresh:1;data-user/ui_run_scrip.php");
 }//isset ใหญ่่
 elseif($Key=="It898989!@#"){//update/day
     $date_now=date_create();
@@ -195,6 +196,7 @@ elseif($Key=="It898989!@#"){//update/day
             }
         }//loop2 เช็คจำนวนที่อยู่ในรายการนั้นมีกี่สาขา
     }//loop แรก
+    header("refresh:1;data-user/ui_run_scrip.php");
 }//isset ใหญ่่
 else{
     echo "รหัสคำสั่งไม่ถูกต้องไม่ถูกต้อง";
