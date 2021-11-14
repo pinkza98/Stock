@@ -55,7 +55,7 @@ if ($Key=="start") {//start
                 echo "unkow bn_stock";
             }
             
-            $select_begin_log = $db->prepare("SELECT begin_id,dete_begin,stock_id,$begin_branch as begin_sum FROM begin_log WHERE stock_begin = ".$row_sum_item['stock_id']." AND date_begin = '".$date_now."' ORDER BY date_begin ASC  LIMIT 1");
+            $select_begin_log = $db->prepare("SELECT begin_id,date_begin,$begin_branch as begin_sum FROM begin_log WHERE stock_begin = ".$row_sum_item['stock_id']." AND date_begin = '".$date_now."' ORDER BY date_begin ASC  LIMIT 1");
             $select_begin_log->execute();
             $row_begin_log = $select_begin_log->fetch(PDO::FETCH_ASSOC);//ออกไปเช็คจำนวนดูก่อน
             $row_begin_log_count = $select_begin_log->rowCount();
