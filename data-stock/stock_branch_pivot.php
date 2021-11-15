@@ -67,18 +67,67 @@
         <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>
+                    <th class="text-center ">No.</th>
                     <th class="text-center ">รหัส</th>
                     <th class="text-center ">รายการ</th>
                     <th class="text-center ">หน่วย</th>
                     <th class="text-center ">ผู้ขาย</th>
                     <th class="text-center ">ราคา</th>
-                    <th class="text-center">คลัง :<?php echo $row_session['bn_name'];?></th>
+                    <th class="text-center">คลัง</th>
                     <th class="text-center">ธุระกรรม</th>
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">ผู้ดำเนินการ</th>
-                
-                    
                 </tr>
+                <?php 
+                $select_pivot_bn = $db->prepare("SELECT
+                it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
+                SUM(IF(bn_stock = ".$row_session['user_bn'].", item_quantity, 0)) AS BN_stock
+                FROM branch_stock bn
+                INNER JOIN stock s  on bn.stock_id = s.stock_id
+                INNER JOIN vendor v  on s.vendor_id = v.vendor_id
+                INNER JOIN item it  on s.item_id = it.item_id
+                INNER JOIN unit u  on it.unit_id = u.unit_id
+                INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
+                WHERE bn.bn_stock = ".$row_session['user_bn']."
+                GROUP BY it.item_id
+                ");
+                $select_pivot_bn->execute();
+                date_default_timezone_set("Asia/Bangkok");
+                $today = date('Y-m-d');
+                $tomorrow = strtotime($today);
+                $No = 1;
+                while ($row = $select_pivot_bn->fetch(PDO::FETCH_ASSOC)) {
+                    $date_stock = strtotime($row['datetime_update']." +15 day");
+                ?>
+                <tr class="table-light">
+                    <th class="text-center"><?php echo $No ?></th>
+                    <th class="text-center"><?php echo $row['code_item'];?></th>
+                    <th class="text-left"><?php echo $row['item_name'];?></th>
+                    <th class="text-center"><?php echo $row['unit_name'];?></th>
+                    <th class="text-center"><?php echo $row['vendor_name'];?></th>
+                    <th class="text-center"><?php echo $row['price_stock'];?></th>
+                    <?php 
+                    if($date_stock >= $tomorrow and $row['quantity_update'] !=null){?>
+                    <th class="text-center" style="background-color: #00A00F;color:#fff"><?php echo $row['BN_stock'];?></th>
+                    <th class="text-center"><?php echo $row['transaction_update'];?></th>
+                    <th class="text-center"><?php echo $row['quantity_update'];?></th>
+                    <th class="text-center"><?php echo $row['name_update'];?></th>
+
+                    <?php }elseif($date_stock < $tomorrow ){?>
+                        <th class="text-center" style="background-color: ##B8B804;color:#fff"><?php echo $row['BN_stock'];?></th>
+                    <th class="text-center"><?php echo $row['transaction_update'];?></th>
+                    <th class="text-center"><?php echo $row['quantity_update'];?></th>
+                    <th class="text-center"><?php echo $row['name_update'];?></th>
+                    <?php } else{ ?>
+                    <th class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></th>
+                    <th class="text-center"><?php echo $row['transaction_update'];?></th>
+                    <th class="text-center"><?php echo $row['quantity_update'];?></th>
+                    <th class="text-center"><?php echo $row['name_update'];?></th>
+                    </div>
+                    <?php }?>
+                   
+                </tr>
+                <?php $No++; } ?>
             </thead>
             <tbody class="table-light">
                 <tr>
@@ -99,19 +148,12 @@
             fixedHeader: {
                 header: true
             },
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                url: "../fetch_stock.php?page=4",
-                type: "POST"
-            },
             "searching": true,
             "lengthChange": false,
             "paging": false
 
 
         });
-
     });
     </script>
     <?php }else{?>
@@ -122,13 +164,6 @@
             fixedHeader: {
                 header: true
             },
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                url: "../fetch_stock.php?page=4",
-                data: { user_bn: "<?php echo $row_session['user_bn'] ?>"},
-                type: "POST"
-            },
             dom: 'lBfrtip',
             buttons: [
                 'excel', 'print'
@@ -136,8 +171,23 @@
             "searching": true,
             "lengthChange": false,
             "paging": false
+
+
         });
     });
     </script>
-
       <?php }?>
+      <?php 
+      function DateDiff($strDate1,$strDate2)
+      {
+                  return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
+      }
+      function TimeDiff($strTime1,$strTime2)
+      {
+                  return (strtotime($strTime2) - strtotime($strTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
+      }
+      function DateTimeDiff($strDateTime1,$strDateTime2)
+      {
+                  return (strtotime($strDateTime2) - strtotime($strDateTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
+      }
+      ?>

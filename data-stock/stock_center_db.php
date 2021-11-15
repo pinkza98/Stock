@@ -22,6 +22,7 @@ $randomking = rand(000001,999999);
                 $insert_full_stock = $db->prepare("INSERT INTO branch_stock (stock_id,bn_stock) VALUES ('.$stock_id.','.$bn_id.')");
                 if($exd_date != 0000-00-00 AND $exd_date != NULL){
                     $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log,price_stock_log) VALUES ('$user_name',NOW(),'.$quantity.','$exd_date',LAST_INSERT_ID(),'.$price_stock.')");
+
                 }elseif(strtotime($exd_date) <= 62169984000){
                     $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log,price_stock_log) VALUES ('$user_name',NOW(),'.$quantity.',NULL,LAST_INSERT_ID(),'.$price_stock.')");
                 }else{
@@ -39,6 +40,10 @@ $randomking = rand(000001,999999);
                     $errorMsg = "พบข้อผิดพลาด stock bn ไม่ทำงาน";
                     }
                     $insertMsg = "สต๊อกคลัง";
+                    $use_stock = "สต๊อกคลัง"; 
+                    $date_new = new DateTime();
+                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET name_update = '".$user_name."',transaction_update='".$use_stock."',datetime_update = NOW(),quantity_update=$quantity WHERE stock_id = ".$stock_id." AND bn_stock=$bn_id");
+                    $update_stock_bn_user_last ->execute();
                 }
             }
             elseif($status=="disburse"){

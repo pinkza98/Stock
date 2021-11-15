@@ -407,18 +407,18 @@ if($page == 2){
   }
   if($page == 4){
     $user_bn = $_REQUEST['user_bn'];
-    $column = array('code_item','item_name','vendor','unit','price_stock','BN_stock');
+    $column = array('code_item','item_name','vendor','unit','price_stock','BN_stock','transaction_update','quantity_update','name_update','datetime_update');
     
     $query = "SELECT
-    it.code_item,unit_name,item_name,v.vendor_name,price_stock,
-    SUM(IF(bn_stock = $user_bn, item_quantity, 0)) AS BN_stock,transaction_update,quantity_update,name_update,datetime_update
+    it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
+    SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN_stock
     FROM branch_stock bn
     INNER JOIN stock s  on bn.stock_id = s.stock_id
     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
     INNER JOIN item it  on s.item_id = it.item_id
     INNER JOIN unit u  on it.unit_id = u.unit_id
     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-    WHERE bn.bn_stock = $user_bn";
+    WHERE bn.bn_stock = 1";
     if(isset($_POST['search']['value']))
     {
      $query .= '
@@ -463,50 +463,39 @@ if($page == 2){
     $sub_array[]= $row["unit_name"]; 
     $sub_array[]= $row["vendor_name"];
     $sub_array[]= $row["price_stock"];  
-    
-    if($row["BN_stock"]==0){
-      $row["BN_stock"] ='-';
-    $sub_array[]= $row["BN_stock"];
-    $row["transaction_update"]='-';
-    $row["quantity_update"]='-';
-    $row["name_update"]='-';
+    $sub_array[]= $row["BN_stock"]; 
     $sub_array[]= $row["transaction_update"]; 
     $sub_array[]= $row["quantity_update"]; 
-    $sub_array[]= $row["name_update"]; 
-    }else{
-      $sub_array[]= $row["BN_stock"]; 
-    }
-    $sub_array[]= $row["transaction_update"]; 
-      $sub_array[]= $row["quantity_update"]; 
-      $sub_array[]= $row["name_update"]; 
-   
-    
-     $data[] = $sub_array;
+    $sub_array[]= $row["name_update"];
+
+    $data[] = $sub_array;
     }
     
     function count_all_data($db)
     {
-     $query = "SELECT
-     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
-     transaction_update,quantity_update,name_update,datetime_update
-     FROM branch_stock bn
-     INNER JOIN stock s  on bn.stock_id = s.stock_id
-     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
-     INNER JOIN item it  on s.item_id = it.item_id
-     INNER JOIN unit u  on it.unit_id = u.unit_id
-     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log";
-     $statement = $db->prepare($query);
-     $statement->execute();
-     return $statement->rowCount();
-    }
+    $query = "SELECT
+    it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+    transaction_update,quantity_update,name_update,datetime_update
+    FROM branch_stock bn
+    INNER JOIN stock s  on bn.stock_id = s.stock_id
+    INNER JOIN vendor v  on s.vendor_id = v.vendor_id
+    INNER JOIN item it  on s.item_id = it.item_id
+    INNER JOIN unit u  on it.unit_id = u.unit_id
+    INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
+    WHERE bn.bn_stock = 1";
     
-    $output = array(
-     'draw'    => intval($_POST['draw']),
-     'recordsTotal'  => count_all_data($db),
-     'recordsFiltered' => $number_filter_row,
-     'data'    => $data
+    $statement = $db->prepare($query);
+    $statement->execute();
+    return $statement->rowCount();
+  }
+  $output = array(
+    'draw'    => intval($_POST['draw']),
+    'recordsTotal'  => count_all_data($db),
+    'recordsFiltered' => $number_filter_row,
+    'data'    => $data
     );
     
     echo json_encode($output);
   }
+ 
 ?>
