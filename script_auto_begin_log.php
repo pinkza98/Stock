@@ -140,9 +140,9 @@ elseif($Key=="It898989!@#"){//update/day
                 
                 $select_begin_log_new1 = $db->prepare("SELECT * FROM begin_log WHERE stock_begin = ".$row_sum_item['stock_id']." ORDER BY begin_id ASC  LIMIT 1");
                 $select_begin_log_new1->execute();
-                $row_begin_new1 = $select_begin_log_new1->fetch(PDO::FETCH_ASSOC);
-                $insert_begin_log_new = $db->prepare("INSERT INTO begin_log (date_begin,stock_begin,cn,ra,ar,sa,as_1,on_1,ud,nw,cw,r2,lb,bk,hq) VALUES (NOW(),".$row_sum_item['stock_id'].",".$row_begin_new1['cn'].",".$row_begin_new1['ra'].",".$row_begin_new1['ar'].",".$row_begin_new1['sa'].",".$row_begin_new1['as_1'].",".$row_begin_new1['on_1'].",".$row_begin_new1['ud'].",".$row_begin_new1['nw'].",".$row_begin_new1['cw'].",".$row_begin_new1['r2'].",".$row_begin_new1['lb'].",".$row_begin_new1['bk'].",".$row_begin_new1['hq'].")");
-                $insert_begin_log_new->execute();
+                $row_begin_new1 = $select_begin_log_new1->fetch(PDO::FETCH_ASSOC); 
+                $insert_begin_log_new = $db->prepare("INSERT INTO begin_log (date_begin,stock_begin,$begin_branch) VALUES (NOW(),".$row_sum_item['stock_id'].",".$row_begin_new1['cn'].",".$row_begin_new1['ra'].",".$row_begin_new1['ar'].",".$row_begin_new1['sa'].",".$row_begin_new1['as_1'].",".$row_begin_new1['on_1'].",".$row_begin_new1['ud'].",".$row_begin_new1['nw'].",".$row_begin_new1['cw'].",".$row_begin_new1['r2'].",".$row_begin_new1['lb'].",".$row_begin_new1['bk'].",".$row_begin_new1['hq'].")");
+                $insert_begin_log_new->execute();//โครนข้อมูลเก่าลงใหม่ ก่อน update
                 $select_begin_log_new2 = $db->prepare("SELECT * FROM begin_log  WHERE stock_begin = ".$row_sum_item['stock_id']." ORDER BY begin_id ASC  LIMIT 1");
                 $select_begin_log_new2->execute();
                 $row_begin_new2 = $select_begin_log_new2->fetch(PDO::FETCH_ASSOC);
@@ -150,7 +150,7 @@ elseif($Key=="It898989!@#"){//update/day
                 $select_branch_stock_loop1->execute(); 
                 while ($row_bn_stock = $select_branch_stock_loop1->fetch(PDO::FETCH_ASSOC) ) {
                     if($row_bn_stock['bn_stock']==1){
-                        $begin_branch_1 = "cn";
+                        $begin_branch_1 = "cn"; 
                     }elseif($row_bn_stock['bn_stock']==2){
                         $begin_branch_1 = "ra";
         

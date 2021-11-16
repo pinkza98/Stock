@@ -67,7 +67,7 @@ if($page == 1){
     foreach($result as $row)
     {
      $sub_array = array();
-    //  $sub_array[] = $row['stock_id'];
+     $sub_array[] = $row['stock_id'];
      $sub_array[] = $row['code_item'];
      $sub_array[] = $row['item_name'];
      $sub_array[] = $row['unit_name'];
