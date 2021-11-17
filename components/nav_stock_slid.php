@@ -36,6 +36,13 @@
                 </a>
             </li>
             <li class="nav-item ">
+                <a class="nav-link" href="pivot_pick_up_stock_all.php">
+                    <button class="btn btn-primary">
+                        รายการ Pivot เบิกรวม 
+                    </button>
+                </a>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="stock_po_center.php">
                     <button class="btn btn-primary">
                         รายการสั่งซื้อ

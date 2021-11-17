@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_login'])) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../data-stock/list_stock_branch.php">คลังสาขา</a></li>
+                            <li><a class="dropdown-item" href="../data-stock/stock_branch_pivot.php">คลังสาขา</a></li>
 
                             <li>
                                 <hr class="dropdown-divider">

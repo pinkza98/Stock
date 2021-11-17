@@ -406,29 +406,37 @@ if($page == 2){
     echo json_encode($output);
   }
   if($page == 4){
-    $user_bn = $_REQUEST['user_bn'];
-    $column = array('code_item','item_name','vendor','unit','price_stock','BN_stock','transaction_update','quantity_update','name_update','datetime_update');
+    $column = array('code_item','item_name','vendor','unit','price_stock','BN2','BN3','BN4','BN5','BN6','BN7','BN8','BN9','BN10','BN11','BN12','BN1','SUM_BN');
     
     $query = "SELECT
-    it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
-    SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN_stock
-    FROM branch_stock bn
+    it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+    SUM(IF(bn_id = 1, quantity, 0)) AS BN1,
+    SUM(IF(bn_id = 2, quantity, 0)) AS BN2,
+    SUM(IF(bn_id = 3, quantity, 0)) AS BN3,
+      SUM(IF(bn_id = 4, quantity, 0)) AS BN4,
+      SUM(IF(bn_id = 5, quantity, 0)) AS BN5,
+      SUM(IF(bn_id = 6, quantity, 0)) AS BN6,
+      SUM(IF(bn_id = 7, quantity, 0)) AS BN7,
+      SUM(IF(bn_id = 8, quantity, 0)) AS BN8,
+      SUM(IF(bn_id = 9, quantity, 0)) AS BN9,
+      SUM(IF(bn_id = 10, quantity, 0)) AS BN10,
+      SUM(IF(bn_id = 11, quantity, 0)) AS BN11,
+      SUM(IF(bn_id = 12, quantity, 0)) AS BN12,
+      SUM(IF(bn_id = 13, quantity, 0)) AS BN13,
+      SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 or bn_id=13 THEN quantity ELSE NULL END) AS SUM_BN
+    FROM cut_stock_log bn
     INNER JOIN stock s  on bn.stock_id = s.stock_id
     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
     INNER JOIN item it  on s.item_id = it.item_id
     INNER JOIN unit u  on it.unit_id = u.unit_id
-    INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-    WHERE bn.bn_stock = 1";
+    ";
     if(isset($_POST['search']['value']))
     {
      $query .= '
     AND code_item LIKE "%'.$_POST['search']['value'].'%" 
      OR item_name LIKE "%'.$_POST['search']['value'].'%"   
      OR vendor_name LIKE "%'.$_POST['search']['value'].'%"   
-     OR transaction_update LIKE "%'.$_POST['search']['value'].'%" 
-     OR quantity_update LIKE "%'.$_POST['search']['value'].'%"   
-     OR name_update LIKE "%'.$_POST['search']['value'].'%"   
-     OR datetime_update LIKE "%'.$_POST['search']['value'].'%"     
+     OR unit_name LIKE "%'.$_POST['search']['value'].'%"   
      ';
     }
     if(isset($_POST['GROUP BY']))
@@ -437,9 +445,9 @@ if($page == 2){
     }
     else
     {
-     $query .= 'GROUP BY it.item_id ';
+     $query .= 'GROUP BY
+     it.item_id ';
     }
-
     
     $statement = $db->prepare($query);
     
@@ -463,36 +471,127 @@ if($page == 2){
     $sub_array[]= $row["unit_name"]; 
     $sub_array[]= $row["vendor_name"];
     $sub_array[]= $row["price_stock"];  
-    $sub_array[]= $row["BN_stock"]; 
-    $sub_array[]= $row["transaction_update"]; 
-    $sub_array[]= $row["quantity_update"]; 
-    $sub_array[]= $row["name_update"];
-
-    $data[] = $sub_array;
+    if($row["BN2"]==0){
+      $row["BN2"]='-';
+      $sub_array[]= $row["BN2"];
+    }else{
+      $sub_array[]= $row["BN2"];
+    }
+    if($row["BN3"]==0){
+      $row["BN3"]='-';
+      $sub_array[]= $row["BN3"];
+    }else{
+      $sub_array[]= $row["BN3"];
+    }
+    if($row["BN4"]==0){
+      $row["BN4"]='-';
+      $sub_array[]= $row["BN4"];
+    }else{
+      $sub_array[]= $row["BN4"];
+    }
+    if($row["BN5"]==0){
+      $row["BN5"]='-';
+      $sub_array[]= $row["BN5"];
+    }else{
+      $sub_array[]= $row["BN5"];
+    }
+    if($row["BN6"]==0){
+      $row["BN6"]='-';
+      $sub_array[]= $row["BN6"];
+    }else{
+      $sub_array[]= $row["BN6"];
+    }
+    if($row["BN7"]==0){
+      $row["BN7"]='-';
+      $sub_array[]= $row["BN7"];
+    }else{
+      $sub_array[]= $row["BN7"];
+    }
+    if($row["BN8"]==0){
+      $row["BN8"]='-';
+      $sub_array[]= $row["BN8"];
+    }else{
+      $sub_array[]= $row["BN8"];
+    }
+    if($row["BN9"]==0){
+      $row["BN9"]='-';
+      $sub_array[]= $row["BN9"];
+    }else{
+      $sub_array[]= $row["BN9"];
+    }
+    if($row["BN10"]==0){
+      $row["BN10"]='-';
+      $sub_array[]= $row["BN10"];
+    }else{
+      $sub_array[]= $row["BN10"];
+    }
+    if($row["BN11"]==0){
+      $row["BN11"]='-';
+      $sub_array[]= $row["BN11"];
+    }else{
+      $sub_array[]= $row["BN11"];
+    }
+    if($row["BN12"]==0){
+      $row["BN12"]='-';
+      $sub_array[]= $row["BN12"];
+    }else{
+      $sub_array[]= $row["BN12"];
+    }
+    if($row["BN13"]==0){
+      $row["BN13"]='-';
+      $sub_array[]= $row["BN13"];
+    }else{
+      $sub_array[]= $row["BN13"];
+    } 
+    if($row["BN1"]==0){
+      $row["BN1"]='-';
+      $sub_array[]= $row["BN1"];
+    }else{
+      $sub_array[]= $row["BN1"];
+    } 
+    if($row["SUM_BN"]<=12){
+    $sub_array[]= '<div style="background-color: #ffff;color:#fff;">'.$row["SUM_BN"].'</div>';
+    }else{
+    $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
+    }
+     $data[] = $sub_array;
     }
     
     function count_all_data($db)
     {
-    $query = "SELECT
-    it.code_item,unit_name,item_name,v.vendor_name,price_stock,
-    transaction_update,quantity_update,name_update,datetime_update
-    FROM branch_stock bn
-    INNER JOIN stock s  on bn.stock_id = s.stock_id
-    INNER JOIN vendor v  on s.vendor_id = v.vendor_id
-    INNER JOIN item it  on s.item_id = it.item_id
-    INNER JOIN unit u  on it.unit_id = u.unit_id
-    INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-    WHERE bn.bn_stock = 1";
+     $query = "SELECT
+     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+     SUM(IF(bn_id = 1, quantity, 0)) AS BN1,
+     SUM(IF(bn_id = 2, quantity, 0)) AS BN2,
+     SUM(IF(bn_id = 3, quantity, 0)) AS BN3,
+       SUM(IF(bn_id = 4, quantity, 0)) AS BN4,
+       SUM(IF(bn_id = 5, quantity, 0)) AS BN5,
+       SUM(IF(bn_id = 6, quantity, 0)) AS BN6,
+       SUM(IF(bn_id = 7, quantity, 0)) AS BN7,
+       SUM(IF(bn_id = 8, quantity, 0)) AS BN8,
+       SUM(IF(bn_id = 9, quantity, 0)) AS BN9,
+       SUM(IF(bn_id = 10, quantity, 0)) AS BN10,
+       SUM(IF(bn_id = 11, quantity, 0)) AS BN11,
+       SUM(IF(bn_id = 12, quantity, 0)) AS BN12,
+       SUM(IF(bn_id = 13, quantity, 0)) AS BN13,
+       SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 THEN quantity ELSE NULL END) AS SUM_BN
+     FROM cut_stock_log bn
+     INNER JOIN stock s  on bn.stock_id = s.stock_id
+     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
+     INNER JOIN item it  on s.item_id = it.item_id
+     INNER JOIN unit u  on it.unit_id = u.unit_id
+     
+     ";
+     $statement = $db->prepare($query);
+     $statement->execute();
+     return $statement->rowCount();
+    }
     
-    $statement = $db->prepare($query);
-    $statement->execute();
-    return $statement->rowCount();
-  }
-  $output = array(
-    'draw'    => intval($_POST['draw']),
-    'recordsTotal'  => count_all_data($db),
-    'recordsFiltered' => $number_filter_row,
-    'data'    => $data
+    $output = array(
+     'draw'    => intval($_POST['draw']),
+     'recordsTotal'  => count_all_data($db),
+     'recordsFiltered' => $number_filter_row,
+     'data'    => $data
     );
     
     echo json_encode($output);

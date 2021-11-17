@@ -21,13 +21,13 @@
                     </button>
                 </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="list_stock_branch.php">
                     <button class="btn btn-primary">
                         รายการรวม
                     </button>
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item ">
                 <a class="nav-link" href="sub_list_stock_branch.php">
                     <button class="btn btn-primary">

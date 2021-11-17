@@ -216,6 +216,7 @@ $('#submit').click(function(e) {
     $(document).ready(function() {
 
         $('#stock_po').DataTable({
+            "lengthMenu":false
         });
     });
     </script>
@@ -234,7 +235,7 @@ $('#submit').click(function(e) {
           buttons: [
             'excel', 'print'
           ],
-          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ],
+          "lengthMenu":false
     });
  
 } );
