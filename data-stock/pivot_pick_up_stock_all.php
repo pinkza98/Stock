@@ -134,7 +134,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url: "../fetch_stock.php?page=2",
+                url: "../fetch_stock.php?page=4",
                 type: "POST"
             },
             dom: 'lBfrtip',
