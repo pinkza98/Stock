@@ -25,7 +25,7 @@
     <title>Plus dental clinic</title>
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <==========================================booystrap 5==================================================> -->
 
     <!-- <==========================================data-teble==================================================> -->
@@ -35,6 +35,7 @@
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
+
   
 
 
@@ -56,7 +57,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <?php include('../components/nav_stock_slid.php'); ?>
+            <?php include('../components/nav_stock_slid.php'); ?>
             </div>
         </div>
     </div>
@@ -64,7 +65,7 @@
     <?php include('../components/content.php')?>
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
-        <table class="table table-hover text-center m-2 " id="stock_po">
+        <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>
                     <th class="text-center ">รหัส</th>
@@ -195,46 +196,55 @@
                     <th class="text-center"></th>
                     <th class="text-center"></th>
                     <th class="text-center"></th>
+                    <th class="text-center"></th>
                     <th class="text-center">รวมมูลค่าทั้งหมด</th>
-                    <th class="text-left" rowspan="3">
-                        <?php echo number_format($sum_order); ?> บาท
-                    </th>
+                    <th class="text-center"><?php echo number_format($sum_order); ?> บาท</th>
                     
                 </tr>
             </tfoot>
         </table>
     </div>
 
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   
 </body>
 </html>
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {
 
-        $('#stock_po').DataTable({
-            "lengthMenu": [ [ -1], [ "All"] ],
+        var table = $('#stock').DataTable({
+            fixedHeader: {
+                header: true
+            },
+            "searching": true,
+            "lengthChange": false,
+            "paging": false
+
+
         });
+
     });
     </script>
     <?php }else{?>
         <script>
-         $(document).ready(function() {
-    // Setup - add a text input to each footer cell
-    $('#stock_po tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
- 
-    // DataTable
-    var table = $('#stock_po').DataTable({
-        dom: 'lBfrtip',
-          buttons: [
-            'excel', 'print'
-          ],
-          "lengthMenu": [ [ -1], [ "All"] ],
+    $(document).ready(function() {
+
+        var table = $('#stock').DataTable({
+            fixedHeader: {
+                header: true
+            },
+            dom: 'lBfrtip',
+            buttons: [
+                'excel', 'print'
+            ],
+            "searching": true,
+            "lengthChange": false,
+            "paging": false
+
+
+        });
+
     });
- 
-} );
     </script>
+
       <?php }?>

@@ -166,7 +166,7 @@ elseif($Key=="It898989!@#"){//update/day
                     }elseif($row_bn_stock['bn_stock']==6){
                         $begin_branch_1 = "on_1";
                         
-                    }elseif($row_bn_stock['bn_stock']==7){
+                    }elseif($row_bn_stock['bn_stock']==7){ 
                         $begin_branch_1 = "ud";
                         
                     }elseif($row_bn_stock['bn_stock']==8){
