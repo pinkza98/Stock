@@ -118,7 +118,7 @@
                     <th scope="col" class="text-center">หมดอายุ</th>
                     <th scope="col" class="text-center">สาขา</th>
                     <th scope="col" class="text-center">ผู้ขาย</th>
-                    <th scope="col" class="text-center">ลบ</th>
+                    <!-- <th scope="col" class="text-center">ลบ</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -162,7 +162,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             <?php }?>
         <td><?php echo $row["bn_name"]; ?></td>
         <td><?php echo $row["vendor_name"]; ?></td>  
-        <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>&item_quantity=<?php echo $row["item_quantity"];?>&stock_id=<?php echo $row["stock_id"];?>&user_name=<?php echo $user_name;?>&bn_stock=<?php echo $row["bn_stock"];?>" class="btn btn-danger delete" data-confirm="ต้องการที่จะลบ?">Delete</a></td>
+        <!-- <td><a href="?delete_id=<?php echo $row["full_stock_id"];?>&item_quantity=<?php echo $row["item_quantity"];?>&stock_id=<?php echo $row["stock_id"];?>&user_name=<?php echo $user_name;?>&bn_stock=<?php echo $row["bn_stock"];?>" class="btn btn-danger delete" data-confirm="ต้องการที่จะลบ?">Delete</a></td> -->
         <?php } ?>
     </tr>
             </tbody>
@@ -181,7 +181,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     <th scope="col" class="text-center">หมดอายุ</th>
                     <th scope="col" class="text-center">สาขา</th>
                     <th scope="col" class="text-center">ผู้ขาย</th>
-                    <th scope="col" class="text-center">ลบ</th>
+                    <!-- <th scope="col" class="text-center">ลบ</th> -->
                 </tr>
             </tfoot>
         </table>
@@ -235,8 +235,23 @@ for (var i = 0; i < deleteLinks.length; i++) {
     <script>
     $(document).ready(function() {
 
-        $('#stock_sub').DataTable({
-        });
+        var table = $('#stock_sub').DataTable({
+          "lengthMenu": [ [10,25, 50,100, -1], [10, 25, 50,100, "All"] ],
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if (that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
+    });
     });
     </script>
     <?php }else{?>
@@ -254,7 +269,7 @@ for (var i = 0; i < deleteLinks.length; i++) {
           buttons: [
             'excel', 'print'
           ],
-          "lengthMenu": [ [10, 25, 50,100, -1], [10, 25, 50,100, "All"] ],
+          "lengthMenu": [ [10,25, 50,100, -1], [10, 25, 50,100, "All"] ],
         initComplete: function () {
             // Apply the search
             this.api().columns().every( function () {

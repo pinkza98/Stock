@@ -51,10 +51,12 @@
         </div>
         <?php } ?>
         <div class="row">
+        <?php include('../components/nav_stock_sild_bn.php'); ?>
+        <br
             <div class="col-md-12">
             <div class="card text-white bg-secondary mb-3" style="max-width: 29rem;">
                 <div class="card-header">
-                    <h4 class="card-title">update สั่งซื้อ PO ของสาขา :  <?php echo $row_session['bn_name'] ?></h4>
+                    <h4 class="card-title mt-2">update สั่งซื้อ PO ของสาขา :  <?php echo $row_session['bn_name'] ?></h4>
                 </div>
             </div>
                 <form id="list_item" name="list_item">
@@ -107,7 +109,6 @@
                                 <th class="col-md-1">จำนวนในคลัง</th>
                                 <th class="col-md-1">จำนวนที่เบิกสั่งแล้ว</th>
                                 <th class="col-md-1">view</th>
-                                <th class="col-md-1">update จำนวนรายการ</th>
                             </thead>
                             <?php  $select_stock_po = $db->prepare("SELECT stock_po_id,stock_id,$bn_id as sum_bn,vendor_name,stock.stock_id,code_item ,item_name,unit_name FROM stock_po 
                             INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
@@ -131,7 +132,6 @@
                             <input type="hidden" class="form-control text-center" name="stock_id[]" value="<?php echo $row_stock_po["stock_id"];?>">
                             <input type="hidden" class="form-control text-center" name="bn_stock[]" value="<?php echo $row_session['user_bn'] ?>">
                             <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
-                            <td><input type="button" name="update" value="update" class="btn btn-info update_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
                             </tr>
                             </form>
                             <?php } ?>
@@ -216,7 +216,7 @@ $('#submit').click(function(e) {
     $(document).ready(function() {
 
         $('#stock_po').DataTable({
-            "lengthMenu":false
+            "lengthMenu": [ [-1], ["All"] ],
         });
     });
     </script>
@@ -235,7 +235,7 @@ $('#submit').click(function(e) {
           buttons: [
             'excel', 'print'
           ],
-          "lengthMenu":false
+          "lengthMenu": [ [-1], ["All"] ],
     });
  
 } );

@@ -8,13 +8,13 @@
                     </button>
                 </a>
             </li>
-            <li class="nav-item ">
+            <!-- <li class="nav-item ">
                 <a class="nav-link" href="list_stock_all.php">
                     <button class="btn btn-primary">
                         รายการรวม
                     </button>
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item ">
                 <a class="nav-link" href="sub_list_stock_all.php">
                     <button class="btn btn-primary">
@@ -29,13 +29,13 @@
                     </button>
                 </a>
             </li>
-            <li class="nav-item ">
+            <!-- <li class="nav-item ">
                 <a class="nav-link" href="transfer.php">
                     <button class="btn btn-primary">
                         จัดการโอนย้ายคลัง
                     </button>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 </nav>

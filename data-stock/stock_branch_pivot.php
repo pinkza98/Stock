@@ -25,7 +25,7 @@
     <title>Plus dental clinic</title>
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <==========================================booystrap 5==================================================> -->
 
     <!-- <==========================================data-teble==================================================> -->
@@ -64,7 +64,7 @@
     <?php include('../components/content.php')?>
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
-        <table class="table table-hover text-center m-2 " id="stock">
+        <table class="table table-hover text-center m-2 " id="stock_po">
             <thead class="table-dark">
                 <tr>
                     <th class="text-center ">No.</th>
@@ -78,6 +78,8 @@
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">ผู้ดำเนินการ</th>
                 </tr>
+                </thead>
+                <tbody class="table-light">
                 <?php 
                 $select_pivot_bn = $db->prepare("SELECT
                 it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
@@ -99,6 +101,7 @@
                 while ($row = $select_pivot_bn->fetch(PDO::FETCH_ASSOC)) {
                     $date_stock = strtotime($row['datetime_update']." +15 day");
                 ?>
+                
                 <tr class="table-light">
                     <th class="text-center"><?php echo $No ?></th>
                     <th class="text-center"><?php echo $row['code_item'];?></th>
@@ -114,25 +117,22 @@
                     <th class="text-center"><?php echo $row['name_update'];?></th>
 
                     <?php }elseif($date_stock < $tomorrow ){?>
-                        <th class="text-center" style="background-color: ##B8B804;color:#fff"><?php echo $row['BN_stock'];?></th>
-                    <th class="text-center"><?php echo $row['transaction_update'];?></th>
-                    <th class="text-center"><?php echo $row['quantity_update'];?></th>
-                    <th class="text-center"><?php echo $row['name_update'];?></th>
+                        <th class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></th>
+                    <th class="text-center" style="background-color: #ECD532;"><?php echo $row['transaction_update'];?></th>
+                    <th class="text-center"  style="background-color: #ECD532;"><?php echo $row['quantity_update'];?></th>
+                    <th class="text-center"  style="background-color: #ECD532;"><?php echo $row['name_update'];?></th>
                     <?php } else{ ?>
                     <th class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></th>
                     <th class="text-center"><?php echo $row['transaction_update'];?></th>
                     <th class="text-center"><?php echo $row['quantity_update'];?></th>
                     <th class="text-center"><?php echo $row['name_update'];?></th>
-                    </div>
+                    
                     <?php }?>
                    
                 </tr>
                 <?php $No++; } ?>
-            </thead>
-            <tbody class="table-light">
-                <tr>
-
-                </tr>
+          
+              
             </tbody>
         </table>
     </div>
@@ -144,50 +144,33 @@
     <script>
     $(document).ready(function() {
 
-        var table = $('#stock').DataTable({
-            fixedHeader: {
-                header: true
-            },
+        var table = $('#stock_po').DataTable({
+            "lengthMenu": false,
             "searching": true,
-            "lengthChange": false,
             "paging": false
-
-
         });
     });
     </script>
     <?php }else{?>
         <script>
-    $(document).ready(function() {
-
-        var table = $('#stock').DataTable({
-            fixedHeader: {
-                header: true
-            },
-            dom: 'lBfrtip',
-            buttons: [
-                'excel', 'print'
-            ],
-            "searching": true,
-            "lengthChange": false,
-            "paging": false
-
-
-        });
+         $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#stock_po tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+ 
+    // DataTable
+    var table = $('#stock_po').DataTable({
+        dom: 'lBfrtip',
+          buttons: [
+            'excel', 'print'
+          ],
+          "lengthMenu": false,
+          "searching": true,
+          "paging": false
     });
+ 
+} );
     </script>
       <?php }?>
-      <?php 
-      function DateDiff($strDate1,$strDate2)
-      {
-                  return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
-      }
-      function TimeDiff($strTime1,$strTime2)
-      {
-                  return (strtotime($strTime2) - strtotime($strTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
-      }
-      function DateTimeDiff($strDateTime1,$strDateTime2)
-      {
-                  return (strtotime($strDateTime2) - strtotime($strDateTime1))/  ( 60 * 60 ); // 1 Hour =  60*60
-      }
-      ?>

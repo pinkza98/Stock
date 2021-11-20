@@ -76,19 +76,20 @@
     <body>
         <header></header>
         <div class="display-3 text-xl-center">
-            <H2>รายการคลังทุกสาขา </H2>
+            <H2>รายการคลังสาขา </H2>
         </div>
         <hr>
         <div class="container">
             <div class="row">
                 <div class="col">
                     <?php include('../components/nav_stock_sild_bn.php'); ?>
+                    <?php include('../components/content.php')?>
+
                 </div>
             </div>
         </div>
         </header>
-        <?php include('../components/content.php')?>
-        <div class="container">
+        <div class="m-5">
             <br>
             <table class="table table-dark table-hover text-xl-center" id="stock">
                 <thead class="table-dark">
@@ -100,9 +101,6 @@
                         <th scope="col" class="text-center">วันที่เบิก</th>
                         <th scope="col" class="text-center">ผู้เบิก</th>
                         <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">รูปภาพ</th>
-                        <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                        <!-- <th scope="col" class="text-center">ลบ</th>   -->
 
                     </tr>
                 </thead>
@@ -117,8 +115,7 @@
           WHERE cut_stock_log.bn_id = ".$row_session['user_bn']."
           ORDER BY cut_stock_id DESC");
           $select_stmt->execute();
-          while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-      ?>
+          while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {?>
                     <tr class="table-light text-danger">
                         <td><?php echo $row["code_item"]; ?></td>
                         <td><?php echo $row["item_name"]; ?></td>
@@ -126,31 +123,18 @@
                         <td><?php echo DateThai($row["date"]); ?></td>
                         <td><?php echo $row["user_id"];?></td>
                         <td><?php echo $row["bn_name"]; ?></td>
-                        <?php if($row['img_stock']!=='' &&$row['img_stock']!=null){?>
-                        <td><button data-fancybox="gallery" data-src="img_stock/<?php echo $row['img_stock']?>"
-                                className="button button--secondary"><img
-                                    src="img_stock/<?php echo $row['img_stock'] ?>" width="25" height="25"
-                                    alt=""></button>
-                            <?php }else{?>
-                        <td>-</td>
-                        <?php } ?>
-                        <!-- <td><a href="edit/stock_edit.php?update_id=<?php echo $row["stock_id"]; ?>" class="btn btn-warning">View</a></td> -->
-                        <!-- <td><a href="?delete_id=<?php echo $row["stock_id"];?>" class="btn btn-danger">Delete</a></td>  -->
                         <?php } ?>
                     </tr>
                 </tbody>
-                <tfoot>
-                    <tr class="table-active">
+                <tfoot style="color:black">
+                    <tr >
                         <th scope="col" class="text-center">รหัสบาร์โค้ด</th>
                         <th scope="col" class="text-center">ชื่อรายการ</th>
                         <th scope="col" class="text-center">จำนวน</th>
                         <th scope="col" class="text-center">วันที่เบิก</th>
                         <th scope="col" class="text-center">ผู้เบิก</th>
                         <th scope="col" class="text-center">สาขา</th>
-                        <th scope="col" class="text-center">รูปภาพ</th>
-                        <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <!-- <th scope="col" class="text-center">ลบ</th> -->
-                    </tr>
+                    </tr>   
                 </tfoot>
             </table>
         </div>
@@ -175,19 +159,57 @@ function DateThai($strDate)
     <script>
     $(document).ready(function() {
 
-        $('#stock').DataTable({});
+        var table = $('#stock').DataTable({
+          "lengthMenu": [ [10,25, 50,100, -1], [ 10,25, 50,100, "All"] ],
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if (that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
+    });
     });
     </script>
     <?php }else{?>
         <script>
-    $(document).ready(function() {
-
-        $('#stock').DataTable({
-            dom: 'lBfrtip',
+         $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#stock tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+ 
+    // DataTable
+    var table = $('#stock').DataTable({
+        dom: 'lBfrtip',
           buttons: [
             'excel', 'print'
           ],
-        });
+          "lengthMenu": [ [10,25, 50,100, -1], [ 10,25, 50,100, "All"] ],
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if (that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
     });
+ 
+} );
     </script>
       <?php }?>

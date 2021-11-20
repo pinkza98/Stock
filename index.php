@@ -27,6 +27,7 @@
  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <!-- <==========================================data-teble==================================================> -->
 
+
     
   </head>
   <body>
@@ -41,7 +42,24 @@
 
     <hr>
     <?php include('components/content.php')?>
-    
+    <div class="m-4">
+    <button class="btn btn-yellow btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    แจ้งประกาศ
+  </button>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+   <p>
+      อัพเดทแก้ไข<br>
+       - ปรับหน้า รายการรวม ถูกนำออกไปใช้ตาราง piovt แทนได้ 21/11/2564<br>
+       - ปรับหน้า รายการแยกส่วนสาขา การลบข้อมูลถูกนำออกไป ใช่การปรับยอดแทนได้ 21/11/2564<br>
+   </p>
+   <p>
+      อัพเดทเพิ่มเติม <br>
+       - สามารถปรับยอดรายการสาขา ได้ที่หน้า piovt สาขา 21/11/2564
+    </p>
+  </div>
+</div>
+    </div>
   <div class="m-4 ">
     <br>
     <table class="table table-dark table-hover  " id="stock">
