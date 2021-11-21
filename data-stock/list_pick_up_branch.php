@@ -150,8 +150,6 @@ function DateThai($strDate)
     return "$strDay $strMonthThai $strYear";
 }
 ?>
-
-
     </body>
 
 </html>

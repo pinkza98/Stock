@@ -109,6 +109,7 @@
                                 <th class="col-md-1">จำนวนในคลัง</th>
                                 <th class="col-md-1">จำนวนที่เบิกสั่งแล้ว</th>
                                 <th class="col-md-1">view</th>
+                                
                             </thead>
                             <?php  $select_stock_po = $db->prepare("SELECT stock_po_id,stock_id,$bn_id as sum_bn,vendor_name,stock.stock_id,code_item ,item_name,unit_name FROM stock_po 
                             INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
@@ -132,6 +133,7 @@
                             <input type="hidden" class="form-control text-center" name="stock_id[]" value="<?php echo $row_stock_po["stock_id"];?>">
                             <input type="hidden" class="form-control text-center" name="bn_stock[]" value="<?php echo $row_session['user_bn'] ?>">
                             <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
+                            
                             </tr>
                             </form>
                             <?php } ?>
@@ -148,7 +150,6 @@
 </html>
 
 <?php require ('viewmodal.php');?>
-<?php require ('vieweditpo.php');?>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.view_data').click(function(){
@@ -163,19 +164,7 @@ $(document).ready(function() {
         }
     });
 });
-$('.update_data').click(function(){
-        var uid=$(this).attr("id");
-        var bn_id="<?php echo $bn_id ?>";
-        $.ajax({
-        url:"select_inset_modal_stock_po.php",
-        method:"POST",
-        data:{uid,bn_id},
-        success:function(data) {
-        $('#detail_po').html(data);
-        $('#dataModal_po').modal('show');
-        }
-    });
-});
+
 $('#submit').click(function(e) {
         var data_add = $('#add_name').serialize(); 
         $.ajax({
@@ -214,9 +203,9 @@ $('#submit').click(function(e) {
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {
-
         $('#stock_po').DataTable({
             "lengthMenu": [ [-1], ["All"] ],
+            
         });
     });
     </script>
@@ -230,7 +219,7 @@ $('#submit').click(function(e) {
     } );
  
     // DataTable
-    var table = $('#stock_po').DataTable({
+        $('#stock_po').DataTable({
         dom: 'lBfrtip',
           buttons: [
             'excel', 'print'

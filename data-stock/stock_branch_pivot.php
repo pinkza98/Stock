@@ -27,7 +27,8 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <==========================================booystrap 5==================================================> -->
-
+    <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.0/dist/css/bootstrap.min.css" > -->
+    <script src="https://kit.fontawesome.com/43df76ab35.js" crossorigin="anonymous"></script>
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -50,6 +51,10 @@
     <header>
         <div class="display-3 text-xl-center">
             <H2>PIVOT สต๊อกคลังสาขา : <?php echo $row_session['bn_name']; ?> </H2>
+            <input type="button" name="view" value="view" class="btn btn-info view_data" id="1690"/>            
+
+
+
         </div>
     </header>
     <hr>
@@ -66,7 +71,7 @@
         <br>
         <table class="table table-hover text-center m-2 " id="stock_po">
             <thead class="table-dark">
-                <tr>
+                <tr style="font-size:12px;">
                     <th class="text-center ">No.</th>
                     <th class="text-center ">รหัส</th>
                     <th class="text-center ">รายการ</th>
@@ -77,12 +82,14 @@
                     <th class="text-center">ธุระกรรม</th>
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">ผู้ดำเนินการ</th>
+                    <th class="text-center">ปรับยอด</th>
+                    
                 </tr>
                 </thead>
                 <tbody class="table-light">
                 <?php 
                 $select_pivot_bn = $db->prepare("SELECT
-                it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
+                bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
                 SUM(IF(bn_stock = ".$row_session['user_bn'].", item_quantity, 0)) AS BN_stock
                 FROM branch_stock bn
                 INNER JOIN stock s  on bn.stock_id = s.stock_id
@@ -102,30 +109,36 @@
                     $date_stock = strtotime($row['datetime_update']." +15 day");
                 ?>
                 
-                <tr class="table-light">
-                    <th class="text-center"><?php echo $No ?></th>
-                    <th class="text-center"><?php echo $row['code_item'];?></th>
-                    <th class="text-left"><?php echo $row['item_name'];?></th>
-                    <th class="text-center"><?php echo $row['unit_name'];?></th>
-                    <th class="text-center"><?php echo $row['vendor_name'];?></th>
-                    <th class="text-center"><?php echo $row['price_stock'];?></th>
+                <tr class="table-light" style="font-size:12px;">
+                    <td class="text-center"><?php echo $No ?></td>
+                    <td class="text-center"><?php echo $row['code_item'];?></td>
+                    <td class="text-left"><?php echo $row['item_name'];?></td>
+                    <td class="text-center"><?php echo $row['unit_name'];?></td>
+                    <td class="text-center"><?php echo $row['vendor_name'];?></td>
+                    <td class="text-center"><?php echo $row['price_stock'];?></td>
                     <?php 
                     if($date_stock >= $tomorrow and $row['quantity_update'] !=null){?>
-                    <th class="text-center" style="background-color: #00A00F;color:#fff"><?php echo $row['BN_stock'];?></th>
-                    <th class="text-center"><?php echo $row['transaction_update'];?></th>
-                    <th class="text-center"><?php echo $row['quantity_update'];?></th>
-                    <th class="text-center"><?php echo $row['name_update'];?></th>
+                    <td class="text-center" style="background-color: #00A00F;color:#fff"><?php echo $row['BN_stock'];?></td>
+                    <td class="text-center"><?php echo $row['transaction_update'];?></td>
+                    <td class="text-center"><?php echo $row['quantity_update'];?></td>
+                    <td class="text-center"><?php echo $row['name_update'];?></td>
+                    <td><i class="far fa-check-square fa-3x" style="color:#00A00F"></i></td> 
+                
 
                     <?php }elseif($date_stock < $tomorrow ){?>
-                        <th class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></th>
-                    <th class="text-center" style="background-color: #ECD532;"><?php echo $row['transaction_update'];?></th>
-                    <th class="text-center"  style="background-color: #ECD532;"><?php echo $row['quantity_update'];?></th>
-                    <th class="text-center"  style="background-color: #ECD532;"><?php echo $row['name_update'];?></th>
+                        <td class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></td>
+                    <td class="text-center"><?php echo $row['transaction_update'];?></td>
+                    <td class="text-center" ><?php echo $row['quantity_update'];?></td>
+                    <td class="text-center" ><?php echo $row['name_update'];?></td>
+                    <td><button class="text-right view_data" id="<?php echo $row["stock_id"]; ?>"><i class="fas fa-edit fa-2x" style="color:#D5C45A"></i></button></td> 
+                
                     <?php } else{ ?>
-                    <th class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></th>
-                    <th class="text-center"><?php echo $row['transaction_update'];?></th>
-                    <th class="text-center"><?php echo $row['quantity_update'];?></th>
-                    <th class="text-center"><?php echo $row['name_update'];?></th>
+                    <td class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></td>
+                    <td class="text-center"><?php echo $row['transaction_update'];?></td>
+                    <td class="text-center"><?php echo $row['quantity_update'];?></td>
+                    <td class="text-center"><?php echo $row['name_update'];?></td>
+                    <td><button class="text-right view_data" id="1690"><i class="fas fa-edit fa-2x" style="color:red"></i></button></td> 
+                    
                     
                     <?php }?>
                    
@@ -136,10 +149,26 @@
             </tbody>
         </table>
     </div>
-
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <?php require ('viewmodal.php');?>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.view_data').click(function(){
+        var uid=$(this).attr("id");
+        $.ajax({
+        url:"select_stock.php",
+        method:"POST",
+        data:{uid},
+        success:function(data) {
+        $('#detail').html(data);
+        $('#dataModal').modal('show');
+        }
+    });
+});
+});
+</script>
 </body>
 </html>
+
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {
@@ -155,11 +184,6 @@
         <script>
          $(document).ready(function() {
     // Setup - add a text input to each footer cell
-    $('#stock_po tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
- 
     // DataTable
     var table = $('#stock_po').DataTable({
         dom: 'lBfrtip',
