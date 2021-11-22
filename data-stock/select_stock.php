@@ -13,7 +13,7 @@ $select_stmt = $db->prepare("SELECT stock_id,price_stock,stock.marque_id,ifnull(
         $select_stmt->execute();
         $row_stock = $select_stmt->fetch(PDO::FETCH_ASSOC);
         extract($row_stock);
-@@$outp.='';
+// @@$outp.='';
         
 @@$outp.='<tr class="table-light">
         <td class="control-form"><label>รหัสบาร์โค้ด</label> :<td> '.$code_item.'</td></td>

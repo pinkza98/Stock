@@ -1,17 +1,5 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['delete_id'])) {
-      $stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE stock_id = :new_stock_id");
-      $select_stmt->bindParam(':new_stock_id', $stock_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-      // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM stock WHERE stock_id = :new_stock_id');
-      $delete_stmt->bindParam(':new_stock_id', $stock_id);
-      $delete_stmt->execute();
-        header('Location:stock_main.php');
-    }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
@@ -29,10 +17,11 @@
     <!-- <==========================================booystrap 5==================================================> -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.0/dist/css/bootstrap.min.css" > -->
     <script src="https://kit.fontawesome.com/43df76ab35.js" crossorigin="anonymous"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --> 
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
@@ -42,19 +31,13 @@
     <?php include('../components/header.php');?>
     
 </head>
-
 <body>
     
     <?php include('../components/nav_stock.php'); ?>
     
-
     <header>
         <div class="display-3 text-xl-center">
             <H2>PIVOT สต๊อกคลังสาขา : <?php echo $row_session['bn_name']; ?> </H2>
-            <input type="button" name="view" value="view" class="btn btn-info view_data" id="1690"/>            
-
-
-
         </div>
     </header>
     <hr>
@@ -67,6 +50,21 @@
     </div>
     </header>
     <?php include('../components/content.php')?>
+    <div class="m-4">
+    <button class="btn btn-yellow btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    คำอธิบาย
+  </button>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+   <p>
+     สีของรายการ<br>
+      - <a  style="color:#00A00F">สีเขียวคือ<a> รายการมีการอัพเดทภายใน 15 วัน <br>
+      - <a  style="color:#ECD532">สีเหลืองคือ<a> รายการมีการอัพเดทผ่านมาแล้ว 15 วัน <br>
+      - <a  style="color:#63635D">สีเทาคือ<a> รายการยังไม่มีการอัพเดทยอดใดๆ เลย <br>
+    </ฟ>
+  </div>
+</div>
+    </div>
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
         <table class="table table-hover text-center m-2 " id="stock_po">
@@ -82,7 +80,7 @@
                     <th class="text-center">ธุระกรรม</th>
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">ผู้ดำเนินการ</th>
-                    <th class="text-center">ปรับยอด</th>
+                    <th class="text-center">วันที่อัพเดท</th>
                     
                 </tr>
                 </thead>
@@ -122,47 +120,48 @@
                     <td class="text-center"><?php echo $row['transaction_update'];?></td>
                     <td class="text-center"><?php echo $row['quantity_update'];?></td>
                     <td class="text-center"><?php echo $row['name_update'];?></td>
-                    <td><i class="far fa-check-square fa-3x" style="color:#00A00F"></i></td> 
+                    <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
+                    <!-- <td><i class="far fa-check-square fa-3x" style="color:#00A00F"></i></td>  -->
                 
-
                     <?php }elseif($date_stock < $tomorrow ){?>
                         <td class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></td>
                     <td class="text-center"><?php echo $row['transaction_update'];?></td>
                     <td class="text-center" ><?php echo $row['quantity_update'];?></td>
                     <td class="text-center" ><?php echo $row['name_update'];?></td>
-                    <td><button class="text-right view_data" id="<?php echo $row["stock_id"]; ?>"><i class="fas fa-edit fa-2x" style="color:#D5C45A"></i></button></td> 
+                    <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
+                    <!-- <td><button class="text-right view_data" id="<?php echo $row["stock_id"]; ?>"><i class="fas fa-edit fa-2x" style="color:#D5C45A"></i></button></td>  -->
                 
                     <?php } else{ ?>
                     <td class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></td>
                     <td class="text-center"><?php echo $row['transaction_update'];?></td>
                     <td class="text-center"><?php echo $row['quantity_update'];?></td>
                     <td class="text-center"><?php echo $row['name_update'];?></td>
-                    <td><button class="text-right view_data" id="1690"><i class="fas fa-edit fa-2x" style="color:red"></i></button></td> 
-                    
-                    
+                    <td class="text-center">-</td>
+                    <!-- <td><button type="button" name="view" value="view" class=" view_data" id="<?php echo $row["stock_id"]; ?>"><i class="fas fa-edit fa-2x" style="color:red"></i></button></td> -->
                     <?php }?>
-                   
                 </tr>
                 <?php $No++; } ?>
-          
-              
+                
+                
             </tbody>
         </table>
     </div>
-    <?php require ('viewmodal.php');?>
-<script type="text/javascript">
-$(document).ready(function() {
+    <?php 
+require 'viewmodal.php'
+?>
+  <script>
+  $(document).ready(function(){
     $('.view_data').click(function(){
-        var uid=$(this).attr("id");
-        $.ajax({
+      var uid=$(this).attr("id");
+      $.ajax({
         url:"select_stock.php",
         method:"POST",
         data:{uid},
         success:function(data) {
-        $('#detail').html(data);
-        $('#dataModal').modal('show');
+          $('#detail').html(data);
+          $('#dataModal').modal('show');
         }
-    });
+      });
 });
 });
 </script>
@@ -171,18 +170,18 @@ $(document).ready(function() {
 
 <?php if($row_session['user_lv']==1){?>
     <script>
-    $(document).ready(function() {
+    
 
         var table = $('#stock_po').DataTable({
             "lengthMenu": false,
             "searching": true,
             "paging": false
         });
-    });
+
     </script>
     <?php }else{?>
         <script>
-         $(document).ready(function() {
+         
     // Setup - add a text input to each footer cell
     // DataTable
     var table = $('#stock_po').DataTable({
@@ -194,7 +193,17 @@ $(document).ready(function() {
           "searching": true,
           "paging": false
     });
- 
-} );
     </script>
       <?php }?>
+      <?php 
+function DateThai($strDate)
+{
+    $strYear = date("Y",strtotime($strDate))+543;
+    $strMonth= date("n",strtotime($strDate));
+    $strDay= date("j",strtotime($strDate));
+    
+    $strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+    $strMonthThai=$strMonthCut[$strMonth];
+    return "$strDay $strMonthThai $strYear";
+}
+?>

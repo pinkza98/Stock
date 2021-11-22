@@ -35,19 +35,10 @@
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
-
-  
-
-
     <?php include('../components/header.php');?>
-    
 </head>
-
 <body>
-    
     <?php include('../components/nav_stock.php'); ?>
-    
-
     <header>
         <div class="display-3 text-xl-center">
             <H2>PIVOT รายการสั่งซื้อ </H2>
@@ -88,61 +79,60 @@
                     <th class="text-center">CN</th>
                     <th class="text-center">รวม</th>
                     <th class="text-center">มูลค่า</th>
-                    
                 </tr>
             </thead>
             <tbody class="table-light">
                 <?php 
-                 $select_stock_po = $db->prepare("SELECT price_stock,vendor_name,unit_name,item_name,code_item,cn,ra,ar,sa,as_1,on_1,ud,nw,cw,r2,lb,bk,hq FROM stock_po 
-                 INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
-                 LEFT JOIN item ON  item.item_id  =stock.item_id
-                 LEFT JOIN unit ON item.unit_id = unit.unit_id  
-                 LEFT JOIN nature ON stock.nature_id = nature.nature_id   
-                 LEFT JOIN type_item ON stock.type_id = type_item.type_id
-                 LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
-                 LEFT JOIN division ON stock.division_id = division.division_id
-                 LEFT JOIN marque ON stock.marque_id = marque.marque_id
-                 ORDER BY code_item ASC");
-                 $select_stock_po->execute();
-                 $sum_order =0;
-                 while ($row_stock_po = $select_stock_po->fetch(PDO::FETCH_ASSOC)) {
-                     $sum_po = $row_stock_po['ra'] + $row_stock_po['ar'] + $row_stock_po['sa'] + $row_stock_po['as_1'] + $row_stock_po['on_1'] + $row_stock_po['ud'] + $row_stock_po['nw'] + $row_stock_po['cw'] + $row_stock_po['r2'] + $row_stock_po['lb'] + $row_stock_po['bk'] + $row_stock_po['hq'] + $row_stock_po['cn'];
-                     if($sum_po == 0){
-                        $sum_po = "-";
-                     }if($row_stock_po['cn'] == 0){
-                        $row_stock_po['cn'] = "-";
-                     }if($row_stock_po['ra'] == 0){
-                        $row_stock_po['ra'] = "-";
-                     }if($row_stock_po['ar']== 0){
-                        $row_stock_po['ar'] = "-";
-                     }if($row_stock_po['sa']== 0){
-                        $row_stock_po['sa'] = "-";
-                     }if($row_stock_po['as_1']== 0){
-                        $row_stock_po['as_1'] = "-";
-                     }if($row_stock_po['on_1']== 0){
-                        $row_stock_po['on_1'] = "-";
-                     }
-                     if($row_stock_po['ud']== 0){
-                        $row_stock_po['ud'] = "-";
-                     }
-                     if($row_stock_po['nw']== 0){
-                        $row_stock_po['nw'] = "-";
-                     }
-                     if($row_stock_po['cw']== 0){
-                        $row_stock_po['cw'] = "-";
-                     }
-                     if($row_stock_po['r2']== 0){
-                        $row_stock_po['r2'] = "-";
-                     }
-                     if($row_stock_po['lb']== 0){
-                        $row_stock_po['lb'] = "-";
-                     }
-                     if($row_stock_po['bk']== 0){
-                        $row_stock_po['bk'] = "-";
-                     }
-                     if($row_stock_po['hq']== 0){
-                        $row_stock_po['hq'] = "-";
-                     }
+                $select_stock_po = $db->prepare("SELECT price_stock,vendor_name,unit_name,item_name,code_item,cn,ra,ar,sa,as_1,on_1,ud,nw,cw,r2,lb,bk,hq FROM stock_po 
+                INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
+                LEFT JOIN item ON  item.item_id  =stock.item_id
+                LEFT JOIN unit ON item.unit_id = unit.unit_id  
+                LEFT JOIN nature ON stock.nature_id = nature.nature_id   
+                LEFT JOIN type_item ON stock.type_id = type_item.type_id
+                LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
+                LEFT JOIN division ON stock.division_id = division.division_id
+                LEFT JOIN marque ON stock.marque_id = marque.marque_id
+                ORDER BY code_item ASC");
+                $select_stock_po->execute();
+                $sum_order =0;
+                while ($row_stock_po = $select_stock_po->fetch(PDO::FETCH_ASSOC)) {
+                    $sum_po = $row_stock_po['ra'] + $row_stock_po['ar'] + $row_stock_po['sa'] + $row_stock_po['as_1'] + $row_stock_po['on_1'] + $row_stock_po['ud'] + $row_stock_po['nw'] + $row_stock_po['cw'] + $row_stock_po['r2'] + $row_stock_po['lb'] + $row_stock_po['bk'] + $row_stock_po['hq'] + $row_stock_po['cn'];
+                    if($sum_po == 0){
+                    $sum_po = "-";
+                    }if($row_stock_po['cn'] == 0){
+                    $row_stock_po['cn'] = "-";
+                    }if($row_stock_po['ra'] == 0){
+                    $row_stock_po['ra'] = "-";
+                    }if($row_stock_po['ar']== 0){
+                    $row_stock_po['ar'] = "-";
+                    }if($row_stock_po['sa']== 0){
+                    $row_stock_po['sa'] = "-";
+                    }if($row_stock_po['as_1']== 0){
+                    $row_stock_po['as_1'] = "-";
+                    }if($row_stock_po['on_1']== 0){
+                    $row_stock_po['on_1'] = "-";
+                    }
+                    if($row_stock_po['ud']== 0){
+                    $row_stock_po['ud'] = "-";
+                    }
+                    if($row_stock_po['nw']== 0){
+                    $row_stock_po['nw'] = "-";
+                    }
+                    if($row_stock_po['cw']== 0){
+                    $row_stock_po['cw'] = "-";
+                    }
+                    if($row_stock_po['r2']== 0){
+                    $row_stock_po['r2'] = "-";
+                    }
+                    if($row_stock_po['lb']== 0){
+                    $row_stock_po['lb'] = "-";
+                    }
+                    if($row_stock_po['bk']== 0){
+                    $row_stock_po['bk'] = "-";
+                    }
+                    if($row_stock_po['hq']== 0){
+                    $row_stock_po['hq'] = "-";
+                    }
                 ?>
                 <tr>
                     <td><?php echo $row_stock_po['code_item'] ?></td>
