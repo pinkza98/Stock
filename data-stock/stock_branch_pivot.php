@@ -25,6 +25,9 @@
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
+    <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <!-- <==========================================sweetalert2==================================================> -->
   
 
 
@@ -61,6 +64,7 @@
       - <a  style="color:#00A00F">สีเขียวคือ<a> รายการมีการอัพเดทภายใน 15 วัน <br>
       - <a  style="color:#ECD532">สีเหลืองคือ<a> รายการมีการอัพเดทผ่านมาแล้ว 15 วัน <br>
       - <a  style="color:#63635D">สีเทาคือ<a> รายการยังไม่มีการอัพเดทยอดใดๆ เลย <br>
+      - หมายเหตุการปรับยอดจะนับจำนวนที่มี จากเดิมก่อนหน้านี้
     </ฟ>
   </div>
 </div>
@@ -81,6 +85,7 @@
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">ผู้ดำเนินการ</th>
                     <th class="text-center">วันที่อัพเดท</th>
+                    <th class="text-center">ปรับยอด</th>
                     
                 </tr>
                 </thead>
@@ -121,7 +126,7 @@
                     <td class="text-center"><?php echo $row['quantity_update'];?></td>
                     <td class="text-center"><?php echo $row['name_update'];?></td>
                     <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
-                    <!-- <td><i class="far fa-check-square fa-3x" style="color:#00A00F"></i></td>  -->
+                    <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
                 
                     <?php }elseif($date_stock < $tomorrow ){?>
                         <td class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></td>
@@ -129,7 +134,7 @@
                     <td class="text-center" ><?php echo $row['quantity_update'];?></td>
                     <td class="text-center" ><?php echo $row['name_update'];?></td>
                     <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
-                    <!-- <td><button class="text-right view_data" id="<?php echo $row["stock_id"]; ?>"><i class="fas fa-edit fa-2x" style="color:#D5C45A"></i></button></td>  -->
+                    <td><button type="submit" class="btn btn-warning data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
                 
                     <?php } else{ ?>
                     <td class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></td>
@@ -137,33 +142,66 @@
                     <td class="text-center"><?php echo $row['quantity_update'];?></td>
                     <td class="text-center"><?php echo $row['name_update'];?></td>
                     <td class="text-center">-</td>
-                    <!-- <td><button type="button" name="view" value="view" class=" view_data" id="<?php echo $row["stock_id"]; ?>"><i class="fas fa-edit fa-2x" style="color:red"></i></button></td> -->
+                    <td><button type="submit" class="btn btn-secondary data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id']?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
                     <?php }?>
                 </tr>
                 <?php $No++; } ?>
-                
-                
             </tbody>
         </table>
     </div>
-    <?php 
-require 'viewmodal.php'
+<?php $user_name = $row_session['user_fname'].$row_session['user_lname']; 
+    $user_bn = $row_session['user_bn'];
+
 ?>
-  <script>
-  $(document).ready(function(){
-    $('.view_data').click(function(){
-      var uid=$(this).attr("id");
-      $.ajax({
-        url:"select_stock.php",
-        method:"POST",
-        data:{uid},
-        success:function(data) {
-          $('#detail').html(data);
-          $('#dataModal').modal('show');
-        }
-      });
-});
-});
+<script type="text/javascript" >
+ function submitResult(e) {
+        $('.data_id').click(function(){ 
+        Swal.fire({
+        title: "ปรับยอดรายการ",
+        text: "<?PHP echo $user_name; ?>",
+        icon:'warning',
+        input: 'number',
+        inputPlaceholder: 'ใส่ตัวเลขที่ต้องการปรับยอด',
+        showCancelButton: true        
+        }).then((result) => {
+            if (result.value) {
+                 new_sum = result.value;
+            var stock_id=$(this).attr("id");
+            var user_name = "<?php echo $user_name ?>"
+            var user_bn = "<?php echo $user_bn ?>"
+            
+                $.ajax({
+                    url:"pivot_update_bn.php",
+                    method:"POST",
+                    data:{stock_id:stock_id,new_sum:new_sum,user_name:user_name,user_bn:user_bn},
+                    success:function(data) {
+                        if(data != false){
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: data,
+                            showConfirmButton: true,
+                            timer: false
+                            })
+                            setTimeout(function(){
+                            window.location.reload(1);
+                            }, 2800);
+                        }else{
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: "มีรายการไม่ถูกต้อง!!",
+                            showConfirmButton: false,
+                            timer: 2200
+                            })
+                        }
+                    }
+                });
+            }
+        });
+    });
+}
+
 </script>
 </body>
 </html>

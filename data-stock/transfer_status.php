@@ -32,7 +32,7 @@
 <!-- <==========================================data-teble==================================================> -->
 <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-    <!-- <==========================================data-teble==================================================> -->
+    <!-- <==========================================sweetalert2==================================================> -->
     <script>
     $(document).ready(function() {
 
