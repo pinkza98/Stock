@@ -225,7 +225,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                         $delete_transfer_stock_log->execute();
                         }
                     }
-                }
+                } 
             }
             else{
                 echo "Error";
