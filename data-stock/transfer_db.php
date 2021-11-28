@@ -1,11 +1,11 @@
 <?php  
 include("../database/db.php");
-
-if($_POST['status']=="pass"){
 date_default_timezone_set("Asia/Bangkok");
 $date = new DateTime();
-$date_new = $date->format('Y-m-d H:i:s');
-$status = "ส่งออก";
+$date_nows = $date->format('Y-m-d H:i:s');
+$status_out = "ส่งออก";
+$status_in = "รับโอน";
+if($_POST['status']=="pass"){
 $transfer_stock_id=$_POST['uid'];
  $text1=$_POST['text1'];
  $name=$_POST['name'];
@@ -33,7 +33,7 @@ $transfer_stock_id=$_POST['uid'];
 
 
                     $sum_log = $row_stock_log['item_quantity'] - $row_stock_log['remain_log'];
-                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_new."' , transfer_quantity = ".$sum_log." ,transfer_status = '".$status."'  WHERE stock_id = ".$row_branch_stock['stock_id']." AND bn_stock= ".$row_branch_stock['bn_stock']." ");
+                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_nows."' , transfer_quantity = ".$sum_log." ,transfer_status = '".$status_out."'  WHERE stock_id = ".$row_branch_stock['stock_id']." AND bn_stock= ".$row_branch_stock['bn_stock']." ");
                     $update_stock_bn_user_last ->execute();
                     $remain = $row_stock_log['remain_log'];
                     $update_stock_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity =$remain,status_log =null,remain_log=null WHERE stock_log_id =".$row_stock_log['stock_log_id']."");
@@ -41,7 +41,7 @@ $transfer_stock_id=$_POST['uid'];
                     ;
                 }else{
                     // เก็บที่มีการส่ง
-                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_new."' , transfer_quantity = ".$row_stock_log['item_quantity']." ,transfer_status = '".$status."'  WHERE stock_id = ".$row_branch_stock['stock_id']." AND bn_stock= ".$row_branch_stock['bn_stock']." ");
+                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_nows."' , transfer_quantity = ".$row_stock_log['item_quantity']." ,transfer_status = '".$status_out."'  WHERE stock_id = ".$row_branch_stock['stock_id']." AND bn_stock= ".$row_branch_stock['bn_stock']." ");
                     $update_stock_bn_user_last ->execute();
                     $select_stock_log_del = $db->prepare("DELETE FROM branch_stock_log WHERE stock_log_id  = '".$row_stock_log['stock_log_id']."'");
                     $select_stock_del = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row_stock_log['full_stock_id_log']."'");
@@ -158,7 +158,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                         if($row_count_2 > $count2){//stap1
                             if($sum_log['sum_qty_set']%$row_count_log ==0){
                                 
-                                $sum_divide =$sum_log['sum_qty_set']/$row_count_log;
+                                $sum_divide =$sum_log['sum_qty_set']/$row_count_log; 
                             
                             }else{
                                 if($row_count_2 == ($count2+1)){
@@ -194,6 +194,9 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                     $insert_full_stock->execute();
                                     $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."','".$sum_log['sum_qty_set']."',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                                     $insert_full_stock_log->execute();
+                                    //นับเข้าเช็ครายการรับ
+                                    $update_stock_bn_date_time = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_nows."' , transfer_quantity = ".$sum_log['sum_qty_set']." ,transfer_status = '".$status_in."'  WHERE stock_id = ".$row_2['stock_id']." AND bn_stock= ".$row_1['bn_id_2']." ");
+                                    $update_stock_bn_date_time ->execute();
                                     $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
                                     $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
                                     $update_transfer_log->execute();
@@ -202,6 +205,9 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                                     $insert_full_stock->execute();
                                     $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."','".$sum_log['sum_qty_set']."',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                                     $insert_full_stock_log->execute();
+                                    //นับเข้าเช็ครายการรับ
+                                    $update_stock_bn_date_time = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_nows."' , transfer_quantity = ".$sum_log['sum_qty_set']." ,transfer_status = '".$status_in."'  WHERE stock_id = ".$row_2['stock_id']." AND bn_stock= ".$row_1['bn_id_2']." ");
+                                    $update_stock_bn_date_time ->execute();
                                     $sum_divide =$sum_log['sum_qty_set']/$row_count_log;
                                     $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];
                                     $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty=$sum,transfer_qty_set =NULL ,transfer_note=null  WHERE transfer_log_id = ".$row_2['transfer_log_id']."");
@@ -234,6 +240,9 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
                         $insert_full_stock->execute();
                         $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,exd_date_log,item_quantity,full_stock_id_log,price_stock_log) VALUES ('$name',NOW(),'".$row_2['item_date']."','$sum_divide',LAST_INSERT_ID(),".$row_2['transfer_price'].")");    
                         $insert_full_stock_log->execute();
+                        //นับเข้าเช็ครายการรับ
+                        $update_stock_bn_date_time = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_nows."' , transfer_quantity = ".$sum_log['sum_qty_set']." ,transfer_status = '".$status_in."'  WHERE stock_id = ".$row_2['stock_id']." AND bn_stock= ".$row_1['bn_id_2']." ");
+                        $update_stock_bn_date_time ->execute();
                         $count2++;
                         }else{
                         $sum=$sum_log['sum_qty']-$sum_log['sum_qty_set'];

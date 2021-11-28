@@ -1,5 +1,6 @@
 <?php 
     require_once('../database/db.php');
+    date_default_timezone_set("Asia/Bangkok");
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
@@ -63,7 +64,7 @@
      สีของรายการ<br>
       - <a  style="color:#00A00F">สีเขียวคือ<a> รายการมีการอัพเดทภายใน 15 วัน <br>
       - <a  style="color:#ECD532">สีเหลืองคือ<a> รายการมีการอัพเดทผ่านมาแล้ว 15 วัน <br>
-      - <a  style="color:#63635D">สีเทาคือ<a> รายการยังไม่มีการอัพเดทยอดใดๆ เลย <br>
+      - <a  style="color:#BB3711">สีแดงคือ<a> เมื่อมีรายการส่ง-รับ โอนล่าสุดให้ตรวจเช็คยอดในคลังให้ถูกต้อง หรือ รายการไม่มีการตรวจใช้นานแล้ว <br>
       #หมายเหตุการปรับยอดจะนับจำนวนที่มีจากเดิมก่อนหน้านี้เพิ่มเก็บลงประวัติจำนวนล่าสุด
     </ฟ>
   </div>
@@ -85,6 +86,9 @@
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">ผู้ดำเนินการ</th>
                     <th class="text-center">วันที่อัพเดท</th>
+                    <th class="text-center">สถานะ</th>
+                    <th class="text-center">จำนวน</th>
+                    <th class="text-center">เวลาส่ง/รับ(โอน)</th>
                     <th class="text-center">ปรับยอด</th>
                     
                 </tr>
@@ -92,7 +96,7 @@
                 <tbody class="table-light">
                 <?php 
                 $select_pivot_bn = $db->prepare("SELECT
-                bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,
+                bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,transfer_date,transfer_status,transfer_quantity,
                 SUM(IF(bn_stock = ".$row_session['user_bn'].", item_quantity, 0)) AS BN_stock
                 FROM branch_stock bn
                 INNER JOIN stock s  on bn.stock_id = s.stock_id
@@ -104,12 +108,13 @@
                 GROUP BY it.item_id
                 ");
                 $select_pivot_bn->execute();
-                date_default_timezone_set("Asia/Bangkok");
-                $today = date('Y-m-d');
+                $today = date('Y-m-d H:i:s');
                 $tomorrow = strtotime($today);
                 $No = 1;
                 while ($row = $select_pivot_bn->fetch(PDO::FETCH_ASSOC)) {
                     $date_stock = strtotime($row['datetime_update']." +15 day");
+                    $date_transfer = strtotime($row['transfer_date']);
+                    $date_stock_update = strtotime($row['datetime_update']);
                 ?>
                 
                 <tr class="table-light" style="font-size:12px;">
@@ -120,30 +125,66 @@
                     <td class="text-center"><?php echo $row['vendor_name'];?></td>
                     <td class="text-center"><?php echo $row['price_stock'];?></td>
                     <?php 
+                    if($date_transfer >= $date_stock_update ){?>
+                    <td class="text-center" style="background-color: #BB3711;color:#fff"><?php echo $row['BN_stock'];?></td>
+                    <?php if($row['transaction_update']!=null){?>
+                    <td class="text-center"><?php echo $row['transaction_update'];?></td>
+                    <td class="text-center"><?php echo $row['quantity_update'];?></td>
+                    <td class="text-center"><?php echo $row['name_update'];?></td>
+                    <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
+                    <?php }else{ ?>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <?php } ?>
+                    <?php if($row['transfer_status']!=null) {?>
+                    <td class="text-center"><?php echo $row['transfer_status'];?></td>
+                    <td class="text-center"><?php echo $row['transfer_quantity'];?></td>
+                    <td class="text-center"><?php echo DateThai($row['transfer_date']);?></td>
+                    <?php }else{ ?>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <?php } ?>
+                    <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
+                   <?php }else{ 
                     if($date_stock >= $tomorrow and $row['quantity_update'] !=null){?>
                     <td class="text-center" style="background-color: #00A00F;color:#fff"><?php echo $row['BN_stock'];?></td>
                     <td class="text-center"><?php echo $row['transaction_update'];?></td>
                     <td class="text-center"><?php echo $row['quantity_update'];?></td>
                     <td class="text-center"><?php echo $row['name_update'];?></td>
                     <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
+                    <?php if($row['transfer_status']!=null) {?>
+                    <td class="text-center"><?php echo $row['transfer_status'];?></td>
+                    <td class="text-center"><?php echo $row['transfer_quantity'];?></td>
+                    <td class="text-center"><?php echo DateThai($row['transfer_date']);?></td>
+                    <?php }else{ ?>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <?PHP } ?>
                     <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
                 
-                    <?php }elseif($date_stock < $tomorrow ){?>
+                    <?php }else{?>
                         <td class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></td>
                     <td class="text-center"><?php echo $row['transaction_update'];?></td>
                     <td class="text-center" ><?php echo $row['quantity_update'];?></td>
                     <td class="text-center" ><?php echo $row['name_update'];?></td>
                     <td class="text-center"><?php echo DateThai($row['datetime_update']);?></td>
+                    <?php if($row['transfer_status']!=null) {?>
+                    <td class="text-center"><?php echo $row['transfer_status'];?></td>
+                    <td class="text-center"><?php echo $row['transfer_quantity'];?></td>
+                    <td class="text-center"><?php echo DateThai($row['transfer_date']);?></td>
+                    <?php }else{ ?>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <?PHP } ?>
                     <td><button type="submit" class="btn btn-warning data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
-                
-                    <?php } else{ ?>
-                    <td class="text-center" style="background-color: #63635D;color:#fff"><?php echo $row['BN_stock'];?></td>
-                    <td class="text-center"><?php echo $row['transaction_update'];?></td>
-                    <td class="text-center"><?php echo $row['quantity_update'];?></td>
-                    <td class="text-center"><?php echo $row['name_update'];?></td>
-                    <td class="text-center">-</td>
-                    <td><button type="submit" class="btn btn-secondary data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id']?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
-                    <?php }?>
+                    <?php } ?>
+                   <?php  } ?>
+                   
                 </tr>
                 <?php $No++; } ?>
             </tbody>
@@ -239,9 +280,12 @@ function DateThai($strDate)
     $strYear = date("Y",strtotime($strDate))+543;
     $strMonth= date("n",strtotime($strDate));
     $strDay= date("j",strtotime($strDate));
+    $strHour= date("H",strtotime($strDate));
+    $strMinute= date("i",strtotime($strDate));
+    $strSeconds= date("s",strtotime($strDate));
     
     $strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
     $strMonthThai=$strMonthCut[$strMonth];
-    return "$strDay $strMonthThai $strYear";
+    return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
 }
 ?>
