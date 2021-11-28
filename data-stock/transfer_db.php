@@ -2,14 +2,15 @@
 include("../database/db.php");
 
 if($_POST['status']=="pass"){
+date_default_timezone_set("Asia/Bangkok");
+$date = new DateTime();
+$date_new = $date->format('Y-m-d H:i:s');
+$status = "ส่งออก";
 $transfer_stock_id=$_POST['uid'];
  $text1=$_POST['text1'];
  $name=$_POST['name'];
  $credit=$_POST['credit'];
  $user_id=$_POST['user_id'];
-
-    
-
     $select_transfer_stock = $db->prepare("SELECT * FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id WHERE transfer_stock.transfer_id  = '$transfer_stock_id'");
     $select_transfer_stock->execute();
     $row_transfer_stock = $select_transfer_stock->fetch(PDO::FETCH_ASSOC);
@@ -23,12 +24,25 @@ $transfer_stock_id=$_POST['uid'];
         $select_stock_log = $db->prepare("SELECT * from branch_stock_log WHERE status_log ='$transfer_name'");
         if($select_stock_log->execute()){
             while ($row_stock_log = $select_stock_log->fetch(PDO::FETCH_ASSOC)) {
+                $select_branch_stock = $db->prepare("SELECT stock_id,bn_stock from branch_stock WHERE full_stock_id =".$row_stock_log['full_stock_id_log']."");
+                $select_branch_stock->execute();
+                $row_branch_stock = $select_branch_stock->fetch(PDO::FETCH_ASSOC);
 
                 if($row_stock_log['remain_log']!=null){
+                    // เก็บที่มีการส่ง
+
+
+                    $sum_log = $row_stock_log['item_quantity'] - $row_stock_log['remain_log'];
+                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_new."' , transfer_quantity = ".$sum_log." ,transfer_status = '".$status."'  WHERE stock_id = ".$row_branch_stock['stock_id']." AND bn_stock= ".$row_branch_stock['bn_stock']." ");
+                    $update_stock_bn_user_last ->execute();
                     $remain = $row_stock_log['remain_log'];
                     $update_stock_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity =$remain,status_log =null,remain_log=null WHERE stock_log_id =".$row_stock_log['stock_log_id']."");
-                    $update_stock_stock_log ->execute();
+                    $update_stock_stock_log ->execute()
+                    ;
                 }else{
+                    // เก็บที่มีการส่ง
+                    $update_stock_bn_user_last = $db->prepare("UPDATE branch_stock SET transfer_date='".$date_new."' , transfer_quantity = ".$row_stock_log['item_quantity']." ,transfer_status = '".$status."'  WHERE stock_id = ".$row_branch_stock['stock_id']." AND bn_stock= ".$row_branch_stock['bn_stock']." ");
+                    $update_stock_bn_user_last ->execute();
                     $select_stock_log_del = $db->prepare("DELETE FROM branch_stock_log WHERE stock_log_id  = '".$row_stock_log['stock_log_id']."'");
                     $select_stock_del = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row_stock_log['full_stock_id_log']."'");
                     if($select_stock_del->execute()){
@@ -36,12 +50,16 @@ $transfer_stock_id=$_POST['uid'];
                     }
                 }
                 
+                
             }
             $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 2 ,note2 = '$text1',user2='$name' WHERE transfer_stock_id  ='$transfer_stock_id'");
             $update_transfer_stock->execute();
             $credit = $credit-$row_transfer_credit['sum_price'];
             $update_credit_user=$db->prepare("UPDATE user SET credit =$credit WHERE user_id = '$user_id'");
             $update_credit_user->execute();
+            
+            
+            
             echo "สำเร็จ";
         }
     }else{

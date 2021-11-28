@@ -406,7 +406,7 @@ if($page == 2){
     echo json_encode($output);
   }
   if($page == 4){
-    $column = array('code_item','item_name','vendor','unit','price_stock','BN2','BN3','BN4','BN5','BN6','BN7','BN8','BN9','BN10','BN11','BN12','BN1','SUM_BN');
+    $column = array('code_item','item_name','vendor_name','unit_name','price_stock');
     
     $query = "SELECT
     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
@@ -424,11 +424,12 @@ if($page == 2){
       SUM(IF(bn_id = 12, quantity, 0)) AS BN12,
       SUM(IF(bn_id = 13, quantity, 0)) AS BN13,
       SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 or bn_id=13 THEN quantity ELSE NULL END) AS SUM_BN
-    FROM cut_stock_log bn
-    INNER JOIN stock s  on bn.stock_id = s.stock_id
+    FROM cut_stock_log cut
+    LEFT JOIN stock s  on cut.stock_id = s.stock_id
     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
     INNER JOIN item it  on s.item_id = it.item_id
     INNER JOIN unit u  on it.unit_id = u.unit_id
+    WHERE cut.stock_id = 1
     ";
     if(isset($_POST['search']['value']))
     {
@@ -550,9 +551,9 @@ if($page == 2){
       $sub_array[]= $row["BN1"];
     } 
     if($row["SUM_BN"]<=12){
-    $sub_array[]= '<div style="background-color: #ffff;color:#fff;">'.$row["SUM_BN"].'</div>';
-    }else{
     $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
+    }else{
+    $sub_array[]= '<div style="background-color: #93C47C;color:#fff;">'.$row["SUM_BN"].'</div>';
     }
      $data[] = $sub_array;
     }
@@ -575,8 +576,8 @@ if($page == 2){
        SUM(IF(bn_id = 12, quantity, 0)) AS BN12,
        SUM(IF(bn_id = 13, quantity, 0)) AS BN13,
        SUM(CASE WHEN bn_id=1 or bn_id=2 or bn_id=3 or bn_id=4 or bn_id=5 or bn_id=6 or bn_id=7 or bn_id=8 or bn_id=9 or bn_id=10 or bn_id=11 or bn_id=12 THEN quantity ELSE NULL END) AS SUM_BN
-     FROM cut_stock_log bn
-     INNER JOIN stock s  on bn.stock_id = s.stock_id
+     FROM cut_stock_log cut
+     INNER JOIN stock s  on cut.stock_id = s.stock_id
      INNER JOIN vendor v  on s.vendor_id = v.vendor_id
      INNER JOIN item it  on s.item_id = it.item_id
      INNER JOIN unit u  on it.unit_id = u.unit_id
