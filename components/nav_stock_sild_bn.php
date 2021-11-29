@@ -43,6 +43,13 @@
                 </a>
             </li>
             <li class="nav-item ">
+                <a class="nav-link" href="bn_min_max.php">
+                    <button class="btn btn-primary">
+                        ตั้งค่า min-max สาขา 
+                    </button>
+                </a>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="stock_bn_po.php">
                     <button class="btn btn-primary">
                         เพิ่มรายการเบิก

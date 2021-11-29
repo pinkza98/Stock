@@ -133,11 +133,9 @@
                             <input type="hidden" class="form-control text-center" name="stock_id[]" value="<?php echo $row_stock_po["stock_id"];?>">
                             <input type="hidden" class="form-control text-center" name="bn_stock[]" value="<?php echo $row_session['user_bn'] ?>">
                             <td><input type="button" name="view" value="view" class="btn btn-info view_data" id="<?php echo $row_stock_po["stock_id"]; ?>"/></td>
-                            
                             </tr>
                             </form>
                             <?php } ?>
-                            
                         </table>
                         <input type="submit"  name="submit" id="submit" class="btn btn-success" value="update all" />
                         <input type="submit" href="stock_bn_po.php" class="btn btn-primary"value="Reset"/>
@@ -148,7 +146,6 @@
     </div>
 </body>
 </html>
-
 <?php require ('viewmodal.php');?>
 <script type="text/javascript">
 $(document).ready(function() {
