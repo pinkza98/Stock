@@ -42,6 +42,7 @@
                     </button>
                 </a>
             </li>
+            <?php if($row_session['user_lv']==5){?>
             <li class="nav-item ">
                 <a class="nav-link" href="bn_min_max.php">
                     <button class="btn btn-primary">
@@ -49,6 +50,7 @@
                     </button>
                 </a>
             </li>
+            <?php } ?>
             <li class="nav-item ">
                 <a class="nav-link" href="stock_bn_po.php">
                     <button class="btn btn-primary">

@@ -40,14 +40,14 @@
     
     <header>
         <div class="display-3 text-xl-center mt-3">
-            <H2>ตั้งค่า min-max สาขา : <?php echo $row_session['bn_name']; ?> </H2>
+            <H2>ตั้งค่าความถี่ stock สาขา </H2>
         </div>
     </header>
     <hr>
     <div class="container">
         <div class="row">
             <div class="col">
-            <?php include('../components/nav_stock_sild_bn.php'); ?>
+            <?php include('../components/nav_stock_slid.php'); ?>
             </div>
         </div>
     </div>
@@ -60,10 +60,11 @@
 <div class="collapse" id="collapseExample">
   <div class="card card-body">
    <p>
-    ค่า min-max<br>
-      - <a  style="color:#00A00F">ค่า min<a> คือจำนวนขั้นต่ำที่มีไว้ใน stock สาขา  <br>
-      - <a  style="color:blue">ค่า max<a> คือจำนวนสูงสุดที่ stock สาขา จะเก็บได้  <br>
-      #รายการจะมีให้เพิ่มตามที่คลังสาขาเคยมีอยู่แล้ว ถ้าไม่มีรายการให้ไปสต๊อกคลังเพิ่มไว้ถึงจะมีรายการให้ เพิ่มค่า min-max ได้
+    ความถี่stock<br>
+      - >สิทธิ์การใช้<a>สำหรับ จัดซื้อและ ตำแหน่งผู้จัดการเขต ขึ้นไปถึงจะสามารถใช้สิทธิ์ หน้านี้ได้  <br>
+      - >ความถี่ stock คือ<a> นำข้อมูลจำนวนวันไปใช้ในตาราง pivot สาขาเพื่อแจ้งเตือนรายการสินค้านั้นให้สาขาตรวจเช็ครายการที่เกินกำหนดความถี่ที่กำหนดไว้  <br>
+      #หากไม่มีรายการในนี้ให้ตรวจเช็ค ความสมบูรณ์ของ รายการใน master file ก่อน ถ้ารายการสมบูรณ์แล้ว จะปรากฏรายการให้เพิ่มข้อมูล
+     
 
 </p>
   </div>
@@ -72,7 +73,7 @@
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
         <form name="add_name" id="add_name" method="POST">
-        <table class="table table-hover text-center m-2 " id="stock_po">
+        <table class="table table-hover text-center m-2 " id="stock_piq">
             <thead class="table-dark">
                 <tr style="font-size:12px;">
                     <th class="text-center ">No.</th>
@@ -81,51 +82,42 @@
                     <th class="text-center ">หน่วย</th>
                     <th class="text-center ">ผู้ขาย</th>
                     <th class="text-center ">ราคา</th>
-                    <th class="text-center">คลัง</th>
-                    <th class="text-center">ค่า min</th>
-                    <th class="text-center">ค่า max</th>
+                    <th class="text-center ">ความถี่/วัน</th>
                     
                 </tr>
                 </thead>
                 <tbody class="table-light">
                 <?php 
                 $select_pivot_bn = $db->prepare("SELECT
-                bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,transfer_date,transfer_status,transfer_quantity,stock_min,stock_max,bn_stock,
-                SUM(IF(bn_stock = ".$row_session['user_bn'].", item_quantity, 0)) AS BN_stock
-                FROM branch_stock bn
-                INNER JOIN stock s  on bn.stock_id = s.stock_id
+                stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,date_off
+                FROM stock s
                 INNER JOIN vendor v  on s.vendor_id = v.vendor_id
                 INNER JOIN item it  on s.item_id = it.item_id
                 INNER JOIN unit u  on it.unit_id = u.unit_id
-                INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-                WHERE bn.bn_stock = ".$row_session['user_bn']."
                 GROUP BY it.item_id
                 ");
                 $select_pivot_bn->execute();
-                $No = 1;
+               
                 while ($row = $select_pivot_bn->fetch(PDO::FETCH_ASSOC)) {
                 ?>
         
                 <tr class="table-light " style="font-size:12px;">
-                    <td class="text-center"><?php echo $No ?></td>
+                    <td class="text-center"><?php echo $row['stock_id']; ?></td>
                     <td class="text-center"><?php echo $row['code_item'];?></td>
                     <td class="text-left"><?php echo $row['item_name'];?></td>
                     <td class="text-center"><?php echo $row['unit_name'];?></td>
                     <td class="text-center"><?php echo $row['vendor_name'];?></td>
                     <td class="text-center"><?php echo $row['price_stock'];?></td>        
-                    <td class="text-center"><?php echo $row['BN_stock'];?></td>   
-                    <td class="col-1" ><input type="number" class="form-control text-center " name="sum_min[]" value="<?php echo $row['stock_min'] ?>"></td>
-                    <td class="col-1" ><input type="number" class="form-control text-center " name="sum_max[]" value="<?php echo $row['stock_max'] ?>"></td>
+                    <td class="col-1" ><input type="number" class="form-control text-center " name="date_off[]" value="<?php echo $row['date_off']?>"></td>
                     <input type="hidden" name="stock_id[]" value="<?php echo $row['stock_id'];?>"> 
-                    <input type="hidden" name="bn_stock[]" value="<?php echo $row['bn_stock'];?>"> 
                 </tr>
-                <?php $No++; } ?>
+                <?php } ?>
                 
                 
             </tbody>
         </table>
             <input type="submit"  name="submit" id="submit" class="btn btn-success" value="update" />
-            <input type="submit" href="bn_min_max.php" class="btn btn-primary"value="Reset"/>
+            <input type="submit" href="stock_piq.php" class="btn btn-primary"value="Reset"/>
         </form>
 </div>
 
@@ -136,7 +128,7 @@ $(document).ready(function() {
 $('#submit').click(function(e) {
         var data_add = $('#add_name').serialize(); 
         $.ajax({
-            url: "bn_min_max_db.php",
+            url: "stock_piq_db.php",
             method: "POST",
             data: data_add,
             success: function(data) {
@@ -172,8 +164,8 @@ $('#submit').click(function(e) {
 </html>
 <?php if($row_session['user_lv']==1){?>
     <script>
-        var table = $('#stock_po').DataTable({
-            "lengthMenu": [ [10,25, 50,100, -1], [10, 25, 50,100, "All"] ],
+        var table = $('#stock_piq').DataTable({
+            "lengthMenu": true,
             "searching": true,
             "paging": false
         });
@@ -184,12 +176,12 @@ $('#submit').click(function(e) {
          
     // Setup - add a text input to each footer cell
     // DataTable
-    var table = $('#stock_po').DataTable({
+    var table = $('#stock_piq').DataTable({
         dom: 'lBfrtip',
           buttons: [
             'excel', 'print'
           ],
-          "lengthMenu": [ [10,25, 50,100, -1], [10, 25, 50,100, "All"] ],
+          "lengthMenu": true,
           "searching": true,
           "paging": false
     });

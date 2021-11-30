@@ -42,6 +42,15 @@
                     </button>
                 </a>
             </li>
+            <?php if($row_session['user_lv'] >=3|| $row_session['user_bn'] == 1){?>
+            <li class="nav-item ">
+                <a class="nav-link" href="stock_piq.php">
+                    <button class="btn btn-primary">
+                        ตั้งค่าความถี่ stock
+                    </button>
+                </a>
+            </li>
+            <?php } ?>
             <li class="nav-item ">
                 <a class="nav-link" href="stock_po_center.php">
                     <button class="btn btn-primary">
