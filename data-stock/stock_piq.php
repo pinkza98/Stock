@@ -5,7 +5,6 @@
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -120,9 +119,6 @@
             <input type="submit" href="stock_piq.php" class="btn btn-primary"value="Reset"/>
         </form>
 </div>
-
-    
-
 <script type="text/javascript">
 $(document).ready(function() {
 $('#submit').click(function(e) {

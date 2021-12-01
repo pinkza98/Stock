@@ -61,10 +61,12 @@
 <div class="collapse" id="collapseExample">
   <div class="card card-body">
    <p>
-     สีของรายการ<br>
-      - <a  style="color:#00A00F">สีเขียวคือ<a> รายการมีการอัพเดทภายใน 15 วัน <br>
-      - <a  style="color:#ECD532">สีเหลืองคือ<a> รายการมีการอัพเดทผ่านมาแล้ว 15 วัน <br>
+     สีของรายการคลัง<br>
+      - <a  style="color:#00A00F">สีเขียวคือ<a> รายการมีการอัพเดทภายในความถี่ที่ จัดซื้อกำหนดจำนวนวันไว้<br>
+      - <a  style="color:#ECD532">สีเหลืองคือ<a> รายการมีการอัพเดทผ่านมาเกินความถี่ที่ จัดซื้อกำหนดไว้ <br>
       - <a  style="color:#BB3711">สีแดงคือ<a> เมื่อมีรายการส่ง-รับ โอนล่าสุดให้ตรวจเช็คยอดในคลังให้ถูกต้อง หรือ รายการไม่มีการตรวจใช้นานแล้ว <br>
+      - <a  style="color:#0B0E0F">ปริมาณคลัง คือ<a> เป็นการตรวจสอบ จำนวนคงคลังว่ามีมากหรือน้อยกว่า ค่า min-max ที่สาขากำหนดไว้<br>
+      - <a  style="color:#0B0E0F">ปรับยอด คือ<a> การปรับจำนวนตัวเลขคลังสินค้าของสาขานั้นตามที่กำหนด<br>
       #หมายเหตุการปรับยอดจะนับจำนวนที่มีจากเดิมก่อนหน้านี้เพิ่มเก็บลงประวัติจำนวนล่าสุด
     </ฟ>
   </div>
@@ -75,12 +77,14 @@
         <table class="table table-hover text-center m-2 " id="stock_po">
             <thead class="table-dark">
                 <tr style="font-size:12px;">
+                    
                     <th class="text-center ">No.</th>
                     <th class="text-center ">รหัส</th>
                     <th class="text-center ">รายการ</th>
                     <th class="text-center ">หน่วย</th>
                     <th class="text-center ">ผู้ขาย</th>
                     <th class="text-center ">ราคา</th>
+                    <th scope="col">ปริมาณคลัง</th>
                     <th class="text-center">คลัง</th>
                     <th class="text-center">ธุระกรรม</th>
                     <th class="text-center">จำนวน</th>
@@ -90,13 +94,12 @@
                     <th class="text-center">จำนวน</th>
                     <th class="text-center">เวลาส่ง/รับ(โอน)</th>
                     <th class="text-center">ปรับยอด</th>
-                    
                 </tr>
                 </thead>
                 <tbody class="table-light">
                 <?php 
                 $select_pivot_bn = $db->prepare("SELECT
-                bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,transfer_date,transfer_status,transfer_quantity,
+                bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,transfer_date,transfer_status,transfer_quantity,ifnull(stock_min,0) as stock_min,ifnull(stock_max,0) as stock_max,ifnull(date_off,0) as date_off,
                 SUM(IF(bn_stock = ".$row_session['user_bn'].", item_quantity, 0)) AS BN_stock
                 FROM branch_stock bn
                 INNER JOIN stock s  on bn.stock_id = s.stock_id
@@ -112,11 +115,15 @@
                 $tomorrow = strtotime($today);
                 $No = 1;
                 while ($row = $select_pivot_bn->fetch(PDO::FETCH_ASSOC)) {
-                    $date_stock = strtotime($row['datetime_update']." +15 day");
+                    if($row['date_off'] != 0){
+                        $date_stock = strtotime($row['datetime_update']." +".$row['date_off']." day");
+                    }else{
+                        $date_stock = strtotime($row['datetime_update']." +15 day");
+                    }
+                    
                     $date_transfer = strtotime($row['transfer_date']);
                     $date_stock_update = strtotime($row['datetime_update']);
                 ?>
-                
                 <tr class="table-light" style="font-size:12px;">
                     <td class="text-center"><?php echo $No ?></td>
                     <td class="text-center"><?php echo $row['code_item'];?></td>
@@ -124,6 +131,15 @@
                     <td class="text-center"><?php echo $row['unit_name'];?></td>
                     <td class="text-center"><?php echo $row['vendor_name'];?></td>
                     <td class="text-center"><?php echo $row['price_stock'];?></td>
+                    <?php if($row['BN_stock'] >= $row['stock_max'] AND $row['stock_max'] != 0){?>
+                        <td><button type="button" class="btn btn-primary"><span class="badge">มาก</span></button></td>
+                    <?php }elseif($row['BN_stock'] < $row['stock_min'] AND $row['stock_min'] != 0){ ?>
+                        <td><button type="button" class="btn btn-danger"><span class="badge">น้อย</span></button></td>
+                    <?php }elseif( $row['BN_stock'] <= $row['stock_max'] AND $row['BN_stock'] > $row['stock_min']){ ?>
+                        <td><button type="button" class="btn btn-success"><span class="badge">ปกติ</span></button></td>
+                    <?php }else{ ?>
+                        <td><button type="button" class="btn btn-warning"><span class="badge">-</span></button></td>
+                    <?php } ?>
                     <?php 
                     if($date_transfer >= $date_stock_update ){?>
                     <td class="text-center" style="background-color: #BB3711;color:#fff"><?php echo $row['BN_stock'];?></td>
@@ -165,7 +181,6 @@
                     <td class="text-center"></td>
                     <?PHP } ?>
                     <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
-                
                     <?php }else{?>
                         <td class="text-center" style="background-color: #ECD532;color:#090909"><?php echo $row['BN_stock'];?></td>
                     <td class="text-center"><?php echo $row['transaction_update'];?></td>
@@ -184,7 +199,6 @@
                     <td><button type="submit" class="btn btn-warning data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
                     <?php } ?>
                    <?php  } ?>
-                   
                 </tr>
                 <?php $No++; } ?>
             </tbody>

@@ -174,6 +174,30 @@ if($page == 2){
     $sub_array[]= $row["unit_name"]; 
     $sub_array[]= $row["vendor_name"];
     $sub_array[]= $row["price_stock"];  
+  //   if(!is_null($row['stock_min'] or $row['stock_max']) || $row['stock_min'] != 0 || $row['stock_max'] != 0){//เช็คหาค่า min-max ว่ามีหรือไม่
+
+  //     if($row['BN2'] != 0){//เช็คค่า bn ว่ามีหรือไม่
+  //           if($row['BN2'] >= $row['stock_max']){//เช็คเข้าเงื่อนไข min-max 3 ตัว
+  //             $sub_array[]= '<span class="label label-primary">'.$row['BN2'].'</span>';
+  //           }elseif($row['BN2'] < $row['stock_min']){
+  //             $sub_array[]= '<span class="label label-danger">'.$row['BN2'].'</span>';
+  //           }else{
+  //             $sub_array[]= $row['BN2'];
+  //           }
+  //     }else{//ไม่มีค่า min-max
+  //           if($row['BN2'] !=0){//เช็คค่า bn ว่ามีหรือไม่
+  //             $sub_array[]= $row['BN2'];
+  //           }else{
+  //             $sub_array[]= '-';
+  //           }
+  //     }
+  // }else{//ไม่มีค่า min-max
+  //       if($row['BN2'] !=0){//เช็คค่า bn ว่ามีหรือไม่
+  //         $sub_array[]= $row['BN2'];
+  //       }else{
+  //         $sub_array[]= '-';
+  //       }
+  // }
     if($row["BN2"]==0){
       $row["BN2"]='-';
       $sub_array[]= $row["BN2"];
@@ -184,7 +208,8 @@ if($page == 2){
       $row["BN3"]='-';
       $sub_array[]= $row["BN3"];
     }else{
-      $sub_array[]= $row["BN3"];
+      $sub_array[]= $row['BN3'];
+      
     }
     if($row["BN4"]==0){
       $row["BN4"]='-';
@@ -252,6 +277,7 @@ if($page == 2){
     }else{
       $sub_array[]= $row["BN1"];
     } 
+  
     if($row["SUM_BN"]<=12){
     $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
     }else{
@@ -263,7 +289,7 @@ if($page == 2){
     function count_all_data($db)
     {
      $query = "SELECT
-     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+     it.code_item,unit_name,item_name,v.vendor_name,price_stock,stock_min,stock_max,
      SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN1,
      SUM(IF(bn_stock = 2, item_quantity, 0)) AS BN2,
      SUM(IF(bn_stock = 3, item_quantity, 0)) AS BN3,
@@ -314,7 +340,6 @@ if($page == 2){
     WHERE branch_stock_log.item_quantity !=0
     GROUP BY code_item , bn_name 
     ";
-    
     if(isset($_POST['search']['value']))
     {
       
