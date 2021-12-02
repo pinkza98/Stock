@@ -135,7 +135,7 @@ if($page == 2){
     ";
     if(isset($_POST['search']['value']))
     {
-     $query .= '
+     $query .= ' 
     AND code_item LIKE "%'.$_POST['search']['value'].'%" 
      OR item_name LIKE "%'.$_POST['search']['value'].'%"   
      OR vendor_name LIKE "%'.$_POST['search']['value'].'%"   

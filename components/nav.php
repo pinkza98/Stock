@@ -46,7 +46,7 @@ if (isset($_SESSION['user_login'])) {
                         <li><a class="dropdown-item" href="data-stock/pivot_pick_up_stock_all.php">คลังส่วนกลาง</a></li>
 
                     </ul>
-                </li>
+                </li> 
                 <?php
 if ($row_session['user_lv'] >= 2) {
         ?>
@@ -95,7 +95,7 @@ if ($row_session['user_lv'] >= 2) {
 
                         <li><a class="dropdown-item" href="data-user/user_center.php">สมาชิกศูนย์</a></li>
                         <li><a class="dropdown-item" href="data-user/user_bn.php">สมาชิกสาขา</a></li>
-                        <?php if ($row_session['user_lv'] >= 5) {?>
+                        <?php if ($row_session['user_lv'] >= 5 || $row_session['user_id']==2) {?>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -103,10 +103,7 @@ if ($row_session['user_lv'] >= 2) {
                         <li><a class="dropdown-item" href="data-user/resetpassword.php">รีเซ็ตรหัสผ่าน</a></li>
                         <li><a class="dropdown-item" href="data-user/credit_reset.php">รีเซ็ตเครดิต</a></li>
                         <li><a class="dropdown-item" href="data-user/ui_run_scrip.php">Run Script</a></li>
-                        <li><a class="dropdown-item" href="#">เพิ่มเครดิต</a></li>
-                        <li><a class="dropdown-item" href="#">เปลี่ยนสาขา</a></li>
-                        <li><a class="dropdown-item" href="#">เปลี่ยนระดับผู้ใช้งาน</a></li>
-                       
+                        <li><a class="dropdown-item" href="data-user/set_meber.php">ตั้งค่าสมาชิก</a></li>
                         <?php }?>
                     </ul>
                 </li>
