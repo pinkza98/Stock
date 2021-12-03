@@ -2,7 +2,7 @@
 require_once('database/db.php');
 session_start();
 	if (isset($_SESSION['user_login'])) {
-		header("location: index.php");
+		header("location: index");
 	}
 	if (isset($_REQUEST['btn_login'])) {
 		$username = strip_tags($_REQUEST['txt_username']);
@@ -36,7 +36,7 @@ session_start();
 								}
 							}
 							$loginMsg = "Login......";
-							header("refresh:2;index.php");
+							header("refresh:2;index");
 							}else{
 								$errorMsg[] = "รหัสผ่านไม่ถูกต้อง ";
 							}
@@ -93,7 +93,7 @@ session_start();
 					<div class="login100-form-avatar">
 						<img src="node_modules/images/avatar-01.png" alt="AVATAR">
 					</div>
-					<span class="login100-form-title p-t-20 p-b-45">Login User <a>Version 1.3</a>  <hr>
+					<span class="login100-form-title p-t-20 p-b-45">Login User <a>Version 1.4</a>  <hr>
 						<?php 
 							if (isset($errorMsg)) {
 								foreach($errorMsg as $error) {

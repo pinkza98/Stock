@@ -36,7 +36,7 @@
                 </a>
             </li> -->
             <li class="nav-item ">
-                <a class="nav-link" href="pivot_pick_up_stock_all.php">
+                <a class="nav-link" href="pivot_pick_up_stock_all">
                     <button class="btn btn-primary">
                         รายการ Pivot เบิกรวม 
                     </button>
@@ -44,7 +44,7 @@
             </li>
             <?php if($row_session['user_lv'] >=3|| $row_session['user_bn'] == 1){?>
             <li class="nav-item ">
-                <a class="nav-link" href="stock_piq.php">
+                <a class="nav-link" href="stock_piq">
                     <button class="btn btn-primary">
                         ตั้งค่าความถี่ stock
                     </button>
@@ -52,7 +52,7 @@
             </li>
             <?php } ?>
             <li class="nav-item ">
-                <a class="nav-link" href="stock_po_center.php">
+                <a class="nav-link" href="stock_po_center">
                     <button class="btn btn-primary">
                         รายการสั่งซื้อ
                     </button>

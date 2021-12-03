@@ -2,35 +2,35 @@
     <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
         <ul class="navbar-nav nav-table-striped">
         <li class="nav-item">
-                <a class="nav-link " href="transfer.php">
+                <a class="nav-link " href="transfer">
                     <button class="btn btn-success">โอนย้ายของไปยังสาขาอื่น
                     </button>
                 </a>
             </li>
            <?php  if($row_session['user_lv']>=2){ ?> 
            <li class="nav-item">
-                <a class="nav-link " href="transfer_status.php">
+                <a class="nav-link " href="transfer_status">
                     <button class="btn btn-info">รายการรอ อนุมัติ
                     </button>
                 </a>
             </li>
             <?php }?>
             <li class="nav-item ">
-                <a class="nav-link" href="transfer_carry.php">
+                <a class="nav-link" href="transfer_carry">
                     <button class="btn btn-warning">
                         รายการขนส่ง
                     </button>
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="transfer_inventory_check.php">
+                <a class="nav-link" href="transfer_inventory_check">
                     <button class="btn btn-primary">
                         รายการรับโอน
                     </button>
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="transfer_success.php">
+                <a class="nav-link" href="transfer_success">
                     <button class="btn btn-dark">
                         รายการโอนย้ายที่สำเร็จ
                     </button>

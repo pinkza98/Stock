@@ -1,7 +1,7 @@
 <?php 
 include('../../database/db.php');
 if (!isset($_SESSION['user_login'])) {
-                header("location:login.php");
+                header("location:login");
             }
 
             $id = $_SESSION['user_login'];
@@ -21,7 +21,7 @@ INNER JOIN branch ON user.user_bn = branch.bn_id
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light nav-fixed-top" role="navigation">
     <div class="container-fluid">
-        <div class="img-resize "><a href="../../index.php"><img class="rounded float-start"
+        <div class="img-resize "><a href="../../index"><img class="rounded float-start"
                     src="../../components/images/logo.png"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 aria-label="Toggle navigation"></button>
@@ -29,7 +29,7 @@ INNER JOIN branch ON user.user_bn = branch.bn_id
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ">
                     <li class="nav-item dropdown ms-2">
-                            <a class="nav-link" href="../../index.php" role="button" aria-expanded="false">
+                            <a class="nav-link" href="../../index" role="button" aria-expanded="false">
                                 หน้าหลัก
                             </a>
                         </li>
@@ -40,17 +40,17 @@ INNER JOIN branch ON user.user_bn = branch.bn_id
                             จัดการการคลัง
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../../data-stock/list_stock_all.php">คลังรวม</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/list_stock_all">คลังรวม</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../data-stock/list_stock_branch.php">คลังสาขา</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/list_stock_branch">คลังสาขา</a></li>
 
      
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../data-stock/list_stock_all.php">คลังส่วนกลาง</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/list_stock_all">คลังส่วนกลาง</a></li>
                            
                         </ul>
                     </li>
@@ -63,22 +63,22 @@ if ($row_session['user_lv'] >= 3) {
                             จัดการรายการคงคลัง
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="../../data-stock/stock_main.php">จัดการรายการคลังหลัก</a>
+                            <li><a class="dropdown-item" href="../../data-stock/stock_main">จัดการรายการคลังหลัก</a>
                             </li>
-                            <li><a class="dropdown-item" href="../../data-stock/stock.php">จัดรายการ คลัง</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/stock">จัดรายการ คลัง</a></li>
                             <?php if ($row_session['user_lv'] >= 4) {?>
-                            <li><a class="dropdown-item" href="../../data-stock/set_branch.php">จัดรายการ สาขา</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/set_branch">จัดรายการ สาขา</a></li>
 
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../data-stock/item.php">จัดการรายชื่อรายการ</a></li>
-                            <li><a class="dropdown-item" href="../../data-stock/vendor.php">จัดการvendor</a></li>
-                            <li><a class="dropdown-item" href="../../data-stock/unit.php">จัดการหน่วยสินค้า</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/item">จัดการรายชื่อรายการ</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/vendor">จัดการvendor</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/unit">จัดการหน่วยสินค้า</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../data-stock/reconcile.php">ปรับยอด สต๊อก</a></li>
+                            <li><a class="dropdown-item" href="../../data-stock/reconcile">ปรับยอด สต๊อก</a></li>
                             <?php }?>
                         </ul>
                     </li>
@@ -96,13 +96,13 @@ if ($row_session['user_lv'] >= 3) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <li><a class="dropdown-item" href="../../data-user/user_center.php">สมาชิกศูนย์</a></li>
-                            <li><a class="dropdown-item" href="../../data-user/user_bn.php">สมาชิกสาขา</a></li>
+                            <li><a class="dropdown-item" href="../../data-user/user_center">สมาชิกศูนย์</a></li>
+                            <li><a class="dropdown-item" href="../../data-user/user_bn">สมาชิกสาขา</a></li>
                             <?php if ($row_session['user_lv'] >= 2) {?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../../data-user/register.php">เพิ่มผู้ใช้งาน</a></li>
+                            <li><a class="dropdown-item" href="../../data-user/register">เพิ่มผู้ใช้งาน</a></li>
                             <?php }?>
                         </ul>
                     </li>
@@ -111,7 +111,7 @@ if ($row_session['user_lv'] >= 3) {
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">ตั้งค่า</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="user_profile.php">แก้ไขข้อมูลส่วนตัว</a>
+                            <li><a class="dropdown-item" href="user_profile">แก้ไขข้อมูลส่วนตัว</a>
                             </li>
                         </ul>
                     </li>
@@ -125,7 +125,7 @@ if ($row_session['user_lv'] >= 3) {
                     <?php echo $row_session['bn_name'];} ?></a>
             </div>
             <div class="nav-item fixed-relative">
-                <button class="btn btn-outline-danger " type="submit"><a href="../../logout.php"
+                <button class="btn btn-outline-danger " type="submit"><a href="../../logout"
                         text-light>Logout</a></button>
             </div>
         </nav>
