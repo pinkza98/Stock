@@ -54,8 +54,12 @@
     </div>
     </header>
     <?php include('../components/content.php')?>
+    <?php if($row_session['user_lv'] >=3){ ?>
+    <a href="stock_po_to_transfer"><button type="button" class="btn btn-primary" >จัดกการสั่งของ(จัดซื้อ-AM)</button></a>
+    <?php } ?>
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
+        
         <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>

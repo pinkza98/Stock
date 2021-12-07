@@ -116,18 +116,25 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="form.group">
-                                <input type="text" name="code_item" id="code_item" class="form-control"
-                                    placeholder=" รหัสบาร์โค้ด" required autofocus>
-                                <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
-                                <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"
-                                    hidden>
-                                    
+                    <div class="form.group">
+                    <div class="row g-3">
+                            <div class="col-sm-5">
+                                    <input type="text" name="code_item" id="code_item" class="form-control"
+                                        placeholder=" รหัสบาร์โค้ด" required autofocus>
                             </div>
+                            <div class="col-sm-3">
+                                    <input type="number" name="qty" id="qty" class="form-control"
+                                    placeholder="จำนวน">
+                            </div>
+                            <div class="col-sm-2">
+                            <input type="button" name="add_code" id="add_code" class="btn btn-warning" value="เพิ่ม" />
+                                    <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
+                                    <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"hidden>
+                            </div>
+                            
                         </div>
                     </div>
+        </div>
                 </form>
                 <form name="add_name" id="add_name">
                     <div class="responsive p-6">
@@ -144,13 +151,12 @@
                             </thead>
                             <tr>
                             <!-- <tr><input type="text" class="form-control" placeholder="หมายเหตุถ้ามี!"name="note"id="note"/></tr> -->
-                            
                             </tr>
                         </table>
                         <input type="submit" name="submit" id="submit" class="btn btn-success" value="Add" />
                         <input type="submit" href="transfer.php" class="btn btn-primary"value="Reset"/>
                     </div>
-                </form>
+                </form> 
             </div>
         </div>
     </div>
@@ -160,11 +166,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var i = 1;
-    var qty = 1;
+    var qty = 4;
     $("#code_item").keypress(function(event) {
         if (event.keyCode === 13) {
             if (!this.value == "") {
-
                 event.preventDefault(event);
                 $.ajax({
                     url: 'select_stock/stock_center_load.php',

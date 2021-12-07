@@ -31,35 +31,6 @@
                 }
             }
         }
-        // if(!empty($_REQUEST['txt_user_email'])){
-        //     $user_email = $_REQUEST['txt_user_email'];
-        //     $credit = $_REQUEST['txt_user_credit'];
-        //     $user_email = trim($user_email);
-        //     $select_user_check = $db->prepare("SELECT user_id,username,credit FROM user WHERE username = '$user_email'");
-        //     $select_user_check->execute();
-        //     $row = $select_user_check->fetch(PDO::FETCH_ASSOC);
-        //     if(empty($credit)){
-        //         $errorMsg="กรุณากรอกเครดิต";
-        //       }
-        //       elseif(is_null($user_email) or $row['username']==null ){
-        //           $errorMsg="ไม่พบ e-mail ในระบบ";
-        //       }else{
-        //         try {
-        //             if (!isset($errorMsg)) {
-        //               $select_user_profile = $db->prepare("UPDATE user SET  credit = :new_credit WHERE user_id = :new_user_id");
-        //               if ($select_user_profile->execute()) {
-        //                 $updateMsg = "ข้อมูลถูกอัพเดด..";
-        //                 header("refresh:2;credit_reset.php");
-        //               }else{
-        //                 $errorMsg = "พบข้อผิดพลาดด้าน MYSQL";
-        //               }
-        //             }
-        //           } catch(PDOException $e) {
-        //                echo $e->getMessage();
-        //           }
-        //       }
-           
-        // }  
   }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png"/>
@@ -112,7 +83,7 @@
                   <div class="col-sm-12"></div>
                   </div>
                   </div>
-                  <label>หรือ</label>
+                  <label>ระดับการใช้งาน</label>
                   <div class="col-sm-12 mb-2 mt-2">
                   <div class="col-sm-6">
                   <select name="txt_user_lv" class="form-select ">
@@ -125,7 +96,7 @@
                   </select>
                   </div>
                   </div>
-                  <label>เครดิต</label>
+                  <label>สาขา</label>
                   <select name="txt_user_bn" class="form-select ">
                     <option value=""  class="text-wrap"selected hidden>----- เลือกสาขา --------</option>
                     <option value="1"  class="text-wrap">ส่วนกลาง</option>
@@ -148,11 +119,8 @@
                 </div>
                 </div>
                 </div>
-               
-               
               </form>
-        </div>   
-
+        </div>    
    <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
    <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
