@@ -1,17 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['delete_id'])) {
-      $stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE stock_id = :new_stock_id");
-      $select_stmt->bindParam(':new_stock_id', $stock_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-      // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM stock WHERE stock_id = :new_stock_id');
-      $delete_stmt->bindParam(':new_stock_id', $stock_id);
-      $delete_stmt->execute();
-        header('Location:stock_main.php');
-    }
+
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>

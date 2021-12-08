@@ -181,9 +181,6 @@ $('#submit').click(function(e) {
     </script>
     <?php }else{?>
         <script>
-         
-    // Setup - add a text input to each footer cell
-    // DataTable
     var table = $('#stock_po').DataTable({
         dom: 'lBfrtip',
           buttons: [

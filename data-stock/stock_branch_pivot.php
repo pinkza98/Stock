@@ -224,11 +224,11 @@
             var stock_id=$(this).attr("id");
             var user_name = "<?php echo $user_name ?>"
             var user_bn = "<?php echo $user_bn ?>"
-            
+            var status ="edit_stock_bn";
                 $.ajax({
                     url:"pivot_update_bn.php",
                     method:"POST",
-                    data:{stock_id:stock_id,new_sum:new_sum,user_name:user_name,user_bn:user_bn},
+                    data:{stock_id:stock_id,new_sum:new_sum,user_name:user_name,user_bn:user_bn,status:status},
                     success:function(data) {
                         if(data != false){
                             Swal.fire({
@@ -256,7 +256,6 @@
         });
     });
 }
-
 </script>
 </body>
 </html>

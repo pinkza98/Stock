@@ -19,7 +19,6 @@ if($_POST['stock_id']){
         }
     }
     echo "update การตั้งค่า min-max สำเร็จ!!";
-    
 }else{
     echo false;
 }

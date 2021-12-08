@@ -14,7 +14,7 @@ session_start();
 			$errorMsg[] = "Please enter password";
 		}
 		 else {
-			try {
+			try { //
 				$username=trim($username);
 				$select_stmt = $db->prepare("SELECT user_id,username,password FROM user WHERE username = :uname");
 				$select_stmt->execute(array(':uname' => $username));

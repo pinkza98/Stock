@@ -75,7 +75,6 @@ if ($row_session['user_lv'] >= 2) {
                         <li><a class="dropdown-item" href="../data-stock/vendor">จัดการ-ผู้ขาย</a></li>
                         <li><a class="dropdown-item" href="../data-stock/unit">จัดการ-หน่วย</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_marque">จัดการ-ยี่ห้อ</a></li>
-                        
                         <?php }?>
                     </ul>
                     </li>
@@ -92,7 +91,6 @@ if ($row_session['user_lv'] >= 2) {
                             ตั้งค่าสมาชิก
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
                             <li><a class="dropdown-item" href="../data-user/user_center">สมาชิกศูนย์</a></li>
                             <li><a class="dropdown-item" href="../data-user/user_bn">สมาชิกสาขา</a></li>
                             <?php if($row_session['user_lv'] >= 5){?>
@@ -103,7 +101,7 @@ if ($row_session['user_lv'] >= 2) {
                             <li><a class="dropdown-item" href="../data-user/resetpassword">รีเซ็ตรหัสผ่าน</a></li>
                             <li><a class="dropdown-item" href="../data-user/ui_run_scrip">Run Script</a></li>
                             <li><a class="dropdown-item" href="../data-user/set_meber">ตั้งค่าสมาชิก</a></li>
-                           
+                        
                             <?php }?>
                         </ul>
                     </li>
