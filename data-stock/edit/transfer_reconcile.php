@@ -117,7 +117,6 @@ INNER JOIN unit ON item.unit_id = unit.unit_id
             method: "POST",
             data: data_add,
             success: function(data) {
-                // alert(data);
                 Swal.fire({
                 position: 'center',
                 icon: 'success',

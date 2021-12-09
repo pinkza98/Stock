@@ -87,7 +87,7 @@
             </thead>
             <tbody>
                 <?php 
-                if($row_session['user_lv'] >= 5){
+                if($row_session['user_lv'] >= 3){
                     $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user1,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status,code_service,transfer_service  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
                     INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
                     INNER JOIN branch as b1 ON b1.bn_id  = transfer_stock.bn_id_1 
