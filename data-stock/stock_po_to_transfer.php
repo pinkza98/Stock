@@ -2,6 +2,7 @@
     require_once('../database/db.php');
     if(isset($_POST['bn_id'])){
         $sel_bn =$bn_id_po = $_POST['bn_id'];
+        $sel_id = $_POST['bn_id'];
         if($sel_bn == 1){
             $sel_bn = "cn";
         }elseif($sel_bn == 2){
@@ -33,6 +34,7 @@
     }else{
         $sel_bn = "cn";
         $bn_id_po = 1;
+
     }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
@@ -116,7 +118,7 @@
         </div>
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
-        
+        <form name="name="add_name" id="add_name" method="POST">
         <table class="table table-hover text-center m-2 " id="stock">
             <thead class="table-dark">
                 <tr>
@@ -135,7 +137,7 @@
             <tbody class="table-light">
                 
                 <?php
-                $select_stock_po = $db->prepare("SELECT stock_po_id,code_item,item_name,vendor_name,price_stock,unit_name,$sel_bn FROM stock_po 
+                $select_stock_po = $db->prepare("SELECT stock_po_id,branch_stock.stock_id,code_item,item_name,vendor_name,price_stock,unit_name,$sel_bn,SUM(IF(bn_stock = $bn_id_po, item_quantity, 0)) as sum_bn FROM stock_po 
                 INNER JOIN stock ON stock.stock_id = stock_po.stock_po_id
                 LEFT JOIN item ON  item.item_id  =stock.item_id
                 LEFT JOIN unit ON item.unit_id = unit.unit_id  
@@ -144,8 +146,11 @@
                 LEFT JOIN vendor ON stock.vendor_id = vendor.vendor_id
                 LEFT JOIN division ON stock.division_id = division.division_id
                 LEFT JOIN marque ON stock.marque_id = marque.marque_id
+                LEFT join  branch_stock on branch_stock.stock_id = stock_po.stock_po_id
+                INNER JOIN branch_stock_log ON branch_stock.full_stock_id = branch_stock_log.full_stock_id_log
                 WHERE $sel_bn != 0
-                ORDER BY code_item ASC");
+                GROUP BY stock_id
+                ORDER BY code_item  ASC");
                 $select_stock_po->execute();
                 $sum_order = 0 ;
                 $No = 1;
@@ -161,8 +166,13 @@
                     <td><?php echo $row_stock_po['unit_name'] ?></td>
                     <td><?php echo $row_stock_po['vendor_name'] ?></td>
                     <td><?php echo number_format($row_stock_po['price_stock']); ?></td>
-                    <td>-</td>
-                    <td><?php echo $row_stock_po[$sel_bn] ?></td>
+                    <td style="background-color: #646CC0;color:#131E21"> <?php if($row_stock_po['sum_bn'] != 0){ echo $row_stock_po['sum_bn'];}else{ echo "-";}?></td>
+                    <td ><?php echo $row_stock_po[$sel_bn] ?></td>
+                    <input type="hidden" name="bn_po[]" value="<?php echo $sel_bn?>">
+                    <input type="hidden" name="price[]" value="<?php echo $row_stock_po['price_stock'];?>">
+                    <input type="hidden" name="sum_po[]" value="<?php echo $row_stock_po[$sel_bn];?>">
+                    <input type="hidden" name="stock_po_id[]" value="<?php echo $row_stock_po['stock_po_id'];?>">
+                    <input type="hidden" name="stock_bn[]" value="<?php echo $bn_id_po;?>">
                     <td style="background-color: #82E0AA;color:#21618C"><?php echo number_format($sum_po) ?> ฿</td>
                     <td><button type="button" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row_stock_po['stock_po_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
                 </tr>
@@ -183,7 +193,10 @@
                 </tr>
             </tfoot>
         </table>
+        <input type="submit"  name="submit" id="submit" class="btn btn-success" value="เคลียร์ข้อมูลส่งรอโอนย้าย" />
     </div>
+   
+    </form>
 
 <script type="text/javascript" >
  function submitResult(e) {
@@ -233,6 +246,37 @@
         });
     });
 }
+$('#submit').click(function(e) {
+        var data_add = $('#add_name').serialize(); 
+        $.ajax({
+            url: "stock_po_to_transfer_db.php",
+            method: "POST",
+            data: data_add,
+            success: function(data) {
+                if(data != false){
+                Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: data,
+                showConfirmButton: true,
+                timer: false
+                })
+                setTimeout(function(){
+                window.location.reload(1);
+                }, 2800);
+            }else{
+                Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: "มีรายการไม่ถูกต้อง!!",
+                showConfirmButton: false,
+                timer: 2200
+                })
+            }
+            }
+        });
+        e.preventDefault();
+    });
 </script>
 </body>
 </html>

@@ -41,6 +41,9 @@
             buttons: [
                 'excel', 'print'
             ],
+            "searching": true,
+            "lengthChange": false,
+            "paging": false
         });
     });
     </script>

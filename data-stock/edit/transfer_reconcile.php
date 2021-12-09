@@ -54,8 +54,9 @@ include('../../database/db.php');
           $id=NULL;
       }
    
-    $select_transfer_stock = $db->prepare("SELECT code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_price,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
+    $select_transfer_stock = $db->prepare("SELECT unit_name,code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_price,SUM(transfer_qty_set)as sum_qty_set,transfer_stock_log.stock_id  FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
 INNER JOIN item ON stock.item_id = item.item_id
+INNER JOIN unit ON item.unit_id = unit.unit_id
  WHERE transfer_stock_id='$id'
  GROUP BY code_item
  ");
@@ -78,6 +79,7 @@ INNER JOIN item ON stock.item_id = item.item_id
         <th>รหัส</th>
         <th>รายการ</th>
         <th>จำนวนส่ง</th>
+        <th>หน่วย</th>
         <th>จำนวนรับ</th>
         <th>ราคา</th>
     </tr>
@@ -89,6 +91,7 @@ INNER JOIN item ON stock.item_id = item.item_id
         <td><?php echo $row_transfer['code_item'] ?></td>
         <td><?php echo $row_transfer['item_name'] ?></td>
         <td><?php echo $row_transfer['sum_qty'] ?></td>
+        <td><?php echo $row_transfer['unit_name'] ?></td>
         <input type="text" name="sum_qty[]" value="<?php echo $row_transfer['sum_qty']?>" hidden>
         <input type="text" name="code[]" value="<?php echo $id?>" hidden>
         <input type="text" name="stock_id[]" value="<?php echo $row_transfer['stock_id']?>" hidden>

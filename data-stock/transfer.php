@@ -122,12 +122,6 @@
                                     <input type="text" name="code_item" id="code_item" class="form-control"
                                         placeholder=" รหัสบาร์โค้ด" required autofocus>
                             </div>
-                            <div class="col-sm-3">
-                                    <input type="number" name="qty" id="qty" class="form-control"
-                                    placeholder="จำนวน">
-                            </div>
-                            <div class="col-sm-2">
-                            <input type="button" name="add_code" id="add_code" class="btn btn-warning" value="เพิ่ม" />
                                     <?php $user_name = $row_session['user_fname'].$row_session['user_lname'] ?>
                                     <input type="text" name="user_name" id="user_name" value="<?php echo $user_name?>"hidden>
                             </div>
