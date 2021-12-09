@@ -95,7 +95,7 @@ INNER JOIN unit ON item.unit_id = unit.unit_id
         <input type="text" name="sum_qty[]" value="<?php echo $row_transfer['sum_qty']?>" hidden>
         <input type="text" name="code[]" value="<?php echo $id?>" hidden>
         <input type="text" name="stock_id[]" value="<?php echo $row_transfer['stock_id']?>" hidden>
-        <td><div class="input-group mb-3"><span class="input-group-text" >จำนวนที่ได้รับ</span><input type="text" class="form-control" name="sum_qty_set[]" value="<?php if($row_transfer['sum_qty_set']){echo $row_transfer['sum_qty_set'];}else{echo 0;}?>" size="1"></div></td>
+        <td><div class="input-group mb-3"><span class="input-group-text" >จำนวนที่ได้รับ</span><input type="text" class="form-control" name="sum_qty_set[]" value="<?php if($row_transfer['sum_qty_set']){echo $row_transfer['sum_qty_set'];}?>" size="1"></div></td>
         <td><?php echo $row_transfer['transfer_price'] ?></td>
         <input type="text" name="transfer_price[]" value="<?php echo $row_transfer['transfer_price']?>" hidden>
     </tr>

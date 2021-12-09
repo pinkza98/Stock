@@ -102,9 +102,9 @@
                     <option value="1"  class="text-wrap">ส่วนกลาง</option>
                     <option value="2"  class="text-wrap">รามคำแหง</option>
                     <option value="3"  class="text-wrap">อารีย์</option>
-                    <option value="4"  class="text-wrap">อโศก</option>
-                    <option value="5"  class="text-wrap">อ่อนนุช</option>
-                    <option value="6"  class="text-wrap">รามคำแหง</option>
+                    <option value="4"  class="text-wrap">สาทร</option>
+                    <option value="5"  class="text-wrap">อโศก</option>
+                    <option value="6"  class="text-wrap">อ่อนนุช</option>
                     <option value="7"  class="text-wrap">อุดมสุข</option>
                     <option value="8"  class="text-wrap">งามวงค์วาน</option>
                     <option value="9"  class="text-wrap">แจ้งวัฒนะ</option>
@@ -112,6 +112,8 @@
                     <option value="11"  class="text-wrap">ลาดกระบัง</option>
                     <option value="12"  class="text-wrap">บางแค</option>
                     <option value="13"  class="text-wrap">Office</option>
+                    
+                    
                   </select>
                 <div class="mb-3 mt-3 mb-2">    
                   <input type="submit" name="update_credit" class="btn btn-outline-success" value="Update">

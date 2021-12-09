@@ -24,8 +24,11 @@ $number = count($_POST['stock_id']);
                         
                         
                     } else{
-                        $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty_set ='$sum_qty_set'  WHERE transfer_note  ='$code' AND  stock_id ='$stock_id'");
-                        $update_transfer_log->execute();
+                        if($row['sum_qty_set']!= 0 and $row['sum_qty_set'] != null){
+                            $update_transfer_log = $db->prepare("UPDATE transfer_stock_log SET transfer_qty_set ='$sum_qty_set'  WHERE transfer_note  ='$code' AND  stock_id ='$stock_id'");
+                            $update_transfer_log->execute();
+                        }
+                       
                     }
                     
                     }
