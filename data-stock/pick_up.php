@@ -1,7 +1,6 @@
 <?php 
     include('../database/db.php');
-    if (isset($_REQUEST['save'])) {
-    
+    if (isset($_REQUEST['save'])) {//function ถ้ามีการกดปุ่ม save ให้ทำงานตรงนี้ ฟังชั่นใน การเบิกสินค้า รับตัวแปร แล้วเข้าสู่การคำนวน
         $sum = $_REQUEST['txt_sum'];
         $quantity = $_REQUEST['txt_quantity'];
         $user_id = $_REQUEST['txt_user_id'];
@@ -50,7 +49,6 @@
                                 if($update_stock_log->execute()){
                                     $insertMsg = "เบิกรายการ (".$item_name.") เบิกออก ".$quantity_new." คงเหลือ = ".$answer;
                                     $stop_row++;
-                                    // header('refresh:1:pick_up.php');
                                 }
                         }else{
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";

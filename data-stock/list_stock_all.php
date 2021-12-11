@@ -23,12 +23,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap CSS -->
 <title>Plus dental clinic</title>
-
+<!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- <==========================================booystrap 5==================================================> -->
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <==========================================booystrap 5==================================================> -->
-
   <!-- <==========================================data-teble==================================================> -->
   <script src="../node_modules/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="../node_modules/data-table/jquery-table.min.js"></script>
@@ -71,10 +69,6 @@
                         <th scope="col" class="text-center">ลักษณะ</th>
                         <th scope="col" class="text-center">แผนก</th>
                         <th scope="col" class="text-center">สาขา</th>
-
-                        <!-- <th scope="col" class="text-center">แก้ไข</th>    -->
-                        <!-- <th scope="col" class="text-center">ลบ</th>   -->
-
                     </tr>
                 </thead>
                 <tbody class="table-light">
@@ -93,15 +87,13 @@
                         <th scope="col" class="text-center">ประเภท</th>
                         <th scope="col" class="text-center">ลักษณะ</th>
                         <th scope="col" class="text-center">สาขา</th>
-
-                        <!-- <th scope="col" class="text-center">แก้ไข</th> -->
-                        <!-- <th scope="col" class="text-center">ลบ</th> -->
                     </tr>
                 </tfoot>
             </table>
         </div>
     </body>
 </html>
+<!-- กำหนดสิทธิ์ การมองเห็นการ download excel และ print ดึงข้อมูลมาจาก fatch_stock.php ที่ id = 3-->
 <?php if($row_session['user_lv']==1){?>
     <script>
         $(document).ready( function () {

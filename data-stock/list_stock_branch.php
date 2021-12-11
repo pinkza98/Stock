@@ -10,10 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Plus dental clinic</title>
+    <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
       <!-- <==========================================booystrap 5==================================================> -->
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-<!-- <==========================================booystrap 5==================================================> -->
   <!-- <==========================================data-teble==================================================> -->
   <script src="../node_modules/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -108,6 +108,7 @@
         </div>
     </body>
 </html>
+<!-- กำหนดสิทธิ์ การมองเห็นการ download excel และ print -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {

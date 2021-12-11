@@ -16,7 +16,6 @@
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -27,18 +26,13 @@
         <!-- <==========================================booystrap 5==================================================> -->
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
-    <!---แก้ไขแล้ว-->
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-    <!-- <==========================================data-teble==================================================> -->
-
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================fancybox==================================================> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
@@ -155,7 +149,8 @@ function DateThai($strDate) //functionในการ แปลงวันท�
     </body>
 
 </html>
-<?php if($row_session['user_lv']==1){?>
+<!-- funtion เงือนไขการแสดงของตารางสาขา กำหนดสิทธิ์ พนักงาน -->
+<?php if($row_session['user_lv']==1){?> 
     <script>
     $(document).ready(function() {
 
@@ -178,6 +173,7 @@ function DateThai($strDate) //functionในการ แปลงวันท�
     });
     });
     </script>
+    <!-- funtion เงือนไขการแสดงของตารางสาขา กำหนดสิทธิ์ ผู้จัดการขึ้นไป -->
     <?php }else{?>
         <script>
          $(document).ready(function() {

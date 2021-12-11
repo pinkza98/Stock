@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-
+<!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" />
@@ -59,7 +59,7 @@
     <?php include('../components/nav_stock.php'); ?>
     
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <!-- <==========================================ajax-jquery==================================================> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
           <!-- <==========================================data-teble==================================================> -->
@@ -113,6 +113,7 @@
                 </thead>
                 <tbody>
                     <?php 
+                    // ดึงข้อมูลจากฐานข้อมูล เบิกใช้สินค้ามาแสดง 
           $select_stmt = $db->prepare("SELECT stock.stock_id,code_item,item_name,quantity,unit_name,bn_name,img_stock,date,user_id FROM cut_stock_log  
           INNER JOIN stock ON cut_stock_log.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
@@ -157,7 +158,7 @@
                 </tfoot>
             </table>
         </div>
-<?php 
+<?php //function แปลงวันที่เป็นวันที่ไทย
 function DateThai($strDate)
 {
     $strYear = date("Y",strtotime($strDate))+543;
@@ -169,15 +170,10 @@ function DateThai($strDate)
     return "$strDay $strMonthThai $strYear";
 }
 ?>
-<!-- <==========================================fancybox==================================================> -->
-
-  <!-- <==========================================fancybox==================================================> -->
-  <!-- <==========================================booystrap 5==================================================> -->
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <==========================================booystrap 5==================================================> -->
     </body>
 
 </html>
+<!-- การกำหนดสิทธิ์ แสดงข้อมูลเบิกใช้ โดย liberty data-table -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {

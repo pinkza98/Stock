@@ -111,7 +111,7 @@
 
     </body>
 </html>
-
+<!-- กำหนดสิทธิ์ การมองเห็นการ download excel และ print-->
     <?php if($row_session['user_lv']==1){?>
         <script>
     $(document).ready(function() {

@@ -1,5 +1,5 @@
 <?php 
-    require_once('../database/db.php');
+    require_once('../database/db.php'); //เชื่อมต่อฐานข้อมูล
 
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
@@ -12,11 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+    <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- <==========================================booystrap 5==================================================> -->
-
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -89,6 +88,8 @@
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<!-- กำหนดสิทธิ์ การมองเห็นการ download excel และ print ดึงข้อมูลมาจาก fatch_stock.php ที่ id = 1-->
+
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {
