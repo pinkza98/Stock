@@ -1,16 +1,16 @@
+<!-- จัดการเมนูใหญ่นี้จัดการในส่วนของไฟล์ข้อมูล data-stock -->
 <?php
-include 'database/db.php';
-if (!isset($_SESSION['user_login'])) {
+include 'database/db.php'; // เชื่อมต่อไฟล์ฐานข้อมูล
+if (!isset($_SESSION['user_login'])) { // ตรวจสอบว่าผู้ใช้งานได้ทำการ Login หรือไม่
     header("location:login");
 }
-$id = $_SESSION['user_login'];
-$select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  
-INNER JOIN branch ON user.user_bn = branch.bn_id 
- WHERE user_id = :uid");
+$id = $_SESSION['user_login']; // เก็บค่า user_login ของผู้ใช้งานไว้ในตัวแปร $id
+//นำค่า id มาดึงข้อมูลจากตาราง user
+$select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id INNER JOIN branch ON user.user_bn = branch.bn_id WHERE user_id = :uid");
 $select_session->execute(array(':uid' => $id));
 $row_session = $select_session->fetch(PDO::FETCH_ASSOC);
-extract($row_session);
-if (isset($_SESSION['user_login'])) {
+extract($row_session); // ดึงตัวแปร array ออกมาใช้งานได้ เช่น $user_id
+if (isset($_SESSION['user_login'])) { //ถ้าหาก เข้าเงื่อนไข user_login ให้แสดงข้อมูล ด้านล่างนี้
     ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light nav-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -48,7 +48,7 @@ if (isset($_SESSION['user_login'])) {
                     </ul>
                 </li> 
                 <?php
-if ($row_session['user_lv'] >= 2) {
+if ($row_session['user_lv'] >= 2) { //หากเป็นสิทธิ์ bm ขึ้นไปสามารถเข้ามาใช้งานส่วนนี้ได้
         ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -56,13 +56,15 @@ if ($row_session['user_lv'] >= 2) {
                         จัดการรายการคงคลัง
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <?php if ($row_session['user_lv'] >= 3) {?>
+                        <!-- เมนูจัการรายการคงคลัง ให้สิทธิ์ AM เข้ามาใช้งานได้ -->
+                    <?php if ($row_session['user_lv'] >= 3) {?> 
                         <li><a class="dropdown-item" href="data-stock/stock_main">จัดการรายการคลังหลัก</a>
                         </li>
                         <?php } ?>
                         <li><a class="dropdown-item" href="data-stock/stock">จัดการรายการใหม่-2</a></li>
                         <li><a class="dropdown-item" href="data-stock/item">จัดการรายการใหม่-1</a></li>
-                        <?php if ($row_session['user_lv'] >= 2) {?>
+                        <!--  -->
+                        <?php if ($row_session['user_lv'] >= 2) {?> 
                         <li>
                             <hr class="dropdown-divider"><a>(กระบวการจัดเตรียมข้อมูล)</a>
                         </li>
@@ -95,7 +97,8 @@ if ($row_session['user_lv'] >= 2) {
 
                         <li><a class="dropdown-item" href="data-user/user_center">สมาชิกศูนย์</a></li>
                         <li><a class="dropdown-item" href="data-user/user_bn">สมาชิกสาขา</a></li>
-                        <?php if ($row_session['user_lv'] >= 5 || $row_session['user_id']==2) {?>
+                        <!-- ส่วนนี้จัดการให้ แอดมิน เข้าใช้งานเท่านั้น -->
+                        <?php if ($row_session['user_lv'] >= 5 || $row_session['user_id']==2) {?> 
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -119,6 +122,7 @@ if ($row_session['user_lv'] >= 2) {
             </ul>
         </div>
         <div class="nav-item me-6 ">
+            <!-- การแสดงข้อมูลส่วนตัว ใน tab menu แสดง ชื่อ สถานะ สาขา และเครดิตที่มี  -->
             <a class="nav-link disabled" 
                 aria-disabled="true">คุณ :
                 <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?> |

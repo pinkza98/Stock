@@ -1,7 +1,7 @@
 <?php 
 include_once("database/db.php");
 $Key = $_REQUEST['txt_key'];
-if ($Key=="start") {//start
+if ($Key=="start") {//start 
     $date_now=date_create();
     $date_now = $date_now->format('Y-m-d');
     $select_stock_id = $db->prepare("SELECT stock_id FROM branch_stock GROUP BY stock_id ORDER BY stock_id ASC");//หาเลขทั้งหมดเรียงจากน้อยไปมาก
@@ -44,7 +44,6 @@ if ($Key=="start") {//start
                 
             }elseif($row_sum_item['bn_stock']==11){
                 $begin_branch = "lb";
-                
             }elseif($row_sum_item['bn_stock']==12){
                 $begin_branch = "bk";
                 

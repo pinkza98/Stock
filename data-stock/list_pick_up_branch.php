@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-
+<!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
         <!-- <==========================================booystrap 5==================================================> -->
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -45,7 +45,7 @@
     <!-- <==========================================fancybox==================================================> -->
 
     <script>
-    function Fancybox(props) {
+    function Fancybox(props) { //สร้าง function ชื่อ Fancybox โดยส่งค่า props เข้าไป
         const delegate = props.delegate || "[data-fancybox]";
 
         useEffect(() => {
@@ -105,7 +105,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    
+                    <?php
+                    //function สำหรับดึงข้อมูลจากฐานข้อมูล เบิกใช้สินค้า 
           $select_stmt = $db->prepare("SELECT stock.stock_id,code_item,item_name,quantity,unit_name,bn_name,img_stock,date,user_id FROM cut_stock_log  
           INNER JOIN stock ON cut_stock_log.stock_id = stock.stock_id
           INNER JOIN item ON stock.item_id = item.item_id
@@ -139,7 +141,7 @@
             </table>
         </div>
         <?php 
-function DateThai($strDate)
+function DateThai($strDate) //functionในการ แปลงวันที่เป็นภาษาไทย
 {
     $strYear = date("Y",strtotime($strDate))+543;
     $strMonth= date("n",strtotime($strDate));

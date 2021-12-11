@@ -1,5 +1,6 @@
 <?php 
-    require_once('../database/db.php');
+    require_once('../database/db.php'); //เชื่อมต่อไฟล์ฐานข้อมูล
+    //รับค่าตัวแปรจากฟอร์ม เพื่อลบข้อมูล
     if (isset($_REQUEST['delete_id'])) {
       $stock_id = $_REQUEST['delete_id'];
       $result_note = $_REQUEST['result'];

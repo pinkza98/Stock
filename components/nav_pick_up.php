@@ -1,8 +1,9 @@
+<!-- หน้ากำหนดเข้าเมนูคลังหลัก -->
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
         <ul class="navbar-nav nav-table-striped">
         <li class="nav-item col-lg-4">
-                <a class="nav-link" href="pivot_list_stock_all">
+                <a class="nav-link" href="pivot_list_stock_all"> 
                     <button class="btn btn-primary">
                         รายการ PIVOT Table
                     </button>

@@ -12,11 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+    <!-- library ที่ใช้งาน ตามคาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-    <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.0/dist/css/bootstrap.min.css" > -->
+    <!-- <==========================================fontawesome==================================================> -->
     <script src="https://kit.fontawesome.com/43df76ab35.js" crossorigin="anonymous"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <!-- <==========================================data-teble==================================================> -->
@@ -25,21 +25,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-    <!-- <==========================================data-teble==================================================> -->
+    <!-- <==========================================sweetalert2==================================================> -->
     <script src="../node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
     <!-- <==========================================sweetalert2==================================================> -->
 
-
-    <?php include('../components/header.php');?>
+<!-- ดึงข้อมูลมาจาก header ที่ตั้งค่า css แล้ว -->
+    <?php include('../components/header.php');?> 
     
 </head>
 <body>
-    
+    <!-- ดึงข้อมูลมาจาก header ที่ตั้งค่า css แล้ว -->
     <?php include('../components/nav_stock.php'); ?>
     
     <header>
         <div class="display-3 text-xl-center mt-3">
+            <!-- ดึงข้อมูล session userมาใช้งาน แสดงชื่อสาขา -->
             <H2>ตั้งค่า min-max สาขา : <?php echo $row_session['bn_name']; ?> </H2>
         </div>
     </header>
@@ -47,13 +48,16 @@
     <div class="container">
         <div class="row">
             <div class="col">
+                <!-- ดึงเมนูสาขามาแแสดงใช้งาน -->
             <?php include('../components/nav_stock_sild_bn.php'); ?>
             </div>
         </div>
     </div>
     </header>
+    <!-- ดึงเมนูคอนเทน มาใช้งาน -->
     <?php include('../components/content.php')?>
     <div class="m-4">
+        <!-- ใช้งาน bootstrap ในฟังชั่น collapse เพื่อเพิ่มปุ่มแสดงข้อมูลตาม tag -->
     <button class="btn btn-yellow btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
     คำอธิบาย
   </button>
@@ -69,9 +73,12 @@
   </div>
 </div>
     </div>
+    <!-- fix หัวเมนูให้ขยับตามเมาส์ ontop -->
     <div  class="tableFixHead"style ="width:1900; word-wrap: break-word">
         <br>
-        <form name="add_name" id="add_name" method="POST">
+        <!-- ตั้งค่า id post ฟอร์ม ข้อมูลส่งออก -->
+        <form name="add_name" id="add_name" method="POST"> 
+            <!-- ตั้งค่า ข้อมูลตารางที่จะแสดงข้อมูล พร้อมกำหนดตำแหน่ง id ให้ data table เข้ามาทำงานในตารางถูกต้อง-->
         <table class="table table-hover text-center m-2 " id="stock_po">
             <thead class="table-dark">
                 <tr style="font-size:12px;">
@@ -89,6 +96,7 @@
                 </thead>
                 <tbody class="table-light">
                 <?php 
+                //ดึงข้อมูลจากฐานข้อมูล BN_stock ตามuser สาขา
                 $select_pivot_bn = $db->prepare("SELECT
                 bn.stock_id,it.code_item,unit_name,item_name,v.vendor_name,price_stock,transaction_update,quantity_update,name_update,datetime_update,transfer_date,transfer_status,transfer_quantity,stock_min,stock_max,bn_stock,
                 SUM(IF(bn_stock = ".$row_session['user_bn'].", item_quantity, 0)) AS BN_stock
@@ -102,7 +110,9 @@
                 GROUP BY it.item_id
                 ");
                 $select_pivot_bn->execute();
+                //set ค่า no นับจำนวนรายการ
                 $No = 1;
+                //ลูปข้อมูลทั้งหมดที่ได้จากฐานข้อมูล
                 while ($row = $select_pivot_bn->fetch(PDO::FETCH_ASSOC)) {
                 ?>
         
@@ -124,13 +134,14 @@
                 
             </tbody>
         </table>
-            <input type="submit"  name="submit" id="submit" class="btn btn-success" value="update" />
+        <!-- ส่งข้อมูลถ้า กดปุ่มไปทำงานใน script -->
+            <input type="submit"  name="submit" id="submit" class="btn btn-success" value="update" /> 
             <input type="submit" href="bn_min_max.php" class="btn btn-primary"value="Reset"/>
         </form>
 </div>
 
     
-
+<!-- รับข้อมูล จาก submit postส่งไปยังไฟล์คำนวน bn_min_max_db.php -->
 <script type="text/javascript">
 $(document).ready(function() {
 $('#submit').click(function(e) {
@@ -167,9 +178,11 @@ $('#submit').click(function(e) {
     });
 
 });
+
 </script>
 </body>
 </html>
+<!-- script เงือนไขการแสดงของ ตารางข้อมูลตาม script เงือนไข -->
 <?php if($row_session['user_lv']==1){?>
     <script>
         var table = $('#stock_po').DataTable({

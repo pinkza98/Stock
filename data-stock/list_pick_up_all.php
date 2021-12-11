@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['delete_id'])) {
+    if (isset($_REQUEST['delete_id'])) { //function ลบข้อมูลตารางstock
       $stock_id = $_REQUEST['delete_id'];
       $select_stmt = $db->prepare("SELECT * FROM stock WHERE stock_id = :new_stock_id");
       $select_stmt->bindParam(':new_stock_id', $stock_id);
@@ -24,12 +24,10 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
 
-   
+<!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
 <!-- <==========================================booystrap 5==================================================> -->
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <==========================================booystrap 5==================================================> -->
-
   <!-- <==========================================data-teble==================================================> -->
   <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -38,7 +36,6 @@
   <!---แก้ไขแล้ว--> 
   <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-<!-- <==========================================data-teble==================================================> -->
 <!-- <==========================================fancybox==================================================> -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
@@ -46,7 +43,7 @@
 <!---แก้ไขแล้ว-->
   
     <script>
-      function Fancybox(props) {
+      function Fancybox(props) { //function liberty ดูรูปภาพ
       const delegate = props.delegate || "[data-fancybox]";
 
       useEffect(() => {
@@ -107,6 +104,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- ดึงข้อมูล stock ไฟล์มาสเตอร์ มาแสดงข้อมูลตาราง -->
                     <?php 
           $select_stmt = $db->prepare("SELECT stock.stock_id,code_item,item_name,quantity,unit_name,bn_name,img_stock,date,user_id FROM cut_stock_log  
           INNER JOIN stock ON cut_stock_log.stock_id = stock.stock_id
@@ -151,7 +149,7 @@
             </table>
         </div>
 <?php 
-function DateThai($strDate)
+function DateThai($strDate) //functionในการ แปลงวันที่ เป็น date ไทย
 {
     $strYear = date("Y",strtotime($strDate))+543;
     $strMonth= date("n",strtotime($strDate));

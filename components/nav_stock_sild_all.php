@@ -1,3 +1,4 @@
+<!-- หน้ากำหนดเมนูคลังรวม -->
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
         <ul class="navbar-nav nav-table-striped">

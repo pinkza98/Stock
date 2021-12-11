@@ -1,3 +1,4 @@
+<!-- หน้ากำหนดเมนูใหญ่ สำหรับ ไฟล์ที่อยู่ใน data-stock -->
 <?php 
 include('../database/db.php');
 if (!isset($_SESSION['user_login'])) {

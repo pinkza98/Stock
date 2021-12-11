@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['delete_id'])) {
+    if (isset($_REQUEST['delete_id'])) { //function ในการลบข้อมูล ตาราง item
       $item_id = $_REQUEST['delete_id'];
 
       $select_stmt = $db->prepare("SELECT * FROM item WHERE item_id = :item_id");
@@ -16,7 +16,7 @@
         header('Location:item.php');
     }
 
-    if (isset($_REQUEST['save'])) {
+    if (isset($_REQUEST['save'])) { //function ในการเพิ่มข้อมูล ตาราง item 
       $item_name = $_REQUEST['txt_item_name'];
       $code_item = $_REQUEST['txt_code_item'];
       $unit_id = $_REQUEST['txt_unit'];
@@ -71,7 +71,7 @@
     <!-- Bootstrap CSS -->
 
     <title>Plus dental clinic</title>
-   
+   <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
          <!-- <==========================================booystrap 5==================================================> -->
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -84,7 +84,7 @@
 <!-- <==========================================data-teble==================================================> -->
     <?php include('../components/header.php');?>
     <script>
-    $(document).ready(function() {
+    $(document).ready(function() { //function เมื่อหน้าโปรแกรมเรียกใช้ data-table
 
         $('#stock').DataTable();
     });
@@ -146,7 +146,7 @@
       <select type="number" name="txt_unit" id="unit_name"class="form-control">>
             <option value="" selected hidden>--- เลือก ---</option>
             <?php 
-              $query = "SELECT * FROM unit ORDER BY unit_id ";
+              $query = "SELECT * FROM unit ORDER BY unit_id "; //ดึงหน่วยสินค้า มาใช้งาน
               $result = $db->query($query);
             ?>
             <?php
@@ -189,7 +189,7 @@
       </tr>
     </thead>
     <tbody class=" table-light">
-    <?php 
+    <?php  //เรียกใช้งานข้อมูล item ในตาราง item
           $select_stmt = $db->prepare("SELECT item_id,code_item,item_name,unit_name,price_stock,exd_date FROM item LEFT JOIN unit ON item.unit_id = unit.unit_id  ORDER BY code_item ASC");
           $select_stmt->execute();
           while ($row_item = $select_stmt->fetch(PDO::FETCH_ASSOC)) {?>

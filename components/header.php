@@ -1,14 +1,15 @@
 <?php  
 session_start();  
-  if(isset($_SESSION["user_login"]))  {  
+  if(isset($_SESSION["user_login"]))  {  //ทำการเช็ค user login?
       
   }  
   else{  
-      header("location:login.php");  
+      header("location:login.php");  //ถ้าไม่ได้ login ให้ไปหน้า login.php
       }  
 ?>
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- ทำการดึงข้อมูล ฟอร์นภาษาที่ต้องการในการ ใช้งานบนเว็บ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style type="text/css">
     @import 'https://fonts.googleapis.com/css?family=Kanit|Prompt';

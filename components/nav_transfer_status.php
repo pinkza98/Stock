@@ -1,3 +1,4 @@
+<!-- หน้ากำหนดเมนูในการโอนย้ายสินค้าคลัง -->
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse " id="navbarTogglerDemo03">
         <ul class="navbar-nav nav-table-striped">
@@ -7,6 +8,7 @@
                     </button>
                 </a>
             </li>
+            <!-- กำหนดเฉพาะ ผู้จัดการสาขาขึ้นไปในการเข้ามาใช้งาน อนุมัติรายการสินค้าตาม เครดิตและสาขาของตัวเอง -->
            <?php  if($row_session['user_lv']>=2){ ?> 
            <li class="nav-item">
                 <a class="nav-link " href="transfer_status">

@@ -1,24 +1,21 @@
 <?php 
 include('../../database/db.php');
-if (!isset($_SESSION['user_login'])) {
+if (!isset($_SESSION['user_login'])) {//ถ้าไม่ได้ login ให้ไปหน้า login
                 header("location:login");
             }
 
-            $id = $_SESSION['user_login'];
+            $id = $_SESSION['user_login']; //เก็บตัวแปรที่เก็บค่า id ของผู้ใช้งาน
 
-            $select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  
-INNER JOIN branch ON user.user_bn = branch.bn_id 
- WHERE user_id = :uid");
+            $select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id WHERE user_id = :uid"); //ดึงข้อมูลจากตาราง user ตาม id ที่lohin
             $select_session->execute(array(':uid' => $id));
             $row_session = $select_session->fetch(PDO::FETCH_ASSOC);
-            extract($row_session);
+            extract($row_session); //เอาตัวแปร session ไปใช้งานในส่วนของ php
             if (isset($_SESSION['user_login'])) {
   ?>
 
 
-    
+    <!-- tag html ไม่ขออธิบาย -->
         <div class="col-12 col-sm-12"></div>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light nav-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="img-resize "><a href="../../index"><img class="rounded float-start"
@@ -55,7 +52,7 @@ INNER JOIN branch ON user.user_bn = branch.bn_id
                         </ul>
                     </li>
                     <?php
-if ($row_session['user_lv'] >= 3) {
+if ($row_session['user_lv'] >= 3) { //ฟั่งชั่นจัดการรายการคงคลังนี้ ถ้าหากไม่ใช้ ผู้จัดการเขต ไม่สามารถใช้งานได้
         ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

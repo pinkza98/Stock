@@ -1,18 +1,17 @@
+<!-- หน้ากำหนดเมนูใหญ่ จาก data-user ให้เข้าเมนู อื่นๆ ได้ถูกต้อง -->
 <?php 
-include_once('../database/db.php');
-if (!isset($_SESSION['user_login'])) {
+include_once('../database/db.php'); //เชื่อมต่อไฟล์ ฐานข้อมูล
+if (!isset($_SESSION['user_login'])) { //ถ้าไม่เท่ากับไฟล์ user_login ไม่มีค่าสมาชิกจะไปหน้า login
                 header("location:../login");
             }
 
-            $id = $_SESSION['user_login'];
+            $id = $_SESSION['user_login']; //เก็บค่าตัวแปรจาก user_login ไว้ในตัวแปร $id
 
-            $select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  
-            INNER JOIN branch ON user.user_bn = branch.bn_id 
-             WHERE user_id = :uid");
-            $select_session->execute(array(':uid' => $id));
+            $select_session = $db->prepare("SELECT * FROM user INNER JOIN level ON user.user_lv = level.level_id  INNER JOIN branch ON user.user_bn = branch.bn_id WHERE user_id = :uid");
+            $select_session->execute(array(':uid' => $id)); // ทำการดึงค่า id ออกมาจากตาราง user เพื่อเช็คว่ามีค่าอยู่ในตาราง user หรือไม่
             $row_session = $select_session->fetch(PDO::FETCH_ASSOC);
             extract($row_session);
-            if (isset($_SESSION['user_login'])) {
+            if (isset($_SESSION['user_login'])) { //ถ้า user_login เป็นจริง ให้เข้ามาทำงานในส่วน tag เมนู ด้านล่าง
   ?>
 
 
@@ -53,7 +52,7 @@ if (!isset($_SESSION['user_login'])) {
                         </ul>
                     </li>
                     <?php
-if ($row_session['user_lv'] >= 2) {
+if ($row_session['user_lv'] >= 2) { //กำหนดสิทธิ์การเข้าหน้าจัดการสินค้า โดยที่ user bn >= ขึ้นไป
         ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -61,16 +60,19 @@ if ($row_session['user_lv'] >= 2) {
                             จัดการรายการคงคลัง
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <?php if ($row_session['user_lv'] >= 3) {?>
+                            <!-- รายการจัดการรายการคงคลัง ให้ user AM ขึ้นไปเข้ามาใช้งานในส่วนนี้  -->
+                        <?php if ($row_session['user_lv'] >= 3) {?> 
                         <li><a class="dropdown-item" href="../data-stock/stock_main">จัดการรายการคลังหลัก</a>
                         </li>
                         <?php } ?>
                         <li><a class="dropdown-item" href="../data-stock/stock">จัดการรายการใหม่-2</a></li>
                         <li><a class="dropdown-item" href="../data-stock/item">จัดการรายการใหม่-1</a></li>
+                                   <!-- รายการจัดการรายการคงคลัง ให้ user bm ขึ้นไปเข้ามาใช้งานในส่วนนี้  -->
                         <?php if ($row_session['user_lv'] >= 2) {?>
                         <li>
                             <hr class="dropdown-divider"><a>(กระบวการจัดเตรียมข้อมูล)</a>
                         </li>
+                                   <!-- รายการจัดการรายการคงคลัง ให้ user CEO or Admin ขึ้นไปเข้ามาใช้งานในส่วนนี้  -->
                         <?php if ($row_session['user_lv'] >= 4) {?>
                         <li><a class="dropdown-item" href="../data-stock/set_branch">จัดรายการ-สาขา</a></li>
                         <li><a class="dropdown-item" href="../data-stock/set_type_item">จัดการ-ประเภท</a></li>
@@ -100,6 +102,7 @@ if ($row_session['user_lv'] >= 2) {
 
                             <li><a class="dropdown-item" href="../data-user/user_center">สมาชิกศูนย์</a></li>
                             <li><a class="dropdown-item" href="../data-user/user_bn">สมาชิกสาขา</a></li>
+                                       <!-- รายการจัดการรายการคงคลัง ให้ user admin ขึ้นไปเข้ามาใช้งานในส่วนนี้  -->
                             <?php if($row_session['user_lv'] >= 5){?>
                             <li>
                                 <hr class="dropdown-divider">
@@ -123,6 +126,7 @@ if ($row_session['user_lv'] >= 2) {
                 </ul>
             </div>
             <div class="nav-item me-6 ">
+<!-- การแสดงข้อมูลส่วนตัว ใน tab menu แสดง ชื่อ สถานะ สาขา และเครดิตที่มี  -->
             <a class="nav-link disabled" 
                 aria-disabled="true">คุณ :
                 <?php echo $row_session['user_fname']; ?> <?php echo $row_session['user_lname']; ?> |
