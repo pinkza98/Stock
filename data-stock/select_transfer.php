@@ -1,6 +1,7 @@
 <?php 
 $id = $_POST['uid'];
 include('../database/db.php');
+// function to get the model stock transfer details
 $select_transfer_stock = $db->prepare("SELECT code_item,item_name,SUM(transfer_qty)as sum_qty,transfer_price FROM transfer_stock_log INNER JOIN stock ON transfer_stock_log.stock_id = stock.stock_id
 INNER JOIN item ON stock.item_id = item.item_id
  WHERE transfer_stock_id='$id'

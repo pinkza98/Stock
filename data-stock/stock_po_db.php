@@ -1,6 +1,6 @@
 <?php  
 include("../database/db.php");
-if($_POST['stock_id']){
+if($_POST['stock_id']){ //function loop update stock po 
     $number = count($_POST['stock_id']);
     for($i=0; $i< $number; $i++){  
 

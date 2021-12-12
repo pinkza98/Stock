@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['update_credit'])) {
+    if (isset($_REQUEST['update_credit'])) { // update credit
 
         $user_email = $_REQUEST['txt_user_email'];
         $user_lv = $_REQUEST['txt_user_lv'];
@@ -44,6 +44,9 @@
     <title>Plus dental clinic</title>
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
+   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   </head>
   <body>
@@ -123,8 +126,6 @@
                 </div>
               </form>
         </div>    
-   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+ 
   </body>
 </html>

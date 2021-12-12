@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['save'])) {
+    if (isset($_REQUEST['save'])) { // function พูกข้อมูล จาก itemเข้ากับ stock 
 
       $item_id = $_REQUEST['txt_item_id'];
       $division_id = $_REQUEST['txt_division_id'];
@@ -16,7 +16,7 @@
       $path = "img_stock/" . $image_file; // set upload folder path
       
     
-      if (empty($type_id)) {
+      if (empty($type_id)) { 
           $errorMsg = "Please enter type item";
       }  elseif(empty($division_id)) {
         $errorMsg = "Please enter type item division";
@@ -75,6 +75,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -143,7 +144,7 @@
           $code_item_check =null;
           $row = NULL;
         }
-          if(isset($_POST['check'])){
+          if(isset($_POST['check'])){ // function ค้นหาข้อมูลจากรหัสบาร์โค้ด ว่ามีรหัสที่ผูกกับข้อมูล stock หรือไม่
             $code_item_check= $_REQUEST['get_code_item'];
             $select_check_stock  = $db->prepare("SELECT * FROM stock INNER JOIN item ON stock.item_id = item.item_id WHERE code_item='".$code_item_check."' AND stock.item_id = item.item_id");
             $select_check_stock ->execute();

@@ -1,22 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['delete_id'])) {
-      $stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT stock_log_id FROM branch_stock_log WHERE stock_log_id  = :new_stock_id");
-      $select_stmt->bindParam(':new_stock_id', $stock_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-      // Delete an original record from db
-      $delete_branch_stock = $db->prepare('DELETE FROM branch_stock WHERE full_stock_id  = :new_stock_id');
-      $delete_branch_stock->bindParam(':new_stock_id', $stock_id);
-      $delete_branch_stock_log = $db->prepare('DELETE FROM branch_stock_log WHERE stock_log_id  = :new_stock_id');
-      $delete_branch_stock_log->bindParam(':new_stock_id', $stock_id);
-      if($delete_branch_stock_log->execute()){
-          $delete_branch_stock->execute();
-        $insertMsg = "ลบข้อมูลสำเร็จ...";
-      }
-        // header('Location:sub_list_stock_branch.php');
-    }
+
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
@@ -29,7 +13,7 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
 
-
+ <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -67,6 +51,7 @@
     <hr>
     <div class="container">
     <?php 
+    //function แสดงข้อความ error ตามไลน์
         if (isset($insertMsg)) {
     ?>
         <div class="mb-2">
@@ -187,6 +172,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
         </table>
     </div>
     <?php
+    //function แปลงวันที่เป็นวันที่ไทย
 	function DateThai($strDate)
 	{
 		$strYear = date("Y",strtotime($strDate))+543;
@@ -197,6 +183,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear";
 	}
+    //function คำนวณวันที่หหมดอายุ
     function DateDiff($strDate1,$strDate2)
             {
                         return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
@@ -213,9 +200,8 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 
 </body>
 <script type="text/javascript">
-
+//function ลบข้อมูล input
 var deleteLinks = document.querySelectorAll('.delete');
-
 for (var i = 0; i < deleteLinks.length; i++) {
   deleteLinks[i].addEventListener('click', function(event) {
 	  event.preventDefault();
@@ -231,6 +217,7 @@ for (var i = 0; i < deleteLinks.length; i++) {
 </script>
 
 </html>
+<!-- function ในการกำหนดสิทธิ์ใช้งาน table data -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {

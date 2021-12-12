@@ -35,7 +35,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-
+ <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -212,6 +212,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 		$strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay $strMonthThai $strYear";
 	}
+    //function คำนวณวันที่หหมดอายุ
     function DateDiff($strDate1,$strDate2)
             {
                         return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
@@ -226,7 +227,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
             }
 ?>
  <script type="text/javascript">
-
+//function ลบข้อมูล input
 var deleteLinks = document.querySelectorAll('.delete');
 
 for (var i = 0; i < deleteLinks.length; i++) {
@@ -247,7 +248,7 @@ for (var i = 0; i < deleteLinks.length; i++) {
 </body>
 
 </html>
-
+<!-- function ในการกำหนดสิทธิ์ใช้งาน table data -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {

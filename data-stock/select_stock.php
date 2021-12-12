@@ -1,7 +1,8 @@
 <?php 
 $id = $_POST['uid'];
 include('../database/db.php');
-$select_stmt = $db->prepare("SELECT stock_id,price_stock,stock.marque_id,ifnull(marque_name,'ไม่มี') as marque ,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name,img_stock FROM stock  
+// function to get the model stock 
+$select_stmt = $db->prepare("SELECT stock_id,price_stock,stock.marque_id,ifnull(marque_name,'ไม่มี') as marque ,division_name,vendor_name,stock_id,code_item ,item_name,unit_name,type_name,item.exd_date,nature_name,img_stock FROM stock   
         INNER JOIN item ON stock.item_id = item.item_id 
         INNER JOIN unit ON item.unit_id = unit.unit_id  
         INNER JOIN nature ON stock.nature_id = nature.nature_id   

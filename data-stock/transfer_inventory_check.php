@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-
+ <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -30,7 +30,7 @@
     <!-- <==========================================data-teble==================================================> -->
     <script>
     $(document).ready(function() {
-
+//function แสดงข้อมูล libery dataTables
         $('#stock').DataTable({
             dom: 'lBfrtip',
             buttons: [
@@ -64,7 +64,6 @@
     <div class="m-5">
         <br>
         <table class="table table-dark table-hover text-xl-center" id="stock">
-
             <thead class="table-dark">
                 <tr class="table-active">
                     <th scope="col" class="text-center">รหัสรายการ</th>
@@ -77,7 +76,6 @@
                     <th scope="col" class="text-center">รหัสติดตามพัสดุ</th>
                     <th scope="col" class="text-center">ขั้นตอน</th>
                     <th scope="col" class="text-center">กดส่ง</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -99,23 +97,20 @@
                     GROUP BY transfer_name
                     ");
                 }
-
 //  AND bn_id_2 = ".$row_session['user_bn']."
-$select_transfer_stock->execute();
-$i =0;
-while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC) ) {
-extract($row_transfer);
-$select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum ,transfer_stock_id FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id");
-$select_transfer_log->execute();
-$sum_count = $row_transfer['count_log'];
-$sum_new = 0;
-$i++;
-while ($row_transfer_log = $select_transfer_log->fetch(PDO::FETCH_ASSOC)) {
- 
+                $select_transfer_stock->execute();
+                $i =0;
+                while ($row_transfer = $select_transfer_stock->fetch(PDO::FETCH_ASSOC) ) {
+                extract($row_transfer);
+                $select_transfer_log = $db->prepare("SELECT SUM(transfer_qty*transfer_price) as sum ,transfer_stock_id FROM transfer_stock_log WHERE transfer_stock_id = '$transfer_name' GROUP BY transfer_stock_id");
+                $select_transfer_log->execute();
+                $sum_count = $row_transfer['count_log'];
+                $sum_new = 0;
+                $i++;
+                while ($row_transfer_log = $select_transfer_log->fetch(PDO::FETCH_ASSOC)) {
+                $sum_new = $sum_new+ $row_transfer_log['sum']; 
 
-$sum_new = $sum_new+ $row_transfer_log['sum']; 
-
-?>
+                ?>
 <form action="">
                 <tr class="table-light">
                     <td><?php echo $row_transfer['transfer_name'];?></td>
@@ -173,6 +168,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
 <?php require 'view/viewmodal_transfer_edit.php'?>
 <?php $user_name = $row_session['user_fname'].$row_session['user_lname'];?>
 <script>
+//function view modal data
 $(document).ready(function() {
     $('.view_data').click(function() {
         var uid = $(this).attr("id");
@@ -192,6 +188,7 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 function submitResult(e) {
+    //function ปุ่มรับสินค้าโอนเข้าคลังสาขา
     $('.data_id').click(function() {
         e.preventDefault();
         Swal.fire({
@@ -233,6 +230,7 @@ function submitResult(e) {
 
 </html>
 <?php
+//function แปลงวันที่เป็นวันที่ไทย
 function DateThai($strDate)
 {
 $strYear = date("Y",strtotime($strDate))+543;

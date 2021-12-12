@@ -12,6 +12,7 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
     <?php include('../components/header.php');?>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
@@ -37,7 +38,7 @@
     <?php include('../components/content.php')?>
     <div class="container">
         <?php 
-         if (isset($errorMsg)) {
+         if (isset($errorMsg)) { //function แสดงข้อความ error ตามไลน์
     ?>
         <div class="alert alert-danger mb-2">
             <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
@@ -72,7 +73,7 @@
                     <br>
                 </form>
                 <?php 
-                if($row_session['bn_id']==1){
+                if($row_session['bn_id']==1){ //แปลง usesr_bn เป็น สาขา ในตาราง stock po
                     $bn_id = "cn";
                 }elseif($row_session['bn_id']==2){
                     $bn_id = "ra";
@@ -148,7 +149,7 @@
 </html>
 <?php require ('viewmodal.php');?>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() { // function สำหรับเรียกใช้งานฟังก์ชัน jquery view_data(id ที่จะแสดงข้อมูล)
     $('.view_data').click(function(){
         var uid=$(this).attr("id");
         $.ajax({
@@ -162,7 +163,7 @@ $(document).ready(function() {
     });
 });
 
-$('#submit').click(function(e) {
+$('#submit').click(function(e) { //function สำหรับบันทึกข้อมูล ในตาราง stock_po จากฟอร์ม add_name update
         var data_add = $('#add_name').serialize(); 
         $.ajax({
             url: "stock_po_db.php",
@@ -197,6 +198,7 @@ $('#submit').click(function(e) {
 
 });
 </script>
+<!-- function  -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {
@@ -208,6 +210,7 @@ $('#submit').click(function(e) {
     </script>
     <?php }else{?>
         <script>
+            //function ใช้งาน  liberty dataTables
          $(document).ready(function() {
     // Setup - add a text input to each footer cell
     $('#stock_po tfoot th').each( function () {

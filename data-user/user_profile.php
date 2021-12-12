@@ -1,9 +1,8 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['img_up'])) {
+    if (isset($_REQUEST['img_up'])) { // update image
         
         $user_id = $_REQUEST['txt_user_id'];
-        
         $image_file = $_FILES['txt_file']['name'];  
         $type = $_FILES['txt_file']['type'];
         $size = $_FILES['txt_file']['size'];

@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['update_password'])) {
+    if (isset($_REQUEST['update_password'])) { //function reset password
       $user_email = $_REQUEST['txt_user_email'];
       $password1 = $_REQUEST['txt_user_password1'];
       $password2 = $_REQUEST['txt_user_password2'];
@@ -52,6 +52,9 @@
     <title>Plus dental clinic</title>
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
+   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   </head>
   <body>
@@ -109,8 +112,6 @@
               </form>
         </div>   
 
-   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+ 
   </body>
 </html>

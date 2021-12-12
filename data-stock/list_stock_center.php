@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Plus dental clinic</title>
+    <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
       <!-- <==========================================booystrap 5==================================================> -->
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">

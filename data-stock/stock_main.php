@@ -22,15 +22,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>รายการคงคลัง</title>
-    
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
 <!-- <==========================================booystrap 5==================================================> -->
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- <========================================== jquery ==================================================> -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script> -->
 <script src="../node_modules/jquery/dist/jquery.js"></script>
   <!-- <==========================================data-teble==================================================> -->
  <script type="text/javascript" src="../node_modules/data-table/jquery-table-2.min.js"></script>
@@ -146,6 +142,7 @@
 require 'viewmodal.php'
 ?>
   <script>
+    //function ใช้งาน  liberty dataTables
   $(document).ready(function(){
     $('.view_data').click(function(){
       var uid=$(this).attr("id");

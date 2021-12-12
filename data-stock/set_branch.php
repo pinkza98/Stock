@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['save'])) {
+    if (isset($_REQUEST['save'])) { //function เพิ่มสาขา ตาราง branch
       $bn_name = $_REQUEST['txt_branch_name'];
       $bn_acronym = $_REQUEST['txt_branch_acronym'];
 
@@ -34,8 +34,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Plus dental clinic</title>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-<!-- <==========================================booystrap 5==================================================> -->
 <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
 <!-- <========================================== jquery ==================================================> -->
 <script src="../node_modules/jquery/dist/jquery.js"></script>

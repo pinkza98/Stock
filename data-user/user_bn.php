@@ -23,8 +23,8 @@
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
     <?php include('../components/header.php');?>
+      <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
       <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/af-2.3.7/b-1.7.1/datatables.min.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">         

@@ -5,7 +5,7 @@ $date = new DateTime();
 $date_nows = $date->format('Y-m-d H:i:s');
 $status_out = "ส่งออก";
 $status_in = "รับโอน";
-if($_POST['status']=="pass"){
+if($_POST['status']=="pass"){ //function อนุมัติรายการขอโอนย้าย
 $transfer_stock_id=$_POST['uid'];
  $text1=$_POST['text1'];
  $name=$_POST['name'];
@@ -69,7 +69,7 @@ $transfer_stock_id=$_POST['uid'];
         
     
    
-}elseif($_POST['status']=="no_pass"){
+}elseif($_POST['status']=="no_pass"){ //function ไม่อนุมัติรายการขอโอนย้าย
     $transfer_stock_id=$_POST['uid'];
     $text1=$_POST['text1'];
     $name=$_POST['name'];
@@ -98,7 +98,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
         }
             
     }
-}elseif($_POST['status']=="set_carry"){
+}elseif($_POST['status']=="set_carry"){ // ตั้งค่าตัวรับยอดสินค้า
     $transfer_stock_id=$_POST['uid'];
     $text1=$_POST['text1'];
      $text2=$_POST['text2'];
@@ -108,7 +108,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
         echo "บันทึกข้อมูลขนส่งเรียบร้อย";
     }
     
-}elseif($_POST['status']=="del_row"){
+}elseif($_POST['status']=="del_row"){ //ลบข้อมูลแถวที่ไม่อนุมัติผ่าน
     $transfer_stock_id=$_POST['uid'];
     $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status = 6  WHERE transfer_stock_id  ='$transfer_stock_id'");
     $update_transfer_stock->execute();
@@ -116,7 +116,7 @@ $update_transfer_stock = $db->prepare("UPDATE transfer_stock SET transfer_status
     // if($select_transfer_stock_log_del->execute()){
         echo "จัดการบันทึกรายการยกเลิกสำเร็จ";
     // }
-}elseif($_POST['status']=="add_stock"){
+}elseif($_POST['status']=="add_stock"){ //กดรับสินค้าโอนเข้าคลัง สาขา หรือ สาขาอื่น
     $transfer_stock_id=$_POST['uid'];
     $name=$_POST['name'];
     

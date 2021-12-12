@@ -1,5 +1,5 @@
 <?php 
-include('../database/db.php');
+include('../database/db.php'); // function ในการแสดง view model data stock po
 $id = $_POST['uid'];
 $bn_id=$_POST['bn_id'];
 if($_POST['bn_id']==1){

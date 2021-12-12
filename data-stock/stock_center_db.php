@@ -15,7 +15,7 @@ $randomking = rand(000001,999999);
         $user_name = $_POST["user_name"][$i];
         $sum = $_POST["sum"][$i];
         try {
-            if($status=="stock_item"){
+            if($status=="stock_item"){ //function ในการ เพิ่มข้อมูล stock สาขา
             if (is_null($quantity) or $quantity ==0) {
                     $errorMsg = false;
             }else{
@@ -46,7 +46,7 @@ $randomking = rand(000001,999999);
                     $update_stock_bn_user_last ->execute();
                 }
             }
-            elseif($status=="disburse"){
+            elseif($status=="disburse"){  //function ในการ เบิกคลัง stock สาขา
                 if ($quantity > $sum) {
                 $errorMsg = "จำนวนสินค้ามีไม่เพียงพอในคลัง!!";
                 }elseif (is_null($quantity) or $quantity ==0) {
@@ -120,7 +120,7 @@ $randomking = rand(000001,999999);
                             $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
                         }
                 }
-            }elseif($status=="transfer"){
+            }elseif($status=="transfer"){  //function ในการ ส่งข้อมูลโอนย้ายของระหว่างคลัง
                 $bn_acronym = $_POST["bn_acronym"][$i];
                 $bn2_acronym = $_POST["bn2_acronym"][$i];
                 $bn_id2 = $_POST["bn_id2"][$i];
@@ -143,7 +143,7 @@ $randomking = rand(000001,999999);
                     
                     $insert_transfer_stock =$db->prepare("INSERT INTO transfer_stock (bn_id_1,bn_id_2,transfer_id,user1,transfer_date,transfer_status) VALUES ('$bn_id',' $bn_id2',LAST_INSERT_ID(),'$user_name',NOW(),1)");
                     
-                    if($insert_transfer->execute()){
+                    if($insert_transfer->execute()){ //function สร้างรหัสติดตาม พัสดุ
                         $insert_transfer_stock->execute();
                         $insertMsg = "โอนย้าย รหัสติดตามสถานะพัสดุ ".$transfer;
                     }

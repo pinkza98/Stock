@@ -25,7 +25,7 @@ include('../database/db.php');
 </div>
 <?php 
 if (isset($_REQUEST['submit'])) {
-    if($row_session['user_bn']==1){
+    if($row_session['user_bn']==1){ //แปลงเลขสาขา เป็นตัวอักษร 
         $user_bn = "cn";
       }elseif($row_session['user_bn']==2){
         $user_bn = "ra";

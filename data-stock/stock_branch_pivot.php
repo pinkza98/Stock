@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -154,16 +155,19 @@
                     <td class="text-center"></td>
                     <td class="text-center"></td>
                     <?php } ?>
-                    <?php if($row['transfer_status']!=null) {?>
+                    <!-- ถ้ามี ข้อมูลมาจาก status ให้เข้าแสดงแทบข้อมูล  -->
+                    <?php if($row['transfer_status']!=null) {?> 
                     <td class="text-center"><?php echo $row['transfer_status'];?></td>
                     <td class="text-center"><?php echo $row['transfer_quantity'];?></td>
                     <td class="text-center"><?php echo DateThai($row['transfer_date']);?></td>
                     <?php }else{ ?>
+                         <!-- ถ้าไม่มี ข้อมูลมาจาก status ให้ไม่ต้องแสดงข้อมูลอะไร  -->
                     <td class="text-center"></td>
                     <td class="text-center"></td>
                     <td class="text-center"></td>
                     <?php } ?>
                     <td><button type="submit" class="btn btn-success data_id" onclick="submitResult(event)" id=<?php echo $row['stock_id'] ?>><i class="fas fa-edit fa-1x" style="color:#fff"></i></button></td>
+                    
                    <?php }else{ 
                     if($date_stock >= $tomorrow and $row['quantity_update'] !=null){?>
                     <td class="text-center" style="background-color: #00A00F;color:#fff"><?php echo $row['BN_stock'];?></td>
@@ -209,7 +213,7 @@
 
 ?>
 <script type="text/javascript" >
- function submitResult(e) {
+ function submitResult(e) { //ดึงชุดข้อมูลรายการที่ต้องการปรับยอดออกมา แก้ไข
         $('.data_id').click(function(){ 
         Swal.fire({
         title: "ปรับยอดรายการ",
@@ -259,11 +263,9 @@
 </script>
 </body>
 </html>
-
+<!-- กำหนดสิทธิ์ การมองเห็นการ download excel และ print -->
 <?php if($row_session['user_lv']==1){?>
     <script>
-    
-
         var table = $('#stock_po').DataTable({
             "lengthMenu": false,
             "searching": true,
@@ -288,6 +290,7 @@
     </script>
       <?php }?>
       <?php 
+      //function แปลงวันที่เป็นวันที่ไทย
 function DateThai($strDate)
 {
     $strYear = date("Y",strtotime($strDate))+543;

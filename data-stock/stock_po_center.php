@@ -23,11 +23,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -101,7 +100,7 @@
                 $sum_order =0;
                 while ($row_stock_po = $select_stock_po->fetch(PDO::FETCH_ASSOC)) {
                     $sum_po = $row_stock_po['ra'] + $row_stock_po['ar'] + $row_stock_po['sa'] + $row_stock_po['as_1'] + $row_stock_po['on_1'] + $row_stock_po['ud'] + $row_stock_po['nw'] + $row_stock_po['cw'] + $row_stock_po['r2'] + $row_stock_po['lb'] + $row_stock_po['bk'] + $row_stock_po['hq'] + $row_stock_po['cn'];
-                    if($sum_po == 0){
+                    if($sum_po == 0){ //ถ้าสาขาเป็น 0 แปลงค่าว่างเป็น - ออกมาแสดง
                     $sum_po = "-";
                     }if($row_stock_po['cn'] == 0){
                     $row_stock_po['cn'] = "-";

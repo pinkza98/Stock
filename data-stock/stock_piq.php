@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -158,6 +159,7 @@ $('#submit').click(function(e) {
 </script>
 </body>
 </html>
+<!-- //function ใช้งาน  liberty dataTables -->
 <?php if($row_session['user_lv']==1){?>
     <script>
         var table = $('#stock_piq').DataTable({

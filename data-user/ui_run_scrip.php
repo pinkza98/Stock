@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['update_password'])) {
+    if (isset($_REQUEST['update_password'])) { // update password
       $user_email = $_REQUEST['txt_user_email'];
       $password1 = $_REQUEST['txt_user_password1'];
       $password2 = $_REQUEST['txt_user_password2'];

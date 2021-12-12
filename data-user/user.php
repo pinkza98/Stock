@@ -44,7 +44,12 @@
    
     
     <?php include('../components/header.php');?>
+      <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
   </head>
 
 
@@ -130,8 +135,5 @@
    <?php include('../components/footer.php')?>
 
    
-   <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-   <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+
 </html>

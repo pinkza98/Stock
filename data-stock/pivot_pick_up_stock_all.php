@@ -1,17 +1,5 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['delete_id'])) {
-      $stock_id = $_REQUEST['delete_id'];
-      $select_stmt = $db->prepare("SELECT * FROM stock WHERE stock_id = :new_stock_id");
-      $select_stmt->bindParam(':new_stock_id', $stock_id);
-      $select_stmt->execute();
-      $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-      // Delete an original record from db
-      $delete_stmt = $db->prepare('DELETE FROM stock WHERE stock_id = :new_stock_id');
-      $delete_stmt->bindParam(':new_stock_id', $stock_id);
-      $delete_stmt->execute();
-        header('Location:stock_main.php');
-    }
 ?>
 <link rel="icon" type="image/png" href="../components/images/tooth.png" />
 <!doctype html>
@@ -23,11 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+    <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
-    <!-- <==========================================booystrap 5==================================================> -->
-
     <!-- <==========================================data-teble==================================================> -->
     <script src="../node_modules/data-table/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="../node_modules/data-table/datatables.min.js"></script>
@@ -100,6 +87,7 @@
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<!-- กำหนดสิทธิ์ การมองเห็นการ download excel และ print -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {

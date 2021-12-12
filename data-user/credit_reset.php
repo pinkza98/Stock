@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['update_credit'])) {
+    if (isset($_REQUEST['update_credit'])) { //function to update credit
         if(!empty($_REQUEST['txt_user_email'])){
             $user_email = $_REQUEST['txt_user_email'];
             $credit = $_REQUEST['txt_user_credit'];

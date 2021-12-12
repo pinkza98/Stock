@@ -178,7 +178,7 @@
             </div>
             <?php 
          
-          if(empty($code_item)){
+          if(empty($code_item)){ //ปรับยอดรายการ โดยการสร้างตัวแปร แรกที่มีการกำหนดค่า
             $code_item =null;
             $item_name = null;
             $unit_name = null;

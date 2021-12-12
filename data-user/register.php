@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if (isset($_REQUEST['register'])) {
+    if (isset($_REQUEST['register'])) { // function register
       
       $email = $_REQUEST['txt_email'];
       $password1 = $_REQUEST['txt_password1'];

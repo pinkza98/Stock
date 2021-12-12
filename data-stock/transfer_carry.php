@@ -12,21 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-
+ <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- <========================================== jquery ==================================================> -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script> -->
-    <!-- <========================================== jquery ==================================================> -->
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <!-- <==========================================data-teble==================================================> -->
     <script type="text/javascript" src="../node_modules/data-table/jquery-table-2.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">     -->
-    <!-- <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />  -->
     <script type="text/javascript" src="../node_modules/data-table/dataTables_excel.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <!-- <==========================================data-teble==================================================> -->
@@ -34,8 +27,8 @@
     <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
     <!-- <==========================================data-teble==================================================> -->
     <script>
+        //function สำหรับการแสดงข้อมูล  liberty dataTables
     $(document).ready(function() {
-
         $('#stock').DataTable({
             dom: 'lBfrtip',
             buttons: [
@@ -87,6 +80,7 @@
             </thead>
             <tbody>
                 <?php 
+                //กำหนดสิทธิ์ สำหรับการแสดงข้อมูล AM ขึ้นไป
                 if($row_session['user_lv']>=3){
                     $select_transfer_stock = $db->prepare("SELECT bn_id_1,bn_id_2,transfer_stock.transfer_id,user2,transfer_stock.transfer_date,transfer_name,COUNT(transfer_log_id)as count_log,b1.bn_name as bn_name1 ,b2.bn_name as bn_name2,transfer_stock.transfer_stock_id,note2,transfer_status  FROM transfer_stock INNER JOIN transfer ON transfer_stock.transfer_id = transfer.transfer_id 
                     INNER JOIN transfer_stock_log ON transfer.transfer_name = transfer_stock_log.transfer_stock_id
@@ -159,6 +153,7 @@ $sum_new = $sum_new+ $row_transfer_log['sum'];
 </body>
 <?php require 'viewmodal_transfer.php'?>
 <script>
+    //function เช็คสินค้ารายการที่มี
 $(document).ready(function() {
     $('.view_data').click(function() {
         var uid = $(this).attr("id");
@@ -178,6 +173,7 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 function submitResult(e) {
+    //function อนุมัติรายการผ่านการกดปุ่มอนุมัติ - ยอดเครดิต
     $('.data_id_1').click(function() {
         (async () => {
             const {
@@ -242,6 +238,7 @@ function submitResult(e) {
             }
         })()
     });
+    //function ลบรายการที่ไม่อนุมัติ
     $('.data_id_2').click(function() {
         e.preventDefault();
         Swal.fire({
@@ -280,6 +277,7 @@ function submitResult(e) {
 
 </html>
 <?php
+//function แปลงวันที่เป็นวันที่ไทย
 function DateThai($strDate)
 {
 $strYear = date("Y",strtotime($strDate))+543;

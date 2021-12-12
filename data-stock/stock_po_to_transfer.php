@@ -1,6 +1,6 @@
 <?php 
     require_once('../database/db.php');
-    if(isset($_POST['bn_id'])){
+    if(isset($_POST['bn_id'])){ //แปลงค่าสาขาที่ส่งมาเป็นตัวเลข มาเป็นขื่อสาขาใน ตาราง stock_po
         $sel_bn =$bn_id_po = $_POST['bn_id'];
         $sel_id = $_POST['bn_id'];
         if($sel_bn == 1){
@@ -47,6 +47,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

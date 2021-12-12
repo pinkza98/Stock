@@ -1,6 +1,6 @@
 <?php 
     include('../database/db.php');
-    if (isset($_REQUEST['save'])) {
+    if (isset($_REQUEST['save'])) { //function ในการปรับยอดสินค้า 
     
         $sum = $_REQUEST['txt_sum'];
         $quantity = $_REQUEST['txt_quantity'];
@@ -89,6 +89,9 @@
     <title>Plus dental clinic</title>
     <?php include('../components/header.php');?>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 </head>
 
@@ -173,7 +176,7 @@
             </div>
             <?php 
          
-          if(empty($code_item)){
+          if(empty($code_item)){ //รับตัวแปรเข้ามาทำการแสดงรายการเดิมก่อนเปลี่ยน ยอดใหม่
             $code_item =null;
             $item_name = null;
             $unit_name = null;
@@ -344,9 +347,7 @@
 
 
 
-    <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
-    <script src="../node_modules/jquery/dist/cdn_popper.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

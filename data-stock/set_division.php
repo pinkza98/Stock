@@ -1,8 +1,8 @@
 <?php 
     require_once('../database/db.php');
 
-    if (isset($_REQUEST['delete_id'])) {
-      $division_id = $_REQUEST['delete_id'];
+    if (isset($_REQUEST['delete_id'])) { //function ลบแผนก
+      $division_id = $_REQUEST['delete_id']; 
 
       $select_stmt = $db->prepare("SELECT * FROM division WHERE division_id = :division_id");
       $select_stmt->bindParam(':division_id', $division_id);
@@ -15,7 +15,7 @@
       $delete_stmt->execute();
 
         header('Location:division.php');
-    }if (isset($_REQUEST['save'])) {
+    }if (isset($_REQUEST['save'])) { //function เพิ่มแผนก
       $division_name = $_REQUEST['txt_division_name'];
       
 
@@ -49,12 +49,10 @@
     <!-- Bootstrap CSS -->
 
     <title>Plus dental clinic</title>
-    
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-
     <!-- <==========================================data-teble==================================================> -->
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -66,7 +64,7 @@
     <?php include('../components/header.php');?>
   </head>
   <script>
-    $(document).ready(function() {
+    $(document).ready(function() { //function ใช้งาน  liberty dataTables
 
         $('#stock').DataTable({
             dom: 'lBfrtip',
@@ -145,10 +143,6 @@
     </tbody>
   </table>
    </div>
-
-      
-   
-   <?php include('../components/footer.php')?>
    
 
   </body>

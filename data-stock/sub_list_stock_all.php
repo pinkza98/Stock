@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
-
+ <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- <==========================================booystrap 5==================================================> -->
 <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -78,7 +78,7 @@
         <th scope="col" class="text-center">แผนก</th>
         <th scope="col" class="text-center">ผู้บันทึก</th>
         <th scope="col" class="text-center">วันที่เพิ่ม</th>
-        <th scope="col" class="text-center">หมดอายุ</th>
+        <th scope="col" class="text-center">หมดอายุ</th> 
         <th scope="col" class="text-center">สาขา</th>
         <th scope="col" class="text-center">ผู้ขาย</th>
 
@@ -152,6 +152,7 @@ while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
 </table>
 </div>
 <?php
+//functionในการ แปลงวันที่เป็นภาษาไทย
 function DateThai($strDate)
 {
 $strYear = date("Y",strtotime($strDate))+543;
@@ -162,6 +163,7 @@ $strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.�
 $strMonthThai=$strMonthCut[$strMonth];
 return "$strDay $strMonthThai $strYear";
 }
+//function สำหรับคำนวณวันที่
 function DateDiff($strDate1,$strDate2)
             {
                         return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
@@ -177,6 +179,7 @@ function DateDiff($strDate1,$strDate2)
 ?>
 </body>
 </html>
+<!-- function ในการกำหนดสิทธิ์ใช้งาน table data -->
 <?php if($row_session['user_lv']==1){?>
     <script>
     $(document).ready(function() {

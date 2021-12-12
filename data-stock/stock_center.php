@@ -11,7 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <title>Plus dental clinic</title>
+    
     <?php include('../components/header.php');?>
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
+     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
@@ -33,14 +36,14 @@
     <?php include('../components/content.php')?>
     <div class="container">
         <?php 
-         if (isset($errorMsg)) {
+         if (isset($errorMsg)) { //function แสดงข้อความ error ตามไลน์
     ?>
         <div class="alert alert-danger mb-2">
             <strong>คำเตือน! <?php echo $errorMsg; ?></strong>
         </div>
         <?php } ?>
         <?php 
-        if (isset($insertMsg)) {
+        if (isset($insertMsg)) { //function แสดงข้อความ error ตามไลน์
     ?>
         <div class="alert alert-success mb-2">
             <strong>เยี่ยม! <?php echo $insertMsg; ?></strong>
@@ -131,7 +134,7 @@
 </html>
 <?php require ('viewmodal.php');?>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() { //function รับข้อมูล รหัสบาร์โค้ด จากหน้าจอ
     var i = 1;
     var qty = 1;
     $("#code_item").keypress(function(event) {
@@ -196,7 +199,7 @@ $(document).ready(function() {
             $('#row' + button_id + '').remove();
         });
     });
-  $('#submit').click(function(e) {
+  $('#submit').click(function(e) { //function สำหรับบันทึกข้อมูลจากรหัสบาร์โค้ดที่กรอก
         var data_add = $('#add_name').serialize(); 
         e.preventDefault();
         $.ajax({
@@ -228,7 +231,7 @@ $(document).ready(function() {
     });
 });
 
-    $(document).on('click', '.view_data', function() {
+    $(document).on('click', '.view_data', function() { //function สำหรับดึงข้อมูลจากรหัสบาร์โค้ดที่กรอก
         var uid=$(this).attr("id");
         $.ajax({
         url:"select_stock.php",

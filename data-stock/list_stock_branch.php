@@ -63,7 +63,7 @@
                 </thead>
                 <tbody>
                     <?php 
-                    
+                        
                         $select_stmt = $db->prepare("SELECT division_name,full_stock_id,unit_name,code_item,item_name,SUM(branch_stock_log.item_quantity) as sum,type_name,bn_name,nature_name,bn_stock FROM branch_stock  
                         INNER JOIN stock ON branch_stock.stock_id = stock.stock_id
                         INNER JOIN item ON stock.item_id = item.item_id
@@ -75,8 +75,6 @@
                         INNER JOIN nature ON stock.nature_id = nature.nature_id
                         WHERE branch_stock_log.item_quantity != 0 AND bn_stock = ".$row_session['user_bn']."
                         group by code_item, bn_name");
-                    
-          
                         $select_stmt->execute();
                         while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>

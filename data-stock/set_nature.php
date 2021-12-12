@@ -1,7 +1,7 @@
 <?php 
     require_once('../database/db.php');
 
-    if (isset($_REQUEST['delete_id'])) {
+    if (isset($_REQUEST['delete_id'])) { //function ลบลักษณะ
       $nature_id = $_REQUEST['delete_id'];
 
       $select_stmt = $db->prepare("SELECT * FROM nature WHERE nature_id = :nature_id");
@@ -15,7 +15,7 @@
       $delete_stmt->execute();
 
         header('Location:nature.php');
-    }if (isset($_REQUEST['save'])) {
+    }if (isset($_REQUEST['save'])) { //function เพิ่มลักษณะ
       $nature_name = $_REQUEST['txt_nature_name'];
       
 
@@ -49,12 +49,10 @@
     <!-- Bootstrap CSS -->
 
     <title>Plus dental clinic</title>
-    
+     <!-- liberty ทำงานในคำสั่งตามที่คาดหัวไว้ -->
     <!-- <==========================================booystrap 5==================================================> -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <==========================================booystrap 5==================================================> -->
-
     <!-- <==========================================data-teble==================================================> -->
     <link rel="stylesheet" href="../node_modules/data-table/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">

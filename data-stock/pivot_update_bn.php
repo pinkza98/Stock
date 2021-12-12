@@ -1,6 +1,6 @@
 <?php 
 include('../database/db.php');
-if(isset($_POST['stock_id'])){
+if(isset($_POST['stock_id'])){ // if save button on the form is clicked
    $status = $_POST['status'];
    $stock_id = $_POST['stock_id'];
    $user_id = $_POST['user_name'];
@@ -11,7 +11,7 @@ if(isset($_POST['stock_id'])){
     }
     else{
     try{
-    if($status == "edit_stock_bn"){
+    if($status == "edit_stock_bn"){ //function ในการปรับยอด รายการใน หน้า คลังสาขา
     
    
     $select_sum = $db->query("SELECT SUM(item_quantity) as sum_item FROM branch_stock  
@@ -68,7 +68,7 @@ if(isset($_POST['stock_id'])){
             else{
                 $errorMsg = "select_stock_full_log->execute เกิดปัญหา!!";
             }
-    }elseif($status == "edit_stock_po"){    
+    }elseif($status == "edit_stock_po"){    //function แก้ไขยอด stock_po
         
 
         $update_stock_po = $db->prepare("UPDATE stock_po SET $bn_id = $quantity WHERE stock_po_id=$stock_id");
