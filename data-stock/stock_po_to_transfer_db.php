@@ -39,7 +39,6 @@ try {
 }catch (PDOException $e) {
     print "Error!: " . $e->getMessage() . "<br/>";
 }
-
 }
 echo $insertMsg = "โอนย้าย รหัสติดตามสถานะพัสดุ ".$transfer;
 

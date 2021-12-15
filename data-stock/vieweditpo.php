@@ -2,8 +2,6 @@
 <!-- Modal -->
 <?php 
 include('../database/db.php');
-
-
 ?>
 <div class="modal fade" id="dataModal_po" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">

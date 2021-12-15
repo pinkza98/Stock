@@ -194,7 +194,7 @@
                 </tr>
             </tfoot>
         </table>
-        <input type="submit"  name="submit" id="submit" class="btn btn-success" value="เคลียร์ข้อมูลส่งรอโอนย้าย" />
+        <input type="submit"  name="submit" id="submit" class="btn btn-danger" value="เคลียร์ข้อมูลส่งรอโอนย้าย(เฉพาะจัดซื้อ)"/>
     </div>
    
     </form>

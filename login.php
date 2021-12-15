@@ -13,7 +13,7 @@ session_start();
 		} else if (empty($password)) {
 			$errorMsg[] = "Please enter password";
 		}
-		 else {
+		else {
 			try { //
 				$username=trim($username);
 				$select_stmt = $db->prepare("SELECT user_id,username,password FROM user WHERE username = :uname");
@@ -78,14 +78,11 @@ session_start();
 	<link rel="stylesheet" type="text/css" href="node_modules/css/main.css">
 <!--===============================================================================================-->
 <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
-	<!--===============================================================================================-->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-
+<link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+<!--===============================================================================================-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-	
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('node_modules/images/login.jpg');">
 			<div class="wrap-login100 p-t-190 p-b-30">

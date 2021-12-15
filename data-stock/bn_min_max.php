@@ -176,9 +176,7 @@ $('#submit').click(function(e) {
         });
         e.preventDefault();
     });
-
 });
-
 </script>
 </body>
 </html>
@@ -198,10 +196,10 @@ $('#submit').click(function(e) {
         dom: 'lBfrtip',
           buttons: [
             'excel', 'print'
-          ],
-          "lengthMenu": [ [10,25, 50,100, -1], [10, 25, 50,100, "All"] ],
-          "searching": true,
-          "paging": false
+        ],
+        "lengthMenu": [ [10,25, 50,100, -1], [10, 25, 50,100, "All"] ],
+        "searching": true,
+        "paging": false
     });
     </script>
       <?php }?>

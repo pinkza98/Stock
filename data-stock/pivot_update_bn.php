@@ -86,5 +86,4 @@ if(isset($_POST['stock_id'])){ // if save button on the form is clicked
 }
 }
 
-
 ?>

@@ -198,7 +198,6 @@
         </table>
     </div>
 
-   
 </body>
 </html>
 <?php if($row_session['user_lv']==1){?>
@@ -240,4 +239,5 @@
     });
     </script>
 
-      <?php }?>
+      <?php  }?>
+      

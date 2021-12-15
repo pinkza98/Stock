@@ -153,3 +153,40 @@
 
   </body>
 </html>
+<?php 
+//numbers converted to Thai
+function convert($number) {
+    $txtnum1 = array('ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า', 'สิบ');
+    $txtnum2 = array('', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน');
+    $number = $number + 0;
+    $ret = '';
+    if ($number == 0)
+        return $ret;
+    if ($number < 0) {
+        $ret .= 'ลบ';
+        $number = -$number;
+    }
+    $txtnum = '';
+    $numlen = strlen($number);
+    $check = $number % 10;
+    if ($check == 1 && ($number < 10 || $number > 20)) {
+        $txtnum = 'หนึ่ง';
+        $number = $number - 1;
+    } else {
+        $txtnum = $txtnum1[$number % 10];
+    }
+    $number = intval($number / 10);
+    while ($number > 0) {
+        $number2 = $number % 100;
+        $number = intval($number / 100);
+        if ($number2 == 10) {
+            $txtnum2 = 'สิบ';
+        } else {
+            $txtnum2 = $txtnum1[$number2];
+        }
+        $ret = $txtnum2 . $txtnum . $txtnum2 . $ret;
+        $number = $number - 1;
+    }
+    return $ret;
+}
+?>

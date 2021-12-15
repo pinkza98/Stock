@@ -59,6 +59,15 @@
                     </button>
                 </a>
             </li>
+            <?php if($row_session['user_lv'] >=3){ ?>
+            <li class="nav-item ">
+                <a class="nav-link" href="https://youtu.be/DmRuT9S9EN0">
+                    <button class="btn btn-danger">
+                        คลิปสอนใช้งานปรับยอดสั่งซื้อ(สำหรับAM) 
+                    </button>
+                </a>
+            </li>
+            <?php } ?>
         </ul>
     </div>
 </nav>
