@@ -110,19 +110,19 @@ if($page == 2){
     
     $query = "SELECT
     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
-    SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN1,
-    SUM(IF(bn_stock = 2, item_quantity, 0)) AS BN2,
-    SUM(IF(bn_stock = 3, item_quantity, 0)) AS BN3,
-      SUM(IF(bn_stock = 4, item_quantity, 0)) AS BN4,
-      SUM(IF(bn_stock = 5, item_quantity, 0)) AS BN5,
-      SUM(IF(bn_stock = 6, item_quantity, 0)) AS BN6,
-      SUM(IF(bn_stock = 7, item_quantity, 0)) AS BN7,
-      SUM(IF(bn_stock = 8, item_quantity, 0)) AS BN8,
-      SUM(IF(bn_stock = 9, item_quantity, 0)) AS BN9,
-      SUM(IF(bn_stock = 10, item_quantity, 0)) AS BN10,
-      SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
-      SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
-      SUM(IF(bn_stock = 13, item_quantity, 0)) AS BN13,
+    SUM(IF(bn_stock = 1, item_quantity, NULL)) AS BN1,
+    SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
+    SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
+      SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
+      SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
+      SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
+      SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
+      SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
+      SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
+      SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
+      SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
+      SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
+      SUM(IF(bn_stock = 13, item_quantity, NULL)) AS BN13,
       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 or bn_stock=13 THEN item_quantity ELSE NULL END) AS SUM_BN
     FROM branch_stock bn
     INNER JOIN stock s  on bn.stock_id = s.stock_id
@@ -198,86 +198,21 @@ if($page == 2){
   //         $sub_array[]= '-';
   //       }
   // }
-    if($row["BN2"]==0){
-      $row["BN2"]='-';
-      $sub_array[]= $row["BN2"];
-    }else{
-      $sub_array[]= $row["BN2"];
-    }
-    if($row["BN3"]==0){
-      $row["BN3"]='-';
-      $sub_array[]= $row["BN3"];
-    }else{
-      $sub_array[]= $row['BN3'];
-      
-    }
-    if($row["BN4"]==0){
-      $row["BN4"]='-';
-      $sub_array[]= $row["BN4"];
-    }else{
-      $sub_array[]= $row["BN4"];
-    }
-    if($row["BN5"]==0){
-      $row["BN5"]='-';
-      $sub_array[]= $row["BN5"];
-    }else{
-      $sub_array[]= $row["BN5"];
-    }
-    if($row["BN6"]==0){
-      $row["BN6"]='-';
-      $sub_array[]= $row["BN6"];
-    }else{
-      $sub_array[]= $row["BN6"];
-    }
-    if($row["BN7"]==0){
-      $row["BN7"]='-';
-      $sub_array[]= $row["BN7"];
-    }else{
-      $sub_array[]= $row["BN7"];
-    }
-    if($row["BN8"]==0){
-      $row["BN8"]='-';
-      $sub_array[]= $row["BN8"];
-    }else{
-      $sub_array[]= $row["BN8"];
-    }
-    if($row["BN9"]==0){
-      $row["BN9"]='-';
-      $sub_array[]= $row["BN9"];
-    }else{
-      $sub_array[]= $row["BN9"];
-    }
-    if($row["BN10"]==0){
-      $row["BN10"]='-';
-      $sub_array[]= $row["BN10"];
-    }else{
-      $sub_array[]= $row["BN10"];
-    }
-    if($row["BN11"]==0){
-      $row["BN11"]='-';
-      $sub_array[]= $row["BN11"];
-    }else{
-      $sub_array[]= $row["BN11"];
-    }
-    if($row["BN12"]==0){
-      $row["BN12"]='-';
-      $sub_array[]= $row["BN12"];
-    }else{
-      $sub_array[]= $row["BN12"];
-    }
-    if($row["BN13"]==0){
-      $row["BN13"]='-';
-      $sub_array[]= $row["BN13"];
-    }else{
-      $sub_array[]= $row["BN13"];
-    } 
-    if($row["BN1"]==0){
-      $row["BN1"]='-';
-      $sub_array[]= $row["BN1"];
-    }else{
-      $sub_array[]= $row["BN1"];
-    } 
-  
+    
+   
+      is_null($row['BN2']) ? $sub_array[]= '-' : $sub_array[]= $row['BN2'];
+      is_null($row['BN3']) ? $sub_array[]= '-' : $sub_array[]= $row['BN3'];
+      is_null($row['BN4']) ? $sub_array[]= '-' : $sub_array[]= $row['BN4'];
+      is_null($row['BN5']) ? $sub_array[]= '-' : $sub_array[]= $row['BN5'];
+      is_null($row['BN6']) ? $sub_array[]= '-' : $sub_array[]= $row['BN6'];
+      is_null($row['BN7']) ? $sub_array[]= '-' : $sub_array[]= $row['BN7'];
+      is_null($row['BN8']) ? $sub_array[]= '-' : $sub_array[]= $row['BN8'];
+      is_null($row['BN9']) ? $sub_array[]= '-' : $sub_array[]= $row['BN9'];
+      is_null($row['BN10']) ? $sub_array[]= '-' : $sub_array[]= $row['BN10'];
+      is_null($row['BN11']) ? $sub_array[]= '-' : $sub_array[]= $row['BN11'];
+      is_null($row['BN12']) ? $sub_array[]= '-' : $sub_array[]= $row['BN12'];
+      is_null($row['BN13']) ? $sub_array[]= '-' : $sub_array[]= $row['BN13'];
+      is_null($row['BN1']) ? $sub_array[]= '-' : $sub_array[]= $row['BN1'];
     if($row["SUM_BN"]<=12){
     $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
     }else{
@@ -289,21 +224,21 @@ if($page == 2){
     function count_all_data($db)
     {
      $query = "SELECT
-     it.code_item,unit_name,item_name,v.vendor_name,price_stock,stock_min,stock_max,
-     SUM(IF(bn_stock = 1, item_quantity, 0)) AS BN1,
-     SUM(IF(bn_stock = 2, item_quantity, 0)) AS BN2,
-     SUM(IF(bn_stock = 3, item_quantity, 0)) AS BN3,
-       SUM(IF(bn_stock = 4, item_quantity, 0)) AS BN4,
-       SUM(IF(bn_stock = 5, item_quantity, 0)) AS BN5,
-       SUM(IF(bn_stock = 6, item_quantity, 0)) AS BN6,
-       SUM(IF(bn_stock = 7, item_quantity, 0)) AS BN7,
-       SUM(IF(bn_stock = 8, item_quantity, 0)) AS BN8,
-       SUM(IF(bn_stock = 9, item_quantity, 0)) AS BN9,
-       SUM(IF(bn_stock = 10, item_quantity, 0)) AS BN10,
-       SUM(IF(bn_stock = 11, item_quantity, 0)) AS BN11,
-       SUM(IF(bn_stock = 12, item_quantity, 0)) AS BN12,
-       SUM(IF(bn_stock = 13, item_quantity, 0)) AS BN13,
-       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 THEN item_quantity ELSE NULL END) AS SUM_BN
+     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+     SUM(IF(bn_stock = 1, item_quantity, NULL)) AS BN1,
+     SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
+     SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
+       SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
+       SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
+       SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
+       SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
+       SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
+       SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
+       SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
+       SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
+       SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
+       SUM(IF(bn_stock = 13, item_quantity, NULL)) AS BN13,
+       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 or bn_stock=13 THEN item_quantity ELSE NULL END) AS SUM_BN
      FROM branch_stock bn
      INNER JOIN stock s  on bn.stock_id = s.stock_id
      INNER JOIN vendor v  on s.vendor_id = v.vendor_id
@@ -623,4 +558,5 @@ if($page == 2){
     echo json_encode($output);
   }
  
+  //function select date to date
 ?>

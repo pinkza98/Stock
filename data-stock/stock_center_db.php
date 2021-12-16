@@ -16,9 +16,12 @@ $randomking = rand(000001,999999);
         $sum = $_POST["sum"][$i];
         try {
             if($status=="stock_item"){ //function ในการ เพิ่มข้อมูล stock สาขา
-            if (is_null($quantity) or $quantity ==0) {
+            if (is_null($quantity)) {
                     $errorMsg = false;
-            }else{
+            }elseif($quantity < 0){
+                $errorMsg = false;
+            }
+            else{
                 $insert_full_stock = $db->prepare("INSERT INTO branch_stock (stock_id,bn_stock) VALUES ('.$stock_id.','.$bn_id.')");
                 if($exd_date != 0000-00-00 AND $exd_date != NULL){
                     $insert_full_stock_log = $db->prepare("INSERT INTO branch_stock_log (user_name_log,exp_date_log,item_quantity,exd_date_log,full_stock_id_log,price_stock_log) VALUES ('$user_name',NOW(),'.$quantity.','$exd_date',LAST_INSERT_ID(),'.$price_stock.')");
@@ -72,47 +75,56 @@ $randomking = rand(000001,999999);
                     WHERE branch_stock.bn_stock = '$bn_id' AND branch_stock.stock_id = '$stock_id' AND status_log IS NULL ORDER BY exd_date_log ASC");
                                 if ($select_stock_full_log->execute()) {
                                 while ($row = $select_stock_full_log->fetch(PDO::FETCH_ASSOC)AND  $stop_row != 1){
-                                    if($i_check > $row_count){
-                                    if ($row['item_quantity']< $quantity) {
-                                        $quantity = $quantity- $row['item_quantity'];
-                                            $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
-                                            if($del_stock_log->execute()){
-                                                $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
-                                                $del_bn_stock->execute();
-                                                $i_check++;
+                                        if($i_check > $row_count){
+                                                if ($row['item_quantity']< $quantity) {
+                                                    $quantity = $quantity- $row['item_quantity'];
+                                                        $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                                        if($del_stock_log->execute()){
+                                                            $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
+                                                            $del_bn_stock->execute();
+                                                        }
                                             }
-                                        }
-                                    }elseif($i_check <= $row_count){
-                                    if ($row['item_quantity']> $quantity){
-                                        $quantity_as = $row['item_quantity']-$quantity;
-                                        $answer = $sum - $quantity_new;
-                                        $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = '$quantity_as'  WHERE stock_log_id = '". $row['stock_log_id']."'");
-                                        $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('$user_name','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock.')");
-                                        if ( $insert_cut_stock->execute()) {
-                                            if($update_stock_log->execute()){
-                                                $stop_row++; 
+                                            //end1จำนวนแถวมากกว่า
+                                        }elseif($i_check < $row_count){
+                                                    if ($row['item_quantity']> $quantity){
+                                                        $quantity_as = $row['item_quantity']-$quantity;
+                                                        $answer = $sum - $quantity_new;
+                                                        $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = '$quantity_as'  WHERE stock_log_id = '". $row['stock_log_id']."'");
+                                                        $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('$user_name','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock.')");
+                                                        if ( $insert_cut_stock->execute()) {
+                                                            if($update_stock_log->execute()){
+                                                                $stop_row++; 
+                                                            }
+                                                    }else{
+                                                        $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
+                                                    }
+                                                    }elseif($row['item_quantity'] < $quantity){
+                                                        $quantity = $quantity- $row['item_quantity'];
+                                                        $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                                            if($del_stock_log->execute()){
+                                                                $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
+                                                                $del_bn_stock->execute();
+                                                                
+                                                            }
+                                                            }else{
+                                                                $quantity = $quantity- $row['item_quantity'];
+                                                                $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
+                                                                if($del_stock_log->execute()){
+                                                                    $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
+                                                                    $del_bn_stock->execute();
+                                                                }
+                                                    }
+                                                    //end2 จำนวนแถว <
+                                            }elseif($i_check == $row_count){
+                                                $quantity = $row['item_quantity']-$quantity;
+                                                $answer = $sum - $quantity_new;
+                                                $update_stock_log = $db->prepare("UPDATE branch_stock_log SET item_quantity = '$quantity'  WHERE stock_log_id = '". $row['stock_log_id']."'");
+                                                $insert_cut_stock = $db->prepare("INSERT INTO cut_stock_log( user_id, quantity, date, stock_id, bn_id,price_cut_stock) VALUES('$user_name','.$result.',NOW(),'.$stock_id.','.$bn_id.','.$price_stock.')");
+                                                $insert_cut_stock->execute();
+                                                $update_stock_log->execute();
                                             }
-                                    }else{
-                                        $errorMsg = "อัพเดดข้อมูลผิดพลาด!!";
-                                    }
-                                    }elseif($row['item_quantity'] < $quantity){
-                                        $quantity = $quantity- $row['item_quantity'];
-                                        $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
-                                            if($del_stock_log->execute()){
-                                                $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
-                                                $del_bn_stock->execute();
-                                                $insertMsg = "เบิกคลัง";
-                                            }
-                                    }else{
-                                        $quantity = $quantity- $row['item_quantity'];
-                                        $del_stock_log = $db->prepare("DELETE FROM branch_stock_log WHERE full_stock_id_log  = '".$row['stock_log_id']."'");
-                                        if($del_stock_log->execute()){
-                                            $del_bn_stock = $db->prepare("DELETE FROM branch_stock WHERE full_stock_id  = '".$row['full_stock_id']."'");
-                                            $del_bn_stock->execute();
-                                        }
-                                    }
-                                }
-                                
+                                            //end 3 จำนวนแถว ==
+                                $i_check++; 
                             }
                             $insertMsg = "เบิกคลัง";
 
@@ -158,10 +170,9 @@ $randomking = rand(000001,999999);
                                 if ($row['item_quantity']< $quantity) {
                                     $quantity = $quantity- $row['item_quantity'];
                                         $update_stock_log = $db->prepare("UPDATE branch_stock_log set status_log='$transfer' ,remain_log=1000  WHERE stock_log_id  = ".$row['stock_log_id']."");
-                                        if($update_stock_log->execute()){
-                                            $i_check++;
-                                        }
+                                        $update_stock_log->execute();
                                     }
+                                //end 1
                                 }elseif($i_check <= $row_count){  
                                 if ($row['item_quantity']> $quantity){
                                     $quantity_as = $row['item_quantity']-$quantity; 
@@ -225,4 +236,5 @@ $randomking = rand(000001,999999);
 }
 
     
+//function disburse
 ?>

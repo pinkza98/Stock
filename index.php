@@ -66,7 +66,7 @@
       </div>
       อัพเดทเพิ่มเติม <br>
       <div style="color:orange">
-     - ไม่มี <br>
+     - ไฮไลท์ min-max สาขาที่หน้า piovt รวม (21/12/64) <br>
       </div>
     </p>
   </div>

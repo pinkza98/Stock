@@ -105,8 +105,11 @@ if ($row_session['user_lv'] >= 2) { //หากเป็นสิทธิ์ bm
                         <li><a class="dropdown-item" href="data-user/register">เพิ่มผู้ใช้งาน</a></li>
                         <li><a class="dropdown-item" href="data-user/resetpassword">รีเซ็ตรหัสผ่าน</a></li>
                         <li><a class="dropdown-item" href="data-user/credit_reset">รีเซ็ตเครดิต</a></li>
-                        <li><a class="dropdown-item" href="data-user/ui_run_scrip">Run Script</a></li>
+                        <!-- <li><a class="dropdown-item" href="data-user/ui_run_scrip">Run Script</a></li> -->
                         <li><a class="dropdown-item" href="data-user/set_meber">ตั้งค่าสมาชิก</a></li>
+                        <?php }?>
+                        <?php if($row_session['user_lv']>=3){ ?>
+                        <li><a class="dropdown-item" href="#">เปลี่ยนสาขา</a></li>
                         <?php }?>
                     </ul>
                 </li>
