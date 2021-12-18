@@ -234,7 +234,5 @@ $randomking = rand(000001,999999);
             echo false;
     }
 }
-
-    
 //function disburse
 ?>

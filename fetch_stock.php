@@ -110,29 +110,80 @@ if($page == 2){
     
     $query = "SELECT
     it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+  
     SUM(IF(bn_stock = 1, item_quantity, NULL)) AS BN1,
-    SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
-    SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
-      SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
-      SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
-      SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
-      SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
-      SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
-      SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
-      SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
-      SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
-      SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
-      SUM(IF(bn_stock = 13, item_quantity, NULL)) AS BN13,
+    SUM(IF(bn_stock = 1, stock_min, NULL)) AS min_BN1,
+     SUM(IF(bn_stock = 1, stock_max, NULL)) AS max_BN1,
+     COUNT(IF(bn_stock = 1, stock_min, NULL)) AS count_BN1,
+     
+     SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
+    SUM(IF(bn_stock = 2, stock_min, NULL)) AS min_BN2,
+     SUM(IF(bn_stock = 2, stock_max, NULL)) AS max_BN2,
+     COUNT(IF(bn_stock = 2, stock_min, NULL)) AS count_BN2,
+  
+     SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
+    SUM(IF(bn_stock = 3, stock_min, NULL)) AS min_BN3,
+     SUM(IF(bn_stock = 3, stock_max, NULL)) AS max_BN3,
+     COUNT(IF(bn_stock = 3, stock_min, NULL)) AS count_BN3,
+     
+     SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
+    SUM(IF(bn_stock = 4, stock_min, NULL)) AS min_BN4,
+     SUM(IF(bn_stock = 4, stock_max, NULL)) AS max_BN4,
+     COUNT(IF(bn_stock = 4, stock_min, NULL)) AS count_BN4,
+  
+     SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
+    SUM(IF(bn_stock = 5, stock_min, NULL)) AS min_BN5,
+     SUM(IF(bn_stock = 5, stock_max, NULL)) AS max_BN5,
+     COUNT(IF(bn_stock = 5, stock_min, NULL)) AS count_BN5,
+  
+     SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
+    SUM(IF(bn_stock = 6, stock_min, NULL)) AS min_BN6,
+     SUM(IF(bn_stock = 6, stock_max, NULL)) AS max_BN6,
+     COUNT(IF(bn_stock = 6, stock_min, NULL)) AS count_BN6,
+  
+     SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
+    SUM(IF(bn_stock = 7, stock_min, NULL)) AS min_BN7,
+     SUM(IF(bn_stock = 7, stock_max, NULL)) AS max_BN7,
+     COUNT(IF(bn_stock = 7, stock_min, NULL)) AS count_BN7,
+  
+     SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
+    SUM(IF(bn_stock = 8, stock_min, NULL)) AS min_BN8,
+     SUM(IF(bn_stock = 8, stock_max, NULL)) AS max_BN8,
+     COUNT(IF(bn_stock = 8, stock_min, NULL)) AS count_BN8,
+  
+     SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
+    SUM(IF(bn_stock = 9, stock_min, NULL)) AS min_BN9,
+     SUM(IF(bn_stock = 9, stock_max, NULL)) AS max_BN9,
+     COUNT(IF(bn_stock = 9, stock_min, NULL)) AS count_BN9,
+  
+     SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
+    SUM(IF(bn_stock = 10, stock_min, NULL)) AS min_BN10,
+     SUM(IF(bn_stock = 10, stock_max, NULL)) AS max_BN10,
+     COUNT(IF(bn_stock = 10, stock_min, NULL)) AS count_BN10,
+     
+     SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
+    SUM(IF(bn_stock = 11, stock_min, NULL)) AS min_BN11,
+     SUM(IF(bn_stock = 11, stock_max, NULL)) AS max_BN11,
+     COUNT(IF(bn_stock = 11, stock_min, NULL)) AS count_BN11,
+  
+     SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
+    SUM(IF(bn_stock = 12, stock_min, NULL)) AS min_BN12,
+     SUM(IF(bn_stock = 12, stock_max, NULL)) AS max_BN12,
+     COUNT(IF(bn_stock = 12, stock_min, NULL)) AS count_BN12,
+  
+     SUM(IF(bn_stock = 13, item_quantity, NULL)) AS BN13,
+    SUM(IF(bn_stock = 13, stock_min, NULL)) AS min_BN13,
+     SUM(IF(bn_stock = 13, stock_max, NULL)) AS max_BN13,
+     COUNT(IF(bn_stock = 13, stock_min, NULL)) AS count_BN13,
+  
       SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 or bn_stock=13 THEN item_quantity ELSE NULL END) AS SUM_BN
     FROM branch_stock bn
     INNER JOIN stock s  on bn.stock_id = s.stock_id
     INNER JOIN vendor v  on s.vendor_id = v.vendor_id
     INNER JOIN item it  on s.item_id = it.item_id
     INNER JOIN unit u  on it.unit_id = u.unit_id
-    INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log
-    WHERE
-      bn.bn_stock BETWEEN 1 AND 12
-    ";
+    INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log 
+    WHERE bn.bn_stock between 1 and 13";
     if(isset($_POST['search']['value']))
     {
      $query .= ' 
@@ -174,49 +225,257 @@ if($page == 2){
     $sub_array[]= $row["unit_name"]; 
     $sub_array[]= $row["vendor_name"];
     $sub_array[]= $row["price_stock"];  
-  //   if(!is_null($row['stock_min'] or $row['stock_max']) || $row['stock_min'] != 0 || $row['stock_max'] != 0){//เช็คหาค่า min-max ว่ามีหรือไม่
-
-  //     if($row['BN2'] != 0){//เช็คค่า bn ว่ามีหรือไม่
-  //           if($row['BN2'] >= $row['stock_max']){//เช็คเข้าเงื่อนไข min-max 3 ตัว
-  //             $sub_array[]= '<span class="label label-primary">'.$row['BN2'].'</span>';
-  //           }elseif($row['BN2'] < $row['stock_min']){
-  //             $sub_array[]= '<span class="label label-danger">'.$row['BN2'].'</span>';
-  //           }else{
-  //             $sub_array[]= $row['BN2'];
-  //           }
-  //     }else{//ไม่มีค่า min-max
-  //           if($row['BN2'] !=0){//เช็คค่า bn ว่ามีหรือไม่
-  //             $sub_array[]= $row['BN2'];
-  //           }else{
-  //             $sub_array[]= '-';
-  //           }
-  //     }
-  // }else{//ไม่มีค่า min-max
-  //       if($row['BN2'] !=0){//เช็คค่า bn ว่ามีหรือไม่
-  //         $sub_array[]= $row['BN2'];
-  //       }else{
-  //         $sub_array[]= '-';
-  //       }
-  // }
     
-   
-      is_null($row['BN2']) ? $sub_array[]= '-' : $sub_array[]= $row['BN2'];
-      is_null($row['BN3']) ? $sub_array[]= '-' : $sub_array[]= $row['BN3'];
-      is_null($row['BN4']) ? $sub_array[]= '-' : $sub_array[]= $row['BN4'];
-      is_null($row['BN5']) ? $sub_array[]= '-' : $sub_array[]= $row['BN5'];
-      is_null($row['BN6']) ? $sub_array[]= '-' : $sub_array[]= $row['BN6'];
-      is_null($row['BN7']) ? $sub_array[]= '-' : $sub_array[]= $row['BN7'];
-      is_null($row['BN8']) ? $sub_array[]= '-' : $sub_array[]= $row['BN8'];
-      is_null($row['BN9']) ? $sub_array[]= '-' : $sub_array[]= $row['BN9'];
-      is_null($row['BN10']) ? $sub_array[]= '-' : $sub_array[]= $row['BN10'];
-      is_null($row['BN11']) ? $sub_array[]= '-' : $sub_array[]= $row['BN11'];
-      is_null($row['BN12']) ? $sub_array[]= '-' : $sub_array[]= $row['BN12'];
-      is_null($row['BN13']) ? $sub_array[]= '-' : $sub_array[]= $row['BN13'];
-      is_null($row['BN1']) ? $sub_array[]= '-' : $sub_array[]= $row['BN1'];
+   if(!is_null($row['min_BN2'])){
+     if($row['BN2'] >= $row['min_BN2']/$row['count_BN2'] && $row['BN2'] <= $row['max_BN2']/$row['count_BN2']){
+       $sub_array[]= '<span class="label label-success">'.$row['BN2'].'</span>';
+     }
+      elseif($row['BN2'] >= $row['max_BN2']/$row['count_BN2']){
+        $sub_array[]= '<span class="label label-primary">'.$row['BN2'].'</span>';
+
+      }elseif($row['BN2'] < $row['min_BN2']/$row['count_BN2']){
+        $sub_array[]= '<span class="label label-danger">'.$row['BN2'].'</span>';
+      }else{
+        $sub_array[]= $row['BN2'] ='-';
+      }
+   }else{
+      if($row['BN2'] !=0){
+        $sub_array[]= $row['BN2'];
+      }else{
+        $sub_array[]= '-';
+      }
+   }
+   if(!is_null($row['min_BN3'])){
+    if($row['BN3'] >= $row['min_BN3']/$row['count_BN3'] && $row['BN3'] <= $row['max_BN3']/$row['count_BN3']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN3'].'</span>';
+    }
+     elseif($row['BN3'] >= $row['max_BN3']/$row['count_BN3']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN3'].'</span>';
+
+     }elseif($row['BN3'] < $row['min_BN3']/$row['count_BN3']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN3'].'</span>';
+     }else{
+       $sub_array[]= $row['BN3'] ='-';
+     }
+  }else{
+     if($row['BN3'] !=0){
+       $sub_array[]= $row['BN3'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN4'])){
+    if($row['BN4'] >= $row['min_BN4']/$row['count_BN4'] && $row['BN4'] <= $row['max_BN4']/$row['count_BN4']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN4'].'</span>';
+    }
+     elseif($row['BN4'] >= $row['max_BN4']/$row['count_BN4']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN4'].'</span>';
+
+     }elseif($row['BN4'] < $row['min_BN4']/$row['count_BN4']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN4'].'</span>';
+     }else{
+       $sub_array[]= $row['BN4'] ='-';
+     }
+  }else{
+     if($row['BN4'] !=0){
+       $sub_array[]= $row['BN4'];
+     }else{
+       $sub_array[]= '-';
+     }
+  } if(!is_null($row['min_BN5'])){
+    if($row['BN5'] >= $row['min_BN5']/$row['count_BN5'] && $row['BN5'] <= $row['max_BN5']/$row['count_BN5']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN5'].'</span>';
+    }
+     elseif($row['BN5'] >= $row['max_BN5']/$row['count_BN5']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN5'].'</span>';
+
+     }elseif($row['BN5'] < $row['min_BN5']/$row['count_BN5']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN5'].'</span>';
+     }else{
+       $sub_array[]= $row['BN5'] ='-';
+     }
+  }else{
+     if($row['BN5'] !=0){
+       $sub_array[]= $row['BN5'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN6'])){
+    if($row['BN6'] >= $row['min_BN6']/$row['count_BN6'] && $row['BN6'] <= $row['max_BN6']/$row['count_BN6']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN6'].'</span>';
+    }
+     elseif($row['BN6'] >= $row['max_BN6']/$row['count_BN6']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN6'].'</span>';
+
+     }elseif($row['BN6'] < $row['min_BN6']/$row['count_BN6']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN6'].'</span>';
+     }else{
+       $sub_array[]= $row['BN6'] ='-';
+     }
+  }else{
+     if($row['BN6'] !=0){
+       $sub_array[]= $row['BN6'];
+     }else{
+       $sub_array[]= '-';
+     }
+  } 
+  if(!is_null($row['min_BN7'])){
+    if($row['BN7'] >= $row['min_BN7']/$row['count_BN7'] && $row['BN7'] <= $row['max_BN7']/$row['count_BN7']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN7'].'</span>';
+    }
+     elseif($row['BN7'] >= $row['max_BN7']/$row['count_BN7']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN7'].'</span>';
+
+     }elseif($row['BN7'] < $row['min_BN7']/$row['count_BN7']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN7'].'</span>';
+     }else{
+       $sub_array[]= $row['BN7'] ='-';
+     }
+  }else{
+     if($row['BN7'] !=0){
+       $sub_array[]= $row['BN7'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN8'])){
+    if($row['BN8'] >= $row['min_BN8']/$row['count_BN8'] && $row['BN8'] <= $row['max_BN8']/$row['count_BN8']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN8'].'</span>';
+    }
+     elseif($row['BN8'] >= $row['max_BN8']/$row['count_BN8']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN8'].'</span>';
+
+     }elseif($row['BN8'] < $row['min_BN8']/$row['count_BN8']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN8'].'</span>';
+     }else{
+       $sub_array[]= $row['BN8'] ='-';
+     }
+  }else{
+     if($row['BN8'] !=0){
+       $sub_array[]= $row['BN8'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN9'])){
+    if($row['BN9'] >= $row['min_BN9']/$row['count_BN9'] && $row['BN9'] <= $row['max_BN9']/$row['count_BN9']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN9'].'</span>';
+    }
+     elseif($row['BN9'] >= $row['max_BN9']/$row['count_BN9']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN9'].'</span>';
+
+     }elseif($row['BN9'] < $row['min_BN9']/$row['count_BN9']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN9'].'</span>';
+     }else{
+       $sub_array[]= $row['BN9'] ='-';
+     }
+  }else{
+     if($row['BN9'] !=0){
+       $sub_array[]= $row['BN9'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN10'])){
+    if($row['BN10'] >= $row['min_BN10']/$row['count_BN10'] && $row['BN10'] <= $row['max_BN10']/$row['count_BN10']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN10'].'</span>';
+    }
+     elseif($row['BN10'] >= $row['max_BN10']/$row['count_BN10']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN10'].'</span>';
+
+     }elseif($row['BN10'] < $row['min_BN10']/$row['count_BN10']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN10'].'</span>';
+     }else{
+       $sub_array[]= $row['BN10'] ='-';
+     }
+  }else{
+     if($row['BN10'] !=0){
+       $sub_array[]= $row['BN10'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN11'])){
+    if($row['BN11'] >= $row['min_BN11']/$row['count_BN11'] && $row['BN11'] <= $row['max_BN11']/$row['count_BN11']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN11'].'</span>';
+    }
+     elseif($row['BN11'] >= $row['max_BN11']/$row['count_BN11']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN11'].'</span>';
+
+     }elseif($row['BN11'] < $row['min_BN11']/$row['count_BN11']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN11'].'</span>';
+     }else{
+       $sub_array[]= $row['BN11'] ='-';
+     }
+  }else{
+     if($row['BN11'] !=0){
+       $sub_array[]= $row['BN11'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN12'])){
+    if($row['BN12'] >= $row['min_BN12']/$row['count_BN12'] && $row['BN12'] <= $row['max_BN12']/$row['count_BN12']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN12'].'</span>';
+    }
+     elseif($row['BN12'] >= $row['max_BN12']/$row['count_BN12']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN12'].'</span>';
+
+     }elseif($row['BN12'] < $row['min_BN12']/$row['count_BN12']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN12'].'</span>';
+     }else{
+       $sub_array[]= $row['BN12'] ='-';
+     }
+  }else{
+     if($row['BN12'] !=0){
+       $sub_array[]= $row['BN12'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN13'])){
+    if($row['BN13'] >= $row['min_BN13']/$row['count_BN13'] && $row['BN13'] <= $row['max_BN13']/$row['count_BN13']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN13'].'</span>';
+    }
+     elseif($row['BN13'] >= $row['max_BN13']/$row['count_BN13']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN13'].'</span>';
+
+     }elseif($row['BN13'] < $row['min_BN13']/$row['count_BN13']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN13'].'</span>';
+     }else{
+       $sub_array[]= $row['BN13'] ='-';
+     }
+  }else{
+     if($row['BN13'] !=0){
+       $sub_array[]= $row['BN13'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
+  if(!is_null($row['min_BN1'])){
+    if($row['BN1'] >= $row['min_BN1']/$row['count_BN1'] && $row['BN1'] <= $row['max_BN1']/$row['count_BN1']){
+      $sub_array[]= '<span class="label label-success">'.$row['BN1'].'</span>';
+    }
+     elseif($row['BN1'] >= $row['max_BN1']/$row['count_BN1']){
+       $sub_array[]= '<span class="label label-primary">'.$row['BN1'].'</span>';
+
+     }elseif($row['BN1'] < $row['min_BN1']/$row['count_BN1']){
+       $sub_array[]= '<span class="label label-danger">'.$row['BN1'].'</span>';
+     }else{
+       $sub_array[]= $row['BN1'] ='-';
+     }
+  }else{
+     if($row['BN1'] !=0){
+       $sub_array[]= $row['BN1'];
+     }else{
+       $sub_array[]= '-';
+     }
+  }
     if($row["SUM_BN"]<=12){
-    $sub_array[]= '<div style="background-color: #EA3C04;color:#fff;">'.$row["SUM_BN"].'</div>';
+    $sub_array[]= '<span class="label label-danger">'.$row['SUM_BN'].'</span>';
     }else{
-    $sub_array[]= '<div style="background-color: #00A00F;color:#fff;">'.$row["SUM_BN"].'</div>';
+    $sub_array[]= '<span class="label label-success">'.$row['SUM_BN'].'</span>';
     }
      $data[] = $sub_array;
     }
@@ -225,26 +484,81 @@ if($page == 2){
     {
      $query = "SELECT
      it.code_item,unit_name,item_name,v.vendor_name,price_stock,
+   
      SUM(IF(bn_stock = 1, item_quantity, NULL)) AS BN1,
-     SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
-     SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
-       SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
-       SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
-       SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
-       SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
-       SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
-       SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
-       SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
-       SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
-       SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
-       SUM(IF(bn_stock = 13, item_quantity, NULL)) AS BN13,
+     SUM(IF(bn_stock = 1, stock_min, NULL)) AS min_BN1,
+      SUM(IF(bn_stock = 1, stock_max, NULL)) AS max_BN1,
+      COUNT(IF(bn_stock = 1, stock_min, NULL)) AS count_BN1,
+      
+      SUM(IF(bn_stock = 2, item_quantity, NULL)) AS BN2,
+     SUM(IF(bn_stock = 2, stock_min, NULL)) AS min_BN2,
+      SUM(IF(bn_stock = 2, stock_max, NULL)) AS max_BN2,
+      COUNT(IF(bn_stock = 2, stock_min, NULL)) AS count_BN2,
+   
+      SUM(IF(bn_stock = 3, item_quantity, NULL)) AS BN3,
+     SUM(IF(bn_stock = 3, stock_min, NULL)) AS min_BN3,
+      SUM(IF(bn_stock = 3, stock_max, NULL)) AS max_BN3,
+      COUNT(IF(bn_stock = 3, stock_min, NULL)) AS count_BN3,
+      
+      SUM(IF(bn_stock = 4, item_quantity, NULL)) AS BN4,
+     SUM(IF(bn_stock = 4, stock_min, NULL)) AS min_BN4,
+      SUM(IF(bn_stock = 4, stock_max, NULL)) AS max_BN4,
+      COUNT(IF(bn_stock = 4, stock_min, NULL)) AS count_BN4,
+   
+      SUM(IF(bn_stock = 5, item_quantity, NULL)) AS BN5,
+     SUM(IF(bn_stock = 5, stock_min, NULL)) AS min_BN5,
+      SUM(IF(bn_stock = 5, stock_max, NULL)) AS max_BN5,
+      COUNT(IF(bn_stock = 5, stock_min, NULL)) AS count_BN5,
+   
+      SUM(IF(bn_stock = 6, item_quantity, NULL)) AS BN6,
+     SUM(IF(bn_stock = 6, stock_min, NULL)) AS min_BN6,
+      SUM(IF(bn_stock = 6, stock_max, NULL)) AS max_BN6,
+      COUNT(IF(bn_stock = 6, stock_min, NULL)) AS count_BN6,
+   
+      SUM(IF(bn_stock = 7, item_quantity, NULL)) AS BN7,
+     SUM(IF(bn_stock = 7, stock_min, NULL)) AS min_BN7,
+      SUM(IF(bn_stock = 7, stock_max, NULL)) AS max_BN7,
+      COUNT(IF(bn_stock = 7, stock_min, NULL)) AS count_BN7,
+   
+      SUM(IF(bn_stock = 8, item_quantity, NULL)) AS BN8,
+     SUM(IF(bn_stock = 8, stock_min, NULL)) AS min_BN8,
+      SUM(IF(bn_stock = 8, stock_max, NULL)) AS max_BN8,
+      COUNT(IF(bn_stock = 8, stock_min, NULL)) AS count_BN8,
+   
+      SUM(IF(bn_stock = 9, item_quantity, NULL)) AS BN9,
+     SUM(IF(bn_stock = 9, stock_min, NULL)) AS min_BN9,
+      SUM(IF(bn_stock = 9, stock_max, NULL)) AS max_BN9,
+      COUNT(IF(bn_stock = 9, stock_min, NULL)) AS count_BN9,
+   
+      SUM(IF(bn_stock = 10, item_quantity, NULL)) AS BN10,
+     SUM(IF(bn_stock = 10, stock_min, NULL)) AS min_BN10,
+      SUM(IF(bn_stock = 10, stock_max, NULL)) AS max_BN10,
+      COUNT(IF(bn_stock = 10, stock_min, NULL)) AS count_BN10,
+      
+      SUM(IF(bn_stock = 11, item_quantity, NULL)) AS BN11,
+     SUM(IF(bn_stock = 11, stock_min, NULL)) AS min_BN11,
+      SUM(IF(bn_stock = 11, stock_max, NULL)) AS max_BN11,
+      COUNT(IF(bn_stock = 11, stock_min, NULL)) AS count_BN11,
+   
+      SUM(IF(bn_stock = 12, item_quantity, NULL)) AS BN12,
+     SUM(IF(bn_stock = 12, stock_min, NULL)) AS min_BN12,
+      SUM(IF(bn_stock = 12, stock_max, NULL)) AS max_BN12,
+      COUNT(IF(bn_stock = 12, stock_min, NULL)) AS count_BN12,
+   
+      SUM(IF(bn_stock = 13, item_quantity, NULL)) AS BN13,
+     SUM(IF(bn_stock = 13, stock_min, NULL)) AS min_BN13,
+      SUM(IF(bn_stock = 13, stock_max, NULL)) AS max_BN13,
+      COUNT(IF(bn_stock = 13, stock_min, NULL)) AS count_BN13,
+   
        SUM(CASE WHEN bn_stock=1 or bn_stock=2 or bn_stock=3 or bn_stock=4 or bn_stock=5 or bn_stock=6 or bn_stock=7 or bn_stock=8 or bn_stock=9 or bn_stock=10 or bn_stock=11 or bn_stock=12 or bn_stock=13 THEN item_quantity ELSE NULL END) AS SUM_BN
      FROM branch_stock bn
      INNER JOIN stock s  on bn.stock_id = s.stock_id
      INNER JOIN vendor v  on s.vendor_id = v.vendor_id
      INNER JOIN item it  on s.item_id = it.item_id
      INNER JOIN unit u  on it.unit_id = u.unit_id
-     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log";
+     INNER JOIN  branch_stock_log bsl  on bn.full_stock_id = bsl.full_stock_id_log 
+     WHERE bn.bn_stock between 1 and 13
+     ";
      $statement = $db->prepare($query);
      $statement->execute();
      return $statement->rowCount();
