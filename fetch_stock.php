@@ -18,13 +18,12 @@ if($page == 1){
     LEFT JOIN division ON stock.division_id = division.division_id
     LEFT JOIN marque ON stock.marque_id = marque.marque_id
     ";
-    
     if(isset($_POST['search']['value']))
     {
      $query .= '
      WHERE code_item LIKE "%'.$_POST['search']['value'].'%" 
      OR item_name LIKE "%'.$_POST['search']['value'].'%" 
-     OR unit_name LIKE "%'.$_POST['search']['value'].'%" 
+     OR unit_name LIKE "%'.$_POST['search']['value'].'%"  
      OR price_stock LIKE "%'.$_POST['search']['value'].'%" 
      OR type_name LIKE "%'.$_POST['search']['value'].'%" 
      OR division_name LIKE "%'.$_POST['search']['value'].'%" 
