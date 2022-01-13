@@ -15,7 +15,7 @@
 
         header('Location:item.php');
     }
-
+---
     if (isset($_REQUEST['save'])) { //function ในการเพิ่มข้อมูล ตาราง item 
       $item_name = $_REQUEST['txt_item_name'];
       $code_item = $_REQUEST['txt_code_item'];
